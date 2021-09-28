@@ -1,5 +1,5 @@
 {
 	"scripts": {
-		"start": "deno run --allow-net --allow-read ./main.ts"
+		"start": "deno run --import-map=import_map.json --allow-net --allow-read --allow-run --unstable ./main.ts"
 	}
 }

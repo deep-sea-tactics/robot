@@ -1,0 +1,7 @@
+{
+  "imports": {
+    "abc": "https://deno.land/x/abc/mod.ts",
+    "log": "https://deno.land/std/log/mod.ts",
+    "open": "https://deno.land/x/open/index.ts"
+  }
+}
