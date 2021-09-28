@@ -1,9 +1,11 @@
-import { Application } from "https://deno.land/x/oak/mod.ts";
+import { Application, send } from "https://deno.land/x/oak/mod.ts";
 
 const app = new Application();
 
-app.use((ctx) => {
-  ctx.response.body = "Deno test!";
-});
-
+app.use(async (context) => {
+	await send(context, context.request.url.pathname, {
+	  root: `${Deno.cwd()}/public`,
+	  index: "index.html",
+	});
+  });
 await app.listen({ port: 3000 });
