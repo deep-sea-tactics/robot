@@ -1,1 +1,1 @@
-deno run main.ts
+deno run --allow-net main.ts
