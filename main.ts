@@ -5,7 +5,7 @@ const app = new Application();
 
 app.use(async (context) => {
 	await send(context, context.request.url.pathname, {
-		root: `${Deno.cwd()}/public`,
+		root: `${Deno.cwd()}/client/public`,
 		index: "index.html",
 	});
 });
