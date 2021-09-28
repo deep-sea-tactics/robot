@@ -1,0 +1,20 @@
+Metadata-Version: 2.1
+Name: bluerobotics-ping
+Version: 0.1.0
+Summary: A python module for the Blue Robotics ping-protocol and products
+Home-page: https://www.bluerobotics.com
+Author: Blue Robotics
+Author-email: support@bluerobotics.com
+License: UNKNOWN
+Description: 
+        Python library for the Blue Robotics ping-protocol, and devices that implement it.
+        
+        This library provides message apis to use the protocol, as well as device apis to use with the
+        Blue Robotics Ping Echosounder and Ping360 scanning sonar.
+        
+Platform: UNKNOWN
+Classifier: Programming Language :: Python
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.4
+Description-Content-Type: text/markdown
