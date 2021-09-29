@@ -1,9 +1,12 @@
+<script lang="ts">
+	import CameraBox from './camera/CameraBox.svelte'
+</script>
 <main>
-	
+	<CameraBox />
 </main>
 
 <style lang="scss">
-	.container {
+	main {
 		display: grid; 
 		grid-template-columns: 1fr max-content 1fr; 
 		grid-template-rows: auto max-content auto; 
