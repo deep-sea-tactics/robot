@@ -2,17 +2,7 @@
 
 	import { onMount } from "svelte"
 	import { Canvas, Layer } from "svelte-canvas";
-
-	interface Position {
-		x: number;
-		y: number;
-	}
-
-	interface RenderInterface {
-		context: CanvasRenderingContext2D
-		width: number;
-		height: number;
-	}
+	import type { Position, RenderInterface } from './typings'
 
 	const mouseRadius = 10
 	let canvas: Canvas
