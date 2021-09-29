@@ -50,11 +50,12 @@ app.ready(err => {
 const start = async () => {
 	await app.listen(port);
 
+	if (device !== undefined) {
+		listenToLogitechController(app.io, device)
+	}
+
 	logger.info(`Listening to https://localhost:${port}`);
 }
 
 controllerListen()
-if (device !== undefined) {
-	listenToLogitechController(app.io, device)
-}
 start()

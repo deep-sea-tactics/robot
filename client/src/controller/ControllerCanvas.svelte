@@ -2,9 +2,9 @@
 
 	import { onMount } from "svelte"
 	import { Canvas, Layer } from "svelte-canvas";
-	import { position, controllerAvailable } from './controller'
-	import { client } from '../socket/socket'
+	import { position, controllerAvailable, controllerInUse } from './controller'
 	import type { Position, RenderInterface } from './typings'
+	import { client } from '../socket/socket'
 
 	const mouseRadius = 10
 	let canvas: Canvas
@@ -19,6 +19,11 @@
 			y: height / 2
 		}
 
+		const translatedPosition: Position = {
+			x: ($position.x) * (width / 100),
+			y: ($position.y) * (height / 100)
+		}
+
 		// Store the circle radius, useful for restricting the cursor
 		const circleRadius = width / 2 - 10;
 
@@ -31,7 +36,7 @@
 		// Create a line between the center of the circle and the mouse's position
 		context.beginPath();
 		context.moveTo(canvasOrigin.x, canvasOrigin.y)
-		context.lineTo($position.x, $position.y);
+		context.lineTo(translatedPosition.x, translatedPosition.y);
 		context.stroke();
 
 		// Create an origin circle
@@ -44,18 +49,9 @@
 
 		// Create a circle around the mouse
 		context.beginPath();
-		context.arc($position.x, $position.y, mouseRadius, 0, 2 * Math.PI);
+		context.arc(translatedPosition.x, translatedPosition.y, mouseRadius, 0, 2 * Math.PI);
 		context.stroke();
-
-		// Fill the area around the circle with white
-
-		context.strokeStyle = "gray"
-		context.fillStyle = "gray"
-
-		context.beginPath();
-		context.arc(canvasOrigin.x, canvasOrigin.y, circleRadius, 0, 2 * Math.PI);
-		context.rect(width, 0, -width, width);
-		context.fill();
+		
 	}
 
 	onMount(() => {
@@ -63,17 +59,29 @@
 	})
 
 	function mouseEvent({ clientX, clientY } : MouseEvent) {
+
+		if ($controllerInUse) {
+			return
+		}
+
 		const rect = canvas.getCanvas().getBoundingClientRect();
+		const width = canvas.getCanvas().width;
+		const height = canvas.getCanvas().height;
 
 		$position = {
-			x: clientX - rect.left,
-			y: clientY - rect.top
+			x: (clientX - rect.left) / (width / 100),
+			y: (clientY - rect.top) / (height / 100)
 		};
 
 		client.emit("position", $position)
 	}
 
 	function mouseLeave() {
+
+		if ($controllerInUse) {
+			return
+		}
+
 		$position = {
 			x: canvas.getCanvas().width / 2,
 			y: canvas.getCanvas().height / 2
