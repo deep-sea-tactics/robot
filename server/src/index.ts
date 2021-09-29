@@ -3,6 +3,7 @@ import fastifyStatic from "fastify-static"
 import path from "path"
 import * as HID from "node-hid";
 import { logger } from "./logger"
+import fastifySocketIo from 'fastify-socket.io'
 
 function findController(): HID.HID | undefined {
 	const foundDevices = HID.devices().filter(item => item.product == "Logitech Extreme 3D");
@@ -29,6 +30,8 @@ const port = 3000;
 app.register(fastifyStatic, {
 	root: path.join(__dirname, '..', '..', 'client', 'public')
 })
+
+app.register(fastifySocketIo)
 
 const start = async () => {
 	await app.listen(port);
