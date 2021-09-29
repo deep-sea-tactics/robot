@@ -9,9 +9,9 @@
 </div>
 <style lang="scss">
 	#cameras {
-		background-color: gray;
+		background-color: lightgray;
 		width: 100%;
-		height: 100%;
+		height: 100vh;
 		display: flex;
 		grid-area: camera;
 		flex-wrap: wrap;

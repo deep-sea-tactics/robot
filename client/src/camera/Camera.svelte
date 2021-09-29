@@ -3,6 +3,7 @@
 </div>
 <style lang="scss">
 	#camera {
+		background-color: gray;
 		width: 50%;
 		height: 50%;
 		flex-grow: 1;
