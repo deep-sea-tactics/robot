@@ -15,6 +15,7 @@
     "cors": "^2.8.5",
     "fastify": "^3.21.6",
     "node-hid": "^2.1.1",
+    "socket.io": "^4.2.0",
     "winston": "^3.3.3"
   },
   "devDependencies": {
