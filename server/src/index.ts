@@ -10,11 +10,15 @@ function findController(): HID.HID | undefined {
 	return new HID.HID(foundDevices[0].path as string);
 }
 
-const device = findController() as HID.HID;
+try {
+	const device = findController() as HID.HID;
 
-device.on("data", function(data) {
-	console.log(data)
-});
+	device.on("data", function(data) {
+		console.log(data)
+	});
+} catch (e) {
+	// device not found
+}
 
 const app = express();
 const port = 3000;
