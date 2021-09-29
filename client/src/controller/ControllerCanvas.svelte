@@ -1,24 +1,43 @@
 <script lang="ts">
 
-	import { onMount } from 'svelte'
+	import { Canvas, Layer, t, getCanvas } from "svelte-canvas";
 
-	let canvas: HTMLCanvasElement;
+	interface MousePos {
+		x: number;
+		y: number;
+	}
 
-	onMount(() => {
-		let context = canvas.getContext("2d")
+	let canvas: Canvas
+	let mousePos: MousePos = { x: 0, y: 0 }
 
+	$: render = ({ context, width, height }) => {
 		// Store the circle radius, useful for restricting the cursor
-		const circleRadius = canvas.width / 2 - 10;
+		const circleRadius = width / 2 - 10;
 
 		// Create the circle (Last two arguments are in Radians)
 		context.beginPath();
-		context.arc(canvas.width / 2, canvas.height / 2, circleRadius, 0, 2 * Math.PI);
+		context.arc(width / 2, height / 2, circleRadius, 0, 2 * Math.PI);
 		context.stroke();
-	})
+
+		context.beginPath();
+		context.arc(mousePos.x, mousePos.y, 10, 0, 2 * Math.PI);
+		context.stroke();
+	}
+
+	function mouseEvent({ clientX, clientY } : MouseEvent) {
+		const rect = canvas.getCanvas().getBoundingClientRect();
+
+		mousePos = {
+			x: clientX - rect.left,
+			y: clientY - rect.top
+		};
+	}
 </script>
 
 <div id="controller">
-	<canvas bind:this={canvas} width=300 height=300></canvas>
+	<Canvas bind:this={canvas} on:mousemove={mouseEvent} width={300} height={300}>
+		<Layer {render}></Layer>
+	</Canvas>
 </div>
 
 <style lang="scss">

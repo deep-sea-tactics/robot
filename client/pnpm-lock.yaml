@@ -13,6 +13,7 @@ specifiers:
   sass: ^1.42.1
   sirv-cli: ^1.0.0
   svelte: ^3.0.0
+  svelte-canvas: ^0.7.0
   svelte-check: ^2.0.0
   svelte-preprocess: ^4.0.0
   tslib: ^2.0.0
@@ -33,6 +34,7 @@ devDependencies:
   rollup-plugin-terser: 7.0.2_rollup@2.57.0
   sass: 1.42.1
   svelte: 3.43.0
+  svelte-canvas: 0.7.0
   svelte-check: 2.2.6_sass@1.42.1+svelte@3.43.0
   svelte-preprocess: 4.9.5_b973491b1d5980b69239029fef0eacb8
   tslib: 2.3.1
@@ -844,6 +846,10 @@ packages:
     engines: {node: '>=8'}
     dependencies:
       has-flag: 4.0.0
+    dev: true
+
+  /svelte-canvas/0.7.0:
+    resolution: {integrity: sha512-wzGCin+FVUvSkSXpy1LIaNeuqO7bR85eFq6biznSsGmYgTfyOuSeVeJSdgBxAS0ETDOu8hRybge7w/zxmZtt6Q==}
     dev: true
 
   /svelte-check/2.2.6_sass@1.42.1+svelte@3.43.0:
