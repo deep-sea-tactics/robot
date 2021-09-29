@@ -16,7 +16,7 @@ try {
 	const device = findController() as HID.HID;
 
 	device.on("data", function(data) {
-		console.log(data)
+		console.log(data) // TODO use socket.io to send data to client
 	});
 } catch (e) {
 	logger.warn("Controller not found; manual override necessary")
