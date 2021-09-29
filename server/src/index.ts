@@ -27,8 +27,6 @@ const port = 3000;
 
 app.use(cors({ origin: true }));
 
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
+app.use(express.static('../client/public'))
 
-app.listen(port, () => logger.info("Listening on port " + port));
+app.listen(port, () => logger.info(`Listening to https://localhost:${port}`));
