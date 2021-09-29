@@ -2,7 +2,7 @@
 
 	import { onMount } from "svelte"
 	import { Canvas, Layer } from "svelte-canvas";
-	import { position } from './controller'
+	import { position, controllerAvailable } from './controller'
 	import { client } from '../socket/socket'
 	import type { Position, RenderInterface } from './typings'
 
@@ -81,8 +81,10 @@
 	>
 		<Layer {render}></Layer>
 	</Canvas>
-	<button>Use Controller</button>
-	<button>Use Mouse</button>
+	{#if $controllerAvailable}
+		<button>Use Controller</button>
+		<button>Use Mouse</button>
+	{/if}
 </div>
 
 <style lang="scss">

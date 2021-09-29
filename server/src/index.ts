@@ -13,15 +13,19 @@ function findController(): HID.HID | undefined {
 	return new HID.HID(foundDevices[0].path as string);
 }
 
+let device: HID.HID | undefined = undefined
+
 try {
-	const device = findController() as HID.HID;
+	device = findController() as HID.HID;
 
 	device.on("data", function(data) {
 		console.log(data) // TODO use socket.io to send data to client
 	});
 } catch (e) {
+	// device not found / unable to connect
 	logger.warn("Controller not found; manual override necessary")
-	// device not found
+
+	device = undefined
 }
 
 const app = Fastify({});
@@ -35,6 +39,11 @@ app.register(fastifySocketIo)
 
 app.ready(err => {
 	if (err) throw err
+
+	app.io.on("connect", (socket) => {
+		if (device !== undefined)
+			socket.emit("controllerAvailable")
+	})
 
 	app.io.on("position", position => {
 		console.log(position)
