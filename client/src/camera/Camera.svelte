@@ -6,5 +6,7 @@
 		width: 50%;
 		height: 50%;
 		flex-grow: 1;
+		text-align: center;
+		color: white;
 	}
 </style>

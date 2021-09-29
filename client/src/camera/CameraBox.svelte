@@ -13,6 +13,7 @@
 		width: 100%;
 		height: 100%;
 		display: flex;
+		grid-area: camera;
 		flex-wrap: wrap;
 	}
 </style>
