@@ -2,11 +2,11 @@
 
 	import { onMount } from "svelte"
 	import { Canvas, Layer } from "svelte-canvas";
+	import { position } from './controller'
 	import type { Position, RenderInterface } from './typings'
 
 	const mouseRadius = 10
 	let canvas: Canvas
-	let mousePos: Position = { x: 0, y: 0 }
 	let container: HTMLDivElement
 
 	let canvasWidth = 300
@@ -30,7 +30,7 @@
 		// Create a line between the center of the circle and the mouse's position
 		context.beginPath();
 		context.moveTo(canvasOrigin.x, canvasOrigin.y)
-		context.lineTo(mousePos.x, mousePos.y);
+		context.lineTo($position.x, $position.y);
 		context.stroke();
 
 		// Create an origin circle
@@ -43,7 +43,7 @@
 
 		// Create a circle around the mouse
 		context.beginPath();
-		context.arc(mousePos.x, mousePos.y, mouseRadius, 0, 2 * Math.PI);
+		context.arc($position.x, $position.y, mouseRadius, 0, 2 * Math.PI);
 		context.stroke();
 
 		// Fill the area around the circle with white
@@ -64,7 +64,7 @@
 	function mouseEvent({ clientX, clientY } : MouseEvent) {
 		const rect = canvas.getCanvas().getBoundingClientRect();
 
-		mousePos = {
+		$position = {
 			x: clientX - rect.left,
 			y: clientY - rect.top
 		};
