@@ -3,6 +3,7 @@
 	import { onMount } from "svelte"
 	import { Canvas, Layer } from "svelte-canvas";
 	import { position } from './controller'
+	import { client } from '../socket/socket'
 	import type { Position, RenderInterface } from './typings'
 
 	const mouseRadius = 10
@@ -68,6 +69,8 @@
 			x: clientX - rect.left,
 			y: clientY - rect.top
 		};
+
+		client.emit("position", $position)
 	}
 </script>
 

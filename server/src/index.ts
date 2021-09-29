@@ -33,6 +33,14 @@ app.register(fastifyStatic, {
 
 app.register(fastifySocketIo)
 
+app.ready(err => {
+	if (err) throw err
+
+	app.io.on("position", position => {
+		console.log(position)
+	})
+})
+
 const start = async () => {
 	await app.listen(port);
 
