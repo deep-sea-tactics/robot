@@ -10,8 +10,8 @@
 <style lang="scss">
 	main {
 		display: grid; 
-		grid-template-columns: 1fr max-content 1fr; 
-		grid-template-rows: 1fr max-content 1fr; 
+		grid-template-columns: 33% max-content 1fr; 
+		grid-template-rows: 33% max-content 1fr; 
 		gap: 0px 0px; 
 		grid-template-areas: 
 		"controller camera camera"
