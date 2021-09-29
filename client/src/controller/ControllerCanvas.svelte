@@ -24,12 +24,7 @@
 			y: ($position.y) * (height / 100)
 		}
 
-		// Store the circle radius, useful for restricting the cursor
-		const circleRadius = width / 2 - 10;
-
 		// Base stroke style
-		context.strokeStyle = "black";
-
 		context.strokeStyle = `rgb(50, 168, 96)`
 		context.fillStyle = `rgb(50, 168, 96)`
 
@@ -51,7 +46,7 @@
 		context.beginPath();
 		context.arc(translatedPosition.x, translatedPosition.y, mouseRadius, 0, 2 * Math.PI);
 		context.stroke();
-		
+
 	}
 
 	onMount(() => {
@@ -89,6 +84,11 @@
 
 		client.emit("position", $position)
 	}
+
+	function switchControls() {
+		$controllerInUse = !$controllerInUse
+	}
+
 </script>
 
 <div id="controller" bind:this={container}>
@@ -99,8 +99,7 @@
 		<Layer {render}></Layer>
 	</Canvas>
 	{#if $controllerAvailable}
-		<button>Use Controller</button>
-		<button>Use Mouse</button>
+		<button on:click={switchControls}>Use { controllerInUse ? "Mouse" : "Controller" }</button>
 	{/if}
 </div>
 

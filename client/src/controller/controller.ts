@@ -2,7 +2,7 @@ import { writable, Writable } from "svelte/store";
 import type { Position } from './typings';
 import { client } from '../socket/socket'
 
-export const position: Writable<Position> = writable({ x: 0, y: 0 })
+export const position: Writable<Position> = writable({ x: 50, y: 50 })
 export const controllerAvailable = writable(false)
 export const controllerInUse = writable(false)
 
