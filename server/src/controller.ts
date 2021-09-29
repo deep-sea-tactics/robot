@@ -3,7 +3,41 @@
 import type { Server } from 'socket.io'
 import * as HID from "node-hid";
 
-const rawDataToControllerData = (data: Buffer) => {
+interface ButtonMapping {
+	trigger: boolean;
+	side_grip: boolean;
+	side_panel: SidePanel;
+	controller_buttons: ControllerButtons;
+}
+
+interface SidePanel {
+	top_left: boolean;
+	top_right: boolean;
+	middle_left: boolean;
+	middle_right: boolean;
+	bottom_left: boolean;
+	bottom_right: boolean;
+}
+
+interface ControllerButtons {
+	top_left: boolean;
+	top_right: boolean;
+	bottom_left: boolean;
+	bottom_right: boolean;
+}
+
+interface ControllerData {
+	roll: number;
+	pitch: number;
+	yaw: number;
+	view: number;
+	throttle: number;
+	buttons: ButtonMapping;
+}
+
+const bool = (num: number) => num === 0 ? false : true;
+
+const rawDataToControllerData = (data: Buffer): ControllerData | undefined => {
 
 	const rawDataMatches = data.toString('hex').match(/.{1,2}/g)
 
@@ -17,28 +51,48 @@ const rawDataToControllerData = (data: Buffer) => {
 		yaw: parsedRawData[3],
 		view: (parsedRawData[2] & 0xf0) >> 4,
 		throttle: -parsedRawData[5] + 255,
-		buttons: [
-			(parsedRawData[4] & 0x01) >> 0,
-			(parsedRawData[4] & 0x02) >> 1,
-			(parsedRawData[4] & 0x04) >> 2,
-			(parsedRawData[4] & 0x08) >> 3,
-			(parsedRawData[4] & 0x10) >> 4,
-			(parsedRawData[4] & 0x20) >> 5,
-			(parsedRawData[4] & 0x40) >> 6,
-			(parsedRawData[4] & 0x80) >> 7,
-
-			(parsedRawData[6] & 0x01) >> 0,
-			(parsedRawData[6] & 0x02) >> 1,
-			(parsedRawData[6] & 0x04) >> 2,
-			(parsedRawData[6] & 0x08) >> 3
-		]
+		buttons: {
+			trigger: bool((parsedRawData[4] & 0x01) >> 0),
+			side_grip: bool((parsedRawData[4] & 0x02) >> 1),
+			controller_buttons: {
+				bottom_left: bool((parsedRawData[4] & 0x04) >> 2),
+				bottom_right: bool((parsedRawData[4] & 0x08) >> 3),
+				top_left: bool((parsedRawData[4] & 0x10) >> 4),
+				top_right: bool((parsedRawData[4] & 0x20) >> 5)
+			},
+			side_panel: {
+				top_left: bool((parsedRawData[4] & 0x40) >> 6),
+				top_right: bool((parsedRawData[4] & 0x80) >> 7),
+				middle_left: bool((parsedRawData[6] & 0x01) >> 0),
+				middle_right: bool((parsedRawData[6] & 0x02) >> 1),
+				bottom_left: bool((parsedRawData[6] & 0x04) >> 2),
+				bottom_right: bool((parsedRawData[6] & 0x08) >> 3)
+			}
+		}
 	};
+}
+
+interface Position {
+	x: number;
+	y: number;
+}
+
+// TODO reuse TS
+const controllerDataToPosition = (data: ControllerData): Position => {
+	return {
+		x: data.roll / 10.24,
+		y: data.pitch / 10.24
+	}
 }
 
 export const listenToLogitechController = (socket: Server, device: HID.HID): void => {
 	device.on("data", data => {
 		const parsedData = rawDataToControllerData(data);
 		
-		console.log(parsedData)
+		if (parsedData === undefined) {
+			return
+		}
+
+		socket.emit("controllerPosition", controllerDataToPosition(parsedData))
 	})
 }

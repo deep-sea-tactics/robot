@@ -11,10 +11,6 @@ let device: HID.HID | undefined = undefined
 const controllerListen = () => {
 	try {
 		device = new HID.HID(1133, 49685); // Logitech Pro 3D controller vendor/product ID
-
-		device.on("data", function(data) {
-			console.log(data) // TODO use socket.io to send data to client
-		});
 	} catch (e) {
 
 		if (!(e instanceof Error)) return;
