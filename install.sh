@@ -1,4 +1,4 @@
 #!/bin/sh
 
-(cd client; npm install)
-(cd server; npm install)
+(cd client; pnpm install)
+(cd server; pnpm install)
