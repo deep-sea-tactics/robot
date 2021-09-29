@@ -1,7 +1,9 @@
 <script lang="ts">
 	import CameraBox from './camera/CameraBox.svelte'
+	import ControllerCanvas from './controller/ControllerCanvas.svelte'
 </script>
 <main>
+	<ControllerCanvas />
 	<CameraBox />
 </main>
 
@@ -9,7 +11,7 @@
 	main {
 		display: grid; 
 		grid-template-columns: 1fr max-content 1fr; 
-		grid-template-rows: auto max-content auto; 
+		grid-template-rows: 1fr max-content 1fr; 
 		gap: 0px 0px; 
 		grid-template-areas: 
 		"controller camera grip"
