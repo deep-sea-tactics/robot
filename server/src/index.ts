@@ -1,5 +1,8 @@
 import express from "express";
 import cors from "cors";
+import * as HID from "node-hid";
+
+console.log(HID.devices());
 
 const app = express();
 const port = 3000;
