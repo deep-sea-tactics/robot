@@ -5,28 +5,30 @@ import path from "path"
 import * as HID from "node-hid";
 import { logger } from "./logger"
 
-function findController(): HID.HID | undefined {
-	const foundDevices = HID.devices().filter(item => item.product == "Logitech Extreme 3D");
-
-	if (foundDevices.length === 0) return undefined
-
-	return new HID.HID(foundDevices[0].path as string);
-}
-
 let device: HID.HID | undefined = undefined
 
-try {
-	device = findController() as HID.HID;
+const controllerListen = () => {
+	try {
+		device = new HID.HID(1133, 49685); // Logitech Pro 3D controller vendor/product ID
 
-	device.on("data", function(data) {
-		console.log(data) // TODO use socket.io to send data to client
-	});
-} catch (e) {
-	// device not found / unable to connect
-	logger.warn("Controller not found; manual override necessary")
+		device.on("data", function(data) {
+			console.log(data) // TODO use socket.io to send data to client
+		});
+	} catch (e) {
 
-	device = undefined
+		if (!(e instanceof Error)) return;
+
+		if (e.message.includes("cannot open device")) {
+			logger.warn(e.message);
+		} else {
+			// device not found / unable to connect
+			logger.warn("Controller not found; manual override necessary")
+		}
+		device = undefined
+	}
 }
+
+controllerListen()
 
 const app = Fastify({});
 const port = 3000;
