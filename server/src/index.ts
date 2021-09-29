@@ -1,5 +1,6 @@
-import express from "express";
-import cors from "cors";
+import Fastify from "fastify"
+import fastifyStatic from "fastify-static"
+import path from "path"
 import * as HID from "node-hid";
 import { logger } from "./logger"
 
@@ -22,11 +23,17 @@ try {
 	// device not found
 }
 
-const app = express();
+const app = Fastify({});
 const port = 3000;
 
-app.use(cors({ origin: true }));
+app.register(fastifyStatic, {
+	root: path.join(__dirname, '..', '..', 'client', 'public')
+})
 
-app.use(express.static('../client/public'))
+const start = async () => {
+	await app.listen(port);
 
-app.listen(port, () => logger.info(`Listening to https://localhost:${port}`));
+	logger.info(`Listening to https://localhost:${port}`);
+}
+
+start()
