@@ -14,8 +14,8 @@
 		grid-template-rows: 1fr max-content 1fr; 
 		gap: 0px 0px; 
 		grid-template-areas: 
-		"controller camera grip"
-		"controller camera grip"
-		"controller camera grip"; 
+		"controller camera camera"
+		"controller camera camera"
+		"controller camera camera"; 
 	}
 </style>
