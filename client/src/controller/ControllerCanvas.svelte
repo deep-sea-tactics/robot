@@ -1,5 +1,6 @@
 <script lang="ts">
 
+	import { onMount } from "svelte"
 	import { Canvas, Layer } from "svelte-canvas";
 
 	interface Position {
@@ -15,7 +16,10 @@
 
 	const mouseRadius = 10
 	let canvas: Canvas
-	let mousePos: Position = { x: canvas.width / 2, y: canvas.height / 2 }
+	let mousePos: Position = { x: 0, y: 0 }
+	let container: HTMLDivElement
+
+	let canvasWidth = 300
 
 	$: render = ({ context, width, height }: RenderInterface) => {
 
@@ -27,22 +31,45 @@
 		// Store the circle radius, useful for restricting the cursor
 		const circleRadius = width / 2 - 10;
 
-		// Create the circle (Last two arguments are in Radians)
-		context.beginPath();
-		context.arc(canvasOrigin.x, canvasOrigin.y, circleRadius, 0, 2 * Math.PI);
-		context.stroke();
+		// Base stroke style
+		context.strokeStyle = "black";
 
-		// Create a circle around the mouse
-		context.beginPath();
-		context.arc(mousePos.x, mousePos.y, mouseRadius, 0, 2 * Math.PI);
-		context.stroke();
+		context.strokeStyle = `rgb(50, 168, 96)`
+		context.fillStyle = `rgb(50, 168, 96)`
 
 		// Create a line between the center of the circle and the mouse's position
 		context.beginPath();
 		context.moveTo(canvasOrigin.x, canvasOrigin.y)
 		context.lineTo(mousePos.x, mousePos.y);
 		context.stroke();
+
+		// Create an origin circle
+		context.beginPath();
+		context.arc(canvasOrigin.x, canvasOrigin.y, mouseRadius / 2, 0, 2 * Math.PI);
+		context.fill();
+
+		context.strokeStyle = "black"
+		context.fillStyle = "black"
+
+		// Create a circle around the mouse
+		context.beginPath();
+		context.arc(mousePos.x, mousePos.y, mouseRadius, 0, 2 * Math.PI);
+		context.stroke();
+
+		// Fill the area around the circle with white
+
+		context.strokeStyle = "gray"
+		context.fillStyle = "gray"
+
+		context.beginPath();
+		context.arc(canvasOrigin.x, canvasOrigin.y, circleRadius, 0, 2 * Math.PI);
+		context.rect(width, 0, -width, width);
+		context.fill();
 	}
+
+	onMount(() => {
+		canvasWidth = container.clientWidth
+	})
 
 	function mouseEvent({ clientX, clientY } : MouseEvent) {
 		const rect = canvas.getCanvas().getBoundingClientRect();
@@ -54,8 +81,11 @@
 	}
 </script>
 
-<div id="controller">
-	<Canvas bind:this={canvas} on:mousemove={mouseEvent} width={300} height={300}>
+<div id="controller" bind:this={container}>
+	<Canvas 
+		bind:this={canvas} on:mousemove={mouseEvent} 
+		width={canvasWidth} height={canvasWidth}
+	>
 		<Layer {render}></Layer>
 	</Canvas>
 	<button>Use Controller</button>
