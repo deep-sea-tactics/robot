@@ -72,11 +72,20 @@
 
 		client.emit("position", $position)
 	}
+
+	function mouseLeave() {
+		$position = {
+			x: canvas.getCanvas().width / 2,
+			y: canvas.getCanvas().height / 2
+		};
+
+		client.emit("position", $position)
+	}
 </script>
 
 <div id="controller" bind:this={container}>
 	<Canvas 
-		bind:this={canvas} on:mousemove={mouseEvent} 
+		bind:this={canvas} on:mouseleave={mouseLeave} on:mousemove={mouseEvent} 
 		width={canvasWidth} height={canvasWidth}
 	>
 		<Layer {render}></Layer>
