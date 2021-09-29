@@ -14,7 +14,8 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "node-hid": "^2.1.1"
+    "node-hid": "^2.1.1",
+    "winston": "^3.3.3"
   },
   "devDependencies": {
     "@types/cors": "^2.8.8",

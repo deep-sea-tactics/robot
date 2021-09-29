@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import * as HID from "node-hid";
+import { logger } from "./logger"
 
 function findController(): HID.HID | undefined {
 	const foundDevices = HID.devices().filter(item => item.product == "Logitech Extreme 3D");
@@ -17,6 +18,7 @@ try {
 		console.log(data)
 	});
 } catch (e) {
+	logger.warn("Controller not found; manual override necessary")
 	// device not found
 }
 
@@ -29,4 +31,4 @@ app.get('/', (req, res) => {
   res.send('Hello World!')
 })
 
-app.listen(port, () => console.log("Listening on port " + port));
+app.listen(port, () => logger.info("Listening on port " + port));
