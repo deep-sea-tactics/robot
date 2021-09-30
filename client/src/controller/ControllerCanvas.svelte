@@ -78,8 +78,8 @@
 		}
 
 		$position = {
-			x: canvas.getCanvas().width / 2,
-			y: canvas.getCanvas().height / 2
+			x: 50,
+			y: 50
 		};
 
 		client.emit("position", $position)
