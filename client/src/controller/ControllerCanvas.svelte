@@ -104,6 +104,11 @@
 		grid-area: controller;
 	}
 
+	button {
+		width: 100%;
+		font-size: 1.3rem;
+	}
+
 	:global(#canvas) {
 		cursor: none;
 		border: 5px solid darkgray;
