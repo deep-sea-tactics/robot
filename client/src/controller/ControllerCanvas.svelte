@@ -94,7 +94,7 @@
 		<Layer {render}></Layer>
 	</Canvas>
 	{#if $controllerAvailable}
-		<button on:click={switchControls}>Use { controllerInUse ? "Mouse" : "Controller" }</button>
+		<button on:click={switchControls}>Use { $controllerInUse ? "Mouse" : "Controller" }</button>
 	{/if}
 </div>
 
