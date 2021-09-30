@@ -6,14 +6,12 @@ import * as HID from "node-hid";
 import { logger } from "./logger"
 import { listenToLogitechController } from './controller'
 
-let device: HID.HID | undefined = undefined
-
-const controllerListen = () => {
+const grabController = (): HID.HID | undefined => {
 	try {
-		device = new HID.HID(1133, 49685); // Logitech Pro 3D controller vendor/product ID
+		return new HID.HID(1133, 49685); // Logitech Pro 3D controller vendor/product ID
 	} catch (e) {
 
-		if (!(e instanceof Error)) return;
+		if (!(e instanceof Error)) return undefined;
 
 		if (e.message.includes("cannot open device")) {
 			logger.warn(e.message);
@@ -21,11 +19,13 @@ const controllerListen = () => {
 			// device not found / unable to connect
 			logger.warn("Controller not found; manual override necessary")
 		}
-		device = undefined
+		return undefined
 	}
 }
 
-const app = Fastify({});
+let device = grabController()
+
+const app = Fastify();
 const port = 3000;
 
 app.register(fastifyStatic, {
@@ -57,5 +57,4 @@ const start = async () => {
 	logger.info(`Listening to https://localhost:${port}`);
 }
 
-controllerListen()
 start()

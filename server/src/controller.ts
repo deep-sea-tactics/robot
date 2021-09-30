@@ -52,8 +52,8 @@ const rawDataToControllerData = (data: Buffer): ControllerData | undefined => {
 		view: (parsedRawData[2] & 0xf0) >> 4,
 		throttle: -parsedRawData[5] + 255,
 		buttons: {
-			trigger: bool((parsedRawData[4] & 0x01) >> 0),
-			side_grip: bool((parsedRawData[4] & 0x02) >> 1),
+			trigger: bool((parsedRawData[4] & 0) >> 0),
+			side_grip: bool((parsedRawData[4] & 1) >> 1),
 			controller_buttons: {
 				bottom_left: bool((parsedRawData[4] & 0x04) >> 2),
 				bottom_right: bool((parsedRawData[4] & 0x08) >> 3),

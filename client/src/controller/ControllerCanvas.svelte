@@ -1,6 +1,5 @@
 <script lang="ts">
 
-	import { onMount } from "svelte"
 	import { Canvas, Layer } from "svelte-canvas";
 	import { position, controllerAvailable, controllerInUse } from './controller'
 	import type { Position, RenderInterface } from './typings'
@@ -10,7 +9,7 @@
 	let canvas: Canvas
 	let container: HTMLDivElement
 
-	let canvasWidth = 300
+	let canvasWidth
 
 	$: render = ({ context, width, height }: RenderInterface) => {
 
@@ -48,10 +47,6 @@
 		context.stroke();
 
 	}
-
-	onMount(() => {
-		canvasWidth = container.clientWidth
-	})
 
 	function mouseEvent({ clientX, clientY } : MouseEvent) {
 
@@ -91,8 +86,8 @@
 
 </script>
 
-<div id="controller" bind:this={container}>
-	<Canvas 
+<div id="controller" bind:clientWidth={canvasWidth} bind:this={container}>
+	<Canvas id="canvas"
 		bind:this={canvas} on:mouseleave={mouseLeave} on:mousemove={mouseEvent} 
 		width={canvasWidth} height={canvasWidth}
 	>
@@ -107,5 +102,10 @@
 	#controller {
 		background-color: lightgray;
 		grid-area: controller;
+	}
+
+	:global(#canvas) {
+		cursor: none;
+		border: 5px solid darkgray;
 	}
 </style>
