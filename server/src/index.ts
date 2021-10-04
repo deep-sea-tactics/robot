@@ -23,7 +23,7 @@ const grabController = (): HID.HID | undefined => {
 	}
 }
 
-let device = grabController()
+const device = grabController()
 
 const app = Fastify();
 const port = 3000;

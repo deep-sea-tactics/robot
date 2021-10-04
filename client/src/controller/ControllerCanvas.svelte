@@ -1,7 +1,7 @@
 <script lang="ts">
 
 	import { Canvas, Layer } from "svelte-canvas";
-	import { position, controllerAvailable, controllerInUse } from './controller'
+	import { position, controllerAvailable, controllerInUse, trigger } from './controller'
 	import type { Position, RenderInterface } from './typings'
 	import { client } from '../socket/socket'
 
@@ -44,7 +44,11 @@
 		// Create a circle around the mouse
 		context.beginPath();
 		context.arc(translatedPosition.x, translatedPosition.y, mouseRadius, 0, 2 * Math.PI);
-		context.stroke();
+
+		if ($trigger) 
+			context.fill();
+		else 
+			context.stroke();
 
 	}
 
@@ -81,14 +85,29 @@
 	}
 
 	function switchControls() {
+		$position = { x: 50, y: 50 }
 		$controllerInUse = !$controllerInUse
+	}
+
+	const mouseDown = () => {
+
+		if ($controllerInUse) return
+
+		$trigger = true
+	}
+
+	const mouseUp = () => {
+		if ($controllerInUse) return
+		$trigger = false
 	}
 
 </script>
 
 <div id="controller" bind:clientWidth={canvasWidth} bind:this={container}>
 	<Canvas id="canvas"
-		bind:this={canvas} on:mouseleave={mouseLeave} on:mousemove={mouseEvent} 
+		bind:this={canvas} on:mouseleave={mouseLeave} on:mousemove={mouseEvent}
+		on:mousedown={mouseDown}
+		on:mouseup={mouseUp}
 		width={canvasWidth} height={canvasWidth}
 	>
 		<Layer {render}></Layer>
