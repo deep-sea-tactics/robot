@@ -84,6 +84,7 @@
 		$trigger = false;
 
 		client.emit("position", $position)
+		client.emit("trigger", false)
 	}
 
 	function switchControls() {
@@ -96,11 +97,13 @@
 		if ($controllerInUse) return
 
 		$trigger = true
+		client.emit("trigger", true)
 	}
 
 	const mouseUp = () => {
 		if ($controllerInUse) return
 		$trigger = false
+		client.emit("trigger", false)
 	}
 
 </script>
