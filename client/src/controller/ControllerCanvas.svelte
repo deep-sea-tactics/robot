@@ -81,6 +81,8 @@
 			y: 50
 		};
 
+		$trigger = false;
+
 		client.emit("position", $position)
 	}
 
