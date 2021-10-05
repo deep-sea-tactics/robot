@@ -34,7 +34,7 @@
 			context.lineTo(height, 0.5 + x);
 		}
 
-		context.strokeStyle = "black";
+		context.strokeStyle = "gray";
 		context.stroke();
 
 		// Base stroke style
