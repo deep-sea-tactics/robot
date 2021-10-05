@@ -23,6 +23,20 @@
 			y: ($position.y) * (height / 100)
 		}
 
+		// Grid
+		for (let x = 0; x <= width; x += width / 10) {
+			context.moveTo(0.5 + x, 0);
+			context.lineTo(0.5 + x, height);
+		}
+
+		for (let x = -1; x <= width - 1; x += width / 10) {
+			context.moveTo(0, 0.5 + x);
+			context.lineTo(height, 0.5 + x);
+		}
+
+		context.strokeStyle = "black";
+		context.stroke();
+
 		// Base stroke style
 		context.strokeStyle = `rgb(50, 168, 96)`
 		context.fillStyle = `rgb(50, 168, 96)`
