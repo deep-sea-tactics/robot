@@ -1,5 +1,8 @@
 import * as winston from "winston"
 
+/**
+ * Logger for server. Does not output to any file.
+ */
 export const logger = winston.createLogger({
 	level: 'info',
 	format: winston.format.combine(
