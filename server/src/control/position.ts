@@ -8,7 +8,10 @@ export interface Position {
 	y: number;
 }
 
+/**
+ * Reactive stream for position
+ */
 export const position = stream<Position>({
-    x: 0,
-    y: 0
+    x: 50,
+    y: 50
 });
