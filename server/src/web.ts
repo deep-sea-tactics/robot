@@ -4,10 +4,15 @@ import fastifySocketIo from 'fastify-socket.io'
 import path from "path"
 import { listenToLogitechController } from './controller';
 import { logger } from "./logger"
+import * as HID from "node-hid";
 
+/** We use fastify to decrease any sort of delays caused by express. */
 const app = Fastify();
+
+/** The port. Default is 3000 */
 const port = 3000;
 
+/** Serve static files from svelte */
 app.register(fastifyStatic, {
 	root: path.join(__dirname, '..', '..', 'client', 'public')
 })
@@ -15,8 +20,11 @@ app.register(fastifyStatic, {
 // Add app.io
 app.register(fastifySocketIo)
 
-import * as HID from "node-hid";
-
+/**
+ * Starts the web server with a controller device
+ * 
+ * @param device The device to send to the client.
+ */
 export const start = async (device: HID.HID | undefined): Promise<void> => {
 
     app.ready(err => {

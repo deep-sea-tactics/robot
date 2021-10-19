@@ -3,6 +3,9 @@
 import type { Server } from 'socket.io'
 import * as HID from "node-hid";
 
+/**
+ * All the buttons on the Logitech 3D Pro Controller
+ */
 interface ButtonMapping {
 	trigger: boolean;
 	side_grip: boolean;
@@ -10,6 +13,9 @@ interface ButtonMapping {
 	controller_buttons: ControllerButtons;
 }
 
+/**
+ * The panel on the left of the controller
+ */
 interface SidePanel {
 	top_left: boolean;
 	top_right: boolean;
@@ -19,6 +25,9 @@ interface SidePanel {
 	bottom_right: boolean;
 }
 
+/**
+ * The buttons on the top of the joystic
+ */
 interface ControllerButtons {
 	top_left: boolean;
 	top_right: boolean;
@@ -26,6 +35,9 @@ interface ControllerButtons {
 	bottom_right: boolean;
 }
 
+/**
+ * All data sent from the controller
+ */
 interface ControllerData {
 	roll: number;
 	pitch: number;
@@ -35,7 +47,12 @@ interface ControllerData {
 	buttons: ButtonMapping;
 }
 
-const bool = (num: number) => num === 0 ? false : true;
+/**
+ * If num is 0, return false, else return true
+ * @param num The number to check against
+ * @returns if the num is 0, return false, else return true
+ */
+const bool = (num: number) => num !== 0;
 
 const rawDataToControllerData = (data: Buffer): ControllerData | undefined => {
 
@@ -72,12 +89,19 @@ const rawDataToControllerData = (data: Buffer): ControllerData | undefined => {
 	};
 }
 
+/**
+ * X and Y position interface
+ */
 interface Position {
 	x: number;
 	y: number;
 }
 
-// TODO reuse TS
+/**
+ * Turns [ControllerData] into a Position
+ * @param data 
+ * @returns A position, each value ranges from 0-100
+ */
 const controllerDataToPosition = (data: ControllerData): Position => {
 	return {
 		x: data.roll / 10.24,

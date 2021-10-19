@@ -2,6 +2,10 @@ import * as HID from "node-hid";
 import { logger } from "./logger"
 import { start } from './web'
 
+/**
+ * Grabs a file from the running computer
+ * @returns A HID device
+ */
 const grabController = (): HID.HID | undefined => {
 	try {
 		return new HID.HID(1133, 49685); // Logitech Pro 3D controller vendor/product ID
