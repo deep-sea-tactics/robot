@@ -2,7 +2,7 @@ import Fastify from "fastify"
 import fastifyStatic from "fastify-static"
 import fastifySocketIo from 'fastify-socket.io'
 import path from "path"
-import { listenToLogitechController } from './controller';
+import { sendDataToSocket } from './control/controller';
 import { logger } from "./logger"
 import * as HID from "node-hid";
 
@@ -44,7 +44,9 @@ export const start = async (device: HID.HID | undefined): Promise<void> => {
 	await app.listen(port);
 
 	if (device !== undefined) {
-		listenToLogitechController(app.io, device)
+        device.on("data", data => {
+            sendDataToSocket(app.io, data)
+        });
 	}
 
 	logger.info(`Listening to https://localhost:${port}`);

@@ -1,7 +1,7 @@
 // Adapted and modernized from https://github.com/poweic/node-Logitech-Extreme-3D-Pro/blob/master/app.js
 
 import type { Server } from 'socket.io'
-import * as HID from "node-hid";
+import { Position } from './position'
 
 /**
  * All the buttons on the Logitech 3D Pro Controller
@@ -90,14 +90,6 @@ const rawDataToControllerData = (data: Buffer): ControllerData | undefined => {
 }
 
 /**
- * X and Y position interface
- */
-interface Position {
-	x: number;
-	y: number;
-}
-
-/**
  * Turns [ControllerData] into a Position
  * @param data 
  * @returns A position, each value ranges from 0-100
@@ -109,17 +101,20 @@ const controllerDataToPosition = (data: ControllerData): Position => {
 	}
 }
 
-export const listenToLogitechController = (socket: Server, device: HID.HID): void => {
-	device.on("data", data => {
-		const parsedData = rawDataToControllerData(data);
-		
-		if (parsedData === undefined) {
-			return
-		}
+/**
+ * Sends formatted data from a raw buffer to a socket
+ * @param socket The socket to use.
+ * @param data The data to process and send to the socket.
+ */
+export const sendDataToSocket = (socket: Server, data: Buffer): void => {
+	const parsedData = rawDataToControllerData(data);
+	
+	if (parsedData === undefined) {
+		return
+	}
 
-		socket.emit("controllerData", {
-			position: controllerDataToPosition(parsedData),
-			triggerEnabled: parsedData.buttons.trigger
-		})
+	socket.emit("controllerData", {
+		position: controllerDataToPosition(parsedData),
+		triggerEnabled: parsedData.buttons.trigger
 	})
 }
