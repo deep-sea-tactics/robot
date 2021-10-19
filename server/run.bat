@@ -1,1 +1,1 @@
-pnpm start
+pnpm run start
