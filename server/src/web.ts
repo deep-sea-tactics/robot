@@ -50,6 +50,10 @@ export const start = async (device: HID.HID | undefined): Promise<void> => {
 
             position(controllerDataToPosition(processedData))
         });
+
+        device.on("error", () => {
+            logger.warn("Device disconnected");
+        })
 	}
 
 	logger.info(`Listening to https://localhost:${port}`);
