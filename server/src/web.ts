@@ -28,6 +28,7 @@ app.register(fastifySocketIo)
 export const start = async (device: HID.HID | undefined): Promise<void> => {
 
     app.ready(err => {
+        // Rethrow the error if any
         if (err) throw err
     
         app.io.on("connect", (socket) => {
