@@ -5,7 +5,8 @@ import path from "path"
 import { sendDataToSocket, controllerDataToPosition } from './control/controller';
 import { logger } from "./logger"
 import { position } from './control/position'
-import * as HID from "node-hid";
+import { device } from './control/device'
+import type { HID } from "node-hid";
 
 /** We use fastify to decrease any sort of delays caused by express. */
 const app = Fastify();
@@ -23,17 +24,15 @@ app.register(fastifySocketIo)
 
 /**
  * Starts the web server with a controller device
- * 
- * @param device The device to send to the client.
  */
-export const start = async (device: HID.HID | undefined): Promise<void> => {
+export const start = async(): Promise<void> => {
 
     app.ready(err => {
         // Rethrow the error if any
         if (err) throw err
     
         app.io.on("connect", (socket) => {
-            if (device !== undefined)
+            if (device() !== undefined)
                 socket.emit("controllerAvailable")
         })
     
@@ -42,8 +41,8 @@ export const start = async (device: HID.HID | undefined): Promise<void> => {
 
 	await app.listen(port);
 
-	if (device !== undefined) {
-        device.on("data", data => {
+	if (device() !== undefined) {
+        (device() as HID).on("data", data => {
             const processedData = sendDataToSocket(app.io, data)
 
             if (processedData === undefined) return
@@ -51,8 +50,10 @@ export const start = async (device: HID.HID | undefined): Promise<void> => {
             position(controllerDataToPosition(processedData))
         });
 
-        device.on("error", () => {
+        (device() as HID).on("error", () => {
             logger.warn("Device disconnected");
+
+            device(undefined);
         })
 	}
 
