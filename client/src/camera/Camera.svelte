@@ -1,5 +1,8 @@
+<script lang="ts">
+	export let src = "https://google.com";
+</script>
 <div id="camera">
-	<iframe title="Camera" src="https://google.com"></iframe>
+	<iframe title="Camera" {src}></iframe>
 </div>
 <style lang="scss">
 	#camera {
