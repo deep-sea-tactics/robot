@@ -16,7 +16,7 @@ const grabController = (): HID.HID | undefined => {
 
 		if (e.message.includes("cannot open device")) {
 			// device is plugged in but can't connect to
-			logger.warn(e.message);
+			logger.warn(e.message + " (Logitech Pro 3D controller)");
 		} else {
 			// device not found / unable to connect
 			logger.warn("Controller not found; manual override necessary")

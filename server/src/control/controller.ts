@@ -94,7 +94,7 @@ const rawDataToControllerData = (data: Buffer): ControllerData | undefined => {
  * @param data 
  * @returns A position, each value ranges from 0-100
  */
-const controllerDataToPosition = (data: ControllerData): Position => {
+export const controllerDataToPosition = (data: ControllerData): Position => {
 	return {
 		x: data.roll / 10.24,
 		y: data.pitch / 10.24
@@ -106,15 +106,17 @@ const controllerDataToPosition = (data: ControllerData): Position => {
  * @param socket The socket to use.
  * @param data The data to process and send to the socket.
  */
-export const sendDataToSocket = (socket: Server, data: Buffer): void => {
+export const sendDataToSocket = (socket: Server, data: Buffer): ControllerData | undefined => {
 	const parsedData = rawDataToControllerData(data);
 	
 	if (parsedData === undefined) {
-		return
+		return parsedData
 	}
 
 	socket.emit("controllerData", {
 		position: controllerDataToPosition(parsedData),
 		triggerEnabled: parsedData.buttons.trigger
 	})
+
+	return parsedData
 }

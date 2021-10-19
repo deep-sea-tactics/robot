@@ -2,8 +2,9 @@ import Fastify from "fastify"
 import fastifyStatic from "fastify-static"
 import fastifySocketIo from 'fastify-socket.io'
 import path from "path"
-import { sendDataToSocket } from './control/controller';
+import { sendDataToSocket, controllerDataToPosition } from './control/controller';
 import { logger } from "./logger"
+import { position } from './control/position'
 import * as HID from "node-hid";
 
 /** We use fastify to decrease any sort of delays caused by express. */
@@ -36,17 +37,18 @@ export const start = async (device: HID.HID | undefined): Promise<void> => {
                 socket.emit("controllerAvailable")
         })
     
-        app.io.on("position", position => {
-            // TODO keep track of position
-            // console.log(position)
-        })
+        app.io.on("position", newPosition => position(newPosition))
     })
 
 	await app.listen(port);
 
 	if (device !== undefined) {
         device.on("data", data => {
-            sendDataToSocket(app.io, data)
+            const processedData = sendDataToSocket(app.io, data)
+
+            if (processedData === undefined) return
+
+            position(controllerDataToPosition(processedData))
         });
 	}
 

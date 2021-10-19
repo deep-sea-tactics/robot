@@ -12,6 +12,7 @@ specifiers:
   fastify: ^3.21.6
   fastify-socket.io: ^2.0.1
   fastify-static: ^4.2.3
+  flyd: ^0.2.8
   node-hid: ^2.1.1
   nodemon: ^2.0.6
   socket.io: ^4.2.0
@@ -23,6 +24,7 @@ dependencies:
   cors: 2.8.5
   fastify: 3.21.6
   fastify-socket.io: 2.0.1
+  flyd: 0.2.8
   node-hid: 2.1.1
   winston: 3.3.3
 
@@ -1199,6 +1201,12 @@ packages:
     resolution: {integrity: sha512-JaTY/wtrcSyvXJl4IMFHPKyFur1sE9AUqc0QnhOaJ0CxHtAoIV8pYDzeEfAaNEtGkOfq4gr3LBFmdXW5mOQFnA==}
     dev: true
 
+  /flyd/0.2.8:
+    resolution: {integrity: sha512-PVr++d+cOkf//kVIm66aTgmmrHNAhqNH9TIZQzunrVL9GaW7pMFTuLcaGkTV9z4bkvVWPB1VGuxjGFFfQUZNwA==}
+    dependencies:
+      ramda: 0.25.0
+    dev: false
+
   /fn.name/1.1.0:
     resolution: {integrity: sha512-GRnmB5gPyJpAhTQdSZTSp9uaPSvl09KoYcMQtsB9rQoOmzs9dH6ffeccH+Z+cv6P68Hu5bC6JjRh4Ah/mHSNRw==}
     dev: false
@@ -1936,6 +1944,10 @@ packages:
 
   /quick-format-unescaped/4.0.4:
     resolution: {integrity: sha512-tYC1Q1hgyRuHgloV/YXs2w15unPVh8qfu/qCTfhTYamaw7fyhumKa2yGpdSo87vY32rIclj+4fWYQXUMs9EHvg==}
+    dev: false
+
+  /ramda/0.25.0:
+    resolution: {integrity: sha512-GXpfrYVPwx3K7RQ6aYT8KPS8XViSXUVJT1ONhoKPE9VAleW42YE+U+8VEyGWt41EnEQW7gwecYJriTI0pKoecQ==}
     dev: false
 
   /range-parser/1.2.1:
