@@ -23,7 +23,7 @@ app.register(fastifyStatic, {
 app.register(fastifySocketIo)
 
 /**
- * Starts the web server with a controller device
+ * Starts the web server.
  */
 export const start = async(): Promise<void> => {
 
