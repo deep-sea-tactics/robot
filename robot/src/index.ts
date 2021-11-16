@@ -6,8 +6,9 @@ const server = net.createServer(client => {
 
     client.on("data", data => logger.info(data))
     client.on("close", () => logger.warn("Client disconnected."))
+    client.on("error", e => logger.warn(e))
 })
 
-server.on("error", e => logger.error(e))
+server.on("error", e => logger.warn(e))
 
 server.listen(9000, () => logger.info("Listening to incoming connections."))
