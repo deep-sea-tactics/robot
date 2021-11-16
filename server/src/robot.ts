@@ -20,7 +20,7 @@ socket.on("error", e => logger.warn(e))
 
 socket.on("close", () => {
     logger.warn("Disconnected; Attempting to reconnect")
-    socket.setTimeout(1000, () => {
+    setTimeout(() => {
         socket.connect(port, ip)
-    });
+    }, 1000);
 })
