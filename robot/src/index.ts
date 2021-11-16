@@ -9,4 +9,6 @@ server.on("data", data => {
     logger.info(data)
 })
 
+server.on("error", e => logger.error(e))
+
 server.listen(9000, () => logger.info("Listening to incoming connections."))
