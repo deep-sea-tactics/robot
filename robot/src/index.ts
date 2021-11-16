@@ -1,12 +1,11 @@
 import net from 'net'
 import { logger } from './logger';
 
-const server = net.createServer(() => {
+const server = net.createServer(client => {
     logger.info("Client connected")
-})
 
-server.on("data", data => {
-    logger.info(data)
+    client.on("data", data => logger.info(data))
+    client.on("close", () => logger.warn("Client disconnected."))
 })
 
 server.on("error", e => logger.error(e))
