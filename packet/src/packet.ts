@@ -1,4 +1,4 @@
 export interface Packet {
     id: number;
-    data: string;
+    data: string | Uint8Array;
 }
