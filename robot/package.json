@@ -12,6 +12,7 @@
   "author": "Ashwin",
   "license": "ISC",
   "dependencies": {
+    "lrs-packet": "link:..\\packet",
     "winston": "^3.3.3"
   },
   "devDependencies": {
