@@ -13,9 +13,9 @@ declare module 'adafruit-i2c-pwm-driver-async' {
 
         async init(): Promise<number[]>
         async setPWM(channel: number, on: number, off: number): Promise<number[]>
-        async setPWMFreq(freq: number): Promise<number[]>
+        async setPWMFreq(freq: number): Promise<void>
     }
 
-    export function sleep(seconds: number)
-    export function usleep(micros: number)
+    export async function sleep(seconds: number)
+    export async function usleep(micros: number)
 }
