@@ -3,7 +3,7 @@ import { logger } from './logger'
 import flyd from 'flyd'
 import { position } from './control/position';
 
-const port = 8457
+const port = 9000
 
 const io = new Server(port);
 
