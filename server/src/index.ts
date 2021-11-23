@@ -1,4 +1,5 @@
 import { start as startWebsite } from './web'
-import './robot' // execute code to connect to the robot
+import { robotListen } from './robot' // execute code to connect to the robot
 
 startWebsite()
+robotListen()

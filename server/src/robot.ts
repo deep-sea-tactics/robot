@@ -19,4 +19,4 @@ io.on("connection", (socket) => {
 // Handle any conenction errors
 io.engine.on("connection_error", (err: { message: string }) => logger.warn(err.message))
 
-(async () => io.listen(3000))()
+export const robotListen: () => void = async() => io.listen(port)
