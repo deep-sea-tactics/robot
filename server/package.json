@@ -16,7 +16,6 @@
     "fastify": "^3.21.6",
     "fastify-socket.io": "^2.0.1",
     "flyd": "^0.2.8",
-    "lrs-packet": "link:..\\packet",
     "node-hid": "^2.1.1",
     "winston": "^3.3.3",
 	  "socket.io": "^4.2.0"

@@ -1,3 +1,4 @@
-import { ControllerDataPacket } from "./controller_data";
-
-export default { ControllerDataPacket }
+export interface Packet {
+    id: number;
+    data: string;
+}

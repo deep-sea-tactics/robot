@@ -5,7 +5,6 @@ specifiers:
   '@typescript-eslint/eslint-plugin': ^4.8.2
   '@typescript-eslint/parser': ^4.8.2
   eslint: ^7.14.0
-  lrs-packet: link:..\packet
   nodemon: ^2.0.6
   socket.io-client: ^4.4.0
   ts-node: ^9.0.0
