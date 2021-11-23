@@ -19,7 +19,7 @@ const loop = () => sleep(1)
   
 // Initialize driver and loop
 pwm.init()
-    .then(pwm.setPWMFreq(50))
+    .then(() => pwm.setPWMFreq(50))
     .then(sleep(1))
     .then(loop)
     .catch(console.error);
