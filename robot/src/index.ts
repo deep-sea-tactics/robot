@@ -1,5 +1,9 @@
-import net from 'net'
+import { io } from "socket.io-client"
 import { logger } from './logger';
+
+const socket = io("https://localhost:3000", { reconnection: true })
+
+socket.on("connect", () => logger.info("Connected to server!"))
 
 const server = net.createServer(client => {
     logger.info("Client connected")

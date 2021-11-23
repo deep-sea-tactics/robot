@@ -9,9 +9,14 @@ const io = new Server(port);
 
 flyd.on(change => io.emit("position", JSON.stringify(change)), position)
 
-io.on("connection", socket => {
+io.on("connection", (socket) => {
     logger.info("Robot connected!")
 
 	socket.on("close", () => logger.warn("Robot disconected."))
 	socket.on("error", error => logger.warn("An exception with the robot has occured: " + error))
 })
+
+// Handle any conenction errors
+io.engine.on("connection_error", (err: { message: string }) => logger.warn(err.message))
+
+(async () => io.listen(3000))()
