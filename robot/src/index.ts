@@ -6,7 +6,7 @@ import { PwmDriver, sleep } from 'adafruit-i2c-pwm-driver-async';
 import { logger } from './logger';
 
 const pwm = new PwmDriver({
-    address: 70,
+    address: 40,
     device: '/dev/i2c-1',
     debug: true
 });
