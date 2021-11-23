@@ -13,13 +13,13 @@
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
-    "example": "link:..\\packet",
     "fastify": "^3.21.6",
     "fastify-socket.io": "^2.0.1",
     "flyd": "^0.2.8",
     "lrs-packet": "link:..\\packet",
     "node-hid": "^2.1.1",
-    "winston": "^3.3.3"
+    "winston": "^3.3.3",
+	"socket.io": "^4.2.0"
   },
   "devDependencies": {
     "@types/cors": "^2.8.8",
@@ -31,7 +31,6 @@
     "eslint": "^7.14.0",
     "fastify-static": "^4.2.3",
     "nodemon": "^2.0.6",
-    "socket.io": "^4.2.0",
     "ts-node": "^9.0.0",
     "typescript": "^4.1.2"
   }
