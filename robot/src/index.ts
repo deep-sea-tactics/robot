@@ -1,4 +1,7 @@
 import { io } from "socket.io-client"
+
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 import { PwmDriver, sleep } from 'adafruit-i2c-pwm-driver-async';
 import { logger } from './logger';
 
