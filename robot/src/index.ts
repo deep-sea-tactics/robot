@@ -1,7 +1,7 @@
 import { io } from "socket.io-client"
 import { logger } from './logger';
 
-const address = "http://localhost:9000"
+const address = "http://192.168.1.201:9000"
 
 const socket = io(address, { reconnection: true })
 
