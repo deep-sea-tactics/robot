@@ -3,7 +3,7 @@ import { logger } from './logger'
 import flyd from 'flyd'
 import { position } from './control/position';
 
-const port = 9000
+const port = 8457
 
 const io = new Server(port);
 
@@ -19,4 +19,4 @@ io.on("connection", (socket) => {
 // Handle any conenction errors
 io.engine.on("connection_error", (err: { message: string }) => logger.warn(err.message))
 
-export const robotListen: () => void = async() => io.listen(port)
+logger.info(`Robot server listening on port ${port}.`)
