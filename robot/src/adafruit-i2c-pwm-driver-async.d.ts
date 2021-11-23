@@ -1,0 +1,1 @@
+declare module 'adafruit-i2c-pwm-driver-async'

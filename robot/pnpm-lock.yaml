@@ -4,6 +4,7 @@ specifiers:
   '@types/node': ^16.11.1
   '@typescript-eslint/eslint-plugin': ^4.8.2
   '@typescript-eslint/parser': ^4.8.2
+  adafruit-i2c-pwm-driver-async: ^1.1.0
   eslint: ^7.14.0
   nodemon: ^2.0.6
   socket.io-client: ^4.4.0
@@ -12,7 +13,7 @@ specifiers:
   winston: ^3.3.3
 
 dependencies:
-  lrs-packet: link:../packet
+  adafruit-i2c-pwm-driver-async: 1.1.0
   socket.io-client: 4.4.0
   winston: 3.3.3
 
@@ -255,6 +256,12 @@ packages:
     engines: {node: '>=0.4.0'}
     hasBin: true
     dev: true
+
+  /adafruit-i2c-pwm-driver-async/1.1.0:
+    resolution: {integrity: sha512-Rxt+u+19OAHA9O29LKzO2cAia/YtjTxCwKscaOWiaWQcIMebVPrJbcgTcVyi0eosinSY/D9afz1bBI8UNF+0rQ==}
+    dependencies:
+      nanotimer: 0.3.15
+    dev: false
 
   /ajv/6.12.6:
     resolution: {integrity: sha512-j3fVLgvTo527anyYyJOGTYJbG+vnnQYvE0m5mmkc1TK+nxAppkCLMIL0aZ4dblVCNoGShhm+kzE4ZUykBoMg4g==}
@@ -1246,6 +1253,10 @@ packages:
 
   /ms/2.1.3:
     resolution: {integrity: sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==}
+
+  /nanotimer/0.3.15:
+    resolution: {integrity: sha1-KA0nfbkUbspvilcLVyq68qmsx1Q=}
+    dev: false
 
   /natural-compare/1.4.0:
     resolution: {integrity: sha1-Sr6/7tdUHywnrPspvbvRXI1bpPc=}

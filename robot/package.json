@@ -12,6 +12,7 @@
   "author": "Ashwin",
   "license": "ISC",
   "dependencies": {
+    "adafruit-i2c-pwm-driver-async": "^1.1.0",
     "lrs-packet": "link:..\\packet",
     "socket.io-client": "^4.4.0",
     "winston": "^3.3.3"
