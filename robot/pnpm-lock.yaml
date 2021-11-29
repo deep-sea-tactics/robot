@@ -1,11 +1,13 @@
 lockfileVersion: 5.3
 
 specifiers:
+  '@abandonware/i2c': 0.2.4-3
   '@types/node': ^16.11.1
   '@typescript-eslint/eslint-plugin': ^4.8.2
   '@typescript-eslint/parser': ^4.8.2
   adafruit-i2c-pwm-driver-async: ^1.1.0
   eslint: ^7.14.0
+  i2c-bus: ^5.2.2
   nodemon: ^2.0.6
   socket.io-client: ^4.4.0
   ts-node: ^9.0.0
@@ -13,7 +15,9 @@ specifiers:
   winston: ^3.3.3
 
 dependencies:
+  '@abandonware/i2c': 0.2.4-3
   adafruit-i2c-pwm-driver-async: 1.1.0
+  i2c-bus: 5.2.2
   socket.io-client: 4.4.0
   winston: 3.3.3
 
@@ -27,6 +31,17 @@ devDependencies:
   typescript: 4.4.4
 
 packages:
+
+  /@abandonware/i2c/0.2.4-3:
+    resolution: {integrity: sha512-51aBJtku1V3tqMeYT/N0YLkwS8mkpldymNxNfTUI5a5332ZjnnDwm1XovZSF6PBKMWHgELStPJ1oL8S0ruiASQ==}
+    requiresBuild: true
+    dependencies:
+      bindings: 1.5.0
+      coffee-script: 1.12.7
+      nan: 2.14.2
+      repl: 0.1.3
+      underscore: 1.11.0
+    dev: false
 
   /@babel/code-frame/7.12.11:
     resolution: {integrity: sha512-Zt1yodBx1UcyiePMSkWnU4hPqhwq7hGi2nFL1LeA3EUl+q2LQx16MISgJ0+z7dnmgvP9QtIleuETGOiOH1RcIw==}
@@ -361,6 +376,12 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
+  /bindings/1.5.0:
+    resolution: {integrity: sha512-p2q/t/mhvuOj/UeLlV6566GD/guowlr0hHxClI0W9m7MWYkL1F0hLo+0Aexs9HSPCtR1SXQ0TD3MMKrXZajbiQ==}
+    dependencies:
+      file-uri-to-path: 1.0.0
+    dev: false
+
   /boxen/5.1.2:
     resolution: {integrity: sha512-9gYgQKXx+1nP8mP7CzFyaUARhg7D3n1dF/FnErWmu9l6JvGpNUN278h0aSb+QjoiKSWG+iZ3uHrcqk0qrY9RQQ==}
     engines: {node: '>=10'}
@@ -462,6 +483,13 @@ packages:
     dependencies:
       mimic-response: 1.0.1
     dev: true
+
+  /coffee-script/1.12.7:
+    resolution: {integrity: sha512-fLeEhqwymYat/MpTPUjSKHVYYl0ec2mOyALEMLmzr5i1isuG+6jfI2j2d5oBO3VIzgUXgBVIcOT9uH1TFxBckw==}
+    engines: {node: '>=0.8.0'}
+    deprecated: CoffeeScript on NPM has moved to "coffeescript" (no hyphen)
+    hasBin: true
+    dev: false
 
   /color-convert/1.9.3:
     resolution: {integrity: sha512-QfAUtd+vFdAtFQcC8CCyYt1fYWxSqAiK2cSD6zDB8N3cpsEBAvRxp9zOGg6G/SHHJYAT88/az/IuDGALsNVbGg==}
@@ -841,6 +869,10 @@ packages:
       flat-cache: 3.0.4
     dev: true
 
+  /file-uri-to-path/1.0.0:
+    resolution: {integrity: sha512-0Zt+s3L7Vf1biwWZ29aARiVYLx7iMGnEUl9x33fbB/j3jR81u/O2LbqK+Bm1CDSNDKVtJ/YjwY7TUd5SkeLQLw==}
+    dev: false
+
   /fill-range/7.0.1:
     resolution: {integrity: sha512-qOo9F+dMUmC2Lcb4BbVvnKJxTPjCm+RRpe4gDuGrzkL7mEVl/djYSu2OdQ2Pa302N4oqkSg9ir6jaLWJ2USVpQ==}
     engines: {node: '>=8'}
@@ -981,6 +1013,15 @@ packages:
   /http-cache-semantics/4.1.0:
     resolution: {integrity: sha512-carPklcUh7ROWRK7Cv27RPtdhYhUsela/ue5/jKzjegVvXDqM2ILE9Q2BGn9JZJh1g87cp56su/FgQSzcWS8cQ==}
     dev: true
+
+  /i2c-bus/5.2.2:
+    resolution: {integrity: sha512-b2y/et08rqggEjqod6QxV0Ng+RlSkZXsdE+E1aZEQBahepZ9uFD9XfA77Y8O9SgyhwfGEn+CNxsw0gvXW1/m4g==}
+    engines: {node: '>=10.0.0'}
+    requiresBuild: true
+    dependencies:
+      bindings: 1.5.0
+      nan: 2.14.2
+    dev: false
 
   /ignore-by-default/1.0.1:
     resolution: {integrity: sha1-SMptcvbGo68Aqa1K5odr44ieKwk=}
@@ -1254,6 +1295,10 @@ packages:
   /ms/2.1.3:
     resolution: {integrity: sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==}
 
+  /nan/2.14.2:
+    resolution: {integrity: sha512-M2ufzIiINKCuDfBSAUr1vWQ+vuVcA9kqx8JJUsbQi6yf1uGRyb7HfpdfUr5qLXf3B/t8dPvcjhKMmlfnP47EzQ==}
+    dev: false
+
   /nanotimer/0.3.15:
     resolution: {integrity: sha1-KA0nfbkUbspvilcLVyq68qmsx1Q=}
     dev: false
@@ -1473,6 +1518,11 @@ packages:
     dependencies:
       rc: 1.2.8
     dev: true
+
+  /repl/0.1.3:
+    resolution: {integrity: sha1-LwXUKwyItD0FzL2hDtFK7/Vpm2A=}
+    engines: {node: '>= 0.4.0'}
+    dev: false
 
   /require-from-string/2.0.2:
     resolution: {integrity: sha512-Xf0nWe6RseziFMu+Ap9biiUbmplq6S9/p+7w7YXP/JBHhrUDDUhwa+vANyubuqfZWTveU//DYVGsDG7RKL/vEw==}
@@ -1779,6 +1829,10 @@ packages:
   /undefsafe/2.0.5:
     resolution: {integrity: sha512-WxONCrssBM8TSPRqN5EmsjVrsv4A8X12J4ArBiiayv3DyyG3ZlIg6yysuuSYdZsVz3TKcTg2fd//Ujd4CHV1iA==}
     dev: true
+
+  /underscore/1.11.0:
+    resolution: {integrity: sha512-xY96SsN3NA461qIRKZ/+qox37YXPtSBswMGfiNptr+wrt6ds4HaMw23TP612fEyGekRE6LNRiLYr/aqbHXNedw==}
+    dev: false
 
   /unique-string/2.0.0:
     resolution: {integrity: sha512-uNaeirEPvpZWSgzwsPGtU2zVSTrn/8L5q/IexZmH0eH6SA73CmAA5U4GwORTxQAZs95TAXLNqeLoPPNO5gZfWg==}

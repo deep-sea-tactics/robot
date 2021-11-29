@@ -12,7 +12,9 @@
   "author": "Ashwin",
   "license": "ISC",
   "dependencies": {
+    "@abandonware/i2c": "0.2.4-3",
     "adafruit-i2c-pwm-driver-async": "^1.1.0",
+    "i2c-bus": "^5.2.2",
     "socket.io-client": "^4.4.0",
     "winston": "^3.3.3"
   },
