@@ -12,13 +12,12 @@
   "author": "Ashwin",
   "license": "ISC",
   "dependencies": {
-    "@abandonware/i2c": "0.2.4-3",
-    "adafruit-i2c-pwm-driver-async": "^1.1.0",
     "i2c-bus": "^5.2.2",
     "socket.io-client": "^4.4.0",
     "winston": "^3.3.3"
   },
   "devDependencies": {
+    "@types/i2c-bus": "^5.1.0",
     "@types/node": "^16.11.1",
     "@typescript-eslint/eslint-plugin": "^4.8.2",
     "@typescript-eslint/parser": "^4.8.2",

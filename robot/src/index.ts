@@ -4,7 +4,7 @@ import { logger } from './logger';
 
 const address = "http://192.168.1.201:9000"
 
-logger.info(`Client attempting to connect to ${address}...`)
+logger.info(`Client connecting to ${address}...`)
 
 const socket = io(address, { reconnection: true })
 
