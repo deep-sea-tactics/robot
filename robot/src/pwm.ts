@@ -51,7 +51,8 @@ class BusFactory {
 		return new BusWrapper(address, this.device)
 	}
 
-	useBus(address: number, func: (wrapper: BusWrapper) => void): void {
+	/** Convenience method to use a BusWrapper in a function */
+	useBus(address: number, func: (wrapper: BusWrapper) => Promise<void>): void {
 		func(this.bus(address))
 	}
 
@@ -68,7 +69,7 @@ async function start(address: number): Promise<void> {
 	// Use a factory. Allows us to easily get a device w/ its address in its own scope
 	const i2cFactory = new BusFactory(i2cDevice)
 
-	i2cFactory.useBus(address, wrapper => {
+	i2cFactory.useBus(address, async wrapper => {
 		// Sample write of writing to an i2c device
 		wrapper.write(5, Buffer.from("aaa"))
 	})
