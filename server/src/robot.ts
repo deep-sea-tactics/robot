@@ -5,6 +5,7 @@ import { position } from './control/position';
 
 const port = 9000
 
+/** Starts the robot server with socket.io. */
 export async function start(): Promise<void> {
 	const io = new Server(port);
 
