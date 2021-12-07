@@ -71,7 +71,7 @@ async function start(address: number): Promise<void> {
 
 	i2cFactory.useBus(address, async wrapper => {
 		// Sample write of writing to an i2c device
-		wrapper.write(5, Buffer.from("aaa"))
+		wrapper.write(1, Buffer.from([0x02]))
 	})
 
 }
