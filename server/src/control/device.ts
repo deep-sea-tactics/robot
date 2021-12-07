@@ -21,7 +21,7 @@ import flyd, { stream } from 'flyd'
 			logger.warn(e.message + " (Logitech Pro 3D controller)");
 		} else {
 			// device not found / unable to connect
-			logger.warn("Controller not found; manual override necessary")
+			logger.warn("Logitech controller not found; use input from web service instead")
 		}
 
 		// either way, no device found
@@ -38,7 +38,7 @@ flyd.on(change => {
     if (change !== undefined && interval !== undefined) {
         clearInterval(interval);
         interval = undefined;
-        logger.info("Logitech device reconnected")
+        logger.info("Logitech controller reconnected")
         return
     }
 
