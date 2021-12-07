@@ -5,6 +5,7 @@ specifiers:
   '@types/node': ^16.11.1
   '@typescript-eslint/eslint-plugin': ^4.8.2
   '@typescript-eslint/parser': ^4.8.2
+  dotenv: ^10.0.0
   eslint: ^7.14.0
   i2c-bus: ^5.2.2
   nodemon: ^2.0.6
@@ -14,6 +15,7 @@ specifiers:
   winston: ^3.3.3
 
 dependencies:
+  dotenv: 10.0.0
   i2c-bus: 5.2.2
   socket.io-client: 4.4.0
   winston: 3.3.3
@@ -615,6 +617,11 @@ packages:
     dependencies:
       is-obj: 2.0.0
     dev: true
+
+  /dotenv/10.0.0:
+    resolution: {integrity: sha512-rlBi9d8jpv9Sf1klPjNfFAuWDjKLwTIJJ/VxtoTwIR6hnZxcEOQCZg2oIL3MWBYw5GpUDKOEnND7LXTbIpQ03Q==}
+    engines: {node: '>=10'}
+    dev: false
 
   /duplexer3/0.1.4:
     resolution: {integrity: sha1-7gHdHKwO08vH/b6jfcCo8c4ALOI=}

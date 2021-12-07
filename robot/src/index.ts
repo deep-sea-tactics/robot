@@ -1,8 +1,11 @@
 import { io } from "socket.io-client"
 import { startOrElse } from "./pwm"
 import { logger } from './logger';
+import { config } from "dotenv"
 
-const address = "http://192.168.1.202:9000"
+config()
+
+const address = `http://192.168.1.${process.env.LOCAL}:9000`
 
 logger.info(`Client connecting to ${address}...`)
 
