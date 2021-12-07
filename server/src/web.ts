@@ -7,12 +7,13 @@ import { logger } from "./logger"
 import { position } from './control/position'
 import { device } from './control/device'
 import type { HID } from "node-hid";
+import { env_data } from "./env" 
 
 /** We use fastify to decrease any sort of delays caused by express. */
 const app = Fastify();
 
 /** The port. Default is 3000 */
-const port = 3000;
+const port = env_data.WEB_PORT;
 
 /** Serve static files from svelte */
 app.register(fastifyStatic, {

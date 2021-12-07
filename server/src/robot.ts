@@ -2,8 +2,9 @@ import { Server } from "socket.io";
 import { logger } from './logger'
 import flyd from 'flyd'
 import { position } from './control/position';
+import { env_data } from "./env" 
 
-const port = 9000
+const port = env_data.ROBOT_PORT
 
 /** Starts the robot server with socket.io. */
 export async function start(): Promise<void> {
@@ -22,5 +23,5 @@ export async function start(): Promise<void> {
 	// Handle any conenction errors
 	io.engine.on("connection_error", (err: { message: string }) => logger.warn(err.message))
 
-	logger.info(`Robot server listening on port ${port}.`)
+	logger.info(`Robot connection port active at ${port}.`)
 }
