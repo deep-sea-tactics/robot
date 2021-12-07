@@ -2,7 +2,7 @@ import { io } from "socket.io-client"
 import { startOrElse } from "./pwm"
 import { logger } from './logger';
 
-const address = "http://192.168.1.201:9000"
+const address = "http://192.168.1.202:9000"
 
 logger.info(`Client connecting to ${address}...`)
 
