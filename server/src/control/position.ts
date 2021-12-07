@@ -1,4 +1,4 @@
-import { stream } from 'flyd'
+import { stream, on } from 'flyd'
 
 /**
  * General X and Y position interface

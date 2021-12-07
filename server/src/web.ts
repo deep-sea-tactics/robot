@@ -29,14 +29,24 @@ export const start = async(): Promise<void> => {
 
     app.ready(err => {
         // Rethrow the error if any
-        if (err) throw err
+        if (err) {
+			console.warn(err)
+			return;
+		}
     
         app.io.on("connect", (socket) => {
+
+			logger.info(`Client connected to web interface. (ID: ${socket.id})`)
+
+			socket.on("disconnect", (reason) => {
+				logger.info(`Client ${socket.id} disconnected from web interface: ${reason}`)
+			})
+
+			socket.on("position", position)
+
             if (device() !== undefined)
                 socket.emit("controllerAvailable")
         })
-    
-        app.io.on("position", newPosition => position(newPosition))
     })
 
 	await app.listen(port);
