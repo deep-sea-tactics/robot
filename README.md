@@ -10,7 +10,7 @@ this project.
 ### Server
 This is the main controller.
 
-it hosts the web service and the robot hooks into it. It also handles data processing and external devices such as controllers.
+It hosts the web service and the robot hooks into it. It also handles data processing and external devices such as controllers.
 
 ### Client
 This is the website. It acts as a user-friendly UI for managing the robot and viewing data sent out by the server.
