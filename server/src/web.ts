@@ -13,7 +13,8 @@ import { env_data } from "./env"
 const app = Fastify();
 
 /** The port. Default is 3000 */
-const port = env_data.WEB_PORT;
+/* const port = env_data.WEB_PORT; */
+const port = 3000;
 
 /** Serve static files from svelte */
 app.register(fastifyStatic, {
