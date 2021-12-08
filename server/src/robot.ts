@@ -4,7 +4,7 @@ import flyd from 'flyd'
 import { position } from './control/position';
 import { env_data } from "./env" 
 
-const port = 9000
+const port = 9000 /* this line here was: const port = env_data.ROBOT_PORT */
 
 /** Starts the robot server with socket.io. */
 export async function start(): Promise<void> {
