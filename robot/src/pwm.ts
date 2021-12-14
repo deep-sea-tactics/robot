@@ -39,7 +39,7 @@ class BusWrapper {
 		return await this.device.i2cWrite(this.address, length, buffer)
 	}
 
-	async write(buffer: Buffer): Promise<i2c.BytesWritten> {
+	async writeBuffer(buffer: Buffer): Promise<i2c.BytesWritten> {
 		return await this.device.i2cWrite(this.address, buffer.length, buffer)
 	}
 
@@ -82,7 +82,7 @@ async function start(address: number): Promise<void> {
 	i2cFactory.useBus(address, async wrapper => {
 
 		for await (const line of rl) {
-			wrapper.write(Buffer.from([parseInt(line)]))
+			wrapper.writeBuffer(Buffer.from([parseInt(line)]))
 		}
 
 		// Sample write of writing to an i2c device
