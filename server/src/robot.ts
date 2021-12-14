@@ -24,5 +24,5 @@ export async function start(): Promise<void> {
 	// Handle any conenction errors
 	io.engine.on("connection_error", (err: { message: string }) => logger.warn(err.message))
 
-	logger.info(`Robot connection port active at ${networkInterfaces["en0"][0] + ":" + port}.`)
+	logger.info(`Robot connection port active at ${networkInterfaces()["en0"] ? networkInterfaces()["en0"][0] + ":" ? "" + port}.`)
 }
