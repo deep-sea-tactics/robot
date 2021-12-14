@@ -8,7 +8,7 @@ export function startOrElse() {
 	try {
 		start(servoAddress)
 	} catch (exception) {
-		logger.warn("Error: ${exception}. Attempting again")
+		logger.warn(`Error: ${exception}. Attempting again`)
 		startOrElse() // recall the function
 	}
 }
