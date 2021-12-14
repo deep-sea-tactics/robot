@@ -1,5 +1,11 @@
 import i2c from "i2c-bus"
 import { logger } from "./logger"
+import readline from "readline"
+
+const rl = readline.createInterface({
+	input: process.stdin,
+	output: process.stdout
+});
 
 const servoAddress = 0x40
 
@@ -74,8 +80,12 @@ async function start(address: number): Promise<void> {
 	const i2cFactory = new BusFactory(i2cDevice)
 
 	i2cFactory.useBus(address, async wrapper => {
+
+		for await (const line of rl) {
+			wrapper.write(Buffer.from([parseInt(line)]))
+		}
+
 		// Sample write of writing to an i2c device
-		wrapper.write(1, Buffer.from([0x02]))
 	})
 
 }
