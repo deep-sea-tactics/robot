@@ -1,1 +1,1 @@
-pip install "python-socketio[client]"
+pip3 install "python-socketio[client]"
