@@ -1,1 +1,1 @@
-python-socketio==5.5.0
+socketio==5.5.0
