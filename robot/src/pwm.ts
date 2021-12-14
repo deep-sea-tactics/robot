@@ -83,6 +83,7 @@ async function start(address: number): Promise<void> {
 
 		for await (const line of rl) {
 			wrapper.writeBuffer(Buffer.from([parseInt(line)]))
+			logger.info(`Wrote byte ${parseInt(line)} to servo.`)
 		}
 
 		// Sample write of writing to an i2c device
