@@ -5,7 +5,7 @@ import { config } from "dotenv"
 
 config()
 
-const address = `http://192.168.1.${process.env.LOCAL as unknown as number | 202}:9000`
+const address = `http://192.168.1.${process.env.LOCAL as unknown as number | 142}:9000`
 
 logger.info(`Client connecting to ${address}...`)
 
