@@ -33,6 +33,10 @@ class BusWrapper {
 		return await this.device.i2cWrite(this.address, length, buffer)
 	}
 
+	async write(buffer: Buffer): Promise<i2c.BytesWritten> {
+		return await this.device.i2cWrite(this.address, buffer.length, buffer)
+	}
+
 	async read(length: number, buffer: Buffer): Promise<i2c.BytesRead> {
 		return await this.device.i2cRead(this.address, length, buffer)
 	}
