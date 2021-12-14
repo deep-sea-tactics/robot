@@ -3,6 +3,7 @@ import { logger } from './logger'
 import flyd from 'flyd'
 import { position } from './control/position';
 import { env_data } from "./env" 
+import { networkInterfaces } from 'os';
 
 const port = 9000 /* this line here was: const port = env_data.ROBOT_PORT */
 
@@ -23,5 +24,5 @@ export async function start(): Promise<void> {
 	// Handle any conenction errors
 	io.engine.on("connection_error", (err: { message: string }) => logger.warn(err.message))
 
-	logger.info(`Robot connection port active at ${port}.`)
+	logger.info(`Robot connection port active at ${networkInterfaces["en0"][0] + ":" + port}.`)
 }
