@@ -38,6 +38,17 @@ def convertMotorValue(value):
     return motorValue
 
 
+@sio.event
+def connect():
+	print('Robot connected. SID: ', sio.sid)
+
+@sio.event
+def connect_error(data):
+    print("Robot connection error: ", data)
+
+@sio.event
+def disconnect():
+    print("Robot disconnected.")
 
 
 
@@ -66,16 +77,3 @@ def on_message(data):
     esc.motor4_go(convertMotorValue(forwardMotors)) #LF motor1_value
     esc.motor1_go(convertMotorValue(forwardMotors)) #RU motor3_value
     esc.motor2_go(convertMotorValue(forwardMotors)) #LU motor2_value
-
-@sio.event
-def connect():
-	print('Robot connected. SID: ', sio.sid)
-
-@sio.event
-def connect_error(data):
-    print("Robot connection error: ", data)
-
-@sio.event
-def disconnect():
-    print("Robot disconnected.")
-
