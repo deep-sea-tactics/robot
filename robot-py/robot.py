@@ -38,6 +38,10 @@ def convertMotorValue(value):
     return motorValue
 
 
+# standard Python
+sio = socketio.Client()
+
+
 @sio.event
 def connect():
 	print('Robot connected. SID: ', sio.sid)
@@ -51,10 +55,6 @@ def disconnect():
     print("Robot disconnected.")
 
 
-
-
-# standard Python
-sio = socketio.Client()
 
 sio.connect("http://192.168.1.203:9000")
 
