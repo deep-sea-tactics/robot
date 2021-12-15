@@ -12,7 +12,8 @@ def on_message(data):
 #    print(data)
     newData=data.split(",")
     y=newData[1]
-    x=newData[0]
+    x=newData[0] + "}"
+#    print(x + " " + y)
     newY=float(y[4:-1])
     newX=float(x[5:-1])
     print(str(newX) + " " + str(newY))
