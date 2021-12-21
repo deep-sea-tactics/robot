@@ -66,7 +66,7 @@ sio.connect("http://192.168.1.203:9000")
 
 @sio.on('controllerData')
 def on_message(data):
-    print(data)
+    #print(data)
     parsed_data = json.loads(data)
     newY=parsed_data["position"]["y"]
     newX=parsed_data["position"]["x"]
@@ -89,6 +89,11 @@ def on_message(data):
     Pbottom_left=parsed_data["side_panel"]["bottom_left"]
     Pbottom_right=parsed_data["side_panel"]["bottom_right"]
     
+    print(str(Cbottom_left) + " " + str(Ctop_left))
+    if (Cbottom_left = 0):
+        servo.decreaseServo1()
+    else if (Ctop_left = 1):
+        servo.increaseServo1()
 '''
     print("x: " + str(newX))
     print("y: " + str(newY))
