@@ -94,10 +94,10 @@ def on_message(data):
     
     print(str(Cbottom_left) + " " + str(Ctop_left))
     print(type(Cbottom_left))
-    if (Cbottom_left == "True"):
+    if (Cbottom_left):
         print('Cbottom_left is true')
         servo.decreaseServo1()
-    elif (Ctop_left == "True"):
+    elif (Ctop_left):
         servo.increaseServo1()
 '''
     print("x: " + str(newX))
