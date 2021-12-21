@@ -3,12 +3,15 @@ import os
 import time
 import json
 
-import RoverServo as servo
-import RoverESC as esc
-
 os.system ("sudo pigpiod")
 time.sleep(1)
 import pigpio
+
+
+import RoverServo as servo
+import RoverESC as esc
+
+
 
 # -----------------------------------------
 # Constant values
