@@ -44,7 +44,7 @@ def convertMotorValue(value):
 
 
 # standard Python
-sio = socketio.Client(debug=True)
+sio = socketio.Client(logger=True)
 
 
 @sio.event
