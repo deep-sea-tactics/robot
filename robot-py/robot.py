@@ -13,6 +13,11 @@ import pigpio
 # Constant values
 # -----------------------------------------
 
+minNum = -1
+maxNum = 1
+divNum = 0.8
+
+
 MOTOR_SHUTOFF_TIMEOUT_IN_SECONDS = 3
 SERVER_PORT = 9000
 
@@ -56,7 +61,7 @@ def disconnect():
 
 
 
-sio.connect("http://192.168.1.202:9000")
+sio.connect("http://192.168.1.203:9000")
 
 @sio.on('position')
 def on_message(data):
@@ -65,14 +70,29 @@ def on_message(data):
     y=newData[1]
     x=newData[0] + "}"
 #    print(x + " " + y)
-#    newY=float(y[4:-1]) - 50
-#    newX=float(x[5:-1]) - 50
-    forwardMotors = (x + y) / 2
+    newY=(float(y[4:-1]) * -1)
+    newX=float(x[5:-1])
+    print("x: " + str(newX))
+    print("y: " + str(newY))
+    if (newX < minNum):
+        leftMT = int((newX-minNum) * divNum * 1)
+    elif (newX > maxNum):
+        leftMT = int((newX-minNum) * divNum * 1)
+    else: leftMT = 0
+    if (newY < minNum): leftMF = int((newY - minNum) * divNum * 1)
+    elif (newY > maxNum): leftMF = int((newY - minNum) * divNum * 1)
+    else: leftMF = 0
+    leftM = (leftMT + leftMF) / 2
+    print(leftM)
+
+
+    forwardMotors = (newX + newY) / 2
+#    print(forwardMotors)
 #    motor1_value = convertMotorValue(forwardMotors)
 #    motor2_value = convertMotorValue(forwardMotors)
 #    motor3_value = convertMotorValue(forwardMotors)
 #    motor4_value = convertMotorValue(forwardMotors)
-    print(str(newX) + " " + str(newY))
+#    print(str(newX) + " " + str(newY))
     esc.motor3_go(convertMotorValue(forwardMotors)) #RF motor4_value
     esc.motor4_go(convertMotorValue(forwardMotors)) #LF motor1_value
     esc.motor1_go(convertMotorValue(forwardMotors)) #RU motor3_value
