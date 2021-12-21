@@ -1,6 +1,7 @@
 import socketio
 import os
 import time
+import json
 
 import RoverServo as servo
 import RoverESC as esc
@@ -44,7 +45,7 @@ def convertMotorValue(value):
 
 
 # standard Python
-sio = socketio.Client(logger=True)
+sio = socketio.Client()
 
 
 @sio.event
@@ -65,13 +66,9 @@ sio.connect("http://192.168.1.203:9000")
 
 @sio.on('controllerData')
 def on_message(data):
-    print(data)
-    newData=data.split(",")
-    y=newData[1]
-    x=newData[0] + "}"
-#    print(x + " " + y)
-    newY=(float(y[4:-1]) * -1)
-    newX=float(x[5:-1])
+    parsed_data = json.loads(data)
+    newY=parsed_data["position"]["y"]
+    newX=parsed_data["position"]["x"]
     print("x: " + str(newX))
     print("y: " + str(newY))
     if (newX < minNum):
