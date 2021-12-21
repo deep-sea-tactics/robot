@@ -95,6 +95,7 @@ def on_message(data):
     print(str(Cbottom_left) + " " + str(Ctop_left))
     print(type(Cbottom_left))
     if (Cbottom_left == "True"):
+        print('Cbottom_left is true")
         servo.decreaseServo1()
     elif (Ctop_left == "True"):
         servo.increaseServo1()
