@@ -75,7 +75,7 @@ def on_message(data):
     view=parsed_data["view"]
     throttle=parsed_data["throttle"]
     trigger=parsed_data["buttons"]["trigger"]
-    side_grip=parsed_data["buttons"]["position"]
+    side_grip=parsed_data["buttons"]["side_grip"]
 	
     Cbottom_left=parsed_data["buttons"]["controller_buttons"]["bottom_left"]
     Cbottom_right=parsed_data["buttons"]["controller_buttons"]["bottom_right"]
