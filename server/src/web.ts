@@ -2,9 +2,9 @@ import Fastify from "fastify"
 import fastifyStatic from "fastify-static"
 import fastifySocketIo from 'fastify-socket.io'
 import path from "path"
-import { sendDataToSocket, controllerDataToPosition } from './control/controller';
+import { sendDataToSocket } from './control/controller';
 import { logger } from "./logger"
-import { position } from './control/position'
+import { controllerData } from './control/position'
 import { device } from './control/device'
 import type { HID } from "node-hid";
 import { env_data } from "./env" 
@@ -43,7 +43,9 @@ export const start = async(): Promise<void> => {
 				logger.info(`Client ${socket.id} disconnected from web interface: ${reason}`)
 			})
 
-			socket.on("position", position)
+			socket.on("position", (position) => {
+				controllerData(Object.assign({}, controllerData(), { position }))
+			})
 
             if (device() !== undefined)
                 socket.emit("controllerAvailable")
@@ -58,7 +60,7 @@ export const start = async(): Promise<void> => {
 
             if (processedData === undefined) return
 
-            position(controllerDataToPosition(processedData))
+            controllerData(processedData)
         });
 
         (device() as HID).on("error", () => {
