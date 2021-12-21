@@ -13,7 +13,7 @@ export async function start(): Promise<void> {
 	flyd.on(change => io.emit("controllerData", JSON.stringify(change)), controllerData)
 
 	io.on("connection", (socket) => {
-		logger.info("Robot connected!")
+		logger.info(`Robot connected! ID: ${socket.id}`)
 
 		socket.on("close", () => logger.warn("Robot disconected."))
 		socket.on("error", error => logger.warn("An exception with the robot has occured: " + error))
