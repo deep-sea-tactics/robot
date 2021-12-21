@@ -63,7 +63,7 @@ def disconnect():
 
 sio.connect("http://192.168.1.203:9000")
 
-@sio.on('position')
+@sio.on('controllerData')
 def on_message(data):
     print(data)
     newData=data.split(",")
