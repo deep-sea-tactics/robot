@@ -93,7 +93,6 @@ def on_message(data):
     Pbottom_right=parsed_data["buttons"]["side_panel"]["bottom_right"]
     
     print(str(Cbottom_left) + " " + str(Ctop_left))
-    print(type(Cbottom_left))
     if (Cbottom_left):
         servo.decreaseCamera()
     elif (Ctop_left):
