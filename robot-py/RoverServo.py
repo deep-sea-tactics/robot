@@ -55,7 +55,7 @@ def decreaseServo2(servo2_dec):
 
 def increaseCamera():
         global currentCameraLevel
-        inp = currentCameraLevel + 5
+        inp = currentCameraLevel + 1
         if inp > CameraMV:
                 inp = CameraMV
         kit.servo[CAMERA].angle = inp
@@ -63,7 +63,7 @@ def increaseCamera():
 
 def decreaseCamera():
         global currentCameraLevel
-        inp = currentCameraLevel - 5
+        inp = currentCameraLevel - 1
         if inp < CameraLV:
                 inp = CameraLV
         kit.servo[CAMERA].angle = inp
