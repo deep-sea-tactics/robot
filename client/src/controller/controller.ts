@@ -9,7 +9,9 @@ export const trigger = writable(false);
 
 interface ControllerData {
 	position: Position,
-	triggerEnabled: boolean
+	buttons: {
+		trigger: boolean
+	}
 }
 
 client.on("controllerData", (data: ControllerData) => {
@@ -19,7 +21,7 @@ client.on("controllerData", (data: ControllerData) => {
 	}
 
 	position.set(data.position)
-	trigger.set(data.triggerEnabled)
+	trigger.set(data.buttons.trigger)
 })
 
 client.on("controllerAvailable", () => {
