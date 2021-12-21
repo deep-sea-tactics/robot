@@ -95,10 +95,9 @@ def on_message(data):
     print(str(Cbottom_left) + " " + str(Ctop_left))
     print(type(Cbottom_left))
     if (Cbottom_left):
-        print('Cbottom_left is true')
-        servo.decreaseServo1()
+        servo.decreaseCamera()
     elif (Ctop_left):
-        servo.increaseServo1()
+        servo.increaseCamera()
 '''
     print("x: " + str(newX))
     print("y: " + str(newY))
