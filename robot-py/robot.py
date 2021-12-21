@@ -90,9 +90,9 @@ def on_message(data):
     Pbottom_right=parsed_data["side_panel"]["bottom_right"]
     
     print(str(Cbottom_left) + " " + str(Ctop_left))
-    if (Cbottom_left = 0):
+    if (Cbottom_left == 0):
         servo.decreaseServo1()
-    else if (Ctop_left = 1):
+    else if (Ctop_left == 1):
         servo.increaseServo1()
 '''
     print("x: " + str(newX))
