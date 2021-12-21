@@ -74,20 +74,20 @@ def on_message(data):
     yaw=parsed_data["yaw"]
     view=parsed_data["view"]
     throttle=parsed_data["throttle"]
-    trigger=parsed_data["trigger"]
-    side_grip=parsed_data["position"]
+    trigger=parsed_data["buttons"]["trigger"]
+    side_grip=parsed_data["buttons"]["position"]
 	
-    Cbottom_left=parsed_data["controller_buttons"]["bottom_left"]
-    Cbottom_right=parsed_data["controller_buttons"]["bottom_right"]
-    Ctop_left=parsed_data["controller_buttons"]["top_left"]
-    Ctop_right=parsed_data["controller_buttons"]["top_left"]
+    Cbottom_left=parsed_data["buttons"]["controller_buttons"]["bottom_left"]
+    Cbottom_right=parsed_data["buttons"]["controller_buttons"]["bottom_right"]
+    Ctop_left=parsed_data["buttons"]["controller_buttons"]["top_left"]
+    Ctop_right=parsed_data["buttons"]["controller_buttons"]["top_left"]
 	
-    Ptop_left=parsed_data["side_panel"]["top_left"]
-    Ptop_right=parsed_data["side_panel"]["top_right"]
-    Pmiddle_left=parsed_data["side_panel"]["middle_left"]
-    Pmiddle_right=parsed_data["side_panel"]["middle_right"]
-    Pbottom_left=parsed_data["side_panel"]["bottom_left"]
-    Pbottom_right=parsed_data["side_panel"]["bottom_right"]
+    Ptop_left=parsed_data["buttons"]["side_panel"]["top_left"]
+    Ptop_right=parsed_data["buttons"]["side_panel"]["top_right"]
+    Pmiddle_left=parsed_data["buttons"]["side_panel"]["middle_left"]
+    Pmiddle_right=parsed_data["buttons"]["side_panel"]["middle_right"]
+    Pbottom_left=parsed_data["buttons"]["side_panel"]["bottom_left"]
+    Pbottom_right=parsed_data["buttons"]["side_panel"]["bottom_right"]
     
     print(str(Cbottom_left) + " " + str(Ctop_left))
     if (Cbottom_left == 0):
