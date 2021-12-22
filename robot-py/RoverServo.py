@@ -7,6 +7,7 @@ kit = ServoKit(channels=16)
 
 SERVO_1 = 0
 CAMERA = 2
+SERVO_2 = 1
 SERVO_3 = 3
 
 
