@@ -106,7 +106,7 @@ def on_message(data):
         print(leftM)
         forwardMotors = (newX + newY) / 2
         #print(convertMotorValue(forwardMotors))
-	print(str(leftMT) + " " + str(leftMF) + " " + str(leftM))
+        print(str(leftMT) + " " + str(leftMF) + " " + str(leftM))
     else:
         trig = 0
         forwardMotors = 0
