@@ -108,7 +108,7 @@ def on_message(data):
         print(convertMotorValue(forwardMotors))
     else:
         trig = 0
-	forwardMotors = 0
+        forwardMotors = 0
 	
     if (side_grip):
         sidebutton = 1
