@@ -104,8 +104,11 @@ def on_message(data):
         else: leftMF = 0
         leftM = (leftMT + leftMF) / 2
         print(leftM)
+        forwardMotors = (newX + newY) / 2
+        print(convertMotorValue(forwardMotors))
     else:
         trig = 0
+	forwardMotors = 0
 	
     if (side_grip):
         sidebutton = 1
@@ -113,8 +116,6 @@ def on_message(data):
         sidebutton = 0
 
 
-    forwardMotors = (newX + newY) / 2
-    print(convertMotorValue(forwardMotors))
     
     if (view == 2):
         servo.decreaseCamera()
