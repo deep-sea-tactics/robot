@@ -92,26 +92,62 @@ def on_message(data):
     Pbottom_left=parsed_data["buttons"]["side_panel"]["bottom_left"]
     Pbottom_right=parsed_data["buttons"]["side_panel"]["bottom_right"]
 
+    if (trigger):
+        trig = 1
+        if (newX < minNum):
+            leftMT = int((newX-minNum) * divNum * 1)
+        elif (newX > maxNum):
+            leftMT = int((newX-minNum) * divNum * 1)
+        else: leftMT = 0
+        if (newY < minNum): leftMF = int((newY - minNum) * divNum * 1)
+        elif (newY > maxNum): leftMF = int((newY - minNum) * divNum * 1)
+        else: leftMF = 0
+        leftM = (leftMT + leftMF) / 2
+        print(leftM)
+    else:
+	trig = 0
+	
+    if (side_grip):
+	sidebutton = 1
+    else:
+	sidebutton = 0
+
+
+    forwardMotors = (newX + newY) / 2
+
+
+    esc.motor3_go(convertMotorValue(forwardMotors)) #RF motor4_value
+    esc.motor4_go(convertMotorValue(forwardMotors)) #LF motor1_value
+    esc.motor1_go(convertMotorValue(forwardMotors)) #RU motor3_value
+    esc.motor2_go(convertMotorValue(forwardMotors)) #LU motor2_value
 
     if (view == 2):
         servo.decreaseCamera()
+	camera = -1
     elif (view == 6):
         servo.increaseCamera()
+	camera = 1
 
     if (view == 0):
         servo.increaseServo3()
+	servo3 = 1
     elif (view == 4):
         servo.decreaseServo3()
+	servo3 = -1
 
     if (Cbottom_left):
         servo.decreaseServo1()
+	servo1 = -1
     elif (Ctop_left):
         servo.increaseServo1()
+	servo1 = 1
 
     if (Cbottom_right):
         servo.decreaseServo2()
+	servo2 = -1
     elif (Ctop_right):
         servo.increaseServo2()
+	servo2 = 1
 
     if (Ptop_left):
         print("")
@@ -130,7 +166,7 @@ def on_message(data):
     elif (Pbottom_right):
         print("")
 
-
+    print(str() + str(newX) + str(newY) + str(trig) + str(sidebutton) + str(camera) + str(servo1) + str(servo2) + str(servo3) + str() + str() + 
 
 
 '''
