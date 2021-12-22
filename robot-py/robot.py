@@ -105,7 +105,7 @@ def on_message(data):
         leftM = (leftMT + leftMF) / 2
         print(leftM)
     else:
-	trig = 0
+        trig = 0
 	
     if (side_grip):
 	sidebutton = 1
