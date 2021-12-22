@@ -115,12 +115,9 @@ def on_message(data):
 
     forwardMotors = (newX + newY) / 2
     print(convertMotorValue(forwardMotors))
-'''
-    esc.motor3_go(convertMotorValue(forwardMotors)) #RF motor4_value
-    esc.motor4_go(convertMotorValue(forwardMotors)) #LF motor1_value
-    esc.motor1_go(convertMotorValue(forwardMotors)) #RU motor3_value
-    esc.motor2_go(convertMotorValue(forwardMotors)) #LU motor2_value
-'''
+
+
+
     if (view == 2):
         servo.decreaseCamera()
         camera = -1
