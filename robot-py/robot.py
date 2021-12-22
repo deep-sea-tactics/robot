@@ -123,31 +123,31 @@ def on_message(data):
 
     if (view == 2):
         servo.decreaseCamera()
-	camera = -1
+        camera = -1
     elif (view == 6):
         servo.increaseCamera()
-	camera = 1
+        camera = 1
 
     if (view == 0):
         servo.increaseServo3()
-	servo3 = 1
+        servo3 = 1
     elif (view == 4):
         servo.decreaseServo3()
-	servo3 = -1
+        servo3 = -1
 
     if (Cbottom_left):
         servo.decreaseServo1()
-	servo1 = -1
+        servo1 = -1
     elif (Ctop_left):
         servo.increaseServo1()
-	servo1 = 1
+        servo1 = 1
 
     if (Cbottom_right):
         servo.decreaseServo2()
-	servo2 = -1
+        servo2 = -1
     elif (Ctop_right):
         servo.increaseServo2()
-	servo2 = 1
+        servo2 = 1
 
     if (Ptop_left):
         print("")
