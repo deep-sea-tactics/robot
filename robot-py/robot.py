@@ -103,7 +103,7 @@ def on_message(data):
         else: leftMF = 0
 		
         leftM = (leftMT + leftMF) / 2
-        print(leftM)
+        #print(leftM)
         forwardMotors = (newX + newY) / 2
         #print(convertMotorValue(forwardMotors))
         print(str(leftMT) + " " + str(leftMF) + " " + str(leftM))
@@ -168,7 +168,7 @@ def on_message(data):
     elif (Pbottom_right):
         print("")
 
-    print(str(newX) + " " + str(newY) + " " +  str(trig) + " " +  str(sidebutton) + " " +  str(camera) + " " +  str(servo1) + " " +  str(servo2) + " " +  str(servo3))
+    #print(str(newX) + " " + str(newY) + " " +  str(trig) + " " +  str(sidebutton) + " " +  str(camera) + " " +  str(servo1) + " " +  str(servo2) + " " +  str(servo3))
 
 
 '''
