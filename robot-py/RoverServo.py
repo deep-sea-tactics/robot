@@ -41,10 +41,10 @@ def decreaseServo1():
 	currentServo1Level = inp
 
 
-def increaseServo2(servo2_inc):
+def increaseServo2():
 	kit.continuous_servo[SERVO_2].throttle = 1
 	
-def decreaseServo2(servo2_dec):
+def decreaseServo2():
 	kit.continuous_servo[SERVO_2].throttle = -1
 	
 	
