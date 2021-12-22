@@ -83,7 +83,7 @@ def on_message(data):
     Cbottom_left=parsed_data["buttons"]["controller_buttons"]["bottom_left"]
     Cbottom_right=parsed_data["buttons"]["controller_buttons"]["bottom_right"]
     Ctop_left=parsed_data["buttons"]["controller_buttons"]["top_left"]
-    Ctop_right=parsed_data["buttons"]["controller_buttons"]["top_left"
+    Ctop_right=parsed_data["buttons"]["controller_buttons"]["top_left"]
 
     Ptop_left=parsed_data["buttons"]["side_panel"]["top_left"]
     Ptop_right=parsed_data["buttons"]["side_panel"]["top_right"]
@@ -100,7 +100,7 @@ def on_message(data):
 
     if (view == 0):
         servo.increaseServo3()
-    elif (view == 4)
+    elif (view == 4):
         servo.decreaseServo3()
 
     if (Cbottom_left):
@@ -108,24 +108,30 @@ def on_message(data):
     elif (Ctop_left):
         servo.increaseServo1()
 
-    if (Cbottom_right)
+    if (Cbottom_right):
         servo.decreaseServo2()
-    elif (Ctop_right)
+    elif (Ctop_right):
         servo.increaseServo2()
 
     if (Ptop_left):
-        
+        print("")
     elif (Ptop_right):
+        print("")
 
     if (Pmiddle_left):
-       
+        RMUP = RMUP + 2
+        LMUP = LMUP + 2
     elif (Pmiddle_right):
-       
+        RMUP = RMUP -2
+        LMUP = LMUP -2
 
     if (Pbottom_left):
-       
+        print("")
     elif (Pbottom_right):
-       
+        print("")
+
+
+
 
 '''
     print("x: " + str(newX))
