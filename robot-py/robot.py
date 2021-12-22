@@ -108,9 +108,9 @@ def on_message(data):
         trig = 0
 	
     if (side_grip):
-	sidebutton = 1
+        sidebutton = 1
     else:
-	sidebutton = 0
+        sidebutton = 0
 
 
     forwardMotors = (newX + newY) / 2
