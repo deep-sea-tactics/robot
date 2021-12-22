@@ -115,15 +115,14 @@ def on_message(data):
 
     forwardMotors = (newX + newY) / 2
     print(convertMotorValue(forwardMotors))
-
-
-
+    
     if (view == 2):
         servo.decreaseCamera()
         camera = -1
     elif (view == 6):
         servo.increaseCamera()
         camera = 1
+    else: camera = 0
 
     if (view == 0):
         servo.increaseServo3()
@@ -131,13 +130,16 @@ def on_message(data):
     elif (view == 4):
         servo.decreaseServo3()
         servo3 = -1
-
+    else: servo3 = 0
+	
+	
     if (Cbottom_left):
         servo.decreaseServo1()
         servo1 = -1
     elif (Ctop_left):
         servo.increaseServo1()
         servo1 = 1
+    else: servo1 = 0
 
     if (Cbottom_right):
         servo.decreaseServo2()
@@ -145,6 +147,7 @@ def on_message(data):
     elif (Ctop_right):
         servo.increaseServo2()
         servo2 = 1
+    else: servo2 = 0
 
     if (Ptop_left):
         print("")
