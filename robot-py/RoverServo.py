@@ -42,17 +42,12 @@ def decreaseServo1():
 
 
 def increaseServo2(servo2_inc):
-	if servo2_inc == 1:
-		kit.continuous_servo[SERVO_2].throttle = 1
-	else:
-		kit.continuous_servo[SERVO_2].throttle = 0
-
+	kit.continuous_servo[SERVO_2].throttle = 1
+	
 def decreaseServo2(servo2_dec):
-	if servo2_dec == -1:
-		kit.continuous_servo[SERVO_2].throttle = -1
-	else:
-		kit.continuous_servo[SERVO_2].throttle = 0
-
+	kit.continuous_servo[SERVO_2].throttle = -1
+	
+	
 def increaseCamera():
         global currentCameraLevel
         inp = currentCameraLevel + 1
