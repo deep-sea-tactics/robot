@@ -71,8 +71,8 @@ sio.connect("http://192.168.1.203:9000")
 def on_message(data):
     #print(data)
     parsed_data = json.loads(data)
-    newY=parsed_data["position"]["y"]
-    newX=parsed_data["position"]["x"]
+    newY=parsed_data["position"]["y"] / 10.24
+    newX=parsed_data["position"]["x"] / 10.24
 
     yaw=parsed_data["yaw"]
     view=parsed_data["view"]
