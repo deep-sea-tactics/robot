@@ -166,7 +166,7 @@ def on_message(data):
     elif (Pbottom_right):
         print("")
 
-    print(str() + str(newX) + str(newY) + str(trig) + str(sidebutton) + str(camera) + str(servo1) + str(servo2) + str(servo3))
+    print(str(newX) + " " + str(newY) + " " +  str(trig) + " " +  str(sidebutton) + " " +  str(camera) + " " +  str(servo1) + " " +  str(servo2) + " " +  str(servo3))
 
 
 '''
