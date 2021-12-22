@@ -83,7 +83,7 @@ def on_message(data):
     Cbottom_left=parsed_data["buttons"]["controller_buttons"]["bottom_left"]
     Cbottom_right=parsed_data["buttons"]["controller_buttons"]["bottom_right"]
     Ctop_left=parsed_data["buttons"]["controller_buttons"]["top_left"]
-    Ctop_right=parsed_data["buttons"]["controller_buttons"]["top_left"]
+    Ctop_right=parsed_data["buttons"]["controller_buttons"]["top_right"]
 
     Ptop_left=parsed_data["buttons"]["side_panel"]["top_left"]
     Ptop_right=parsed_data["buttons"]["side_panel"]["top_right"]
