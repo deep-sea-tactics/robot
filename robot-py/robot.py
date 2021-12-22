@@ -73,30 +73,60 @@ def on_message(data):
     parsed_data = json.loads(data)
     newY=parsed_data["position"]["y"]
     newX=parsed_data["position"]["x"]
-    
+
     yaw=parsed_data["yaw"]
     view=parsed_data["view"]
     throttle=parsed_data["throttle"]
     trigger=parsed_data["buttons"]["trigger"]
     side_grip=parsed_data["buttons"]["side_grip"]
-	
+
     Cbottom_left=parsed_data["buttons"]["controller_buttons"]["bottom_left"]
     Cbottom_right=parsed_data["buttons"]["controller_buttons"]["bottom_right"]
     Ctop_left=parsed_data["buttons"]["controller_buttons"]["top_left"]
-    Ctop_right=parsed_data["buttons"]["controller_buttons"]["top_left"]
-	
+    Ctop_right=parsed_data["buttons"]["controller_buttons"]["top_left"
+
     Ptop_left=parsed_data["buttons"]["side_panel"]["top_left"]
     Ptop_right=parsed_data["buttons"]["side_panel"]["top_right"]
     Pmiddle_left=parsed_data["buttons"]["side_panel"]["middle_left"]
     Pmiddle_right=parsed_data["buttons"]["side_panel"]["middle_right"]
     Pbottom_left=parsed_data["buttons"]["side_panel"]["bottom_left"]
     Pbottom_right=parsed_data["buttons"]["side_panel"]["bottom_right"]
-    
-    print(str(Cbottom_left) + " " + str(Ctop_left))
-    if (Cbottom_left):
+
+
+    if (view == 2):
         servo.decreaseCamera()
-    elif (Ctop_left):
+    elif (view == 6):
         servo.increaseCamera()
+
+    if (view == 0):
+        servo.increaseServo3()
+    elif (view == 4)
+        servo.decreaseServo3()
+
+    if (Cbottom_left):
+        servo.decreaseServo1()
+    elif (Ctop_left):
+        servo.increaseServo1()
+
+    if (Cbottom_right)
+        servo.decreaseServo2()
+    elif (Ctop_right)
+        servo.increaseServo2()
+
+    if (Ptop_left):
+        
+    elif (Ptop_right):
+
+    if (Pmiddle_left):
+       
+    elif (Pmiddle_right):
+       
+
+    if (Pbottom_left):
+       
+    elif (Pbottom_right):
+       
+
 '''
     print("x: " + str(newX))
     print("y: " + str(newY))
