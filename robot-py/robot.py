@@ -94,22 +94,34 @@ def on_message(data):
 
     if (trigger):
         trig = 1
-        if (newX < minNum): leftMT = int((newX-minNum) * divNum * 1)
-        elif (newX > maxNum): leftMT = int((newX-minNum) * divNum * 1)
+        if (newX < minNum): leftMT = int((newX-minNum) * divNum * -1)
+        elif (newX > maxNum): leftMT = int((newX-minNum) * divNum * -1)
         else: leftMT = 0
-	
-        if (newY < minNum): leftMF = int((newY - minNum) * divNum * 1)
-        elif (newY > maxNum): leftMF = int((newY - minNum) * divNum * 1)
+
+        if (newY < minNum): leftMF = int((newY - minNum) * divNum)
+        elif (newY > maxNum): leftMF = int((newY - minNum) * divNum)
         else: leftMF = 0
-		
+
         leftM = leftMT + leftMF
-        #print(leftM)
+
+
+        if (newX < minNum): rightMT = int((newX-minNum) * divNum * 1)
+        elif (newX > maxNum): rightMT = int((newX-minNum) * divNum * 1)
+        else: leftMT = 0
+
+        if (newY < minNum): rightMF = int((newY - minNum) * divNum)
+        elif (newY > maxNum): rightMF = int((newY - minNum) * divNum)
+        else: leftMF = 0
+
+        leftR = leftRT + leftRF
+	#print(leftM)
         #forwardMotors = (newX + newY) / 2
         #print(convertMotorValue(forwardMotors))
-        print(str(leftMT) + " " + str(leftMF) + " " + str(leftM) + " " + str(convertMotorValue(leftM)))
+        #print(str(leftMT) + " " + str(leftMF) + " " + str(leftM) + " " + str(convertMotorValue(leftM)))
     else:
         trig = 0
-        forwardMotors = 0
+        leftM = 0
+	rightM = 0
 	
     if (side_grip):
         sidebutton = 1
@@ -168,8 +180,12 @@ def on_message(data):
     elif (Pbottom_right):
         print("")
 
-    #print(str(newX) + " " + str(newY) + " " +  str(trig) + " " +  str(sidebutton) + " " +  str(camera) + " " +  str(servo1) + " " +  str(servo2) + " " +  str(servo3))
-
+    print(str(newX) + " " + str(newY) + " " + str(throttle) + " " +  str(trig) + " " +  str(sidebutton) + " " +  str(camera) + " " +  str(servo1) + " " +  str(servo2) + " " +  str(servo3))
+    
+    esc.motor3_go(convertMotorValue(rightM)) #RF motor4_value
+    esc.motor4_go(convertMotorValue(leftM)) #LF motor1_value
+    esc.motor1_go(convertMotorValue(RMUP)) #RU motor3_value
+    esc.motor2_go(convertMotorValue(LMUP)) #LU motor2_value
 
 '''
     print("x: " + str(newX))
