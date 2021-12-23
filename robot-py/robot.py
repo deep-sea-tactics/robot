@@ -21,6 +21,7 @@ minNum = -1
 maxNum = 1
 divNum = 0.8
 oldThrottle = 0
+UpDownM = 0
 
 MOTOR_SHUTOFF_TIMEOUT_IN_SECONDS = 3
 SERVER_PORT = 9000
