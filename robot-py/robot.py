@@ -128,7 +128,12 @@ def on_message(data):
     else:
         sidebutton = 0
     
-    if (throttle != oldThrottle):
+    if (Pmiddle_left || !Pmiddle_left):
+        UpDownM = UpDownM - 2.5
+    elif (Pmiddle_right || !Pmiddle_right):
+        UpDownM = UpDownM +2.5
+    elif (throttle != oldThrottle):
+        oldThrottle = throttle
         UpDownM = (throttle / 2.55) - 50
     
     if (view == 2):
@@ -169,10 +174,6 @@ def on_message(data):
     elif (Ptop_right):
         print("")
 
-    if (Pmiddle_left):
-        UpDownM = UpDownM - 2
-    elif (Pmiddle_right):
-        UpDownM = UpDownM +2
 
     if (Pbottom_left):
         print("")
