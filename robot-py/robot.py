@@ -53,7 +53,7 @@ sio = socketio.Client()
 
 @sio.event
 def connect():
-	print('Robot connected. SID: ', sio.sid)
+    print('Robot connected. SID: ', sio.sid)
 
 @sio.event
 def connect_error(data):
@@ -114,15 +114,15 @@ def on_message(data):
         else: leftMF = 0
 
         leftR = leftRT + leftRF
-	#print(leftM)
+        #print(leftM)
         #forwardMotors = (newX + newY) / 2
         #print(convertMotorValue(forwardMotors))
         #print(str(leftMT) + " " + str(leftMF) + " " + str(leftM) + " " + str(convertMotorValue(leftM)))
     else:
         trig = 0
         leftM = 0
-	rightM = 0
-	
+        rightM = 0
+
     if (side_grip):
         sidebutton = 1
     else:
@@ -145,8 +145,8 @@ def on_message(data):
         servo.decreaseServo3()
         servo3 = -1
     else: servo3 = 0
-	
-	
+
+
     if (Cbottom_left):
         servo.decreaseServo1()
         servo1 = -1
