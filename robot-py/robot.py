@@ -128,9 +128,9 @@ def on_message(data):
     else:
         sidebutton = 0
     
-    if (Pmiddle_left || !Pmiddle_left):
+    if (Pmiddle_left or !Pmiddle_left):
         UpDownM = UpDownM - 2.5
-    elif (Pmiddle_right || !Pmiddle_right):
+    elif (Pmiddle_right or !Pmiddle_right):
         UpDownM = UpDownM +2.5
     elif (throttle != oldThrottle):
         oldThrottle = throttle
