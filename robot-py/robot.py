@@ -75,12 +75,12 @@ def on_message(data):
     
     #print(data)
     parsed_data = json.loads(data)
-    newY=((parsed_data["position"]["y"] / 10.24) - 50) * -1
-    newX=(parsed_data["position"]["x"] / 10.24) - 50
+    newY=int(((parsed_data["position"]["y"] / 10.24) - 50) * -1)
+    newX=int(parsed_data["position"]["x"] / 10.24) - 50)
 
-    yaw=parsed_data["yaw"]
+    yaw=int(parsed_data["yaw"])
     view=parsed_data["view"]
-    throttle=parsed_data["throttle"]
+    throttle=int(parsed_data["throttle"])
     trigger=parsed_data["buttons"]["trigger"]
     side_grip=parsed_data["buttons"]["side_grip"]
 
