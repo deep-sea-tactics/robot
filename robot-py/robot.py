@@ -20,7 +20,7 @@ import RoverESC as esc
 minNum = -1
 maxNum = 1
 divNum = 0.8
-
+oldThrottle = 0
 
 MOTOR_SHUTOFF_TIMEOUT_IN_SECONDS = 3
 SERVER_PORT = 9000
@@ -127,8 +127,9 @@ def on_message(data):
         sidebutton = 1
     else:
         sidebutton = 0
-
-
+    
+    if (throttle != oldThrottle):
+        UpDownM = (throttle / 2.55) - 50
     
     if (view == 2):
         servo.decreaseCamera()
@@ -169,25 +170,25 @@ def on_message(data):
         print("")
 
     if (Pmiddle_left):
-        RMUP = RMUP + 2
-        LMUP = LMUP + 2
+        UpDownM = UpDownM + 2
+        UpDownM = UpDownM + 2
     elif (Pmiddle_right):
-        RMUP = RMUP -2
-        LMUP = LMUP -2
+        UpDownM = UpDownM -2
+        UpDownM = UpDownM -2
 
     if (Pbottom_left):
         print("")
     elif (Pbottom_right):
         print("")
 
-    UpDownM = (throttle / 2.55) - 50
+    
         
     print(str(newX) + " " + str(newY) + " " + str(throttle) + " " +  str(trig) + " " +  str(sidebutton) + " " +  str(camera) + " " +  str(servo1) + " " +  str(servo2) + " " +  str(servo3))
     
     esc.motor3_go(convertMotorValue(rightM)) #RF motor4_value
     esc.motor4_go(convertMotorValue(leftM)) #LF motor1_value
-    esc.motor1_go(convertMotorValue(RMUP)) #RU motor3_value
-    esc.motor2_go(convertMotorValue(LMUP)) #LU motor2_value
+    esc.motor1_go(convertMotorValue(UpDownM)) #RU motor3_value
+    esc.motor2_go(convertMotorValue(UpDownM)) #LU motor2_value
 
 '''
     print("x: " + str(newX))
