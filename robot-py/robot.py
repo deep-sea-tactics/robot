@@ -102,11 +102,11 @@ def on_message(data):
         elif (newY > maxNum): leftMF = int((newY - minNum) * divNum * 1)
         else: leftMF = 0
 		
-        leftM = (leftMT + leftMF) / 2
+        leftM = leftMT + leftMF
         #print(leftM)
         forwardMotors = (newX + newY) / 2
         #print(convertMotorValue(forwardMotors))
-        print(str(leftMT) + " " + str(leftMF) + " " + str(leftM))
+        print(str(leftMT) + " " + str(leftMF) + " " + str(leftM) + " " + str(convertMotorValue(forwardMotors)))
     else:
         trig = 0
         forwardMotors = 0
