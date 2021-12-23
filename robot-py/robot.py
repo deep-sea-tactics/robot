@@ -76,7 +76,7 @@ def on_message(data):
     #print(data)
     parsed_data = json.loads(data)
     newY=int(((parsed_data["position"]["y"] / 10.24) - 50) * -1)
-    newX=int(parsed_data["position"]["x"] / 10.24) - 50)
+    newX=int((parsed_data["position"]["x"] / 10.24) - 50)
 
     yaw=int(parsed_data["yaw"])
     view=parsed_data["view"]
