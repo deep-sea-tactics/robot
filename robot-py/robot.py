@@ -134,10 +134,11 @@ def on_message(data):
         UpDownM = UpDownM - 2.5
     elif (Pmiddle_right or not Pmiddle_right):
         UpDownM = UpDownM +2.5
+        '''
     elif (throttle != oldThrottle):
         oldThrottle = throttle
         UpDownM = (throttle / 2.55) - 50
-    
+    '''
     if (view == 2):
         servo.decreaseCamera()
         camera = -1
