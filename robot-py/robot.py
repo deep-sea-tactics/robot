@@ -75,12 +75,12 @@ def on_message(data):
     
     #print(data)
     parsed_data = json.loads(data)
-    newY=int(((parsed_data["position"]["y"] / 10.24) - 50) * -1)
-    newX=int((parsed_data["position"]["x"] / 10.24) - 50)
+    newY=((parsed_data["position"]["y"] / 10.24) - 50) * -1
+    newX=(parsed_data["position"]["x"] / 10.24) - 50
 
-    yaw=int(parsed_data["yaw"])
+    yaw=parsed_data["yaw"]
     view=parsed_data["view"]
-    throttle=int(parsed_data["throttle"])
+    throttle=parsed_data["throttle"]
     trigger=parsed_data["buttons"]["trigger"]
     side_grip=parsed_data["buttons"]["side_grip"]
 
@@ -186,7 +186,7 @@ def on_message(data):
 
     
         
-    print(str(newX) + " " + str(newY) + " " + str(UpDownM) + " " +  str(trig) + " " +  str(sidebutton) + " " +  str(camera) + " " +  str(servo1) + " " +  str(servo2) + " " +  str(servo3))
+    print(str(int(newX)) + " " + str(int(newY)) + " " + str(int(UpDownM)) + " " +  str(trig) + " " +  str(sidebutton) + " " +  str(camera) + " " +  str(servo1) + " " +  str(servo2) + " " +  str(servo3))
     
     esc.motor3_go(convertMotorValue(rightM)) #RF motor4_value
     esc.motor4_go(convertMotorValue(leftM)) #LF motor1_value
