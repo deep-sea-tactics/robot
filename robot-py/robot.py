@@ -113,9 +113,9 @@ def on_message(data):
 
         if (newY < minNum): rightMF = int((newY - minNum) * divNum)
         elif (newY > maxNum): rightMF = int((newY - minNum) * divNum)
-        else: leftMF = 0
+        else: rightMF = 0
 
-        leftR = leftRT + leftRF
+        rightM = rightMT + rightMF
         #print(leftM)
         #forwardMotors = (newX + newY) / 2
         #print(convertMotorValue(forwardMotors))
