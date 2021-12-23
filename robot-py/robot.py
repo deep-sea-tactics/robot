@@ -195,7 +195,7 @@ def on_message(data):
     esc.motor4_go(convertMotorValue(leftM)) #LF motor1_value
     esc.motor1_go(convertMotorValue(UpDownM)) #RU motor3_value
     esc.motor2_go(convertMotorValue(UpDownM)) #LU motor2_value
-
+    time.sleep(0.005)
 '''
     print("x: " + str(newX))
     print("y: " + str(newY))
