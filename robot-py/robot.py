@@ -71,6 +71,8 @@ sio.connect("http://192.168.1.203:9000")
 @sio.on('controllerData')
 def on_message(data):
     global UpDownM
+    global oldThrottle
+    
     #print(data)
     parsed_data = json.loads(data)
     newY=((parsed_data["position"]["y"] / 10.24) - 50) * -1
