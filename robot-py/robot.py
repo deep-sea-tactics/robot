@@ -140,6 +140,9 @@ def on_message(data):
         oldThrottle = throttle
         UpDownM = (throttle / 2.55) - 50
         
+    if (UpDownM > 50): UpDownM = 50
+    elif (UpDownM < -50): UpDownM = -50
+        
     if (view == 2):
         servo.decreaseCamera()
         camera = -1
