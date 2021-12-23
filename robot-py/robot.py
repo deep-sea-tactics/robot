@@ -109,7 +109,7 @@ def on_message(data):
 
         if (newX < minNum): rightMT = int((newX-minNum) * divNum * 1)
         elif (newX > maxNum): rightMT = int((newX-minNum) * divNum * 1)
-        else: leftMT = 0
+        else: rightMT = 0
 
         if (newY < minNum): rightMF = int((newY - minNum) * divNum)
         elif (newY > maxNum): rightMF = int((newY - minNum) * divNum)
