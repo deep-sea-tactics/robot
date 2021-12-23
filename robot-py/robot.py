@@ -170,11 +170,9 @@ def on_message(data):
         print("")
 
     if (Pmiddle_left):
-        UpDownM = UpDownM + 2
-        UpDownM = UpDownM + 2
+        UpDownM = UpDownM - 2
     elif (Pmiddle_right):
-        UpDownM = UpDownM -2
-        UpDownM = UpDownM -2
+        UpDownM = UpDownM +2
 
     if (Pbottom_left):
         print("")
@@ -183,7 +181,7 @@ def on_message(data):
 
     
         
-    print(str(newX) + " " + str(newY) + " " + str(throttle) + " " +  str(trig) + " " +  str(sidebutton) + " " +  str(camera) + " " +  str(servo1) + " " +  str(servo2) + " " +  str(servo3))
+    print(str(newX) + " " + str(newY) + " " + str(UpDownM) + " " +  str(trig) + " " +  str(sidebutton) + " " +  str(camera) + " " +  str(servo1) + " " +  str(servo2) + " " +  str(servo3))
     
     esc.motor3_go(convertMotorValue(rightM)) #RF motor4_value
     esc.motor4_go(convertMotorValue(leftM)) #LF motor1_value
