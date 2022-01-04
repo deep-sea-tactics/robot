@@ -21,8 +21,8 @@ const rawDataToControllerData = (data: Buffer): ControllerData | undefined => {
 
 	return {	
 		position: {
-			x: (((parsedRawData[1] & 0x03) << 8) + parsedRawData[0]) / 10.24,
-			y: ((parsedRawData[2] & 0x0f) << 6) + ((parsedRawData[1] & 0xfc) >> 2) / 10.24,
+			x: (((parsedRawData[1] & 0x03) << 8) + parsedRawData[0]) ,
+			y: ((parsedRawData[2] & 0x0f) << 6) + ((parsedRawData[1] & 0xfc) >> 2) ,
 		},
 		yaw: parsedRawData[3],
 		view: (parsedRawData[2] & 0xf0) >> 4,
