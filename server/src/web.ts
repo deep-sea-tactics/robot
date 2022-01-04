@@ -4,7 +4,7 @@ import fastifySocketIo from 'fastify-socket.io'
 import path from "path"
 import { sendDataToSocket } from './control/controller';
 import { logger } from "./logger"
-import { controllerData } from './control/position'
+import { controllerData, controllerInUse } from './control/position'
 import { device } from './control/device'
 import type { HID } from "node-hid";
 import { env_data } from "./env" 
@@ -47,6 +47,10 @@ export const start = async(): Promise<void> => {
 				controllerData(Object.assign({}, controllerData(), { position }))
 			})
 
+			socket.on("controllerInUse", use => {
+				controllerInUse(use)
+			})
+
             if (device() !== undefined)
                 socket.emit("controllerAvailable")
         })
@@ -56,6 +60,9 @@ export const start = async(): Promise<void> => {
 
 	if (device() !== undefined) {
         (device() as HID).on("data", data => {
+
+			if (!controllerInUse()) return
+
             const processedData = sendDataToSocket(app.io, data)
 
             if (processedData === undefined) return
