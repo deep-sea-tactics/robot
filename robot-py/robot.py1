@@ -98,8 +98,30 @@ def on_message(data):
 
     if (trigger):
         trig = 1
-        leftM = newY + newX
-        rightM = newY - newX
+        if (newX < minNum): leftMT = int((newX-minNum) * divNum * -1)
+        elif (newX > maxNum): leftMT = int((newX-minNum) * divNum * -1)
+        else: leftMT = 0
+
+        if (newY < minNum): leftMF = int((newY - minNum) * divNum)
+        elif (newY > maxNum): leftMF = int((newY - minNum) * divNum)
+        else: leftMF = 0
+
+        leftM = leftMT + leftMF
+
+
+        if (newX < minNum): rightMT = int((newX-minNum) * divNum * 1)
+        elif (newX > maxNum): rightMT = int((newX-minNum) * divNum * 1)
+        else: rightMT = 0
+
+        if (newY < minNum): rightMF = int((newY - minNum) * divNum)
+        elif (newY > maxNum): rightMF = int((newY - minNum) * divNum)
+        else: rightMF = 0
+
+        rightM = rightMT + rightMF
+        #print(leftM)
+        #forwardMotors = (newX + newY) / 2
+        #print(convertMotorValue(forwardMotors))
+        #print(str(leftMT) + " " + str(leftMF) + " " + str(leftM) + " " + str(convertMotorValue(leftM)))
     else:
         trig = 0
         leftM = 0
@@ -174,3 +196,31 @@ def on_message(data):
     esc.motor1_go(convertMotorValue(UpDownM)) #RU motor3_value
     esc.motor2_go(convertMotorValue(UpDownM)) #LU motor2_value
     time.sleep(0.01)
+'''
+    print("x: " + str(newX))
+    print("y: " + str(newY))
+    if (newX < minNum):
+        leftMT = int((newX-minNum) * divNum * 1)
+    elif (newX > maxNum):
+        leftMT = int((newX-minNum) * divNum * 1)
+    else: leftMT = 0
+    if (newY < minNum): leftMF = int((newY - minNum) * divNum * 1)
+    elif (newY > maxNum): leftMF = int((newY - minNum) * divNum * 1)
+    else: leftMF = 0
+    leftM = (leftMT + leftMF) / 2
+    print(leftM)
+
+
+    forwardMotors = (newX + newY) / 2
+#    print(forwardMotors)
+#    motor1_value = convertMotorValue(forwardMotors)
+#    motor2_value = convertMotorValue(forwardMotors)
+#    motor3_value = convertMotorValue(forwardMotors)
+#    motor4_value = convertMotorValue(forwardMotors)
+#    print(str(newX) + " " + str(newY))
+    esc.motor3_go(convertMotorValue(forwardMotors)) #RF motor4_value
+    esc.motor4_go(convertMotorValue(forwardMotors)) #LF motor1_value
+    esc.motor1_go(convertMotorValue(forwardMotors)) #RU motor3_value
+    esc.motor2_go(convertMotorValue(forwardMotors)) #LU motor2_value
+'''
+
