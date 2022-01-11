@@ -14,6 +14,7 @@ import flyd, { stream } from 'flyd'
 		// Typescript Type Check
 		if (!(e instanceof Error)) return undefined;
 
+		// We don't need to log anything to the console.
         if (!log) return undefined;
 
 		if (e.message.includes("cannot open device")) {
