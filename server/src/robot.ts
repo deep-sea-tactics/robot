@@ -7,20 +7,20 @@ const port = 9000 /* this line here was: const port = env_data.ROBOT_PORT */
 
 /** Starts the robot server with socket.io. */
 export async function start(): Promise<void> {
-	const io = new Server(port);
+	const robot = new Server(port);
 
 	// Emit any change that occurs to the position variable
-	flyd.on(change => io.emit("controllerData", JSON.stringify(change)), controllerData)
+	flyd.on(change => robot.emit("controllerData", JSON.stringify(change)), controllerData)
 
-	io.on("connection", (socket) => {
-		logger.info(`Robot connected! ID: ${socket.id}`)
+	robot.on("connection", (robotClient) => {
+		logger.info(`Robot connected! ID: ${robotClient.id}`)
 
-		socket.on("close", () => logger.warn("Robot disconected."))
-		socket.on("error", error => logger.warn("An exception with the robot has occured: " + error))
+		robotClient.on("close", () => logger.warn("Robot disconected."))
+		robotClient.on("error", error => logger.warn("An exception with the robot has occured: " + error))
 	})
 
 	// Handle any conenction errors
-	io.engine.on("connection_error", (err: { message: string }) => logger.warn(err.message))
+	robot.engine.on("connection_error", (err: { message: string }) => logger.warn(err.message))
 
 	logger.info(`Robot connected at port ${port}.`)
 }

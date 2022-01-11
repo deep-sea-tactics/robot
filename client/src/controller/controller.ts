@@ -7,6 +7,8 @@ export const controllerAvailable = writable(false)
 export const controllerInUse = writable(false)
 export const trigger = writable(false);
 
+controllerInUse.subscribe(change => client.emit("controllerInUse", change))
+
 interface ControllerData {
 	position: Position,
 	buttons: {

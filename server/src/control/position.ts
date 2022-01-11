@@ -52,6 +52,8 @@ export interface ControllerData {
 	buttons: ButtonMapping;
 }
 
+export const controllerInUse = stream<Boolean>(true)
+
 /**
  * Reactive stream for data
  */

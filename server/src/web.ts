@@ -4,7 +4,7 @@ import fastifySocketIo from 'fastify-socket.io'
 import path from "path"
 import { sendDataToSocket } from './control/controller';
 import { logger } from "./logger"
-import { controllerData } from './control/position'
+import { controllerData, controllerInUse } from './control/position'
 import { device } from './control/device'
 import type { HID } from "node-hid";
 import { env_data } from "./env" 
@@ -20,7 +20,7 @@ app.register(fastifyStatic, {
 	root: path.join(__dirname, '..', '..', 'client', 'public')
 })
 
-// Add app.io
+// Add app.io using socket.io intergration with fastify
 app.register(fastifySocketIo)
 
 /**
@@ -37,16 +37,25 @@ export const start = async(): Promise<void> => {
     
         app.io.on("connect", (socket) => {
 
+			// The client has connected
 			logger.info(`Client connected to web interface. (ID: ${socket.id})`)
 
+			// Warn the server if the client has disconnected
 			socket.on("disconnect", (reason) => {
 				logger.info(`Client ${socket.id} disconnected from web interface: ${reason}`)
 			})
 
 			socket.on("position", (position) => {
-				controllerData(Object.assign({}, controllerData(), { position }))
+				// We use Object.assign to safely manipulate the position field.
+				controllerData(
+					Object.assign({}, controllerData(), { position })
+				)
 			})
 
+			// Bind the emitted controllerInUse data to the server's controllerInuse field
+			socket.on("controllerInUse", controllerInUse)
+
+			// Tell the client if the device is available
             if (device() !== undefined)
                 socket.emit("controllerAvailable")
         })
@@ -56,6 +65,9 @@ export const start = async(): Promise<void> => {
 
 	if (device() !== undefined) {
         (device() as HID).on("data", data => {
+
+			if (!controllerInUse()) return
+
             const processedData = sendDataToSocket(app.io, data)
 
             if (processedData === undefined) return
