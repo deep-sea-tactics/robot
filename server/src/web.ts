@@ -20,7 +20,7 @@ app.register(fastifyStatic, {
 	root: path.join(__dirname, '..', '..', 'client', 'public')
 })
 
-// Add app.io
+// Add app.io using socket.io intergration with fastify
 app.register(fastifySocketIo)
 
 /**
@@ -37,20 +37,25 @@ export const start = async(): Promise<void> => {
     
         app.io.on("connect", (socket) => {
 
+			// The client has connected
 			logger.info(`Client connected to web interface. (ID: ${socket.id})`)
 
+			// Warn the server if the client has disconnected
 			socket.on("disconnect", (reason) => {
 				logger.info(`Client ${socket.id} disconnected from web interface: ${reason}`)
 			})
 
 			socket.on("position", (position) => {
-				controllerData(Object.assign({}, controllerData(), { position }))
+				// We use Object.assign to safely manipulate the position field.
+				controllerData(
+					Object.assign({}, controllerData(), { position })
+				)
 			})
 
-			socket.on("controllerInUse", use => {
-				controllerInUse(use)
-			})
+			// Bind the emitted controllerInUse data to the server's controllerInuse field
+			socket.on("controllerInUse", controllerInUse)
 
+			// Tell the client if the device is available
             if (device() !== undefined)
                 socket.emit("controllerAvailable")
         })

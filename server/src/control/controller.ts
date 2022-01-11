@@ -5,15 +5,24 @@ import { ControllerData } from './position'
 
 
 /**
- * If num is 0, return false, else return true
+ * If the num is 0, return false, else return true
+ * 
+ * Logic: `num !== 0`
+ * 
  * @param num The number to check against
  * @returns if the num is 0, return false, else return true
  */
 const bool = (num: number) => num !== 0;
 
+/**
+ * Turns a raw Buffer from the controller to parsed ControllerData
+ * @param data The raw Buffer from the controller
+ * @returns Parsed ControllerData
+ */
 const rawDataToControllerData = (data: Buffer): ControllerData | undefined => {
 
-	const rawDataMatches = data.toString('hex').match(/.{1,2}/g)
+	// If the hex data does not have 1-2 characters, it is not good.
+	const rawDataMatches = data.toString('hex').match(/..?/g)
 
 	if (rawDataMatches == null) return;
 
