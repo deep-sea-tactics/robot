@@ -2,6 +2,7 @@
 
 import type { Server } from 'socket.io'
 import { ControllerData } from './position'
+import { logger } from "../logger"
 
 
 /**
@@ -65,6 +66,8 @@ const rawDataToControllerData = (data: Buffer): ControllerData | undefined => {
 export const sendDataToSocket = (socket: Server, data: Buffer): ControllerData | undefined => {
 	const parsedData = rawDataToControllerData(data);
 	
+	logger.debug(parsedData)
+
 	if (parsedData === undefined) {
 		return parsedData
 	}

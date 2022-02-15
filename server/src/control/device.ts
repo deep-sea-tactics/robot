@@ -22,7 +22,8 @@ import flyd, { stream } from 'flyd'
 			logger.warn(e.message + " (Logitech Pro 3D controller)");
 		} else {
 			// device not found / unable to connect
-			logger.warn("Logitech controller not found; use input from web service instead")
+			logger.warn("Logitech controller not found; use input from web service instead.")
+			logger.warn("Full warning: " + e.message)
 		}
 
 		// either way, no device found
