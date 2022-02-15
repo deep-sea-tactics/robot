@@ -28,6 +28,8 @@ app.register(fastifySocketIo)
  */
 export const start = async(): Promise<void> => {
 
+	logger.debug("Attempting to start server.")
+
     app.ready(err => {
         // Rethrow the error if any
         if (err) {

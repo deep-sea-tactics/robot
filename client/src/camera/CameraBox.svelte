@@ -2,9 +2,9 @@
 	import Camera from "./Camera.svelte"
 </script>
 <div id="cameras">
-	<Camera src="http://192.168.1.201:8081"/>
-	<Camera src="http://192.168.1.201:8082"/>
-	<Camera src="http://192.168.1.201:8083"/>
+	<Camera src="http://192.168.1.201:8081/stream/webrtc"/>
+	<Camera src="http://192.168.1.201:8082/stream/webrtc"/>
+	<Camera src="http://192.168.1.201:8083/stream/webrtc"/>
 </div>
 <style lang="scss">
 	#cameras {
