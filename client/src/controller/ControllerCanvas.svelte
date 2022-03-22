@@ -122,7 +122,7 @@
 
 </script>
 
-<div id="controller" bind:clientWidth={canvasWidth} bind:this={container}>
+<div class="bg-gray-300 h-screen w-1/3 m-0" bind:clientWidth={canvasWidth} bind:this={container}>
 	<Canvas id="canvas"
 		bind:this={canvas} on:mouseleave={mouseLeave} on:mousemove={mouseEvent}
 		on:mousedown={mouseDown}
@@ -132,18 +132,12 @@
 		<Layer {render}></Layer>
 	</Canvas>
 	{#if $controllerAvailable}
-		<button on:click={switchControls}>Use { $controllerInUse ? "Mouse" : "Controller" }</button>
+		<button class="w-full" on:click={switchControls}>Use { $controllerInUse ? "Mouse" : "Controller" }</button>
 	{/if}
 </div>
 
-<style lang="scss">
-	#controller {
-		background-color: lightgray;
-		grid-area: controller;
-	}
-
+<style>
 	button {
-		width: 100%;
 		font-size: 1.3rem;
 	}
 
