@@ -81,8 +81,6 @@
 			y: (clientY - rect.top) / (height / 50)
 		};
 
-		console.log($position)
-
 		client.emit("position", $position)
 	}
 
