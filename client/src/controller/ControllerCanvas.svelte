@@ -77,9 +77,11 @@
 		const height = canvas.getCanvas().height;
 
 		$position = {
-			x: (clientX - rect.left) / (width / 100),
-			y: (clientY - rect.top) / (height / 100)
+			x: (clientX - rect.left) / (width / 50),
+			y: (clientY - rect.top) / (height / 50)
 		};
+
+		console.log($position)
 
 		client.emit("position", $position)
 	}
