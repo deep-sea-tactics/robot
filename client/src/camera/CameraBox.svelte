@@ -2,8 +2,8 @@
 	import Camera from "./Camera.svelte"
 </script>
 <div id="cameras">
-	<Camera src="http://192.168.1.201:8081/stream/webrtc"/>
-	<Camera src="http://192.168.1.201:8082/stream/webrtc"/>
+	<Camera src="file:///home/daniel/LDST/Landstown-Robotics-Challenge/client/src/raw.html#8081"/>
+	<Camera src="file:///home/daniel/LDST/Landstown-Robotics-Challenge/client/src/raw.html#8082"/>
 </div>
 <style lang="scss">
 	#cameras {
