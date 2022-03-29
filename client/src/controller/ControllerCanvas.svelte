@@ -7,7 +7,6 @@
 
 	const mouseRadius = 10
 	let canvas: Canvas
-	let container: HTMLDivElement
 
 	let canvasWidth
 
@@ -73,12 +72,13 @@
 		}
 
 		const rect = canvas.getCanvas().getBoundingClientRect();
-		const width = canvas.getCanvas().width;
-		const height = canvas.getCanvas().height;
+		const width = canvas.getCanvas().clientWidth;
+		const height = canvas.getCanvas().clientHeight;
+		console.log(width, height, clientX, clientY)
 
 		$position = {
-			x: (clientX - rect.left) / (width / 50),
-			y: (clientY - rect.top) / (height / 50)
+			x: (clientX) / (height / 100),
+			y: (clientY) / (width / 100)
 		};
 
 		client.emit("position", $position)
@@ -122,7 +122,7 @@
 
 </script>
 
-<div class="bg-gray-300 h-screen w-1/3 m-0" bind:clientWidth={canvasWidth} bind:this={container}>
+<div class="bg-gray-300 h-screen w-1/3 m-0" bind:clientWidth={canvasWidth}>
 	<Canvas id="canvas"
 		bind:this={canvas} on:mouseleave={mouseLeave} on:mousemove={mouseEvent}
 		on:mousedown={mouseDown}
