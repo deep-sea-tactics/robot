@@ -17,7 +17,7 @@ const port = env_data.WEB_PORT | 3000
 
 /** Serve static files from svelte */
 app.register(fastifyStatic, {
-	root: path.join(__dirname, '..', '..', 'client', 'public')
+	root: path.join(__dirname, '..', '..', 'client', 'dist')
 })
 
 // Add app.io using socket.io intergration with fastify
