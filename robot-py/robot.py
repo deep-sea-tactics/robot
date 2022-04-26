@@ -6,8 +6,6 @@ import json
 
 os.system("sudo pigpiod")
 time.sleep(2)
-import pigpio
-
 
 import RoverServo as servo
 import RoverESC as esc
