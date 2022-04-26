@@ -22,5 +22,5 @@ export async function start(): Promise<void> {
 	// Handle any conenction errors
 	robot.engine.on("connection_error", (err: { message: string }) => logger.warn(err.message))
 
-	logger.info(`Robot connected at port ${port}.`)
+	logger.info(`Robot ready to connected at port ${port}.`)
 }
