@@ -316,9 +316,7 @@
                 }
                 stop_record();
                 document.getElementById('remote-video').srcObject = null;
-                document.getElementById('local-video').srcObject = null;
                 document.getElementById('remote-video').src = ''; // TODO; remove
-                document.getElementById('local-video').src = ''; // TODO: remove
                 if (pc) {
                     pc.close();
                     pc = null;
@@ -525,12 +523,6 @@
                 <video id="remote-video" autoplay=""width="640" height="480">
                     Your browser does not support the video tag.
                 </video>
-            </div>
-            <div class="overlayWrapper">
-                <video id="local-video" autoplay="" width="320" height="240">
-                    Your browser does not support the video tag.
-                </video>
-                <p class="overlay">local</p>
             </div>
         </div>
         <div id="controls">
