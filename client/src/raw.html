@@ -9,17 +9,6 @@
             const signalling_server_hostname = "192.168.1.201";
             var signalling_server_address = signalling_server_hostname + ':' + (location.hash.substr(1) || location.port || (location.protocol === 'https:' ? 443 : 80));
             var isFirefox = typeof InstallTrigger !== 'undefined';// Firefox 1.0+
-
-            addEventListener("DOMContentLoaded", function () {
-                document.getElementById('signalling_server').value = signalling_server_address;
-                var cast_not_allowed = !('MediaSource' in window) || location.protocol !== "https:";
-                if (cast_not_allowed || !isFirefox) {
-                    
-                } else {
-                    document.getElementById('note1').style.display = "none";
-                }
-            });
-
             var ws = null;
             var pc;
             var gn;
@@ -155,7 +144,7 @@
                     document.getElementById("stop").disabled = false;
                     document.getElementById("start").disabled = true;
                     document.documentElement.style.cursor = 'wait';
-                    var server = document.getElementById("signalling_server").value.toLowerCase();
+                    var server = signalling_server_address
 
                     var protocol = location.protocol === "https:" ? "wss:" : "ws:";
                     ws = new WebSocket(protocol + '//' + server + '/stream/webrtc');
@@ -396,9 +385,6 @@
         <div id="commands">
             <details open>
                 <summary><b>Advanced options</b></summary>
-                <fieldset>
-                    <span>Remote Peer/Signalling Server Address: </span><input required type="text" id="signalling_server" value="192.168.1.201:8082" title="<host>:<port>, default address is autodetected"/><br>
-                </fieldset>
             </details>
         </div><br>
     </body>
