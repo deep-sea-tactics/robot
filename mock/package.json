@@ -1,0 +1,14 @@
+{
+  "name": "mock",
+  "version": "1.0.0",
+  "description": "simple webrtc camera mocking",
+  "main": "index.js",
+  "scripts": {
+    "start": "tsc && node dist/index.js"
+  },
+  "author": "LeoDog896",
+  "license": "MIT",
+  "dependencies": {
+    "wrtc": "^0.4.7"
+  }
+}

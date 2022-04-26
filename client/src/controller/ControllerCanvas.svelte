@@ -17,9 +17,12 @@
 			y: height / 2
 		}
 
-		const translatedPosition: Position = {
-			x: ($position.x) * (width / 100),
+		const translatedPosition: Position = $controllerInUse ? {
+      x: ($position.x) * (width / 100),
 			y: ($position.y) * (height / 100)
+    } : {
+			x: ($position.x) * (width / 50),
+			y: ($position.y) * (height / 50)
 		}
 
 		// Grid
@@ -32,6 +35,8 @@
 			context.moveTo(0, 0.5 + x);
 			context.lineTo(height, 0.5 + x);
 		}
+
+    console.log($position)
 
 		context.strokeStyle = "#aaa";
 		context.stroke();

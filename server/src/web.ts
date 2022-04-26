@@ -84,5 +84,5 @@ export const start = async(): Promise<void> => {
         })
 	}
 
-	logger.info(`Listening to https://localhost:${port}`);
+	logger.info(`Listening to https://localhost:${port} (prefer this over the one vite provides!)`);
 }
