@@ -19,13 +19,6 @@
             var pcConfig = {/*sdpSemantics : "plan-b"*,*/ "iceServers": [
                     {"urls": ["stun:stun.l.google.com:19302", "stun:" + signalling_server_hostname + ":3478"]}
                 ]};
-            var pcOptions = {
-                optional: [
-                    // Deprecated:
-                    //{RtpDataChannels: false},
-                    //{DtlsSrtpKeyAgreement: true}
-                ]
-            };
             var mediaConstraints = {
                 optional: [],
                 mandatory: {
@@ -48,7 +41,7 @@
                 try {
                     var pcConfig_ = pcConfig;
                     console.log(JSON.stringify(pcConfig_));
-                    pc = new RTCPeerConnection(pcConfig_, pcOptions);
+                    pc = new RTCPeerConnection(pcConfig_, { optional: [] });
                     pc.onicecandidate = onIceCandidate;
                     if ('ontrack' in pc) {
                         pc.ontrack = onTrack;
