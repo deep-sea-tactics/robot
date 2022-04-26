@@ -4,8 +4,12 @@
   "description": "webrtc video mocker",
   "main": "index.js",
   "scripts": {
+    "start": "tsc && node dist/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "wrtc": "^0.4.7"
+  }
 }
