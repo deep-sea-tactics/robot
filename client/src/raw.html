@@ -8,7 +8,6 @@
 
             const signalling_server_hostname = "192.168.1.201";
             var signalling_server_address = signalling_server_hostname + ':' + (location.hash.substr(1) || location.port || (location.protocol === 'https:' ? 443 : 80));
-            var isFirefox = typeof InstallTrigger !== 'undefined';// Firefox 1.0+
             var ws = null;
             var pc;
             var gn;
