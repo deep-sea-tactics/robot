@@ -352,96 +352,6 @@
                 }
             }
 
-            function handleStop(event) {
-                console.log('Recorder stopped: ', event);
-                document.getElementById('record').innerHTML = 'Start Recording';
-                recorder = null;
-                var superBuffer = new Blob(recordedBlobs, {type: 'video/webm'});
-                var recordedVideoElement = document.getElementById('recorded-video');
-                recordedVideoElement.src = URL.createObjectURL(superBuffer);
-            }
-
-            function discard_recording() {
-                var recordedVideoElement = document.getElementById('recorded-video');
-                recordedVideoElement.srcObject = null;
-                recordedVideoElement.src = '';
-            }
-
-            function stop_record() {
-                if (recorder) {
-                    recorder.stop();
-                    console.log("recording stopped");
-                    document.getElementById('record-detail').open = true;
-                }
-            }
-
-            function startRecording(stream) {
-                recordedBlobs = [];
-                var options = {mimeType: 'video/webm;codecs=vp9'};
-                if (!MediaRecorder.isTypeSupported(options.mimeType)) {
-                    console.log(options.mimeType + ' is not Supported');
-                    options = {mimeType: 'video/webm;codecs=vp8'};
-                    if (!MediaRecorder.isTypeSupported(options.mimeType)) {
-                        console.log(options.mimeType + ' is not Supported');
-                        options = {mimeType: 'video/webm;codecs=h264'};
-                        if (!MediaRecorder.isTypeSupported(options.mimeType)) {
-                            console.log(options.mimeType + ' is not Supported');
-                            options = {mimeType: 'video/webm'};
-                            if (!MediaRecorder.isTypeSupported(options.mimeType)) {
-                                console.log(options.mimeType + ' is not Supported');
-                                options = {mimeType: ''};
-                            }
-                        }
-                    }
-                }
-                try {
-                    recorder = new MediaRecorder(stream, options);
-                } catch (e) {
-                    console.error('Exception while creating MediaRecorder: ' + e);
-                    alert('Exception while creating MediaRecorder: ' + e + '. mimeType: ' + options.mimeType);
-                    return;
-                }
-                console.log('Created MediaRecorder', recorder, 'with options', options);
-                //recorder.ignoreMutedMedia = true;
-                recorder.onstop = handleStop;
-                recorder.ondataavailable = handleDataAvailable;
-                recorder.onwarning = function (e) {
-                    console.log('Warning: ' + e);
-                };
-                recorder.start();
-                console.log('MediaRecorder started', recorder);
-            }
-
-            function start_stop_record() {
-                if (pc && !recorder) {
-                    var streams = pc.getRemoteStreams();
-                    if (streams.length) {
-                        console.log("starting recording");
-                        startRecording(streams[0]);
-                        document.getElementById('record').innerHTML = 'Stop Recording';
-                    }
-                } else {
-                    stop_record();
-                }
-            }
-
-            function download() {
-                if (recordedBlobs !== undefined) {
-                    var blob = new Blob(recordedBlobs, {type: 'video/webm'});
-                    var url = window.URL.createObjectURL(blob);
-                    var a = document.createElement('a');
-                    a.style.display = 'none';
-                    a.href = url;
-                    a.download = 'video.webm';
-                    document.body.appendChild(a);
-                    a.click();
-                    setTimeout(function () {
-                        document.body.removeChild(a);
-                        window.URL.revokeObjectURL(url);
-                    }, 100);
-                }
-            }
-
             function remote_hw_vcodec_selection() {
                 if (!document.getElementById('remote_hw_vcodec').checked)
                     unselect_remote_hw_vcodec();
@@ -558,64 +468,6 @@
                 document.getElementById('remote-video').style.height = "480px";
             }
 
-            function singleselection(name, id) {
-                var old = document.getElementById(id).checked;
-                var elements = document.getElementsByName(name);
-                for (var i = 0; i < elements.length; i++) {
-                    elements[i].checked = false;
-                }
-                document.getElementById(id).checked = old ? true : false;
-            }
-
-            function send_message() {
-                var msg = document.getElementById('datamessage').value;
-                datachannel.send(msg);
-                console.log("message sent: ", msg);
-            }
-
-            function create_localdatachannel() {
-                if (pc && localdatachannel)
-                    return;
-                localdatachannel = pc.createDataChannel('datachannel');
-                localdatachannel.onopen = function(event) {
-                    if (localdatachannel.readyState === "open") {
-                        localdatachannel.send("datachannel created!");
-                    }
-                };
-                console.log("data channel created");
-            }
-
-            function close_localdatachannel() {
-                if (localdatachannel) {
-                    localdatachannel.close();
-                    localdatachannel = null;
-                }
-                console.log("local data channel closed");
-            }
-
-            function handleOrientation(event) {
-                var data = {
-                    "do": {
-                        "alpha": event.alpha.toFixed(1), // In degree in the range [0,360]
-                        "beta": event.beta.toFixed(1), // In degree in the range [-180,180]
-                        "gamma": event.gamma.toFixed(1), // In degree in the range [-90,90]
-                        "absolute": event.absolute
-                    }
-                };
-                if (datachannel)
-                    datachannel.send(JSON.stringify(data));
-            }
-
-            function getKeycodesArray(arr) {
-                var newArr = new Array();
-                for (var i = 0; i < arr.length; i++) {
-                    if (typeof arr[i] == "number") {
-                        newArr[newArr.length] = arr[i];
-                    }
-                }
-                return newArr;
-            }
-
             function trickleice_selection() {
                 if (document.getElementById('trickleice').value === "false") {
                     trickle_ice = false;
@@ -628,9 +480,6 @@
             }
 
             window.onload = function () {
-                if (window.MediaRecorder === undefined) {
-                    document.getElementById('record').disabled = true;
-                }
                 if (false) {
                     start();
                 }
@@ -688,9 +537,7 @@
             <button id="start" style="background-color: green; color: white" onclick="start();">Start</button>
             <button disabled id="stop" style="background-color: red; color: white" onclick="stop();">Stop</button>
             <button type=button id="pause" onclick="pause();" title="pause or resume local player">Pause/Resume</button>
-            <button type=button id="mute" onclick="mute();" title="mute or unmute remote audio source">Mute/Unmute</button>
             <button type=button id="fullscreen" >Fullscreen</button>
-            <button type=button id="record" onclick="start_stop_record();" title="start or stop recording audio/video">Start Recording</button>
         </div>
         <fieldset>
             <legend><b>Remote peer options</b></legend>
@@ -724,37 +571,7 @@
                 <p id="note1_"><small>NOTE: if your browser does not support the hardware codec yet, try Firefox with the codec plugin enabled or a recent version of Chrome.</small></p>
             </div>
         </fieldset>
-        <div>
-            <details id="record-detail">
-                <summary><b>Recorded Audio/Video stream</b></summary>
-                <div>
-                    <div class="overlayWrapper">
-                        <video id="recorded-video" controls>
-                            Your browser does not support the video tag.
-                        </video>
-                        <p class="overlay">recorded</p>
-                    </div>
-                </div>
-                <div>
-                    <p><small>NOTE: some old Chrome version may generate corrupted video if the audio track is not present as well (use Firefox in this case)</small></p>
-                    <button type=button id="discard" onclick="discard_recording();" title="discard recorded audio/video">Discard</button>
-                    <button type=button id="download" onclick="download();" title="save recorded audio/video">Save as</button>
-                </div>
-            </details>
-        </div><br>
-        <div>
-            <details>
-                <summary><b>Data Channels</b></summary>
-                <fieldset id="datachannels" disabled>
-                    <span>message: </span><input type="text" id="datamessage" value="" title="message to send to the remote peer"/>
-                    <button id="datasend">Send</button>
-                    <span>received: </span><input type="text" readonly="readonly" id="datareceived" size="40" title="data received from the remote peer"/><br>
-                    <label><input type="checkbox" id="orientationsend" name="orientationsend" title="send device orientation angles when they change">send device orientation angles alpha, beta, gamma</label>
-                    <label><input type="checkbox" id="keypresssend" name="keypresssend" title="send keyboard events. Assume US layout. For users with virtual keyboard: put the focus on the 'message' input text item.">send key codes (US layout)</label>
-                    <label><input type="checkbox" id="mousesend" name="mousesend" title="send mouse events">send mouse events</label>
-                </fieldset>
-            </details>
-        </div><br>
+        <br>
         <div id="commands">
             <details open>
                 <summary><b>Advanced options</b></summary>
