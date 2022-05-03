@@ -169,7 +169,7 @@
 	</video>
 </div>
 <div id="controls">
-	<button id="start" bind:this={startButton} style="background-color: green;" on:click={start}>Start</button>
-	<button disabled id="stop" bind:this={stopButton} style="background-color: red" on:click={stop}>Stop</button>
+	<button class="bg-lime-500 px-4 py-2 hover:bg-lime-600 active:bg-lime-700" id="start" bind:this={startButton} on:click={start}>Start</button>
+	<button class="bg-red-500 px-4 py-2 hover:bg-red-600 active:bg-red-700" disabled id="stop" bind:this={stopButton} on:click={stop}>Stop</button>
 </div>
 <br>
