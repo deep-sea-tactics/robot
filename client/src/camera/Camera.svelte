@@ -6,39 +6,23 @@
 
 	const signalling_server_address = "192.168.1.201:" + port;
 	const pcConfig = {"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]};
-	const mediaConstraints = {
-		optional: [],
-		mandatory: {
-			OfferToReceiveVideo: true
-		}
-	};
 	let startButton: HTMLButtonElement
 	let stopButton: HTMLButtonElement
 	let video: HTMLVideoElement
-	let ws;
-	let iceCandidates = []
-	let remoteDesc;
-	let pc;
+	let ws: WebSocket;
+	let iceCandidates: RTCIceCandidateInit[] = []
+	let remoteDesc = false;
+	let pc: RTCPeerConnection;
 
 	function addIceCandidates() {
-		iceCandidates.forEach(function (candidate) {
-			pc.addIceCandidate(candidate, () => void 0,
-				function (error) {
-					console.error("addIceCandidate error: " + error);
-				}
-			);
+		iceCandidates.forEach(candidate => {
+			pc.addIceCandidate(candidate)
 		});
 		iceCandidates = [];
 	}
 
 	function onTrack(event) {
-		console.log("Remote track!");
 		video.srcObject = event.streams[0];
-	}
-
-	function onRemoteStreamRemoved(event) {
-		video.srcObject = null;
-		video.src = ''; // TODO: remove
 	}
 
 	function onIceCandidate(event) {
@@ -53,8 +37,6 @@
 				data: JSON.stringify(candidate)
 			};
 			ws.send(JSON.stringify(request));
-		} else {
-			console.log("End of candidates.");
 		}
 	}
 
@@ -63,7 +45,6 @@
 			pc = new RTCPeerConnection(pcConfig);
 			pc.onicecandidate = onIceCandidate;
 			pc.ontrack = onTrack;
-			pc.onremovestream = onRemoteStreamRemoved;
 		} catch (e) {
 			console.error("createPeerConnection() failed");
 		}
@@ -91,7 +72,7 @@
 		};
 
 		ws.onmessage = function (evt) {
-			var msg = JSON.parse(evt.data);
+			const msg = JSON.parse(evt.data);
 			if (msg.what === "undefined") return
 			const { what, data } = msg
 
@@ -112,7 +93,7 @@
 								}, function (error) {
 									alert("Failed to createAnswer: " + error);
 
-								}, mediaConstraints);
+								});
 							},
 							function onRemoteSdpError(event) {
 								alert('Failed to set remote description (unsupported codec on this browser?): ' + event);
@@ -137,7 +118,7 @@
 			}
 		};
 
-		ws.onclose = function (evt) {
+		ws.onclose = function () {
 			if (pc) {
 				pc.close();
 				pc = null;
