@@ -52,21 +52,13 @@
             function addIceCandidates() {
                 iceCandidates.forEach(function (candidate) {
                     pc.addIceCandidate(candidate,
-                        function () {
-                            console.log("IceCandidate added: " + JSON.stringify(candidate));
-                        },
+                        function () {},
                         function (error) {
                             console.error("addIceCandidate error: " + error);
                         }
                     );
                 });
                 iceCandidates = [];
-            }
-
-            function onRemoteStreamAdded(event) {
-                console.log("Remote stream added:", event.stream);
-                var remoteVideoElement = document.getElementById('remote-video');
-                remoteVideoElement.srcObect = event.stream;
             }
 
             function onTrack(event) {
