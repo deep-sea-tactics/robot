@@ -78,29 +78,26 @@
 
 			switch (what) {
 				case "offer":
-					pc.setRemoteDescription(new RTCSessionDescription(JSON.parse(data)),
-							function onRemoteSdpSuccess() {
-								remoteDesc = true;
-								addIceCandidates();
-								pc.createAnswer(function (sessionDescription) {
-									pc.setLocalDescription(sessionDescription);
-									const request = {
-										what: "answer",
-										data: JSON.stringify(sessionDescription)
-									};
-									ws.send(JSON.stringify(request));
-
-								}, function (error) {
-									alert("Failed to createAnswer: " + error);
-
-								});
-							},
-							function onRemoteSdpError(event) {
-								alert('Failed to set remote description (unsupported codec on this browser?): ' + event);
-								stop();
-							}
-					);
-					
+					pc.setRemoteDescription(new RTCSessionDescription(JSON.parse(data)))
+						.catch(() => {
+							alert('Failed to set remote description (unsupported codec on this browser?): ' + event);
+							stop();
+						})
+						.then(() => {
+							remoteDesc = true;
+							addIceCandidates();
+							return pc.createAnswer()
+						})
+						.catch(error => {
+							alert("Failed to createAnswer: " + error);
+						}).then(sessionDescription => {
+							pc.setLocalDescription(sessionDescription as RTCLocalSessionDescriptionInit);
+							const request = {
+								what: "answer",
+								data: JSON.stringify(sessionDescription)
+							};
+							ws.send(JSON.stringify(request));
+						})
 					break;
 
 				case "iceCandidate": // when trickle is enabled
