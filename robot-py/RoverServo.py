@@ -5,48 +5,57 @@ from adafruit_servokit import ServoKit
 # 8 for FeatherWing, 16 for Shield/HAT/Bonnet.
 kit = ServoKit(channels=16)
 
-SERVO_1 = 0
+CLAW = 4
 CAMERA = 2
-SERVO_2 = 1
-SERVO_3 = 3
+SPIN = 7
+UPDOWN = 1
 
 
-Servo1MV = 180
-Servo1LV = 0
-Servo2MV = 180
-Servo2LV = 80
-Servo3MV = 90
-Servo3LV = 0
-CameraMV = 50
+ClawMV = 90
+ClawLV = 0
+SpinMV = 180
+SpinLV = 0
+UpdownMV = 120
+UpdownLV = 170
+CameraMV = 60
 CameraLV = 0
 MID_VALUE = 130
-currentServo1Level = MID_VALUE
-currentServo2Level = MID_VALUE
+currentClawLevel = MID_VALUE
+currentSpinLevel = MID_VALUE
 currentCameraLevel = MID_VALUE
-currentServo3Level = MID_VALUE
+currentUpdownLevel = MID_VALUE
 
-def increaseServo1():
-	global currentServo1Level
-	inp = currentServo1Level + 3.5
-	if inp > Servo1MV:
-		inp = Servo1MV
-	kit.servo[SERVO_1].angle = inp
-	currentServo1Level = inp
+def increaseClaw():
+	global currentClawLevel
+	inp = currentClawLevel + 1
+	if inp > ClawMV:
+		inp = ClawMV
+	kit.servo[CLAW].angle = inp
+	currentClawLevel = inp
 
-def decreaseServo1():
-	global currentServo1Level
-	inp = currentServo1Level - 3.5
-	if inp < Servo1LV:
-		inp = Servo1LV
-	kit.servo[SERVO_1].angle = inp
-	currentServo1Level = inp
+def decreaseClaw():
+	global currentClawLevel
+	inp = currentClawLevel - 1
+	if inp < ClawLV:
+		inp = ClawLV
+	kit.servo[CLAW].angle = inp
+	currentClawLevel = inp
 
 
-def increaseServo2():
-	kit.continuous_servo[SERVO_2].throttle = 1
-	
-def decreaseServo2():
-	kit.continuous_servo[SERVO_2].throttle = -1
+def increaseSpin():
+	global currentSpinLevel
+	inp = currentSpinLevel + 1
+	if inp > SpinMV:
+		inp = SpinMV
+	kit.servo[SPIN].angle = inp
+	currentSpinLevel = inp
+def decreaseSpin():
+	global currentSpinLevel
+	inp = currentSpinLevel - 1
+	if inp < SpinLV:
+		inp = SpinLV
+	kit.servo[SPIN].angle = inp
+	currentSpinLevel = inp
 	
 	
 def increaseCamera():
@@ -67,19 +76,19 @@ def decreaseCamera():
 
 
 
-def increaseServo3():
-        global currentServo3Level
-        inp = currentServo3Level + 2.5
-        if inp > Servo3MV:
-                inp = Servo3MV
-        kit.servo[SERVO_3].angle = inp
-        currentServo3Level = inp
+def increaseUpdown():
+        global currentUpdownLevel
+        inp = currentUpdownLevel + 1
+        if inp > UpdownMV:
+                inp = UpdownMV
+        kit.servo[UPDOWN].angle = inp
+        currentUpdownLevel = inp
 
-def decreaseServo3():
-        global currentServo3Level
-        inp = currentServo3Level - 2.5
-        if inp < Servo3LV:
-                inp = Servo3LV
-        kit.servo[SERVO_3].angle = inp
-        currentServo3Level = inp
+def decreaseUpdown():
+        global currentUpdownLevel
+        inp = currentUpdownLevel - 1
+        if inp < UpdownLV:
+                inp = UpdownLV
+        kit.servo[UPDOWN].angle = inp
+        currentUpdownLevel = inp
 

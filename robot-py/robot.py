@@ -2,7 +2,7 @@ import socketio
 import os
 import time
 import json
-
+from datetime import datetime
 
 os.system("sudo pigpiod")
 time.sleep(2)
@@ -20,10 +20,11 @@ import RoverESC as esc
 camSwitch = 0
 minNum = -1
 maxNum = 1
+spin = 0
 divNum = 0.8
 oldThrottle = 0
 UpDownM = 0
-
+oldTime = 0
 MOTOR_SHUTOFF_TIMEOUT_IN_SECONDS = 3
 SERVER_PORT = 9000
 
@@ -74,11 +75,12 @@ def on_message(data):
     global UpDownM
     global oldThrottle
     global camSwitch
-
+    global oldTime
+    camera = 0
     #print(data)
     parsed_data = json.loads(data)
-    newY=((parsed_data["position"]["y"]) - 50) * -1
-    newX=(parsed_data["position"]["x"]) - 50
+    newY=((parsed_data["position"]["y"]) - 50) * -1.9
+    newX=((parsed_data["position"]["x"]) - 50) * 1.9
 
     yaw=parsed_data["yaw"]
     view=parsed_data["view"]
@@ -124,35 +126,39 @@ def on_message(data):
     if (view == 2):
         servo.decreaseCamera()
         camera = -1
+        view = 5
     elif (view == 6):
         servo.increaseCamera()
         camera = 1
-    else: camera = 0
-
-    if (view == 0):
-        servo.increaseServo3()
-        servo3 = 1
+        view = 5
+    elif (view == 0):
+        servo.increaseUpdown()
+        updown = 1
+        view = 5
     elif (view == 4):
-        servo.decreaseServo3()
-        servo3 = -1
-    else: servo3 = 0
-
+        servo.decreaseUpdown()
+        updown = -1
+        view = 5
+    else:
+        updown = 0
+        camera = 0
+        view = 5
 
     if (Cbottom_left):
-        servo.decreaseServo1()
-        servo1 = -1
+        servo.decreaseClaw()
+        claw = -1
     elif (Ctop_left):
-        servo.increaseServo1()
-        servo1 = 1
-    else: servo1 = 0
+        servo.increaseClaw()
+        claw = 1
+    else: claw = 0
 
     if (Cbottom_right):
-        servo.decreaseServo2()
-        servo2 = -1
+        servo.decreaseSpin()
+        spin = -1
     elif (Ctop_right):
-        servo.increaseServo2()
-        servo2 = 1
-    else: servo2 = 0
+        servo.increaseSpin()
+        spin = 1
+    else: spin = 0
 
     if (Ptop_left):
         print("")
@@ -162,17 +168,21 @@ def on_message(data):
 
     if (Pbottom_left):
         if camSwitch == 0:
-            camSwitch = 1
-            os.system("sudo systemctl stop camera2.service")
-            os.system("sudo systemctl start camera3.service")
+            if oldTime + 2 < int(datetime.now().strftime("%S")) or True:
+                camSwitch = 1
+                oldTime = int(datetime.now().strftime("%S"))
+                os.system("sudo systemctl stop camera2.service")
+                os.system("sudo systemctl start camera3.service")
         elif camSwitch == 1:
-            camSwitch = 0
-            os.system("sudo systemctl stop camera3.service")
-            os.system("sudo systemctl start camera2.service")
+            if oldTime + 2 < int(datetime.now().strftime("%S")) or True:
+                oldTime = int(datetime.now().strftime("%S"))
+                camSwitch = 0
+                os.system("sudo systemctl stop camera3.service")
+                os.system("sudo systemctl start camera2.service")
     elif (Pbottom_right):
         print("")
 
-    print(str(int(newX)) + " " + str(int(newY)) + " " + str(int(UpDownM)) + " " +  str(trig) + " " +  str(sidebutton) + " " +  str(camera) + " " +  str(servo1) + " " +  str(servo2) + " " +  str(servo3))
+    print(str(int(newX)) + " " + str(int(newY)) + " " + str(int(UpDownM)) + " " +  str(trig) + " " +  str(sidebutton) + " " +  str(camera) + " " +  str(claw) + " " +  str(spin) + " " +  str(updown))
 
     esc.motor3_go(convertMotorValue(rightM)) #RF motor4_value
     esc.motor4_go(convertMotorValue(leftM)) #LF motor1_value
