@@ -1,0 +1,216 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>UV4L WebRTC</title>
+        <script type="text/javascript">
+
+            var signalling_server_address = "192.168.1.201:" + location.hash.substr(1);
+            var ws = null;
+            var pc;
+            var pcConfig = {"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]};
+            var mediaConstraints = {
+                optional: [],
+                mandatory: {
+                    OfferToReceiveVideo: true
+                }
+            };
+            var remoteDesc = false;
+            var iceCandidates = [];
+
+            function createPeerConnection() {
+                try {
+                    var pcConfig_ = pcConfig;
+                    console.log(JSON.stringify(pcConfig_));
+                    pc = new RTCPeerConnection(pcConfig_, { optional: [] });
+                    pc.onicecandidate = onIceCandidate;
+                    pc.ontrack = onTrack;
+                    pc.onremovestream = onRemoteStreamRemoved;
+                } catch (e) {
+                    console.error("createPeerConnection() failed");
+                }
+            }
+
+            function onIceCandidate(event) {
+                if (event.candidate && event.candidate.candidate) {
+                    const candidate = {
+                        sdpMLineIndex: event.candidate.sdpMLineIndex,
+                        sdpMid: event.candidate.sdpMid,
+                        candidate: event.candidate.candidate
+                    };
+                    const request = {
+                        what: "addIceCandidate",
+                        data: JSON.stringify(candidate)
+                    };
+                    ws.send(JSON.stringify(request));
+                } else {
+                    console.log("End of candidates.");
+                }
+            }
+
+            function addIceCandidates() {
+                iceCandidates.forEach(function (candidate) {
+                    pc.addIceCandidate(candidate,
+                        function () {},
+                        function (error) {
+                            console.error("addIceCandidate error: " + error);
+                        }
+                    );
+                });
+                iceCandidates = [];
+            }
+
+            function onTrack(event) {
+                console.log("Remote track!");
+                var remoteVideoElement = document.getElementById('remote-video');
+                remoteVideoElement.srcObject = event.streams[0];
+            }
+
+            function onRemoteStreamRemoved(event) {
+                var remoteVideoElement = document.getElementById('remote-video');
+                remoteVideoElement.srcObject = null;
+                remoteVideoElement.src = ''; // TODO: remove
+            }
+
+            function start() {
+                    document.getElementById("stop").disabled = false;
+                    document.getElementById("start").disabled = true;
+                    document.documentElement.style.cursor = 'wait';
+
+                    var protocol = location.protocol === "https:" ? "wss:" : "ws:";
+                    ws = new WebSocket(protocol + '//' + signalling_server_address + '/stream/webrtc');
+
+                    function call(stream) {
+                        iceCandidates = [];
+                        remoteDesc = false;
+                        createPeerConnection();
+                        if (stream) {
+                            pc.addStream(stream);
+                        }
+                        var request = {
+                            what: "call",
+                            options: {
+                                trickle_ice: true
+                            }
+                        };
+                        ws.send(JSON.stringify(request));
+                    }
+
+                    ws.onopen = function () {
+                        call();
+                    };
+
+                    ws.onmessage = function (evt) {
+                        var msg = JSON.parse(evt.data);
+                        if (msg.what === "undefined") return
+                        const { what, data } = msg
+
+                        switch (what) {
+                            case "offer":
+                                pc.setRemoteDescription(new RTCSessionDescription(JSON.parse(data)),
+                                        function onRemoteSdpSuccess() {
+                                            remoteDesc = true;
+                                            addIceCandidates();
+                                            pc.createAnswer(function (sessionDescription) {
+                                                pc.setLocalDescription(sessionDescription);
+                                                var request = {
+                                                    what: "answer",
+                                                    data: JSON.stringify(sessionDescription)
+                                                };
+                                                ws.send(JSON.stringify(request));
+
+                                            }, function (error) {
+                                                alert("Failed to createAnswer: " + error);
+
+                                            }, mediaConstraints);
+                                        },
+                                        function onRemoteSdpError(event) {
+                                            alert('Failed to set remote description (unsupported codec on this browser?): ' + event);
+                                            stop();
+                                        }
+                                );
+                                
+                                break;
+
+                            case "iceCandidate": // when trickle is enabled
+                                if (!msg.data) {
+                                    console.log("Ice Gathering Complete");
+                                    break;
+                                }
+                                var elt = JSON.parse(msg.data);
+                                let candidate = new RTCIceCandidate({sdpMLineIndex: elt.sdpMLineIndex, candidate: elt.candidate});
+                                iceCandidates.push(candidate);
+                                if (remoteDesc)
+                                    addIceCandidates();
+                                document.documentElement.style.cursor = 'default';
+                                break;
+                        }
+                    };
+
+                    ws.onclose = function (evt) {
+                        if (pc) {
+                            pc.close();
+                            pc = null;
+                        }
+                        document.getElementById("stop").disabled = true;
+                        document.getElementById("start").disabled = false;
+                        document.documentElement.style.cursor = 'default';
+                    };
+
+                    ws.onerror = function (evt) {
+                        alert("An error has occurred!", evt);
+                        ws.close();
+                    };
+            }
+
+            function stop() {
+                document.getElementById('remote-video').srcObject = null;
+                document.getElementById('remote-video').src = ''; // TODO; remove
+                if (pc) {
+                    pc.close();
+                    pc = null;
+                }
+                if (ws) {
+                    ws.close();
+                    ws = null;
+                }
+                document.getElementById("stop").disabled = true;
+                document.getElementById("start").disabled = false;
+                document.documentElement.style.cursor = 'default';
+            }
+
+            window.onload = function () {
+                if (false) {
+                    start();
+                }
+            };
+
+            window.onbeforeunload = function () {
+                if (ws) {
+                    ws.onclose = function () {}; // disable onclose handler first
+                    stop();
+                }
+            };
+
+        </script>
+        <style>
+            video {
+                background: #eee none repeat scroll 0 0;
+                border: 1px solid #aaa;
+            }
+        </style>
+    </head>
+    <body style="margin: 0; padding: 0">
+        <div class="overlayWrapper">
+            <video id="remote-video" autoplay=""width="640" height="480">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        <div id="controls">
+            <button id="start" style="background-color: green; color: white" onclick="start();">Start</button>
+            <button disabled id="stop" style="background-color: red; color: white" onclick="stop();">Stop</button>
+        </div>
+        <br>
+    </body>
+</html>

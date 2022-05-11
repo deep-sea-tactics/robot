@@ -7,7 +7,6 @@
 
 	const mouseRadius = 10
 	let canvas: Canvas
-	let container: HTMLDivElement
 
 	let canvasWidth
 
@@ -18,9 +17,12 @@
 			y: height / 2
 		}
 
-		const translatedPosition: Position = {
-			x: ($position.x) * (width / 100),
+		const translatedPosition: Position = $controllerInUse ? {
+      x: ($position.x) * (width / 100),
 			y: ($position.y) * (height / 100)
+    } : {
+			x: ($position.x) * (width / 50),
+			y: ($position.y) * (height / 50)
 		}
 
 		// Grid
@@ -33,6 +35,8 @@
 			context.moveTo(0, 0.5 + x);
 			context.lineTo(height, 0.5 + x);
 		}
+
+    console.log($position)
 
 		context.strokeStyle = "#aaa";
 		context.stroke();
@@ -73,12 +77,13 @@
 		}
 
 		const rect = canvas.getCanvas().getBoundingClientRect();
-		const width = canvas.getCanvas().width;
-		const height = canvas.getCanvas().height;
+		const width = canvas.getCanvas().clientWidth;
+		const height = canvas.getCanvas().clientHeight;
+		console.log(width, height, clientX, clientY)
 
 		$position = {
-			x: (clientX - rect.left) / (width / 100),
-			y: (clientY - rect.top) / (height / 100)
+			x: (clientX) / (height / 100),
+			y: (clientY) / (width / 100)
 		};
 
 		client.emit("position", $position)
@@ -122,7 +127,7 @@
 
 </script>
 
-<div id="controller" bind:clientWidth={canvasWidth} bind:this={container}>
+<div class="bg-gray-300 h-screen w-1/3 m-0" bind:clientWidth={canvasWidth}>
 	<Canvas id="canvas"
 		bind:this={canvas} on:mouseleave={mouseLeave} on:mousemove={mouseEvent}
 		on:mousedown={mouseDown}
@@ -132,18 +137,12 @@
 		<Layer {render}></Layer>
 	</Canvas>
 	{#if $controllerAvailable}
-		<button on:click={switchControls}>Use { $controllerInUse ? "Mouse" : "Controller" }</button>
+		<button class="w-full" on:click={switchControls}>Use { $controllerInUse ? "Mouse" : "Controller" }</button>
 	{/if}
 </div>
 
-<style lang="scss">
-	#controller {
-		background-color: lightgray;
-		grid-area: controller;
-	}
-
+<style>
 	button {
-		width: 100%;
 		font-size: 1.3rem;
 	}
 

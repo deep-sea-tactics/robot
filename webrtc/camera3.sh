@@ -1,1 +1,1 @@
-sudo uv4l --external-driver --device-name=video4 --server-option '--port=8082' --server-option '--webrtc-video-format=5'
+sudo uv4l --external-driver --device-name=video3 --server-option '--port=8083' --server-option '--webrtc-video-format=5'

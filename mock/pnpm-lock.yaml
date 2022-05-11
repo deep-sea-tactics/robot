@@ -1,0 +1,32 @@
+lockfileVersion: 5.3
+
+specifiers:
+  wrtc: ^0.4.7
+
+dependencies:
+  wrtc: 0.4.7
+
+packages:
+
+  /domexception/1.0.1:
+    resolution: {integrity: sha512-raigMkn7CJNNo6Ihro1fzG7wr3fHuYVytzquZKX5n0yizGsTcYgzdIUwj1X9pK0VvjeihV+XiclP+DjwbsSKug==}
+    requiresBuild: true
+    dependencies:
+      webidl-conversions: 4.0.2
+    dev: false
+    optional: true
+
+  /webidl-conversions/4.0.2:
+    resolution: {integrity: sha512-YQ+BmxuTgd6UXZW3+ICGfyqRyHXVlD5GtQr5+qjiNW7bF0cqrzX500HVXPBOvgXb5YnzDd+h0zqyv61KUD7+Sg==}
+    dev: false
+    optional: true
+
+  /wrtc/0.4.7:
+    resolution: {integrity: sha512-P6Hn7VT4lfSH49HxLHcHhDq+aFf/jd9dPY7lDHeFhZ22N3858EKuwm2jmnlPzpsRGEPaoF6XwkcxY5SYnt4f/g==}
+    engines: {node: ^8.11.2 || >=10.0.0}
+    requiresBuild: true
+    optionalDependencies:
+      domexception: 1.0.1
+    dev: false
+    bundledDependencies:
+      - node-pre-gyp
