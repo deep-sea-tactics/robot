@@ -15,8 +15,8 @@ ClawMV = 90
 ClawLV = 0
 SpinMV = 180
 SpinLV = 0
-UpdownMV = 120
-UpdownLV = 170
+UpdownMV = 170
+UpdownLV = 100
 CameraMV = 60
 CameraLV = 0
 MID_VALUE = 130
@@ -85,17 +85,15 @@ def decreaseCamera():
 
 def increaseUpdown():
         global currentUpdownLevel
-        inp = currentUpdownLevel + 1
-        if inp > UpdownMV:
-                inp = UpdownMV
-        kit.servo[UPDOWN].angle = inp
-        currentUpdownLevel = inp
+        currentUpdownLevel = currentUpdownLevel + 1
+        if currentUpdownLevel > UpdownMV:
+                currentUpdownLevel = UpdownMV
+        kit.servo[UPDOWN].angle = currentUpdownLevel
 
 def decreaseUpdown():
         global currentUpdownLevel
-        inp = currentUpdownLevel - 1
-        if inp < UpdownLV:
-                inp = UpdownLV
-        kit.servo[UPDOWN].angle = inp
-        currentUpdownLevel = inp
+        currentUpdownLevel = currentUpdownLevel - 1
+        if currentUpdownLevel < UpdownLV:
+                currentUpdownLevel = UpdownLV
+        kit.servo[UPDOWN].angle = currentUpdownLevel
 

@@ -133,13 +133,13 @@ def on_message(data):
         camera = 1
         view = 5
     elif (view == 0):
-        amount = servo.increase(3, amount)
-#        servo.increaseUpdown()
+#       amount = servo.increase(3, amount)
+        servo.increaseUpdown()
         updown = 1
         view = 5
     elif (view == 4):
-        amount = servo.decrease(3, amount)
-#        servo.decreaseUpdown()
+#        amount = servo.decrease(3, amount)
+        servo.decreaseUpdown()
         updown = -1
         view = 5
     else:
