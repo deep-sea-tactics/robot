@@ -5,7 +5,7 @@ import json
 from datetime import datetime
 
 os.system("sudo pigpiod")
-time.sleep(2)
+time.sleep(0.5)
 
 import RoverServo as servo
 import RoverESC as esc
@@ -75,6 +75,7 @@ def on_message(data):
     global camSwitch
     global oldTime
     camera = 0
+    updown = 0
     #print(data)
     parsed_data = json.loads(data)
     newY=((parsed_data["position"]["y"]) - 50) * -1.9

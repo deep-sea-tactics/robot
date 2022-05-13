@@ -7,8 +7,8 @@ kit = ServoKit(channels=16)
 
 CLAW = 4
 CAMERA = 2
-SPIN = 7
-UPDOWN = 1
+SPIN = 1
+UPDOWN = 3
 
 
 ClawMV = 90

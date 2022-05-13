@@ -1,3 +1,0 @@
-/dev/video1
-/dev/video6
-/dev/video2
