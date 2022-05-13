@@ -23,6 +23,7 @@ divNum = 0.8
 oldThrottle = 0
 UpDownM = 0
 oldTime = 0
+amount = 130
 MOTOR_SHUTOFF_TIMEOUT_IN_SECONDS = 3
 SERVER_PORT = 9000
 
@@ -74,6 +75,7 @@ def on_message(data):
     global oldThrottle
     global camSwitch
     global oldTime
+    global amount
     camera = 0
     updown = 0
     #print(data)
@@ -131,11 +133,13 @@ def on_message(data):
         camera = 1
         view = 5
     elif (view == 0):
-        servo.increaseUpdown()
+        amount = servo.increase(3, amount)
+#        servo.increaseUpdown()
         updown = 1
         view = 5
     elif (view == 4):
-        servo.decreaseUpdown()
+        amount = servo.decrease(3, amount)
+#        servo.decreaseUpdown()
         updown = -1
         view = 5
     else:

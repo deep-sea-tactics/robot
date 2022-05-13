@@ -20,10 +20,17 @@ UpdownLV = 170
 CameraMV = 60
 CameraLV = 0
 MID_VALUE = 130
-currentClawLevel = MID_VALUE
-currentSpinLevel = MID_VALUE
-currentCameraLevel = MID_VALUE
-currentUpdownLevel = MID_VALUE
+currentClawLevel = 45
+currentSpinLevel = 90
+currentCameraLevel = 30
+currentUpdownLevel = 130
+
+def increase(servo, amount):
+	kit.servo[servo].angle = amount
+	return amount + 1
+def decrease(servo, amount):
+	kit.servo[servo].angle = amount
+	return amount - 1
 
 def increaseClaw():
 	global currentClawLevel
