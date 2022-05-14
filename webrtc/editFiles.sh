@@ -11,13 +11,12 @@ echo $top
 
 
 #front
-echo sudo uv4l --external-driver --device-name=$front --server-option '--port=8081' --server-option '--webrtc-video-format=5' > camera1.sh.test
+echo sudo uv4l --external-driver --device-name=$front --server-option '--port=8081' --server-option '--webrtc-video-format=5' > camera1.sh
 
 #bottom
-echo sudo uv4l --external-driver --device-name=$bottom --server-option '--port=8083' --server-option '--webrtc-video-format=5' > camera2.sh.test
+echo sudo uv4l --external-driver --device-name=$bottom --server-option '--port=8083' --server-option '--webrtc-video-format=5' > camera3.sh
 
 #top
-echo sudo uv4l --external-driver --device-name=$top --server-option '--port=8082' --server-option '--webrtc-video-format=5' > camera3.sh.test
-
+echo sudo uv4l --external-driver --device-name=$top --server-option '--port=8082' --server-option '--webrtc-video-format=5' > camera2.sh
 
 /home/pi/2022_Code/Landstown-Robotics-Challenge/webrtc/restartCam.sh
