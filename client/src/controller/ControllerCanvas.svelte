@@ -8,7 +8,7 @@
 	const mouseRadius = 10
 	let canvas: Canvas
 
-	let canvasWidth
+	let canvasWidth: number = 300
 
 	$: render = ({ context, width, height }: RenderInterface) => {
 
@@ -35,8 +35,6 @@
 			context.moveTo(0, 0.5 + x);
 			context.lineTo(height, 0.5 + x);
 		}
-
-    console.log($position)
 
 		context.strokeStyle = "#aaa";
 		context.stroke();
@@ -127,7 +125,7 @@
 
 </script>
 
-<div class="bg-gray-300 h-screen w-1/3 m-0" bind:clientWidth={canvasWidth}>
+<div class="bg-gray-300" bind:clientWidth={canvasWidth}>
 	<Canvas id="canvas"
 		bind:this={canvas} on:mouseleave={mouseLeave} on:mousemove={mouseEvent}
 		on:mousedown={mouseDown}
@@ -140,14 +138,3 @@
 		<button class="w-full" on:click={switchControls}>Use { $controllerInUse ? "Mouse" : "Controller" }</button>
 	{/if}
 </div>
-
-<style>
-	button {
-		font-size: 1.3rem;
-	}
-
-	:global(#canvas) {
-		cursor: none;
-		border: 5px solid darkgray;
-	}
-</style>

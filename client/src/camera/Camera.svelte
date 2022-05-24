@@ -1,13 +1,16 @@
-
 <script lang="ts">
-	import { onMount } from "svelte";
+	import { onDestroy } from "svelte";
+	import { screenshots } from "../screenshots/screenshots"
 
-	export let port: number
+	export let port: number;
+	export let asyncOpen = false;
+
+	let enabled = false;
+
+	let invisibleCanvas: HTMLCanvasElement;
 
 	const signalling_server_address = "192.168.1.201:" + port;
 	const pcConfig = {"iceServers": [{"urls": ["stun:192.168.1.201:3478", "stun:stun.l.google.com:19302"]}]};
-	let startButton: HTMLButtonElement
-	let stopButton: HTMLButtonElement
 	let video: HTMLVideoElement
 	let ws: WebSocket;
 	let iceCandidates: RTCIceCandidateInit[] = []
@@ -21,11 +24,11 @@
 		iceCandidates = [];
 	}
 
-	function onTrack(event) {
+	function onTrack(event: RTCTrackEvent) {
 		video.srcObject = event.streams[0];
 	}
 
-	function onIceCandidate(event) {
+	function onIceCandidate(event: RTCPeerConnectionIceEvent) {
 		if (event.candidate && event.candidate.candidate) {
 			const candidate = {
 				sdpMLineIndex: event.candidate.sdpMLineIndex,
@@ -51,8 +54,7 @@
 	}
 
 	function start() {
-		stopButton.disabled = false;
-		startButton.disabled = true;
+		enabled = true;
 		document.documentElement.style.cursor = 'wait';
 
 		const protocol = location.protocol === "https:" ? "wss:" : "ws:";
@@ -62,7 +64,7 @@
 			iceCandidates = [];
 			remoteDesc = false;
 			createPeerConnection();
-			var request = {
+			const request = {
 				what: "call",
 				options: {
 					trickle_ice: true
@@ -120,8 +122,7 @@
 				pc.close();
 				pc = null;
 			}
-			stopButton.disabled = true;
-			startButton.disabled = false;
+			enabled = false;
 			document.documentElement.style.cursor = 'default';
 		};
 
@@ -129,6 +130,21 @@
 			alert("An error has occurred!" + evt);
 			ws.close();
 		};
+	}
+
+	function screenshot() {
+		invisibleCanvas.width = video.width;
+		invisibleCanvas.height = video.height;
+
+		const context = invisibleCanvas.getContext("2d")
+
+		if (!context) return
+
+		context.drawImage(video, 0, 0, video.width, video.height)
+
+		const imgElement = document.createElement("img")
+
+		$screenshots = [...$screenshots, invisibleCanvas.toDataURL("image/png")]
 	}
 
 	function stop() {
@@ -142,34 +158,31 @@
 			ws.close();
 			ws = null;
 		}
-		stopButton.disabled = true;
-		startButton.disabled = false;
+		enabled = false;
 		document.documentElement.style.cursor = 'default';
-		console.log(1)
 	}
 
-	onMount(() => {
-		window.onbeforeunload = function () {
-			if (ws) {
-				ws.onclose = function () {}; // disable onclose handler first
-				stop();
-			}
-		};
+	onDestroy(() => {
+		if (ws) {
+			ws.onclose = function () {}; // disable onclose handler first
+			stop();
+		}
 	});
 </script>
-<style>
-	video {
-		border: 1px solid #aaa;
-	}
-</style>
-<div class="overlayWrapper">
-	<video bind:this={video} id="remote-video" autoplay width="640" height="480">
-		<track kind="captions"/>
-		Your browser does not support the video tag.
-	</video>
+<canvas class="hidden" bind:this={invisibleCanvas}></canvas>
+<div class="block">
+	{#if enabled}
+		<div>
+			<video class="border border-gray-400" bind:this={video} id="remote-video" autoplay width="640" height="480">
+				<track kind="captions"/>
+				Your browser does not support the video tag.
+			</video>
+		</div>
+	{/if}
+	{#if enabled}
+		<button class="bg-red-500 px-4 py-2 hover:bg-red-600 active:bg-red-700" on:click={stop}>Stop {port}</button>
+		<button class="bg-sky-500 px-4 py-2 hover:bg-sky-600 active:bg-sky-700" on:click={screenshot}>Screenshot</button>
+	{:else}
+		<button class="bg-lime-500 px-4 py-2 hover:bg-lime-600 active:bg-lime-700" on:click={start}>Start {port}</button>
+	{/if}
 </div>
-<div id="controls">
-	<button class="bg-lime-500 px-4 py-2 hover:bg-lime-600 active:bg-lime-700" id="start" bind:this={startButton} on:click={start}>Start</button>
-	<button class="bg-red-500 px-4 py-2 hover:bg-red-600 active:bg-red-700" disabled id="stop" bind:this={stopButton} on:click={stop}>Stop</button>
-</div>
-<br>

@@ -4,6 +4,7 @@
   "scripts": {
     "dev": "cross-env NODE_ENV=development vite",
     "build": "vite build",
+    "build:watch": "vite build --watch",
     "test": "jest",
     "test:watch": "jest --watchAll",
     "serve": "vite preview"
