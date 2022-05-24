@@ -18,7 +18,7 @@
 		}
 
 		const translatedPosition: Position = $controllerInUse ? {
-      x: ($position.x) * (width / 100),
+      		x: ($position.x) * (width / 100),
 			y: ($position.y) * (height / 100)
     } : {
 			x: ($position.x) * (width / 50),
