@@ -53,6 +53,7 @@ export interface ControllerData {
 }
 
 export const controllerInUse = stream<Boolean>(true)
+export const forward = stream<Boolean>(false)
 
 /**
  * Reactive stream for data
