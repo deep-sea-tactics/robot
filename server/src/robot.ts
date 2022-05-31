@@ -16,7 +16,6 @@ export async function start(): Promise<void> {
 	// Emit any change that occurs to the position variable
 	flyd.on(change => {
 		if (new Date().getTime() - lastChange.getTime() > controllerDelay) {
-			console.log(Math.random())
 			robot.emit("controllerData", JSON.stringify(change))
 			lastChange = new Date();
 		}
