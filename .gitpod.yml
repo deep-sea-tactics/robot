@@ -2,4 +2,4 @@ tasks:
   - init: |
       ./install.sh
     command: |
-      echo 'TODO: start app'
+      ./run.sh
