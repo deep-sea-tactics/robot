@@ -1,11 +1,10 @@
 <script lang="ts">
-	import { onDestroy } from "svelte";
+	import { onDestroy, onMount } from "svelte";
 	import { screenshots } from "../screenshots/screenshots"
 
 	export let port: number;
-	export let asyncOpen = false;
 
-	let enabled = false;
+	let enabled = true;
 
 	let invisibleCanvas: HTMLCanvasElement;
 
@@ -161,6 +160,10 @@
 		enabled = false;
 		document.documentElement.style.cursor = 'default';
 	}
+
+	onMount(() => {
+		if (enabled) start()
+	})
 
 	onDestroy(() => {
 		if (ws) {

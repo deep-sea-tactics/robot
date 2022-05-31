@@ -52,7 +52,6 @@ export interface ControllerData {
 	buttons: ButtonMapping;
 }
 
-export const controllerInUse = stream<Boolean>(true)
 export const forward = stream<Boolean>(false)
 
 /**
