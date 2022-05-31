@@ -3,16 +3,26 @@ import { logger } from './logger'
 import flyd from 'flyd'
 import { controllerData } from './control/position';
 
-const port = 9000 /* this line here was: const port = env_data.ROBOT_PORT */
+const port = 9000
+
+const controllerDelay = 50
 
 /** Starts the robot server with socket.io. */
 export async function start(): Promise<void> {
 	const robot = new Server(port);
 
-	// Emit any change that occurs to the position variable
-	flyd.on(change => robot.emit("controllerData", JSON.stringify(change)), controllerData)
+	let lastChange = new Date();
 
-	robot.on("connection", (robotClient) => {
+	// Emit any change that occurs to the position variable
+	flyd.on(change => {
+		if (new Date().getTime() - lastChange.getTime() > controllerDelay) {
+			console.log(Math.random())
+			robot.emit("controllerData", JSON.stringify(change))
+			lastChange = new Date();
+		}
+	}, controllerData)
+
+	robot.on("connection", robotClient => {
 		logger.info(`Robot connected! ID: ${robotClient.id}`)
 
 		robotClient.on("close", () => logger.warn("Robot disconected."))

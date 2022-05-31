@@ -126,7 +126,7 @@
 </script>
 
 <div class="bg-gray-300" bind:clientWidth={canvasWidth}>
-	<Canvas id="canvas"
+	<Canvas
 		bind:this={canvas} on:mouseleave={mouseLeave} on:mousemove={mouseEvent}
 		on:mousedown={mouseDown}
 		on:mouseup={mouseUp}

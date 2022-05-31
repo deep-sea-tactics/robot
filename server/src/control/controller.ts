@@ -20,7 +20,7 @@ const bool = (num: number) => num !== 0;
  * @param data The raw Buffer from the controller
  * @returns Parsed ControllerData
  */
-const rawDataToControllerData = (data: Buffer): ControllerData | undefined => {
+export const rawDataToControllerData = (data: Buffer): ControllerData | undefined => {
 
 	// If the hex data does not have 1-2 characters, it is not good.
 	const rawDataMatches = data.toString('hex').match(/..?/g)
@@ -63,16 +63,12 @@ const rawDataToControllerData = (data: Buffer): ControllerData | undefined => {
  * @param socket The socket to use.
  * @param data The data to process and send to the socket.
  */
-export const sendDataToSocket = (socket: Server, data: Buffer): ControllerData | undefined => {
-	const parsedData = rawDataToControllerData(data);
-	
-	logger.debug(parsedData)
+export const sendDataToSocket = (socket: Server, data: ControllerData | undefined) => {
+	logger.debug(data)
 
-	if (parsedData === undefined) {
-		return parsedData
+	if (data === undefined) {
+		return
 	}
 
-	socket.emit("controllerData", parsedData)
-
-	return parsedData
+	socket.emit("controllerData", data)
 }
