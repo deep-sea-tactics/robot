@@ -18,11 +18,13 @@
       </div>
     {/each}
   </div>
-  <div class="w-1/2">
+  <div class="w-full">
     {#if selectedCamera}
       <Camera port={selectedCamera.port}/>
     {/if}
   </div>
-  <ControllerCanvas />
   <Screenshots />
 </main>
+<div class="fixed bottom-0 right-0">
+  <ControllerCanvas />
+</div>

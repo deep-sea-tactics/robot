@@ -126,7 +126,7 @@
 		};
 
 		ws.onerror = function (evt) {
-			alert("An error has occurred!" + evt);
+			alert("An error has occurred! The cameras might be faulty on the hardware.");
 			ws.close();
 		};
 	}
@@ -176,7 +176,7 @@
 <div class="block">
 	{#if enabled}
 		<div>
-			<video class="border border-gray-400" bind:this={video} id="remote-video" autoplay width="640" height="480">
+			<video class="object-cover border border-gray-400" bind:this={video} id="remote-video" autoplay width="640" height="480">
 				<track kind="captions"/>
 				Your browser does not support the video tag.
 			</video>
