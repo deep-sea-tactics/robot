@@ -65,7 +65,7 @@
 
 </script>
 
-<div class="bg-gray-300" bind:clientWidth={canvasWidth}>
+<div class="bg-gray-300 border-4 border-gray" bind:clientWidth={canvasWidth}>
 	<Canvas width={canvasWidth} height={canvasWidth}>
 		<Layer {render}></Layer>
 	</Canvas>
