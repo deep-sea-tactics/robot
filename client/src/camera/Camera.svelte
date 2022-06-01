@@ -16,14 +16,12 @@
 	let pc: RTCPeerConnection;
 
 	function addIceCandidates() {
-		iceCandidates.forEach(candidate => {
-			pc.addIceCandidate(candidate)
-		});
+		Promise.all(iceCandidates.map(candidate => pc.addIceCandidate(candidate)));
 		iceCandidates = [];
 	}
 
 	function onTrack(event: RTCTrackEvent) {
-		video.srcObject = event.streams[0];
+		[video.srcObject] = event.streams;
 	}
 
 	function onIceCandidate(event: RTCPeerConnectionIceEvent) {
@@ -71,33 +69,23 @@
 			ws.send(JSON.stringify(request));
 		};
 
-		ws.onmessage = function (evt) {
+		ws.onmessage = async function (evt) {
 			const msg = JSON.parse(evt.data);
 			if (msg.what === "undefined") return
 			const { what, data } = msg
 
 			switch (what) {
 				case "offer":
-					pc.setRemoteDescription(new RTCSessionDescription(JSON.parse(data)))
-						.catch(() => {
-							alert('Failed to set remote description (unsupported codec on this browser?): ' + event);
-							stop();
-						})
-						.then(() => {
-							remoteDesc = true;
-							addIceCandidates();
-							return pc.createAnswer()
-						})
-						.catch(error => {
-							alert("Failed to createAnswer: " + error);
-						}).then(sessionDescription => {
-							pc.setLocalDescription(sessionDescription as RTCLocalSessionDescriptionInit);
-							const request = {
-								what: "answer",
-								data: JSON.stringify(sessionDescription)
-							};
-							ws.send(JSON.stringify(request));
-						})
+					await pc.setRemoteDescription(new RTCSessionDescription(JSON.parse(data)))
+						remoteDesc = true;
+						addIceCandidates();
+						const sessionDescription = await pc.createAnswer()
+						pc.setLocalDescription(sessionDescription);
+						const request = {
+							what: "answer",
+							data: JSON.stringify(sessionDescription)
+						};
+						ws.send(JSON.stringify(request));
 					break;
 
 				case "iceCandidate": // when trickle is enabled
@@ -160,15 +148,13 @@
 		}
 	});
 </script>
-<div class="block">
+<div class="block h-full w-full">
 	{#if enabled}
-		<div>
-			<video class="object-cover border border-gray-400" bind:this={video} id="video" autoplay height="480">
-				<track kind="captions"/>
-				Your browser does not support the video tag.
-			</video>
-		</div>
-		<button class="bg-sky-500 px-4 py-2 hover:bg-sky-600 active:bg-sky-700" on:click={screenshot}>Screenshot</button>
+		<video bind:this={video} id="video" autoplay class="h-4/5 aspect-[4/3] object-cover">
+			<track kind="captions"/>
+			Your browser does not support the video tag.
+		</video>
+		<button class="absolte bottom-0 bg-sky-500 px-4 py-2 hover:bg-sky-600 active:bg-sky-700" on:click={screenshot}>Screenshot</button>
 	{:else}
 		<button class="bg-lime-500 px-4 py-2 hover:bg-lime-600 active:bg-lime-700" on:click={start}>Start {port}</button>
 	{/if}

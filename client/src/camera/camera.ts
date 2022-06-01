@@ -1,16 +1,19 @@
-export type Camera = { asyncOpen: boolean, port: number }
+export type Camera = { asyncOpen: boolean, port: number, description: string }
 
 export const cameras: Camera[] = [
     {
         port: 8081,
-        asyncOpen: false
+        asyncOpen: false,
+        description: "Front"
     },
     {
         port: 8083,
-        asyncOpen: true
+        asyncOpen: true,
+        description: "Bottom"
     },
     {
         port: 8082,
-        asyncOpen: true
+        asyncOpen: true,
+        description: "Back"
     }
 ]
