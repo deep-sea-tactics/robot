@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onDestroy, onMount } from "svelte";
 	import { screenshots } from "../screenshots/screenshots"
+	import captureVideoFrame from "capture-video-frame"
 
 	export let port: number;
 
@@ -106,9 +107,9 @@
 						console.log("Ice Gathering Complete");
 						break;
 					}
-					var elt = JSON.parse(msg.data);
+					const elt = JSON.parse(msg.data);
 					let candidate = new RTCIceCandidate({sdpMLineIndex: elt.sdpMLineIndex, candidate: elt.candidate});
-					iceCandidates.push(candidate);
+					iceCandidates = [...iceCandidates, candidate];
 					if (remoteDesc)
 						addIceCandidates();
 					document.documentElement.style.cursor = 'default';
@@ -132,18 +133,7 @@
 	}
 
 	function screenshot() {
-		invisibleCanvas.width = video.width;
-		invisibleCanvas.height = video.height;
-
-		const context = invisibleCanvas.getContext("2d")
-
-		if (!context) return
-
-		context.drawImage(video, 0, 0, video.width, video.height)
-
-		const imgElement = document.createElement("img")
-
-		$screenshots = [...$screenshots, invisibleCanvas.toDataURL("image/png")]
+		$screenshots = [...$screenshots, captureVideoFrame("video", "png")]
 	}
 
 	function stop() {
@@ -166,7 +156,7 @@
 	})
 
 	onDestroy(() => {
-		if (ws) {
+		if (video && ws) {
 			ws.onclose = function () {}; // disable onclose handler first
 			stop();
 		}
@@ -176,14 +166,11 @@
 <div class="block">
 	{#if enabled}
 		<div>
-			<video class="object-cover border border-gray-400" bind:this={video} id="remote-video" autoplay width="640" height="480">
+			<video class="object-cover border border-gray-400" bind:this={video} id="video" autoplay height="480">
 				<track kind="captions"/>
 				Your browser does not support the video tag.
 			</video>
 		</div>
-	{/if}
-	{#if enabled}
-		<button class="bg-red-500 px-4 py-2 hover:bg-red-600 active:bg-red-700" on:click={stop}>Stop {port}</button>
 		<button class="bg-sky-500 px-4 py-2 hover:bg-sky-600 active:bg-sky-700" on:click={screenshot}>Screenshot</button>
 	{:else}
 		<button class="bg-lime-500 px-4 py-2 hover:bg-lime-600 active:bg-lime-700" on:click={start}>Start {port}</button>

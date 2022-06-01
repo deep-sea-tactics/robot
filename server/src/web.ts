@@ -5,11 +5,12 @@ import { controllerData } from './control/position'
 import { device } from './control/device'
 import type { HID } from "node-hid";
 import { env_data } from "./env" 
+import equals from "fast-deep-equal"
 
 /* The port. Default is 3000 */
 const port = env_data.WEB_PORT | 3000
 
-const io = new Server(3000, {
+const io = new Server(port, {
 	cors: {
 		origin: "*",
 		methods: ["GET", "POST"]
@@ -32,13 +33,6 @@ export const start = async(): Promise<void> => {
 		socket.on("disconnect", (reason) => {
 			logger.info(`Client ${socket.id} disconnected from web interface: ${reason}`)
 		})
-
-		socket.on("position", (position) => {
-			// We use Object.assign to safely manipulate the position field.
-			controllerData(
-				{ ...controllerData(), position }
-			)
-		})
 	})
 
 	if (device() !== undefined) {
@@ -48,7 +42,7 @@ export const start = async(): Promise<void> => {
 
             if (processedData === undefined) return
 
-			if (Object.entries(processedData).toString() == Object.entries(controllerData()).toString()) return
+			if (equals(processedData, controllerData())) return
 
 			sendDataToSocket(io, processedData)
 
@@ -56,7 +50,7 @@ export const start = async(): Promise<void> => {
         });
 
         (device() as HID).on("error", () => {
-            logger.warn("Device disconnected");
+            logger.warn("Device errored out.");
 
             device(undefined);
         })

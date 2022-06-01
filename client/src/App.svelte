@@ -6,6 +6,10 @@
 
   let selectedCamera: CameraType | null = null
 </script>
+<svelte:window on:keypress={event => {
+  if (event.key == "v")
+    selectedCamera = cameras[(cameras.indexOf(selectedCamera) + 1) % cameras.length]
+}}></svelte:window>
 <main class="flex flex-row w-screen h-screen">
   <div class="w-1/5 flex flex-col">
     {#each cameras as camera}
@@ -17,10 +21,13 @@
         Camera {camera.port}
       </div>
     {/each}
+    <div class="w-full flex-shrink p-2 flex justify-center items-center bg-gray-300">Press V to Cycle</div>
   </div>
   <div class="w-full">
     {#if selectedCamera}
-      <Camera port={selectedCamera.port}/>
+      {#key selectedCamera}
+        <Camera port={selectedCamera.port}/>
+      {/key}
     {/if}
   </div>
   <Screenshots />

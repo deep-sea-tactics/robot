@@ -5,10 +5,10 @@ import { controllerData } from './control/position';
 
 const port = 9000
 
-const controllerDelay = 50
+const controllerDelay = 20
 
 /** Starts the robot server with socket.io. */
-export async function start(): Promise<void> {
+export async function start() {
 	const robot = new Server(port);
 
 	let lastChange = new Date();
