@@ -1,13 +1,11 @@
 <script lang="ts">
 	import { onDestroy, onMount } from "svelte";
 	import { screenshots } from "../screenshots/screenshots"
-	import captureVideoFrame from "capture-video-frame"
+	import { captureVideoFrame } from "capture-video-frame"
 
 	export let port: number;
 
 	let enabled = true;
-
-	let invisibleCanvas: HTMLCanvasElement;
 
 	const signalling_server_address = "192.168.1.201:" + port;
 	const pcConfig = {"iceServers": [{"urls": ["stun:192.168.1.201:3478", "stun:stun.l.google.com:19302"]}]};
@@ -133,7 +131,7 @@
 	}
 
 	function screenshot() {
-		$screenshots = [...$screenshots, captureVideoFrame("video", "png")]
+		$screenshots = [...$screenshots, captureVideoFrame("video", "png").dataUri]
 	}
 
 	function stop() {
@@ -162,7 +160,6 @@
 		}
 	});
 </script>
-<canvas class="hidden" bind:this={invisibleCanvas}></canvas>
 <div class="block">
 	{#if enabled}
 		<div>
