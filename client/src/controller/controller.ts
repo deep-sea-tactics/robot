@@ -1,22 +1,38 @@
-import { writable, Writable, get } from "svelte/store";
+import { writable, Writable } from "svelte/store";
 import type { Position } from './typings';
 import { client } from '../socket/socket'
 
-/* A position from 0-100 on two axises, where 0 is the top left and 100 is the bottom right. */
-export const position: Writable<Position> = writable({ x: 50, y: 50 });
-export const forward = writable(false);
-export const trigger = writable(false);
-
-forward.subscribe(change => client.emit("forward", change))
-
 interface ControllerData {
 	position: Position,
+	yaw: number,
+	view: number,
+	throttle: number,
 	buttons: {
-		trigger: boolean
+		trigger: boolean,
+		side_grip: boolean,
+		controller_buttons: {
+			bottom_left: boolean,
+			bottom_right: boolean,
+			top_left: boolean,
+			top_right: boolean
+		},
+		side_panel: {
+			top_left: boolean,
+			top_right: boolean,
+			middle_left: boolean,
+			middle_right: boolean,
+			bottom_left: boolean,
+			bottom_right: boolean
+		}
 	}
 }
 
-client.on("controllerData", (data: ControllerData) => {
-	position.set(data.position)
-	trigger.set(data.buttons.trigger)
+/* A position from 0-100 on two axises, where 0 is the top left and 100 is the bottom right. */
+export const data: Writable<ControllerData> = writable();
+export const forward = writable(false);
+
+forward.subscribe(change => client.emit("forward", change))
+
+client.on("controllerData", ($data: ControllerData) => {
+	data.set($data)
 })

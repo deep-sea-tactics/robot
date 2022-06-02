@@ -1,7 +1,7 @@
 <script lang="ts">
 
 	import { Canvas, Layer } from "svelte-canvas";
-	import { position, trigger } from './controller'
+	import { data } from './controller'
 	import type { Position, RenderInterface } from './typings'
 
 	const mouseRadius = 10
@@ -10,29 +10,22 @@
 
 	$: render = ({ context, width, height }: RenderInterface) => {
 
+		if (!$data) return
+
 		const canvasOrigin: Position = {
 			x: width / 2,
 			y: height / 2
 		}
 
 		const translatedPosition: Position = {
-      		x: ($position.x) * (width / 100),
-			y: ($position.y) * (height / 100)
+      		x: ($data.position.x) * (width / 100),
+			y: ($data.position.y) * (height / 100)
     	}
 
-		// Grid
-		for (let x = 0; x <= width; x += width / 10) {
-			context.moveTo(0.5 + x, 0);
-			context.lineTo(0.5 + x, height);
-		}
+		context.fillStyle = `rgba(0, 200, 0, 0.2)`
 
-		for (let x = -1; x <= width - 1; x += width / 10) {
-			context.moveTo(0, 0.5 + x);
-			context.lineTo(height, 0.5 + x);
-		}
-
-		context.strokeStyle = "#aaa";
-		context.stroke();
+		// Add throttle
+		context.fillRect(0, height - ($data.throttle / 255) * height, width, ($data.throttle / 255) * height)
 
 		// Base stroke style
 		context.strokeStyle = `rgb(50, 168, 96)`
@@ -55,17 +48,25 @@
 		// Create a circle around the mouse
 		context.beginPath();
 		context.arc(translatedPosition.x, translatedPosition.y, mouseRadius, 0, 2 * Math.PI);
+		context.stroke();
 
-		if ($trigger) 
-			context.fill();
-		else 
-			context.stroke();
+		if ($data.buttons.trigger) {
+			context.beginPath()
+			context.arc(translatedPosition.x, translatedPosition.y, mouseRadius, 0, Math.PI);
+			context.fill()
+		}
+
+		if ($data.buttons.side_grip) {
+			context.beginPath()
+			context.arc(translatedPosition.x, translatedPosition.y, mouseRadius, 0, Math.PI, true);
+			context.fill()
+		}
 
 	}
 
 </script>
 
-<div class="bg-gray-300/[0.5]" bind:clientWidth={canvasWidth}>
+<div class="bg-gray-900/[0.3]" bind:clientWidth={canvasWidth}>
 	<Canvas width={canvasWidth} height={canvasWidth}>
 		<Layer {render}></Layer>
 	</Canvas>

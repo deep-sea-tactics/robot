@@ -148,13 +148,13 @@
 		}
 	});
 </script>
-<div class="block h-full w-full">
+<div class="block h-full w-full bg-gray-200">
 	{#if enabled}
-		<video bind:this={video} id="video" autoplay class="h-4/5 aspect-[4/3] object-cover">
+		<video bind:this={video} id="video" autoplay class="h-full aspect-[4/3] object-cover">
 			<track kind="captions"/>
 			Your browser does not support the video tag.
 		</video>
-		<button class="absolte bottom-0 bg-sky-500 px-4 py-2 hover:bg-sky-600 active:bg-sky-700" on:click={screenshot}>Screenshot</button>
+		<button class="absolute bottom-0 bg-sky-500 px-4 py-2 hover:bg-sky-600 active:bg-sky-700" on:click={screenshot}>Screenshot</button>
 	{:else}
 		<button class="bg-lime-500 px-4 py-2 hover:bg-lime-600 active:bg-lime-700" on:click={start}>Start {port}</button>
 	{/if}
