@@ -1,0 +1,40 @@
+{
+  "name": "mimic-webrtc",
+  "version": "1.0.0",
+  "description": "Mimic WebRTC video streams",
+  "main": "dist/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "tsc && node dist/index.js",
+    "dev": "nodemon src/index.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LeoDog896/mimic.git"
+  },
+  "keywords": [
+    "webrtc"
+  ],
+  "author": "LeoDog896",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/LeoDog896/mimic/issues"
+  },
+  "homepage": "https://github.com/LeoDog896/mimic#readme",
+  "devDependencies": {
+    "@types/jest": "^28.1.0",
+    "@types/node": "^17.0.38",
+    "@types/ws": "^8.5.3",
+    "jest": "^28.1.0",
+    "nodemon": "^2.0.16",
+    "ts-jest": "^28.0.4",
+    "ts-node": "^10.8.0",
+    "typescript": "^4.7.2"
+  },
+  "dependencies": {
+    "canvas": "^2.9.1",
+    "color-space": "^2.0.0",
+    "wrtc": "^0.4.7",
+    "ws": "^8.7.0"
+  }
+}

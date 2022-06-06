@@ -8,7 +8,7 @@ const port = 9000
 const controllerDelay = 20
 
 /** Starts the robot server with socket.io. */
-export async function start() {
+export async function start(): Promise<void> {
 	const robot = new Server(port);
 
 	let lastChange = new Date();

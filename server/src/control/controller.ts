@@ -63,7 +63,7 @@ export const rawDataToControllerData = (data: Buffer): ControllerData | undefine
  * @param socket The socket to use.
  * @param data The data to process and send to the socket.
  */
-export const sendDataToSocket = (socket: Server, data: ControllerData | undefined) => {
+export const sendDataToSocket = (socket: Server, data: ControllerData | undefined): void => {
 	logger.debug(data)
 
 	if (data === undefined) {

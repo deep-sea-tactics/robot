@@ -52,7 +52,7 @@ export interface ControllerData {
 	buttons: ButtonMapping;
 }
 
-export const forward = stream<Boolean>(false)
+export const forward = stream<boolean>(false)
 
 /**
  * Reactive stream for data

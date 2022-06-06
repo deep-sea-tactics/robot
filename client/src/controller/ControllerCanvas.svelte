@@ -18,9 +18,9 @@
 		}
 
 		const translatedPosition: Position = {
-      		x: ($data.position.x) * (width / 100),
+      x: ($data.position.x) * (width / 100),
 			y: ($data.position.y) * (height / 100)
-    	}
+    }
 
 		context.fillStyle = `rgba(0, 200, 0, 0.2)`
 

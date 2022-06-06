@@ -22,7 +22,7 @@
   }
 }}></svelte:window>
 <main class="flex flex-row w-screen h-screen">
-  <div class="w-1/5 flex flex-col">
+  <div class="w-1/5 flex flex-col divide-y divide-black">
     {#each cameras as camera}
       <div 
         class="w-full flex-grow p-8 text-center flex justify-center items-center bg-lime-200 hover:bg-lime-300 active:bg-lime-400 transition-all text-xl" 
@@ -42,6 +42,8 @@
       {#key selectedCamera}
         <Camera port={selectedCamera.port}/>
       {/key}
+    {:else}
+      <p class="flex items-center justify-center w-full h-full text-2xl font-semibold">No camera selected. <br/>Press V or click to select a new one!</p>
     {/if}
   </div>
   <Screenshots />
