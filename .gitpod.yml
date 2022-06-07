@@ -1,5 +1,11 @@
 tasks:
   - init: |
+      export CLIENT_URL="$(gp url 30000)/livereload.js?snipver=1&port=443"
       ./install.sh
     command: |
       ./run.sh
+ports:
+  - port: 4000
+    onOpen: open-browser
+  - port: 30000
+    onOpen: ignore
