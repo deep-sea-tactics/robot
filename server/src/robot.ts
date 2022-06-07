@@ -1,7 +1,7 @@
 import { Server } from "socket.io";
-import { logger } from './logger'
+import { logger } from './logger.js'
 import flyd from 'flyd'
-import { controllerData } from './control/position';
+import { controllerData } from './control/position.js';
 
 const port = 9000
 

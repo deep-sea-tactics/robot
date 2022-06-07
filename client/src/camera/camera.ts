@@ -10,10 +10,5 @@ export const cameras: Camera[] = [
         port: 8083,
         asyncOpen: true,
         description: "Bottom"
-    },
-    {
-        port: 8082,
-        asyncOpen: true,
-        description: "Back"
     }
 ]

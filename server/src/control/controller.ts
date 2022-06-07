@@ -1,8 +1,8 @@
 // Adapted and modernized from https://github.com/poweic/node-Logitech-Extreme-3D-Pro/blob/master/app.js
 
 import type { Server } from 'socket.io'
-import { ControllerData } from './position'
-import { logger } from "../logger"
+import { ControllerData } from './position.js'
+import { logger } from "../logger.js"
 
 
 /**

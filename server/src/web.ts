@@ -1,10 +1,10 @@
 import { Server } from "socket.io"
-import { sendDataToSocket, rawDataToControllerData } from './control/controller';
-import { logger } from "./logger"
-import { controllerData } from './control/position'
-import { device } from './control/device'
+import { sendDataToSocket, rawDataToControllerData } from './control/controller.js';
+import { logger } from "./logger.js"
+import { controllerData } from './control/position.js'
+import { device } from './control/device.js'
 import type { HID } from "node-hid";
-import { env_data } from "./env" 
+import { env_data } from "./env.js" 
 import equals from "fast-deep-equal"
 
 /* The port. Default is 3000 */

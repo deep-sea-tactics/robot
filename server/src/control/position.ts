@@ -1,4 +1,4 @@
-import { stream } from 'flyd'
+import flyd from 'flyd'
 
 /**
  * General X and Y position interface
@@ -52,12 +52,12 @@ export interface ControllerData {
 	buttons: ButtonMapping;
 }
 
-export const forward = stream<boolean>(false)
+export const forward = flyd.stream<boolean>(false)
 
 /**
  * Reactive stream for data
  */
-export const controllerData = stream<ControllerData>({
+export const controllerData = flyd.stream<ControllerData>({
 	position: {
 		x: 50,
 		y: 50

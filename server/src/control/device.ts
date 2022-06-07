@@ -1,6 +1,6 @@
-import { logger } from '../logger'
+import { logger } from '../logger.js'
 import * as HID from "node-hid";
-import flyd, { stream } from 'flyd'
+import flyd from 'flyd'
 
 /**
  * Grabs a file from the running computer
@@ -15,15 +15,14 @@ import flyd, { stream } from 'flyd'
 		if (!(e instanceof Error)) return undefined;
 
 		// We don't need to log anything to the console.
-        if (!log) return undefined;
+    if (!log) return undefined;
 
 		if (e.message.includes("cannot open device")) {
 			// device is plugged in but can't connect to
 			logger.warn(e.message + " (Logitech Pro 3D controller)");
 		} else {
 			// device not found / unable to connect
-			logger.warn("Logitech controller not found; use input from web service instead.")
-			logger.warn("Full warning: " + e.message)
+			logger.warn("Logitech controller not found: " + e.message)
 		}
 
 		// either way, no device found
@@ -31,9 +30,9 @@ import flyd, { stream } from 'flyd'
 	}
 }
 
-export const device = stream(grabController())
+export const device = flyd.stream(grabController())
 
-let interval: NodeJS.Timeout | undefined = undefined
+let interval: NodeJS.Timeout | undefined = undefined;
 
 flyd.on(newDevice => {
 

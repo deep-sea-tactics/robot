@@ -12,6 +12,7 @@
       selectedCamera = cameras[cameras.length - 1]
       return
     }
+    
     selectedCamera = cameras[
       cameras.indexOf(selectedCamera) == 0 
         ? (cameras.length - 1) 
