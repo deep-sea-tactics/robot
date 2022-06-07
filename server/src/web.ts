@@ -3,9 +3,9 @@ import { sendDataToSocket, rawDataToControllerData } from './control/controller.
 import { logger } from "./logger.js"
 import { controllerData } from './control/position.js'
 import { device } from './control/device.js'
-import type { HID } from "node-hid";
 import { env_data } from "./env.js" 
 import equals from "fast-deep-equal"
+import flyd from 'flyd'
 
 /* The port. Default is 3000 */
 const port = env_data.WEB_PORT | 3000
@@ -33,28 +33,30 @@ export const start = async(): Promise<void> => {
 		socket.on("disconnect", (reason) => {
 			logger.info(`Client ${socket.id} disconnected from web interface: ${reason}`)
 		})
-	})
+	});
 
-	if (device() !== undefined) {
-        (device() as HID).on("data", data => {
 
-            const processedData = rawDataToControllerData(data)
+  flyd.on(controller => {
+    if (!controller) return
 
-            if (processedData === undefined) return
+    controller.on("data", data => {
+      const processedData = rawDataToControllerData(data)
 
-			if (equals(processedData, controllerData())) return
+      if (processedData === undefined) return
 
-			sendDataToSocket(io, processedData)
+      if (equals(processedData, controllerData())) return
 
-            controllerData(processedData)
-        });
+      sendDataToSocket(io, processedData)
 
-        (device() as HID).on("error", () => {
-            logger.warn("Device errored out.");
+      controllerData(processedData)
+    });
 
-            device(undefined);
-        })
-	}
+    controller.on("error", () => {
+      logger.warn("Device errored out.");
+
+      device(undefined);
+    })
+	}, device);
 
 	logger.info(`Socket listening to ${port}`);
 }
