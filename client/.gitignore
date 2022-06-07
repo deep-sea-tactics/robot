@@ -1,5 +1,8 @@
-/node_modules/
-/dist/
-/.vscode/
 .DS_Store
-build/
+node_modules
+/build
+/.svelte-kit
+/package
+.env
+.env.*
+!.env.example

@@ -1,8 +1,8 @@
 <script lang="ts">
-  import Camera from "./camera/Camera.svelte"
-  import { cameras, type Camera as CameraType } from "./camera/camera"
-	import ControllerCanvas from './controller/ControllerCanvas.svelte'
-	import Screenshots from "./screenshots/Screenshots.svelte"
+  import Camera from "$lib/camera/Camera.svelte"
+  import { cameras, type Camera as CameraType } from "$lib/camera/camera"
+	import ControllerCanvas from '$lib/controller/ControllerCanvas.svelte'
+	import Screenshots from "$lib/screenshots/Screenshots.svelte"
 
   let selectedCamera: CameraType | null = null
 </script>
@@ -19,6 +19,11 @@
         : cameras.indexOf(selectedCamera) - 1
       ]
   } else if (event.key == "v") {
+    if (!selectedCamera) {
+      selectedCamera = cameras[0];
+      return
+    }
+    
     selectedCamera = cameras[(cameras.indexOf(selectedCamera) + 1) % cameras.length]
   }
 }}></svelte:window>

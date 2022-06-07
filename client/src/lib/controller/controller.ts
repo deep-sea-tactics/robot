@@ -1,4 +1,4 @@
-import { writable, Writable } from "svelte/store";
+import { writable } from "svelte/store";
 import type { Position } from './typings';
 import { client } from '../socket/socket'
 
@@ -28,7 +28,7 @@ interface ControllerData {
 }
 
 /* A position from 0-100 on two axises, where 0 is the top left and 100 is the bottom right. */
-export const data: Writable<ControllerData> = writable();
+export const data = writable<ControllerData>();
 export const forward = writable(false);
 
 forward.subscribe(change => client.emit("forward", change))
