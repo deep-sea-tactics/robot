@@ -1,6 +1,6 @@
 tasks:
   - init: |
-      export CLIENT_URL="$(gp url 30000)/livereload.js?snipver=1&port=443"
+      export HMR_HOST=`gp url 3000`
       ./install.sh
     command: |
       ./run.sh
@@ -9,3 +9,7 @@ ports:
     onOpen: open-browser
   - port: 30000
     onOpen: ignore
+
+vscode:
+  extensions:
+    - svelte.svelte-vscode

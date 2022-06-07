@@ -16,9 +16,7 @@ const config = {
     vite: {
       clearScreen: false,
       server: {
-        hmr: {
-          port: 30000
-        },
+        hmr: !process.env.HMR_HOST,
         port: 4000,
         host: "localhost",
         headers: {
