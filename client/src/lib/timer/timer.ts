@@ -1,7 +1,15 @@
-import { writable, get, derived } from "svelte/store"
+import { beep } from "../beep"
+import { writable, get } from "svelte/store"
 
 setInterval(() => {
-  times.set(get(times).map(({ time, active }) => ({ time: active ? (time <= 0 ? 0 : time - 1) : time, active })))
+  times.set(get(times).map(({ time, active }) => {
+    if (time <= 0 && active) {
+      beep()
+    }
+
+    return ({ time: active ? (time <= 0 ? 0 : time - 1) : time, active })
+  }
+  ))
 }, 1000)
 
 interface Timer {
