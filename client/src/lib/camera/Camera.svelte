@@ -148,6 +148,13 @@
 		}
 	});
 </script>
+
+<svelte:window on:keypress={e => {
+  if (e.key == "s") {
+    takeScreenshot()
+  }
+}}/>
+
 <div class="block h-full w-full bg-gray-200">
 	{#if enabled}
 		<video bind:this={video} id="video" autoplay class="h-full aspect-[4/3] object-cover">
