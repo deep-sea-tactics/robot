@@ -16,9 +16,12 @@ const config = {
     vite: {
       clearScreen: false,
       server: {
+        host: '0.0.0.0',
+        fs: {
+            strict: true,
+        },
         hmr: !process.env.HMR_HOST,
         port: 4000,
-        host: "localhost",
         headers: {
           "Access-Control-Allow-Origin": "http://localhost:3000"
         }
