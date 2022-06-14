@@ -13,7 +13,7 @@
   let selectedCamera: CameraType | null = null
 </script>
 <svelte:window on:keypress={event => {
-  if (event.key == "V") {
+  if (event.key == "V" && !document.activeElement) {
     if (!selectedCamera) {
       selectedCamera = $cameras[$cameras.length - 1]
       return
@@ -24,7 +24,7 @@
         ? ($cameras.length - 1) 
         : $cameras.indexOf(selectedCamera) - 1
       ]
-  } else if (event.key == "v") {
+  } else if (event.key == "v" && !document.activeElement) {
     if (!selectedCamera) {
       selectedCamera = $cameras[0];
       return
@@ -34,7 +34,7 @@
   }
 }}></svelte:window>
 <main class="flex flex-row w-screen h-screen">
-  <div class="w-1/5 flex flex-col divide-y divide-black">
+  <div class="w-1/5 flex flex-col divide-y border-r border-black divide-black">
     {#if $cameras.length === 0}
     <div 
     class="w-full flex-grow p-8 text-center hover:cursor-pointer flex justify-center items-center bg-red-200 hover:bg-red-300 active:bg-red-400 transition-all text-xl"
@@ -74,21 +74,21 @@
   </div>
   <Screenshots />
 </main>
-<div class="fixed right-0 top-1/2 translate-y-[-50%] p-4 border border-black text-2xl">
+<div class="fixed right-0 top-1/2 translate-y-[-50%] p-4 border-b border-t border-l bg-gray-100 shadow-md rounded-l-lg border-black text-2xl">
   {#each $times as { time, active }}
     <p>
       {fancyTime(time)}
       {#if active}
-        <button class="text-red-700" on:click={() => active = false}>Stop</button>
+        <button class="bg-red-100 hover:bg-red-200 active:bg-red-300 px-4 py-2 rounded-lg active:ring-2 ring-red-200 my-4" on:click={() => active = false}>Stop</button>
       {:else}
-        <button class="text-green-700" on:click={() => active = true}>Start</button>
+        <button class="bg-green-100 hover:bg-green-200 active:bg-green-300 px-4 py-2 rounded-lg active:ring-2 ring-green-200 my-4" on:click={() => active = true}>Start</button>
       {/if}
     </p>
   {/each}
 </div>
-<div class="fixed top-0 right-0 m-4" on:click={() => open(Settings)}>
+<button class="fixed top-0 right-0 m-4" on:click={() => open(Settings)}>
   <Icon data={gear} scale={5} class="hover:rotate-12 transition-all"></Icon>
-</div>
+</button>
 <div class="fixed bottom-0 right-0">
   <ControllerCanvas />
 </div>

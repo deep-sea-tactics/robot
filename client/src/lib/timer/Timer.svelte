@@ -21,7 +21,7 @@
   <br>
 {/if}
 <!-- TODO minutes -->
-<input placeholder="Seconds" bind:value={editableSeconds}>
+<input placeholder="Seconds" class="border-b border-black" bind:value={editableSeconds}>
 <button on:click={() => {
   $times = [...$times, { time: parseInt(evaulate.eval(editableSeconds)) }]
   editableSeconds = "0"

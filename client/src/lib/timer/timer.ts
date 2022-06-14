@@ -28,5 +28,6 @@ export const times = writable<Timer[]>([
 
 export function fancyTime(time: number) {
   const minutes = Math.floor(time / 60)
-  return `${minutes ? minutes + ":" : ""}${(time % 60).toLocaleString("en-US", { minimumIntegerDigits: 2, useGrouping: false })}`
+  const normalizedTime = minutes === 0 ? time % 60 : (time % 60).toLocaleString("en-US", { minimumIntegerDigits: 2, useGrouping: false })
+  return `${minutes ? minutes + ":" : ""}${normalizedTime}`
 }

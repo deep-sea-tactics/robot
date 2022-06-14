@@ -150,7 +150,7 @@
 </script>
 
 <svelte:window on:keypress={e => {
-  if (e.key == "s") {
+  if (e.key == "s" && !document.activeElement) {
     takeScreenshot()
   }
 }}/>
