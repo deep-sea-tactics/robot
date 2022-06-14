@@ -8,6 +8,7 @@
   import Settings from "$lib/settings/Settings.svelte"
   import { getContext } from 'svelte';
   const { open } = getContext('simple-modal');
+  import { times } from "$lib/timer/timer"
 
   let selectedCamera: CameraType | null = null
 </script>
@@ -73,6 +74,18 @@
   </div>
   <Screenshots />
 </main>
+<div class="fixed right-0 top-1/2 translate-y-[-50%] p-4 border border-black text-xl">
+  {#each $times as { time, active }}
+    <p>
+      {time}
+      {#if active}
+        <button on:click={() => active = false}>Stop</button>
+      {:else}
+        <button on:click={() => active = true}>Start</button>
+      {/if}
+    </p>
+  {/each}
+</div>
 <div class="fixed top-0 right-0 m-4" on:click={() => open(Settings)}>
   <Icon data={gear} scale={5} class="hover:rotate-12 transition-all"></Icon>
 </div>

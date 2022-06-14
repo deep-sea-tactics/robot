@@ -1,11 +1,8 @@
 <script lang="ts">
   import { times } from "./timer"
+  import evaulate from "math-expression-evaluator"
 
-  setInterval(() => {
-    $times = $times.map(({ time, active }) => ({ time: time <= 0 ? 0 : time - 1, active }))
-  }, 1000)
-
-  let editableSeconds = 0
+  let editableSeconds = "0"
 </script>
 
 {#if $times.length !== 0}
@@ -16,12 +13,13 @@
     {:else}
       <button on:click={() => active = true}>Start</button>
     {/if}
+    <br/>
   {/each}
   <br>
 {/if}
 <!-- TODO minutes -->
 <input placeholder="Seconds" bind:value={editableSeconds}>
 <button on:click={() => {
-  $times = [...$times, { time: editableSeconds }]
-  editableSeconds = 0
+  $times = [...$times, { time: parseInt(evaulate.eval(editableSeconds)) }]
+  editableSeconds = "0"
 }}>Add new timer</button>
