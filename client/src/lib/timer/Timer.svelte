@@ -1,18 +1,21 @@
 <script lang="ts">
-  import { times } from "./timer"
+  import { times, fancyTime } from "./timer"
   import evaulate from "math-expression-evaluator"
+  import Icon from 'svelte-awesome';
+  import trash from 'svelte-awesome/icons/trash';
 
   let editableSeconds = "0"
 </script>
 
 {#if $times.length !== 0}
-  {#each $times as { active, time }}
-    <span>{time}</span>
+  {#each $times as { active, time }, i}
+    <span>{fancyTime(time)}</span>
     {#if active}
       <button on:click={() => active = false}>Stop</button>
     {:else}
       <button on:click={() => active = true}>Start</button>
     {/if}
+    <button on:click={() => $times = $times.filter((_, index) => i !== index)}><Icon data={trash} class="hover:fill-red-700 transition-all"></Icon></button>
     <br/>
   {/each}
   <br>
