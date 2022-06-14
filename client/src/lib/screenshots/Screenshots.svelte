@@ -1,15 +1,13 @@
 <script lang="ts">
     import { tick } from "svelte"
-    import { screenshots } from "./screenshots"
+    import { screenshot } from "./screenshots"
     import download from "downloadjs"
 
-    screenshots.subscribe(() => tick().then(() => {
-        if ($screenshots.length == 0) return;
+    screenshot.subscribe(() => tick().then(() => {
+        if ($screenshot === null) return;
 
-        const firstScreenshot = $screenshots[0];
+        download($screenshot, "file.png", "image/png")
 
-        download(firstScreenshot, "file.png", "image/png")
-
-        $screenshots = []
+        $screenshot = null
     }))
 </script>

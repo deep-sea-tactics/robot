@@ -1,5 +1,8 @@
 <script>
 	import '../app.css';
+  import Modal from 'svelte-simple-modal';
 </script>
 
-<slot />
+<Modal>
+  <slot />
+</Modal>

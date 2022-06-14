@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onDestroy, onMount } from "svelte";
-	import { screenshots } from "../screenshots/screenshots"
+	import { screenshot } from "../screenshots/screenshots"
 	import { captureVideoFrame } from "capture-video-frame"
 
 	export let port: number;
@@ -118,8 +118,8 @@
 		};
 	}
 
-	function screenshot() {
-		$screenshots = [...$screenshots, captureVideoFrame("video", "png").dataUri]
+	function takeScreenshot() {
+		$screenshot = captureVideoFrame("video", "png").dataUri
 	}
 
 	function stop() {
@@ -154,7 +154,7 @@
 			<track kind="captions"/>
 			Your browser does not support the video tag.
 		</video>
-		<button class="absolute bottom-0 bg-sky-500 px-4 py-2 hover:bg-sky-600 active:bg-sky-700" on:click={screenshot}>Screenshot</button>
+		<button class="absolute bottom-0 bg-sky-500 px-4 py-2 hover:bg-sky-600 active:bg-sky-700" on:click={takeScreenshot}>Screenshot</button>
 	{:else}
 		<button class="bg-lime-500 px-4 py-2 hover:bg-lime-600 active:bg-lime-700" on:click={start}>Start {port}</button>
 	{/if}

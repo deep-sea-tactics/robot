@@ -1,3 +1,3 @@
 import { writable } from "svelte/store";
 
-export const screenshots = writable<string[]>([])
+export const screenshot = writable<string | null>(null)
