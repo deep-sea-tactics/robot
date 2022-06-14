@@ -74,7 +74,7 @@
   </div>
   <Screenshots />
 </main>
-<div class="fixed right-0 top-1/2 translate-y-[-50%] p-4 border border-black text-xl">
+<div class="fixed right-0 top-1/2 translate-y-[-50%] p-4 border border-black text-2xl">
   {#each $times as { time, active }}
     <p>
       {fancyTime(time)}
