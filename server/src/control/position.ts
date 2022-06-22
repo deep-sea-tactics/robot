@@ -54,10 +54,7 @@ export interface ControllerData {
 
 export const forward = flyd.stream<boolean>(false)
 
-/**
- * Reactive stream for data
- */
-export const controllerData = flyd.stream<ControllerData>({
+export const defaultControllerData: ControllerData = Object.freeze({
 	position: {
 		x: 50,
 		y: 50
@@ -83,4 +80,9 @@ export const controllerData = flyd.stream<ControllerData>({
 			bottom_right: false
 		}
 	}
-});
+})
+
+/**
+ * Reactive stream for data
+ */
+export const controllerData = flyd.stream<ControllerData>({ ...defaultControllerData });

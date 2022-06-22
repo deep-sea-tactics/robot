@@ -15,7 +15,7 @@ import flyd from 'flyd'
 		if (!(e instanceof Error)) return undefined;
 
 		// We don't need to log anything to the console.
-    if (!log) return undefined;
+		if (!log) return undefined;
 
 		if (e.message.includes("cannot open device")) {
 			// device is plugged in but can't connect to

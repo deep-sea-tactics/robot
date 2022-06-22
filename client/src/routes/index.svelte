@@ -2,6 +2,7 @@
   import Camera from "$lib/camera/Camera.svelte"
   import { cameras, type Camera as CameraType } from "$lib/camera/camera"
 	import ControllerCanvas from '$lib/controller/ControllerCanvas.svelte'
+  import { forward } from "$lib/controller/controller";
 	import Screenshots from "$lib/screenshots/Screenshots.svelte"
   import Icon from 'svelte-awesome';
   import gear from 'svelte-awesome/icons/gear';
@@ -33,6 +34,13 @@
     selectedCamera = $cameras[($cameras.indexOf(selectedCamera) + 1) % $cameras.length]
   }
 }}></svelte:window>
+
+{#if $forward}
+  <button on:click={() => $forward = !$forward} class="fixed bottom-0 right-1/2 bg-red-200 translate-x-[-50%] p-4 m-4">Stop Going Forward</button>
+{:else}
+  <button on:click={() => $forward = !$forward} class="fixed bottom-0 right-1/2 bg-green-200 translate-x-[-50%] p-4 m-4">Go Forward</button>
+{/if}
+
 <main class="flex flex-row w-screen h-screen">
   <div class="w-1/5 flex flex-col divide-y border-r border-black divide-black">
     {#if $cameras.length === 0}

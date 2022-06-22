@@ -1,7 +1,7 @@
 import { Server } from "socket.io"
 import { sendDataToSocket, rawDataToControllerData } from './control/controller.js';
 import { logger } from "./logger.js"
-import { controllerData } from './control/position.js'
+import { controllerData, forward } from './control/position.js'
 import { device } from './control/device.js'
 import { env_data } from "./env.js" 
 import equals from "fast-deep-equal"
@@ -32,6 +32,10 @@ export const start = async(): Promise<void> => {
 		// Warn the server if the client has disconnected
 		socket.on("disconnect", (reason) => {
 			logger.info(`Client ${socket.id} disconnected from web interface: ${reason}`)
+		})
+
+		socket.on("forward", bool => {
+			forward(bool)
 		})
 	});
 
