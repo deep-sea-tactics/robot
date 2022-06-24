@@ -1,7 +1,7 @@
 import { Server } from "socket.io";
 import { logger } from './logger.js'
 import flyd from 'flyd'
-import { ControllerData, controllerData, defaultControllerData, forward } from './control/position.js';
+import { ControllerData, controllerData, forward } from './control/position.js';
 const port = 9000
 
 const controllerDelay = 20
@@ -17,14 +17,18 @@ export async function start(): Promise<void> {
 		if (new Date().getTime() - lastChange.getTime() > controllerDelay) {
 			if (forward()) {
 				const data: ControllerData = {
-					...defaultControllerData,
+					...change,
 					position: {
 						x: 50,
-						y: 100
+						y: 0
+					},
+					buttons: {
+						...change.buttons,
+						trigger: true
 					}
 				}
 
-				robot.emit("controllerData", data)
+				robot.emit("controllerData", JSON.stringify(data))
 			} else {
 				robot.emit("controllerData", JSON.stringify(change))
 			}

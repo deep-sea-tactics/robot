@@ -8,15 +8,14 @@
     "syscall": "spawn",
     "file": "sh",
     "pkgid": "example@1.0.0",
-    "stage": "start",
-    "script": "nodemon src/index.ts",
+    "stage": "dev",
+    "script": "nodemon -q --exec \"npm run start\" src/index.ts",
     "pkgname": "example",
     "err": {
       "name": "pnpm",
-      "message": "example@1.0.0 start: `nodemon src/index.ts`\nspawn ENOENT",
+      "message": "example@1.0.0 dev: `nodemon -q --exec \"npm run start\" src/index.ts`\nspawn ENOENT",
       "code": "ELIFECYCLE",
-      "stack": "pnpm: example@1.0.0 start: `nodemon src/index.ts`\nspawn ENOENT\n    at ChildProcess.<anonymous> (/usr/local/lib/node_modules/pnpm/dist/pnpm.cjs:93535:22)\n    at ChildProcess.emit (node:events:520:28)\n    at maybeClose (node:internal/child_process:1092:16)\n    at Process.ChildProcess._handle.onexit (node:internal/child_process:302:5)"
+      "stack": "pnpm: example@1.0.0 dev: `nodemon -q --exec \"npm run start\" src/index.ts`\nspawn ENOENT\n    at ChildProcess.<anonymous> (/snapshot/dist/pnpm.cjs)\n    at ChildProcess.emit (events.js:400:28)\n    at maybeClose (internal/child_process.js:1088:16)\n    at Process.ChildProcess._handle.onexit (internal/child_process.js:296:5)"
     }
-  },
-  "2 warn pnpm:global": " Local package.json exists, but node_modules missing, did you mean to install?"
+  }
 }
