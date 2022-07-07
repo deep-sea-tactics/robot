@@ -82,7 +82,7 @@
   </div>
   <Screenshots />
 </main>
-<div class="fixed right-0 top-1/2 translate-y-[-50%] p-4 border-b border-t border-l bg-gray-100 shadow-md rounded-l-lg border-black text-2xl">
+<div class="fixed right-0 top-1/2 translate-y-[-50%] p-4 border-b border-t border-l bg-gray-100 shadow-md rounded-l-lg border-black text-lg lg:text-xl xl:text-2xl">
   {#each $times as { time, active }}
     <p>
       {fancyTime(time)}
