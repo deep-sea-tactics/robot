@@ -12,21 +12,7 @@ const config = {
 	],
 
 	kit: {
-		adapter: adapter(),
-    vite: {
-      clearScreen: false,
-      server: {
-        host: '0.0.0.0',
-        fs: {
-            strict: true,
-        },
-        hmr: !process.env.HMR_HOST,
-        port: 4000,
-        headers: {
-          "Access-Control-Allow-Origin": "http://localhost:3000"
-        }
-      }
-    }
+		adapter: adapter()
 	}
 };
 

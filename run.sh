@@ -1,7 +1,7 @@
 #!/bin/sh
 
-(cd client; npm run dev) &
-(cd server; npm run dev)
+(cd client; yarn dev) &
+(cd server; yarn dev)
 
 fuser -k 4000/tcp # kill the svelte process
 fuser -k 3000/tcp

@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "build": "tsc",
-    "start": "npm run build && node dist/index.js",
+    "start": "yarn build && node dist/index.js",
     "dev": "nodemon -q --exec \"npm run start\" src/index.ts"
   },
   "keywords": [],

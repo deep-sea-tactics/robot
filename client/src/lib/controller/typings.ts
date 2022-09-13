@@ -4,7 +4,7 @@ export interface Position {
 }
 
 export interface RenderInterface {
-	context: CanvasRenderingContext2D
+	context: CanvasRenderingContext2D;
 	width: number;
 	height: number;
 }

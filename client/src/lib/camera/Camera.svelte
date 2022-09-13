@@ -1,22 +1,24 @@
 <script lang="ts">
-	import { onDestroy, onMount } from "svelte";
-	import { screenshot } from "../screenshots/screenshots"
-	import { captureVideoFrame } from "capture-video-frame"
+	import { onDestroy, onMount } from 'svelte';
+	import { screenshot } from '../screenshots/screenshots';
+	import { captureVideoFrame } from 'capture-video-frame';
 
 	export let port: number;
 
 	let enabled = true;
 
-	const signalling_server_address = "192.168.1.201:" + port;
-	const pcConfig = {"iceServers": [{"urls": ["stun:192.168.1.201:3478", "stun:stun.l.google.com:19302"]}]};
-	let video: HTMLVideoElement
+	const signalling_server_address = '192.168.1.201:' + port;
+	const pcConfig = {
+		iceServers: [{ urls: ['stun:192.168.1.201:3478', 'stun:stun.l.google.com:19302'] }]
+	};
+	let video: HTMLVideoElement;
 	let ws: WebSocket;
-	let iceCandidates: RTCIceCandidateInit[] = []
+	let iceCandidates: RTCIceCandidateInit[] = [];
 	let remoteDesc = false;
 	let pc: RTCPeerConnection;
 
 	function addIceCandidates() {
-		Promise.all(iceCandidates.map(candidate => pc.addIceCandidate(candidate)));
+		Promise.all(iceCandidates.map((candidate) => pc.addIceCandidate(candidate)));
 		iceCandidates = [];
 	}
 
@@ -32,7 +34,7 @@
 				candidate: event.candidate.candidate
 			};
 			const request = {
-				what: "addIceCandidate",
+				what: 'addIceCandidate',
 				data: JSON.stringify(candidate)
 			};
 			ws.send(JSON.stringify(request));
@@ -45,7 +47,7 @@
 			pc.onicecandidate = onIceCandidate;
 			pc.ontrack = onTrack;
 		} catch (e) {
-			console.error("createPeerConnection() failed");
+			console.error('createPeerConnection() failed');
 		}
 	}
 
@@ -53,7 +55,7 @@
 		enabled = true;
 		document.documentElement.style.cursor = 'wait';
 
-		const protocol = location.protocol === "https:" ? "wss:" : "ws:";
+		const protocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
 		ws = new WebSocket(protocol + '//' + signalling_server_address + '/stream/webrtc');
 
 		ws.onopen = function () {
@@ -61,7 +63,7 @@
 			remoteDesc = false;
 			createPeerConnection();
 			const request = {
-				what: "call",
+				what: 'call',
 				options: {
 					trickle_ice: true
 				}
@@ -71,33 +73,35 @@
 
 		ws.onmessage = async function (evt) {
 			const msg = JSON.parse(evt.data);
-			if (msg.what === "undefined") return
-			const { what, data } = msg
+			if (msg.what === 'undefined') return;
+			const { what, data } = msg;
 
 			switch (what) {
-				case "offer":
-					await pc.setRemoteDescription(new RTCSessionDescription(JSON.parse(data)))
-						remoteDesc = true;
-						addIceCandidates();
-						const sessionDescription = await pc.createAnswer()
-						pc.setLocalDescription(sessionDescription);
-						const request = {
-							what: "answer",
-							data: JSON.stringify(sessionDescription)
-						};
-						ws.send(JSON.stringify(request));
+				case 'offer':
+					await pc.setRemoteDescription(new RTCSessionDescription(JSON.parse(data)));
+					remoteDesc = true;
+					addIceCandidates();
+					const sessionDescription = await pc.createAnswer();
+					pc.setLocalDescription(sessionDescription);
+					const request = {
+						what: 'answer',
+						data: JSON.stringify(sessionDescription)
+					};
+					ws.send(JSON.stringify(request));
 					break;
 
-				case "iceCandidate": // when trickle is enabled
+				case 'iceCandidate': // when trickle is enabled
 					if (!msg.data) {
-						console.log("Ice Gathering Complete");
+						console.log('Ice Gathering Complete');
 						break;
 					}
 					const elt = JSON.parse(msg.data);
-					let candidate = new RTCIceCandidate({sdpMLineIndex: elt.sdpMLineIndex, candidate: elt.candidate});
+					let candidate = new RTCIceCandidate({
+						sdpMLineIndex: elt.sdpMLineIndex,
+						candidate: elt.candidate
+					});
 					iceCandidates = [...iceCandidates, candidate];
-					if (remoteDesc)
-						addIceCandidates();
+					if (remoteDesc) addIceCandidates();
 					document.documentElement.style.cursor = 'default';
 					break;
 			}
@@ -113,13 +117,13 @@
 		};
 
 		ws.onerror = function (evt) {
-			alert("An error has occurred! The cameras might be faulty on the hardware.");
+			alert('An error has occurred! The cameras might be faulty on the hardware.');
 			ws.close();
 		};
 	}
 
 	function takeScreenshot() {
-		$screenshot = captureVideoFrame("video", "png").dataUri
+		$screenshot = captureVideoFrame('video', 'png').dataUri;
 	}
 
 	function stop() {
@@ -138,8 +142,8 @@
 	}
 
 	onMount(() => {
-		if (enabled) start()
-	})
+		if (enabled) start();
+	});
 
 	onDestroy(() => {
 		if (video && ws) {
@@ -149,20 +153,27 @@
 	});
 </script>
 
-<svelte:window on:keypress={e => {
-  if (e.key == "s" && !document.activeElement) {
-    takeScreenshot()
-  }
-}}/>
+<svelte:window
+	on:keypress={(e) => {
+		if (e.key == 's' && !document.activeElement) {
+			takeScreenshot();
+		}
+	}}
+/>
 
 <div class="block h-full w-full bg-gray-200">
 	{#if enabled}
 		<video bind:this={video} id="video" autoplay class="h-full aspect-[4/3] object-cover">
-			<track kind="captions"/>
+			<track kind="captions" />
 			Your browser does not support the video tag.
 		</video>
-		<button class="absolute bottom-0 bg-sky-500 px-4 py-2 hover:bg-sky-600 active:bg-sky-700" on:click={takeScreenshot}>Screenshot</button>
+		<button
+			class="absolute bottom-0 bg-sky-500 px-4 py-2 hover:bg-sky-600 active:bg-sky-700"
+			on:click={takeScreenshot}>Screenshot</button
+		>
 	{:else}
-		<button class="bg-lime-500 px-4 py-2 hover:bg-lime-600 active:bg-lime-700" on:click={start}>Start {port}</button>
+		<button class="bg-lime-500 px-4 py-2 hover:bg-lime-600 active:bg-lime-700" on:click={start}
+			>Start {port}</button
+		>
 	{/if}
 </div>
