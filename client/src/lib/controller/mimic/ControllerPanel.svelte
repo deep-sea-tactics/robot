@@ -17,7 +17,7 @@
 <div class="flex flex-row w-1/2">
 	<button
 		class="flex-grow m-4 bg-gray-200 px-4 py-2 rounded-md"
-		class:bg-gray-300={data.buttons.controller_buttons.bottom_left}>Bottom Left</button
+		class:bg-gray-600={data.buttons.controller_buttons.bottom_left}>Bottom Left</button
 	>
 	<button
 		class="flex-grow m-4 bg-gray-200 px-4 py-2 rounded-md"

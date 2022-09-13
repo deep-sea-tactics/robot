@@ -76,7 +76,7 @@
 			{/each}
 		{/if}
 		<div class="w-full flex-shrink p-2 flex justify-center items-center bg-gray-300">
-			Press <kbd>V</kbd> to Cycle
+			Press <kbd>V</kbd> to cycle
 		</div>
 	</div>
 	<div class="w-full">
@@ -88,7 +88,7 @@
 			<p class="flex items-center justify-center w-full h-full text-2xl font-semibold">
 				<span>
 					No camera selected.<br />
-					Press <kbd>V</kbd> or click to select one.
+					Press <kbd>V</kbd> to cycle or click to select one.
 				</span>
 			</p>
 		{/if}
