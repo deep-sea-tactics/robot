@@ -10,11 +10,7 @@ time.sleep(0.5)
 import RoverServo as servo
 import RoverESC as esc
 
-
-
-# -----------------------------------------
 # Constant values
-# -----------------------------------------
 camSwitch = 0
 minNum = -1
 maxNum = 1
@@ -35,16 +31,13 @@ MIN_VALUE  = esc.MIN_VALUE
 FORWARD_INCREMENT  = (MAX_VALUE - ZERO_VALUE) / 100
 BACKWARD_INCREMENT = (ZERO_VALUE - MIN_VALUE) / 100
 
-# --------------------------------------------------------------------
-# FUNCTION: 
-#   Converts value for motor (-100 to 100) to PWM value
-# --------------------------------------------------------------------
+# Converts value for motor (-100 to 100) to PWM value
 def convertMotorValue(value):
     motorValue = ZERO_VALUE
     if value > 0:
-        motorValue = ZERO_VALUE + FORWARD_INCREMENT*value
+        motorValue = ZERO_VALUE + FORWARD_INCREMENT * value
     else:
-        motorValue = ZERO_VALUE + BACKWARD_INCREMENT*value
+        motorValue = ZERO_VALUE + BACKWARD_INCREMENT * value
         
     return motorValue
 
@@ -109,15 +102,10 @@ def on_message(data):
         trig = 0
         leftM = 0
         rightM = 0
+    
+    sidebutton = 1 if side_grip else 0
 
-    if (side_grip):
-        sidebutton = 1
-    else:
-        sidebutton = 0
-
-    if (Pmiddle_left):
-        UpDownM = UpDownM
-    elif (Pmiddle_right):
+    if (Pmiddle_left or Pmiddle_right):
         UpDownM = UpDownM
     UpDownM = (throttle / 2.55) - 50
 
