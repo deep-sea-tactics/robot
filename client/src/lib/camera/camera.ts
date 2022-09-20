@@ -15,7 +15,11 @@ export const defaultCameras: readonly Camera[] = Object.freeze([
 	{
 		port: 8083,
 		description: 'Bottom'
-	}
+	},
+  {
+    port: 8080,
+    description: "Mock"
+  }
 ]);
 
 export const cameras = writable<Camera[]>([...defaultCameras]);
