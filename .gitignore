@@ -1,3 +1,11 @@
-robot.zip
-packet.rar
-/client/dist
+dist
+.DS_Store
+node_modules
+build
+.svelte-kit
+.env
+.env.*
+!.env.example
+node_modules
+.pyc
+__pycache__
