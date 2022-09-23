@@ -4,7 +4,6 @@ import type { Server } from 'socket.io'
 import { ControllerData } from './position.js'
 import { logger } from "../logger.js"
 
-
 /**
  * If the num is 0, return false, else return true
  * 

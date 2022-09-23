@@ -1,5 +1,3 @@
-# ----------------------------------------- Imports 
-# -----------------------------------------
 import os     #importing os library so as to communicate with the system
 import time   #importing time library to make Rpi wait because its too impatient 
 #os.system ("sudo pigpiod") #Launching GPIO library

@@ -2,11 +2,13 @@
 	import { onDestroy, onMount } from 'svelte';
 	import { screenshot } from '../screenshots/screenshots';
 	import { captureVideoFrame } from 'capture-video-frame';
+	import { page } from '$app/stores';
 
 	export let port: number;
 
 	let enabled = true;
-  
+
+	onMount(() => console.log($page.url));
 	const signalling_server_address = '192.168.1.201:' + port;
 	const pcConfig = {
 		iceServers: [{ urls: ['stun:192.168.1.201:3478', 'stun:stun.l.google.com:19302'] }]
