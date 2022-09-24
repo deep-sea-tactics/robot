@@ -1,7 +1,7 @@
 import { Server } from 'socket.io';
 import { logger } from './logger.js';
 import flyd from 'flyd';
-import { controllerData } from './control/position.js';
+import { controllerData } from './controller/position.js';
 const port = 9000;
 
 const controllerDelay = 20;

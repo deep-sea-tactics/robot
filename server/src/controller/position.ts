@@ -9,38 +9,6 @@ export interface Position {
 }
 
 /**
- * All the buttons on the Logitech 3D Pro Controller
- */
-interface ButtonMapping {
-	trigger: boolean;
-	side_grip: boolean;
-	side_panel: SidePanel;
-	controller_buttons: ControllerButtons;
-}
-
-/**
- * The panel on the left of the controller
- */
-interface SidePanel {
-	top_left: boolean;
-	top_right: boolean;
-	middle_left: boolean;
-	middle_right: boolean;
-	bottom_left: boolean;
-	bottom_right: boolean;
-}
-
-/**
- * The buttons on the top of the joystic
- */
-interface ControllerButtons {
-	top_left: boolean;
-	top_right: boolean;
-	bottom_left: boolean;
-	bottom_right: boolean;
-}
-
-/**
  * All data sent from the controller
  */
 export interface ControllerData {
@@ -48,7 +16,24 @@ export interface ControllerData {
 	yaw: number;
 	view: number;
 	throttle: number;
-	buttons: ButtonMapping;
+	buttons: {
+		trigger: boolean;
+		side_grip: boolean;
+		side_panel: {
+			top_left: boolean;
+			top_right: boolean;
+			middle_left: boolean;
+			middle_right: boolean;
+			bottom_left: boolean;
+			bottom_right: boolean;
+		};
+		controller_buttons: {
+			top_left: boolean;
+			top_right: boolean;
+			bottom_left: boolean;
+			bottom_right: boolean;
+		};
+	};
 }
 
 export const defaultControllerData: ControllerData = Object.freeze({

@@ -16,6 +16,8 @@ Controller views in both the main frontend page and a client-side visualizer for
 
 In the frontend, you can switch between given camera endpoints. This is currently hardcoded, but with the proposal of a camera management system, this will be automated.
 
+## Monorepo with Yarn
+
 # TODO
 
 ## Controller Mixins
@@ -47,3 +49,7 @@ Camera self (in progress) sends your own webcam for quick object testing. It con
 ### Camera Mock
 
 Camera Mock allows you to display a standalone image or a looping video to the camera sender
+
+## Global SocketIO typings
+
+With Yarn set up and ready, we can share types and scripts between different projects.

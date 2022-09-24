@@ -1,8 +1,8 @@
 import { Server } from 'socket.io';
-import { rawDataToControllerData } from './control/controller.js';
+import { rawDataToControllerData } from './controller/controller.js';
 import { logger } from './logger.js';
-import { controllerData, ControllerData } from './control/position.js';
-import { device } from './control/device.js';
+import { controllerData, ControllerData } from './controller/position.js';
+import { device } from './controller/device.js';
 import { env_data } from './env.js';
 import equals from 'fast-deep-equal';
 import flyd from 'flyd';
