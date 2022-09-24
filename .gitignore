@@ -9,3 +9,10 @@ build
 node_modules
 .pyc
 __pycache__
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
