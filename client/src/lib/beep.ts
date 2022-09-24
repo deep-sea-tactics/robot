@@ -24,7 +24,7 @@ export function beep(duration = 200, frequency = 440, volume = 100): Promise<voi
 			oscillatorNode.frequency.value = frequency;
 
 			// Set the type of oscillator
-			oscillatorNode.type = 'square';
+			oscillatorNode.type = 'sawtooth';
 			gainNode.connect(audioContext.destination);
 
 			// Set the gain to the volume

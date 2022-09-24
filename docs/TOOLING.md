@@ -2,7 +2,7 @@
 
 ## Controller Broadcast (keeping)
 
-The `/server` module handles getting native controller input from the host operating system and relays them to conneted nodes.
+The `/server` module handles getting native controller input from the host operating system and relays them to conneted nodes. Using `node-hid`, it can read and parse the data directly from the controller for minimum latency.
 
 ## Timer (discuss)
 
@@ -10,13 +10,20 @@ The timer library inside `frontend` helps keep time for tasks. This feature wasn
 
 ## Controller Debug Tooling (keeping)
 
-Controller views in both the main frontend page and a client-side visualizer for the camera model can be used for reliable testing that the controller is being passed to everywhere. This serves as essentially a status checkup for manual operations.
+Controller views are available in: 
+- The main frontend page (control UI)
+- Client-Side visualizer for the camera model that can be used for reliable testing
+
+The visualizer serves as a status checkup that controller input is working perfectly (and looks sick).
 
 ## Camera Switcher (modification needed)
 
-In the frontend, you can switch between given camera endpoints. This is currently hardcoded, but with the proposal of a camera management system, this will be automated.
+In the frontend, you can switch between given camera endpoints.
+This is currently hardcoded, but with the proposal of a camera management system, this will be automated.
 
-## Monorepo with Yarn
+## Yarn Monorepo (keeping)
+
+A yarn monorepo allows us to use shared libraries and have a universal type package which can be used for the proposed global Socket.IO typnigs
 
 # TODO
 
@@ -29,14 +36,17 @@ This also means simple controller-locking tasks such as Go Forward can be easily
 ## Task List
 
 You can apply tasks (& task descriptions) enabling certain CV (Computer Vision) operations. **The Task List needs to be compiled ASAP once the documents come out.**
+The task list will be available at the top of the UI with a simple search bar, and clicking on any of the tasks will make it active. Tasks can be stopped mid-way with a prmopt to confirm.
 
 ## CV overlay
 
-CV (or Computer Vision) overlay is an overlay on top of _any_ generic video stream. Using a optimized build of OpenCV for the web, computer vision can happen in real time directly on top of the UI-running computer. By making this generic to any video stream, we can change the way our cameras are connected without needing to rechange the cores of our CV system.
+CV (or Computer Vision) overlay is an overlay on top of _any_ generic video stream.
+Using a optimized build of OpenCV for the web, computer vision can happen in real time directly on top of the UI-running computer.
+By making this generic to any video stream, we can change the way our cameras are connected, use our own cameras, or even just a regular video without much effort.
 
 ## Camera Controller
 
-The `server` module should have some `/camera` endpoints that allows camera management (the data itself is transferred with WebRTC), the `client` module will have extra debug tools for mocking a camera and using your own camera, and a newly proposed `/look` will be run on the raspberry PI that broadcasts connected cameras to the server `/camera` endpoints.
+Using socket.io, there will be a subset of packets for managing cameras and negociating WebRTC connections. This will be used for the camera switcher.
 
 ## Camera Testing Utilities
 
@@ -44,11 +54,11 @@ These Camera Testing Utilities can have CV tasks applied to them for CV testing 
 
 ### Camera Self
 
-Camera self (in progress) sends your own webcam for quick object testing. It connets with the Camera Controller proposed system.
+Camera self (in progress) sends your own webcam to the camera controller for quick object testing.
 
 ### Camera Mock
 
-Camera Mock allows you to display a standalone image or a looping video to the camera sender
+Camera Mock allows you to display a standalone image or a looping video to the camera controller
 
 ## Global SocketIO typings
 
