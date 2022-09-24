@@ -29,9 +29,6 @@ interface ControllerData {
 
 /* A position from 0-100 on two axises, where 0 is the top left and 100 is the bottom right. */
 export const data = writable<ControllerData>();
-export const forward = writable(false);
-
-forward.subscribe((change) => client.emit('forward', change));
 
 client.on('controllerData', ($data: ControllerData) => {
 	data.set($data);

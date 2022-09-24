@@ -52,8 +52,6 @@ export interface ControllerData {
 	buttons: ButtonMapping;
 }
 
-export const forward = flyd.stream<boolean>(false)
-
 export const defaultControllerData: ControllerData = Object.freeze({
 	position: {
 		x: 50,

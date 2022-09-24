@@ -1,7 +1,7 @@
 import { Server } from "socket.io"
-import { sendDataToSocket, rawDataToControllerData } from './control/controller.js';
+import { rawDataToControllerData } from './control/controller.js';
 import { logger } from "./logger.js"
-import { controllerData, forward } from './control/position.js'
+import { controllerData, ControllerData } from './control/position.js'
 import { device } from './control/device.js'
 import { env_data } from "./env.js" 
 import equals from "fast-deep-equal"
@@ -10,7 +10,15 @@ import flyd from 'flyd'
 /* The port. Default is 3000 */
 const port = env_data.WEB_PORT | 3000
 
-const io = new Server(port, {
+export interface ServerToClientsMap {
+	controllerData: (data: ControllerData) => void;
+}
+
+export interface ClientToServerMap {
+	mixedControllerData: (data: Partial<ControllerData>) => void;
+}
+
+const io = new Server<ClientToServerMap, ServerToClientsMap>(port, {
 	cors: {
 		origin: "*",
 		methods: ["GET", "POST"]
@@ -33,26 +41,28 @@ export const start = async(): Promise<void> => {
 		socket.on("disconnect", (reason) => {
 			logger.info(`Client ${socket.id} disconnected from web interface: ${reason}`)
 		})
-
-		socket.on("forward", bool => {
-			forward(bool)
-		})
 	});
 
 
   flyd.on(controller => {
-    if (!controller) return
+		if (!controller) return
 
-    controller.on("data", data => {
-      const processedData = rawDataToControllerData(data)
+		controller.on("data", data => {
+			const processedData = rawDataToControllerData(data)
 
-      if (processedData === undefined) return
+			if (processedData === undefined) return
 
-      if (equals(processedData, controllerData())) return
+			if (equals(processedData, controllerData())) return
 
-      sendDataToSocket(io, processedData)
+			logger.debug(processedData)
 
-      controllerData(processedData)
+			if (processedData === undefined) {
+				return
+			}
+
+			io.emit("controllerData", processedData)
+
+		controllerData(processedData)
     });
 
     controller.on("error", () => {

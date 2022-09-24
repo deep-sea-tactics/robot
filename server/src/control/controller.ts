@@ -1,8 +1,6 @@
 // Adapted and modernized from https://github.com/poweic/node-Logitech-Extreme-3D-Pro/blob/master/app.js
 
-import type { Server } from 'socket.io'
 import { ControllerData } from './position.js'
-import { logger } from "../logger.js"
 
 /**
  * If the num is 0, return false, else return true
@@ -55,19 +53,4 @@ export const rawDataToControllerData = (data: Buffer): ControllerData | undefine
 			}
 		}
 	};
-}
-
-/**
- * Sends formatted data from a raw buffer to a socket
- * @param socket The socket to use.
- * @param data The data to process and send to the socket.
- */
-export const sendDataToSocket = (socket: Server, data: ControllerData | undefined): void => {
-	logger.debug(data)
-
-	if (data === undefined) {
-		return
-	}
-
-	socket.emit("controllerData", data)
 }
