@@ -8,7 +8,6 @@
 	import Settings from '$lib/settings/Settings.svelte';
 	import { getContext } from 'svelte';
 	const { open } = getContext('simple-modal');
-	import { fancyTime, times } from '$lib/timer/timer';
 
 	let selectedCamera: CameraType | null = null;
 </script>
@@ -84,22 +83,6 @@
 <div
 	class="fixed right-0 top-1/2 translate-y-[-50%] p-4 border-b border-t border-l bg-gray-100 shadow-md rounded-l-lg border-black text-lg lg:text-xl xl:text-2xl"
 >
-	{#each $times as { time, active }}
-		<p>
-			{fancyTime(time)}
-			{#if active}
-				<button
-					class="bg-red-100 hover:bg-red-200 active:bg-red-300 px-4 py-2 rounded-lg active:ring-2 ring-red-200 my-4"
-					on:click={() => (active = false)}>Stop</button
-				>
-			{:else}
-				<button
-					class="bg-green-100 hover:bg-green-200 active:bg-green-300 px-4 py-2 rounded-lg active:ring-2 ring-green-200 my-4"
-					on:click={() => (active = true)}>Start</button
-				>
-			{/if}
-		</p>
-	{/each}
 </div>
 <button class="fixed top-0 right-0 m-4" on:click={() => open(Settings)}>
 	<Icon data={gear} scale={5} class="hover:rotate-12 transition-all" />

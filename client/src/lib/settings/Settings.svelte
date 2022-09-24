@@ -3,7 +3,6 @@
 	import { autofocus } from '../autofocus';
 	import Icon from 'svelte-awesome';
 	import trash from 'svelte-awesome/icons/trash';
-	import Timer from '../timer/Timer.svelte';
 
 	let newDescription = '';
 	let newPort = 8000;
@@ -64,7 +63,3 @@ Port: <input bind:value={newPort} type="number" /><br />
 	class="px-4 py-2 bg-blue-200 rounded-md my-2"
 	on:click={() => ($cameras = [...defaultCameras])}>Reset to Default</button
 >
-
-<h2 class="my-4 text-xl">Timer</h2>
-
-<Timer />
