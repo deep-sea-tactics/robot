@@ -1,38 +1,38 @@
 {
 	"version": "2.0.0",
 	"tasks": [
-    {
-      "label": "Client",
-      "type": "shell",
-      "command": "cd client && yarn dev",
-      "isBackground": true,
-      "presentation": {
-        "group": "test",
-        "reveal": "always",
-        "panel": "new"
-      }
-    },
-    {
-      "label": "Mock",
-      "type": "shell",
-      "command": "cd mock && yarn dev",
-      "isBackground": true,
-      "presentation": {
-        "group": "test",
-        "reveal": "always",
-        "panel": "new"
-      }
-    },
-    {
-      "label": "Server",
-      "type": "shell",
-      "command": "cd server && yarn dev",
-      "isBackground": true,
-      "presentation": {
-        "group": "test",
-        "reveal": "always",
-        "panel": "new"
-      }
-    }
-  ]
+		{
+			"label": "Client",
+			"type": "shell",
+			"command": "cd client && yarn dev",
+			"isBackground": true,
+			"presentation": {
+				"group": "test",
+				"reveal": "always",
+				"panel": "new"
+			}
+		},
+		{
+			"label": "Mock",
+			"type": "shell",
+			"command": "cd mock && yarn dev",
+			"isBackground": true,
+			"presentation": {
+				"group": "test",
+				"reveal": "always",
+				"panel": "new"
+			}
+		},
+		{
+			"label": "Server",
+			"type": "shell",
+			"command": "cd server && yarn dev",
+			"isBackground": true,
+			"presentation": {
+				"group": "test",
+				"reveal": "always",
+				"panel": "new"
+			}
+		}
+	]
 }

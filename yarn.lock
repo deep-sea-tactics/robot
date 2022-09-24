@@ -1067,8 +1067,6 @@ __metadata:
     math-expression-evaluator: ^1.4.0
     postcss: ^8.4.16
     postcss-load-config: ^4.0.1
-    prettier: ^2.7.1
-    prettier-plugin-svelte: ^2.7.0
     socket.io-client: ^4.5.2
     svelte: ^3.50.1
     svelte-awesome: ^3.0.0
@@ -3677,6 +3675,10 @@ __metadata:
 "root-workspace-0b6124@workspace:.":
   version: 0.0.0-use.local
   resolution: "root-workspace-0b6124@workspace:."
+  dependencies:
+    prettier: ^2.7.1
+    prettier-plugin-svelte: ^2.7.0
+    svelte: ^3.50.1
   languageName: unknown
   linkType: soft
 

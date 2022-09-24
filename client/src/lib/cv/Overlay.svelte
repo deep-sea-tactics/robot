@@ -1,10 +1,9 @@
 <script lang="ts">
-	import { onMount } from "svelte";
+	import { onMount } from 'svelte';
 
+	onMount;
 
-  onMount
-
-  export let video: HTMLVideoElement;
+	export let video: HTMLVideoElement;
 </script>
 
-<canvas></canvas>
+<canvas />

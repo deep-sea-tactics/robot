@@ -1,8 +1,17 @@
 {
-  "private": true,
-  "workspaces": [
-    "client",
-    "server"
-  ],
-  "packageManager": "yarn@3.2.3"
+	"private": true,
+	"scripts": {
+		"lint": "prettier --check . && eslint .",
+		"format": "prettier --write ."
+	},
+	"workspaces": [
+		"client",
+		"server"
+	],
+	"packageManager": "yarn@3.2.3",
+	"devDependencies": {
+		"prettier": "^2.7.1",
+		"prettier-plugin-svelte": "^2.7.0",
+		"svelte": "^3.50.1"
+	}
 }

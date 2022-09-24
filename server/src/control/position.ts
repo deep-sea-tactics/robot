@@ -1,4 +1,4 @@
-import flyd from 'flyd'
+import flyd from 'flyd';
 
 /**
  * General X and Y position interface
@@ -8,11 +8,10 @@ export interface Position {
 	y: number;
 }
 
-
 /**
  * All the buttons on the Logitech 3D Pro Controller
  */
- interface ButtonMapping {
+interface ButtonMapping {
 	trigger: boolean;
 	side_grip: boolean;
 	side_panel: SidePanel;
@@ -45,7 +44,7 @@ interface ControllerButtons {
  * All data sent from the controller
  */
 export interface ControllerData {
-	position: Position,
+	position: Position;
 	yaw: number;
 	view: number;
 	throttle: number;
@@ -78,7 +77,7 @@ export const defaultControllerData: ControllerData = Object.freeze({
 			bottom_right: false
 		}
 	}
-})
+});
 
 /**
  * Reactive stream for data

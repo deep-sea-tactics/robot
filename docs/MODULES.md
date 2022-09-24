@@ -30,7 +30,7 @@ You can apply tasks (& task descriptions) enabling certain CV (Computer Vision) 
 
 ## CV overlay
 
-CV (or Computer Vision) overlay is an overlay on top of *any* generic video stream. Using a optimized build of OpenCV for the web, computer vision can happen in real time directly on top of the UI-running computer. By making this generic to any video stream, we can change the way our cameras are connected without needing to rechange the cores of our CV system.
+CV (or Computer Vision) overlay is an overlay on top of _any_ generic video stream. Using a optimized build of OpenCV for the web, computer vision can happen in real time directly on top of the UI-running computer. By making this generic to any video stream, we can change the way our cameras are connected without needing to rechange the cores of our CV system.
 
 ## Camera Controller
 
