@@ -82,8 +82,7 @@
 </main>
 <div
 	class="fixed right-0 top-1/2 translate-y-[-50%] p-4 border-b border-t border-l bg-gray-100 shadow-md rounded-l-lg border-black text-lg lg:text-xl xl:text-2xl"
->
-</div>
+/>
 <button class="fixed top-0 right-0 m-4" on:click={() => open(Settings)}>
 	<Icon data={gear} scale={5} class="hover:rotate-12 transition-all" />
 </button>

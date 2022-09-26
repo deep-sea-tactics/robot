@@ -10,7 +10,8 @@ The timer library inside `frontend` helps keep time for tasks. This feature wasn
 
 ## Controller Debug Tooling (keeping)
 
-Controller views are available in: 
+Controller views are available in:
+
 - The main frontend page (control UI)
 - Client-Side visualizer for the camera model that can be used for reliable testing
 
