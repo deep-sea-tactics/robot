@@ -63,8 +63,16 @@ export const defaultControllerData: ControllerData = Object.freeze({
 		}
 	}
 });
-
 /**
  * Reactive stream for data
  */
+
+//if it works don't ask questions
 export const controllerData = flyd.stream<ControllerData>({ ...defaultControllerData });
+export const mixedControllerData = flyd.stream<Partial<ControllerData>>({ ...defaultControllerData });
+export const finalControllerData = flyd.combine(function(controllerData, mixedControllerData){
+	return({...controllerData(), ...mixedControllerData()}); 
+}, [controllerData, mixedControllerData]);
+
+//Tristan is killing me slowly :/
+

@@ -1,7 +1,7 @@
 import { Server } from 'socket.io';
 import { rawDataToControllerData } from './controller/controller.js';
 import { logger } from './logger.js';
-import { controllerData, ControllerData } from './controller/position.js';
+import { controllerData, ControllerData, mixedControllerData } from './controller/position.js';
 import { device } from './controller/device.js';
 import { env_data } from './env.js';
 import equals from 'fast-deep-equal';
@@ -15,7 +15,7 @@ export interface ServerToClientsMap {
 }
 
 export interface ClientToServerMap {
-	mixedControllerData: (data: Partial<ControllerData>) => void;
+	dataOverride: (data: Partial<ControllerData>) => void;
 }
 
 const io = new Server<ClientToServerMap, ServerToClientsMap>(port, {
@@ -35,6 +35,9 @@ export const start = async (): Promise<void> => {
 		// The client has connected
 		logger.info(`Client connected to web interface. (ID: ${socket.id})`);
 
+		socket.on('dataOverride', (args) => {
+			mixedControllerData(args);
+		});
 		// Warn the server if the client has disconnected
 		socket.on('disconnect', (reason) => {
 			logger.info(`Client ${socket.id} disconnected from web interface: ${reason}`);
