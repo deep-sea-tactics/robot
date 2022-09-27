@@ -1,12 +1,13 @@
 {
 	"private": true,
 	"scripts": {
-		"lint": "prettier --check . && (cd client && eslint .) && (cd server && eslint .)",
+		"lint": "prettier --check . && (cd client && eslint .) && (cd server && eslint .) && (cd typings && eslint .)",
 		"format": "prettier --write ."
 	},
 	"workspaces": [
 		"client",
-		"server"
+		"server",
+		"typings"
 	],
 	"packageManager": "yarn@3.2.3",
 	"devDependencies": {
