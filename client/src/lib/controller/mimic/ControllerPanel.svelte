@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { ControllerData } from './controllerData';
+	import type { ControllerData } from 'typings';
 	export let data: ControllerData;
 </script>
 

@@ -32,6 +32,10 @@ When adding OpenCV and other camera processing, the client should be allowed to 
 
 This also means simple controller-locking tasks such as Go Forward can be easily automated.
 
+## Global SocketIO typings
+
+With Yarn set up and ready, we can share types and scripts between different projects.
+
 # TODO
 
 ## Task List
@@ -60,7 +64,3 @@ Camera self (in progress) sends your own webcam to the camera controller for qui
 ### Camera Mock
 
 Camera Mock allows you to display a standalone image or a looping video to the camera controller
-
-## Global SocketIO typings
-
-With Yarn set up and ready, we can share types and scripts between different projects.
