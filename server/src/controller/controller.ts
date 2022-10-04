@@ -43,12 +43,12 @@ export const rawDataToControllerData = (data: Buffer): ControllerData | undefine
 				top_right: bool((parsedRawData[4] & 0x20) >> 5)
 			},
 			side_panel: {
-				top_left: bool((parsedRawData[4] & 0x40) >> 6),
-				top_right: bool((parsedRawData[4] & 0x80) >> 7),
-				middle_left: bool((parsedRawData[6] & 0x01) >> 0),
-				middle_right: bool((parsedRawData[6] & 0x02) >> 1),
-				bottom_left: bool((parsedRawData[6] & 0x04) >> 2),
-				bottom_right: bool((parsedRawData[6] & 0x08) >> 3)
+				bottom_left: bool((parsedRawData[4] & 0x40) >> 6),
+				top_left: bool((parsedRawData[4] & 0x80) >> 7),
+				bottom_middle: bool((parsedRawData[6] & 0x01) >> 0),
+				top_middle: bool((parsedRawData[6] & 0x02) >> 1),
+				bottom_right: bool((parsedRawData[6] & 0x04) >> 2),
+				top_right: bool((parsedRawData[6] & 0x08) >> 3)
 			}
 		}
 	};
