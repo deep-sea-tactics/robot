@@ -1,4 +1,4 @@
 import io from 'socket.io-client';
-import { page } from '$app/stores'; // TODO programatically use gitpod's URl for IO stuffs
 
-export const client = io(`http://${location.hostname}:3000`);
+console.log(window.location.href.replace('4000', '3000'))
+export const client = io(window.location.href.includes('gitpod.io') ? window.location.href.replace('4000', '3000') : `http://${location.hostname}:3000`, {transports: ["websocket"]});
