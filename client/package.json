@@ -23,6 +23,7 @@
 		"eslint-config-prettier": "^8.5.0",
 		"eslint-plugin-svelte3": "^4.0.0",
 		"math-expression-evaluator": "^1.4.0",
+		"opencv-wasm": "^4.3.0-10",
 		"postcss": "^8.4.16",
 		"postcss-load-config": "^4.0.1",
 		"socket.io-client": "^4.5.2",

@@ -1065,6 +1065,7 @@ __metadata:
     eslint-config-prettier: ^8.5.0
     eslint-plugin-svelte3: ^4.0.0
     math-expression-evaluator: ^1.4.0
+    opencv-wasm: ^4.3.0-10
     postcss: ^8.4.16
     postcss-load-config: ^4.0.1
     socket.io-client: ^4.5.2
@@ -3215,6 +3216,13 @@ __metadata:
   dependencies:
     fn.name: 1.x.x
   checksum: fd008d7e992bdec1c67f53a2f9b46381ee12a9b8c309f88b21f0223546003fb47e8ad7c1fd5843751920a8d276c63bd4b45670ef80c61fb3e07dbccc962b5c7d
+  languageName: node
+  linkType: hard
+
+"opencv-wasm@npm:^4.3.0-10":
+  version: 4.3.0-alpha.2
+  resolution: "opencv-wasm@npm:4.3.0-alpha.2"
+  checksum: 87c1e21ca913376104600bb64a5f4e9efbd8527439d580e890036bee7a470b3acb36b97846a93a2ead8a0c6628d855dd8f709d1fa44bb1efcffa65d995b4d13e
   languageName: node
   linkType: hard
 
