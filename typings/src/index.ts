@@ -1,7 +1,7 @@
 /**
  * General X and Y position interface
  */
- export interface Position {
+export interface Position {
 	x: number;
 	y: number;
 }
@@ -18,12 +18,12 @@ export interface ControllerData {
 		trigger: boolean;
 		side_grip: boolean;
 		side_panel: {
-			bottom_left: boolean,
-			top_left: boolean,
-			bottom_middle: boolean,
-			top_middle: boolean,
-			bottom_right: boolean,
-			top_right: boolean,
+			bottom_left: boolean;
+			top_left: boolean;
+			bottom_middle: boolean;
+			top_middle: boolean;
+			bottom_right: boolean;
+			top_right: boolean;
 		};
 		controller_buttons: {
 			top_left: boolean;
