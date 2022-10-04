@@ -1,5 +1,5 @@
 {
-  "name": "typings",
+  "name": "@landstown/typings",
   "version": "1.0.0",
   "description": "Typings for socket.io accross the workspace",
   "main": "dist/index.js",

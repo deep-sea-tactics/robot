@@ -150,6 +150,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@landstown/typings@1.0.0, @landstown/typings@workspace:@landstown/typings":
+  version: 0.0.0-use.local
+  resolution: "@landstown/typings@workspace:@landstown/typings"
+  dependencies:
+    eslint: ^8.24.0
+    ts-node: ^10.9.1
+    typescript: ^4.8.3
+  languageName: unknown
+  linkType: soft
+
 "@mapbox/node-pre-gyp@npm:^1.0.5":
   version: 1.0.10
   resolution: "@mapbox/node-pre-gyp@npm:1.0.10"
@@ -3839,6 +3849,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "server@workspace:server"
   dependencies:
+    "@landstown/typings": 1.0.0
     "@types/node": ^18.7.17
     "@types/node-hid": ^1.3.1
     "@typescript-eslint/eslint-plugin": ^5.37.0
@@ -4534,16 +4545,6 @@ __metadata:
   checksum: 2222d2382fb3146089b1d27ce2b55e9d1f99cc64118f1aba75809b693b856c5d3c324f052f60c75b577947fc538bc1c27bad0eb76cbdba9a63a253489504ba7e
   languageName: node
   linkType: hard
-
-"typings@workspace:typings":
-  version: 0.0.0-use.local
-  resolution: "typings@workspace:typings"
-  dependencies:
-    eslint: ^8.24.0
-    ts-node: ^10.9.1
-    typescript: ^4.8.3
-  languageName: unknown
-  linkType: soft
 
 "undefsafe@npm:^2.0.5":
   version: 2.0.5

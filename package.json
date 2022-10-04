@@ -7,7 +7,7 @@
 	"workspaces": [
 		"client",
 		"server",
-		"typings"
+		"@landstown/typings"
 	],
 	"packageManager": "yarn@3.2.3",
 	"devDependencies": {

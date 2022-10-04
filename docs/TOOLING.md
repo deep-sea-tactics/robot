@@ -26,13 +26,13 @@ This is currently hardcoded, but with the proposal of a camera management system
 
 A yarn monorepo allows us to use shared libraries and have a universal type package which can be used for the proposed global Socket.IO typnigs
 
-# TODO
-
 ## Controller Mixins
 
 When adding OpenCV and other camera processing, the client should be allowed to send their own controller data to counteract the current one being used on the controller. The ONLY exception to this is `trigger`, which must be held as a safeguard in case anything goes wrong. If the trigger isn't held, nothing happens. The safeguard can be turned off via a socket.io parameter (for a controller mock system for development).
 
 This also means simple controller-locking tasks such as Go Forward can be easily automated.
+
+# TODO
 
 ## Task List
 
