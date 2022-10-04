@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Canvas, Layer } from 'svelte-canvas';
-	import type { ControllerData } from './controllerData';
+	import type { ControllerData } from 'typings';
 	export let data: ControllerData;
 	const mouseRadius = 10;
 	$: render = ({

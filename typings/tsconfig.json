@@ -4,6 +4,8 @@
 		"module": "esnext",
 		"target": "es2022",
 		"moduleResolution": "node",
+		"declarationMap": true,
+		"declaration": true,
 
 		"strict": true,
 		"esModuleInterop": true,

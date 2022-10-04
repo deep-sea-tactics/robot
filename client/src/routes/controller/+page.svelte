@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { ControllerData } from '$lib/controller/mimic/controllerData';
+	import type { ControllerData } from 'typings';
 	import SidePanel from '$lib/controller/mimic/SidePanel.svelte';
 	import ControllerPanel from '$lib/controller/mimic/ControllerPanel.svelte';
 	import Boolean from '$lib/controller/mimic/Boolean.svelte';

@@ -1,6 +1,6 @@
 // Adapted and modernized from https://github.com/poweic/node-Logitech-Extreme-3D-Pro/blob/master/app.js
 
-import { ControllerData } from './position.js';
+import type { ControllerData } from 'typings';
 
 /**
  * If the num is 0, return false, else return true
