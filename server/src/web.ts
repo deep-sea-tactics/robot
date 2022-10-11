@@ -17,6 +17,8 @@ export interface ServerToClientsMap {
 
 export interface ClientToServerMap {
 	dataOverride: (data: Partial<ControllerData>) => void;
+	clientControllerData: (data: ControllerData) => void;
+
 }
 
 const io = new Server<ClientToServerMap, ServerToClientsMap>(port, {
@@ -39,11 +41,18 @@ export const start = async (): Promise<void> => {
 		socket.on('dataOverride', (args) => {
 			mixedControllerData(args);
 		});
+		socket.on("clientControllerData", (args) => {
+			controllerData(args);
+		});
 		// Warn the server if the client has disconnected
 		socket.on('disconnect', (reason) => {
 			logger.info(`Client ${socket.id} disconnected from web interface: ${reason}`);
 		});
 	});
+
+	flyd.on((change) => {
+		io.emit(`controllerData`, change)
+	}, controllerData);
 
 	flyd.on((controller) => {
 		if (!controller) return;
@@ -60,8 +69,6 @@ export const start = async (): Promise<void> => {
 			if (processedData === undefined) {
 				return;
 			}
-
-			io.emit('controllerData', processedData);
 
 			controllerData(processedData);
 		});
