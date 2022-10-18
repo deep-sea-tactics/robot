@@ -11,13 +11,13 @@ export default <UserConfig>{
 	clearScreen: false,
 	server: {
 		host: '0.0.0.0',
-		fs: {
-			strict: true
-		},
 		hmr: !process.env.HMR_HOST,
 		port: 4000,
 		headers: {
 			'Access-Control-Allow-Origin': url
 		}
+	},
+	build: {
+		target: "es2022"
 	}
 };
