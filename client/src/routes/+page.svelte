@@ -1,16 +1,23 @@
 <script lang="ts">
 	import Camera from '$lib/camera/Camera.svelte';
+	import { draggable } from '@neodrag/svelte';
 	import { cameras, type Camera as CameraType } from '$lib/camera/camera';
 	import ControllerCanvas from '$lib/controller/ControllerCanvas.svelte';
 	import Screenshots from '$lib/screenshots/Screenshots.svelte';
 	import Icon from 'svelte-awesome';
 	import gear from 'svelte-awesome/icons/gear';
+	import arrowLeft from 'svelte-awesome/icons/arrowLeft';
+	import arrowRight from 'svelte-awesome/icons/arrowRight';
+	import arrowUp from 'svelte-awesome/icons/arrowUp';
+	import arrowDown from 'svelte-awesome/icons/arrowDown';
+	import minus from 'svelte-awesome/icons/minus';
 	import Settings from '$lib/settings/Settings.svelte';
 	import { client } from '$lib/socket/socket'
 	import { getContext } from 'svelte';
 	import { fancyTime } from '$lib/timer/timer';
 	import type { ControllerData } from '$lib/controller/mimic/controllerData';
-	const { open } = getContext('simple-modal');
+	const { open } = getContext('svelte-simple-modal');
+
 
 	let selectedCamera: CameraType | null = null;
 	let opened = false;
@@ -77,8 +84,8 @@
 
 <svelte:window
 	on:keydown|preventDefault={(event) => {
-		console.log(event.keyCode)
-		if (event.keyCode == 37) { // moves the camera backwards on a capital v input
+		console.log(event.key )
+		if (event.key == "ArrowLeft") { // moves the camera backwards on a capital v input
 			if (!selectedCamera) {
 				selectedCamera = $cameras[$cameras.length - 1];
 				return;
@@ -90,20 +97,42 @@
 						? $cameras.length - 1
 						: $cameras.indexOf(selectedCamera) - 1
 				];
-		} else if (event.keyCode == 39) { // moves the camera forwards on a lowwercase v
+		} else if (event.key == "ArrowRight") { // moves the camera forwards on a lowwercase v
 			if (!selectedCamera) {
 				selectedCamera = $cameras[0];
 				return;
 			}
 
 			selectedCamera = $cameras[($cameras.indexOf(selectedCamera) + 1) % $cameras.length];
-		} else if (event.key.toLowerCase() == 'h') {
+		} else if (event.key == 'ArrowUp') {
 			openController()
 		}
 	}}
 />
 
 <main class="flex flex-row w-screen h-screen"> 
+	<!--Key Binds-->
+	<div class="primary-container">
+		<div class="dockable-window" use:draggable={{bounds: ".primary-container", defaultPosition: { x: 0, y: 0 } }}>
+			<div class="dockable-tools">
+				<div class="dockable-icon">
+					<Icon data={minus}/>
+				</div>
+			</div>
+			<div class="keybinds-wrap">
+				<div class="keybinds-holder">
+					<Icon data={arrowLeft}/> <p>Cycle Camera Back</p>
+				</div>
+				<div class="keybinds-holder">
+					<Icon data={arrowRight}/> <p>Cycle Camera Forward</p>
+				</div>
+				<div class="keybinds-holder">
+					<Icon data={arrowUp}/> <p>Enable Controller</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	
 	<div class="w-1/5 flex flex-col divide-y border-r border-black divide-black">
 		{#if $cameras.length === 0}
 			<div
@@ -149,3 +178,43 @@
 <div class="fixed bottom-0 right-0">
 	<ControllerCanvas />
 </div>
+
+<style>
+	.dockable-window {
+		display: inline-block;
+		border-width: 2px;
+		flex-wrap: nowrap;
+		border-style: solid;
+		border-image: linear-gradient(90deg, #42a5f5 0%, #0d47a1 100%) 1;
+		background-color: #b6b6b680;
+		cursor: move;
+	}
+	.dockable-window .dockable-tools {
+		display: flex;
+		justify-content: right;
+		border-style: solid;
+		border-bottom-width: 2px;
+		border-image: linear-gradient(90deg, #42a5f5 0%, #0d47a1 100%) 1;
+		background-color: #b6b6b680;
+	}
+	.keybinds-holder {
+		flex-wrap: nowrap;
+		display: flex;
+		justify-content: left;
+		align-items: center;
+		text-align: left;
+		margin: 5px;
+	}
+	.keybinds-holder p {
+		margin-left: 10px;
+		flex-grow: 1;
+		flex-shrink: 1;
+	}
+	.primary-container {
+		position: fixed;
+		width: 100%;
+		height: 100%;
+		left: 0;
+		top: 0;
+	}
+</style>
