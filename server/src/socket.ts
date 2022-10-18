@@ -40,7 +40,7 @@ export const start = async (): Promise<void> => {
 
 		// Warn the server if the client has disconnected
 		socket.on('disconnect', (reason) => {
-			consola.warn(`Client ${socket.id} disconnected from web interface: ${reason}`);
+			consola.info(`Client ${socket.id} disconnected from web interface: ${reason}`);
 		});
 	});
 

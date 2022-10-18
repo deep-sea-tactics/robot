@@ -6,3 +6,5 @@ consola.success('Server starting!');
 
 startWebsite();
 startRobot();
+
+consola.info(`Web (possibly) listening to http://localhost:4000`);
