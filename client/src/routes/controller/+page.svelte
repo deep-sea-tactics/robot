@@ -4,6 +4,8 @@
 	import ControllerPanel from '$lib/controller/mimic/ControllerPanel.svelte';
 	import Boolean from '$lib/controller/mimic/Boolean.svelte';
 	import GeneralVisualizer from '$lib/controller/mimic/GeneralVisualizer.svelte';
+	import { onMount } from 'svelte';
+
 	let opened = false;
 	const bool = (num: number) => num !== 0;
 	function buf2hex(buffer: ArrayBuffer) {
@@ -43,6 +45,13 @@
 	}
 	let dataBuffer: DataView;
 	$: processedData = dataBuffer ? processData(dataBuffer) : null;
+
+	function hookToDevice(device: any) {
+		device.addEventListener('inputreport', ({ data }: { data: any }) => {
+			dataBuffer = data; 
+		});
+	}
+
 	async function open() {
 		if (!(navigator as any).hid) return;
 		const hid = (navigator as unknown as { hid: any }).hid;
@@ -56,14 +65,12 @@
 		});
 		await device.open();
 		opened = true;
-		device.addEventListener('inputreport', ({ data }: { data: any }) => {
-			dataBuffer = data;
-		});
+		hookToDevice(device)
 	}
 </script>
 
 {#if processedData}
-	<div class="m-8">
+	<div class="m-auto">
 		<GeneralVisualizer data={processedData} />
 		<p>X: {processedData.position.x} | Y: {processedData.position.y}</p>
 		<p>Yaw: {processedData.yaw}</p>
