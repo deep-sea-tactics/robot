@@ -1,15 +1,15 @@
 <script lang="ts">
-	import { tick, onMount } from "svelte"
+	import { tick, onMount } from 'svelte';
 
-	let video: HTMLVideoElement
-	let canvas: HTMLCanvasElement
-	let context: CanvasRenderingContext2D
-	
+	let video: HTMLVideoElement;
+	let canvas: HTMLCanvasElement;
+	let context: CanvasRenderingContext2D;
+
 	onMount(() => {
-		const localContext = canvas.getContext("2d")
-		if (!localContext) throw Error("No 2d context found. Weird?")
+		const localContext = canvas.getContext('2d');
+		if (!localContext) throw Error('No 2d context found. Weird?');
 		context = localContext;
-	})
+	});
 
 	const processor = {
 		timerCallback() {
@@ -27,7 +27,7 @@
 			height = video.videoHeight;
 			canvas.width = width;
 			canvas.height = height;
-			tick().then(() => this.timerCallback())
+			tick().then(() => this.timerCallback());
 		},
 
 		computeFrame() {
@@ -47,11 +47,10 @@
 				}
 				context.putImageData(frame, 0, 0);
 			} catch (e) {
-				 console.warn("Could not retrieve frame: ", e)
+				console.warn('Could not retrieve frame: ', e);
 			}
 		}
 	};
-
 
 	export let mediaStream: MediaStream;
 	export let classes = '';
@@ -66,11 +65,10 @@
 				if (node.srcObject != newStream) {
 					node.srcObject = newStream;
 
-					(() => {
+					() => {
 						width = node.width;
-						height = node.width
-					})
-
+						height = node.width;
+					};
 				}
 			}
 		};
@@ -85,14 +83,14 @@
 	on:play={() => {
 		width = video.width;
 		height = video.height;
-		processor.doLoad()
+		processor.doLoad();
 	}}
 	on:resize={() => {
 		width = video.width;
-		height = video.height
+		height = video.height;
 	}}
 	autoplay
 	playsinline
 />
 
-<canvas class={classes} bind:this={canvas}></canvas>
+<canvas class={classes} bind:this={canvas} />

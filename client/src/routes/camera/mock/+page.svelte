@@ -14,11 +14,9 @@
 	});
 </script>
 
-<canvas bind:this={canvas
+<canvas bind:this={canvas} />
 
-}></canvas>
-
-{#if stream} 
+{#if stream}
 	<div class="m-16 bg-gray-100 flex flex-col p-8 rounded-lg shadow-lg">
 		<CameraDisplay mediaStream={stream} />
 		<div class="h-1/2 grow">

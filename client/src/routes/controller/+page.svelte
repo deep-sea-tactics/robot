@@ -47,7 +47,7 @@
 
 	function hookToDevice(device: any) {
 		device.addEventListener('inputreport', ({ data }: { data: any }) => {
-			dataBuffer = data; 
+			dataBuffer = data;
 		});
 	}
 
@@ -64,7 +64,7 @@
 		});
 		await device.open();
 		opened = true;
-		hookToDevice(device)
+		hookToDevice(device);
 	}
 </script>
 

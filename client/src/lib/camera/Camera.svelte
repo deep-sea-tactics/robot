@@ -91,8 +91,9 @@
 					};
 					ws.send(JSON.stringify(request));
 					break;
-
-				} case 'iceCandidate': { // when trickle is enabled
+				}
+				case 'iceCandidate': {
+					// when trickle is enabled
 					if (!msg.data) {
 						console.log('Ice Gathering Complete');
 						break;
@@ -150,7 +151,9 @@
 
 	onDestroy(() => {
 		if (video && ws) {
-			ws.onclose = function () { void 0 }; // disable onclose handler first
+			ws.onclose = function () {
+				void 0;
+			}; // disable onclose handler first
 			stop();
 		}
 	});

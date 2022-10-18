@@ -5,7 +5,7 @@
 	import Screenshots from '$lib/screenshots/Screenshots.svelte';
 	import Icon from 'svelte-awesome';
 	import gear from 'svelte-awesome/icons/gear';
-	import { client } from '$lib/socket/socket'
+	import { client } from '$lib/socket/socket';
 	import type { ControllerData } from 'typings';
 
 	let selectedCamera: CameraType | null = null;
@@ -67,14 +67,14 @@
 		});
 	}
 
-	$: client.emit(`clientControllerData`, processedData)
-
+	$: client.emit(`clientControllerData`, processedData);
 </script>
 
 <svelte:window
 	on:keydown|preventDefault={(event) => {
-		console.log(event.keyCode)
-		if (event.keyCode == 37) { // moves the camera backwards on a capital v input
+		console.log(event.keyCode);
+		if (event.keyCode == 37) {
+			// moves the camera backwards on a capital v input
 			if (!selectedCamera) {
 				selectedCamera = $cameras[$cameras.length - 1];
 				return;
@@ -86,7 +86,8 @@
 						? $cameras.length - 1
 						: $cameras.indexOf(selectedCamera) - 1
 				];
-		} else if (event.keyCode == 39) { // moves the camera forwards on a lowwercase v
+		} else if (event.keyCode == 39) {
+			// moves the camera forwards on a lowwercase v
 			if (!selectedCamera) {
 				selectedCamera = $cameras[0];
 				return;
@@ -94,12 +95,12 @@
 
 			selectedCamera = $cameras[($cameras.indexOf(selectedCamera) + 1) % $cameras.length];
 		} else if (event.key.toLowerCase() == 'h') {
-			openController()
+			openController();
 		}
 	}}
 />
 
-<main class="flex flex-row w-screen h-screen"> 
+<main class="flex flex-row w-screen h-screen">
 	<div class="w-1/5 flex flex-col divide-y border-r border-black divide-black">
 		{#if $cameras.length === 0}
 			<div

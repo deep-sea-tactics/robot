@@ -1,1 +1,1 @@
-declare module 'svelte-canvas'
+declare module 'svelte-canvas';

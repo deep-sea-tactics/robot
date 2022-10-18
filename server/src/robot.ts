@@ -25,7 +25,7 @@ export async function start(): Promise<void> {
 
 		robotClient.on('close', () => consola.warn('Robot disconected.'));
 		robotClient.on('error', (error) =>
-		consola.warn('An exception with the robot has occured: ' + error)
+			consola.warn('An exception with the robot has occured: ' + error)
 		);
 	});
 
