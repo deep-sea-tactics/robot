@@ -3,6 +3,7 @@
 	import CameraDisplay from '$lib/camera/CameraDisplay.svelte';
 
 	let stream: MediaStream;
+	let canvas: HTMLCanvasElement;
 
 	onDestroy(() => {
 		if (!stream) return;
@@ -13,13 +14,15 @@
 	});
 </script>
 
-{#await getMedia()}
-	<p>Waiting for Camera</p>
-{:then mediaStream}
+<canvas bind:this={canvas
+
+}></canvas>
+
+{#if stream} 
 	<div class="m-16 bg-gray-100 flex flex-col p-8 rounded-lg shadow-lg">
-		<CameraDisplay {mediaStream} />
+		<CameraDisplay mediaStream={stream} />
 		<div class="h-1/2 grow">
 			<p>Streaming Status</p>
 		</div>
 	</div>
-{/await}
+{/if}

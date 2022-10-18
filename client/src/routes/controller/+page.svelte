@@ -45,7 +45,7 @@
 	$: processedData = dataBuffer ? processData(dataBuffer) : null;
 	async function open() {
 		if (!(navigator as any).hid) return;
-		const hid = navigator.hid;
+		const hid = (navigator as unknown as { hid: any }).hid;
 		const [device] = await hid.requestDevice({
 			filters: [
 				{
@@ -56,7 +56,7 @@
 		});
 		await device.open();
 		opened = true;
-		device.addEventListener('inputreport', ({ data }) => {
+		device.addEventListener('inputreport', ({ data }: { data: any }) => {
 			dataBuffer = data;
 		});
 	}
