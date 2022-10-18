@@ -5,13 +5,9 @@
 	import ControllerCanvas from '$lib/controller/ControllerCanvas.svelte';
 	import Screenshots from '$lib/screenshots/Screenshots.svelte';
 	import Icon from 'svelte-awesome';
-	import gear from 'svelte-awesome/icons/gear';
 	import arrowLeft from 'svelte-awesome/icons/arrowLeft';
 	import arrowRight from 'svelte-awesome/icons/arrowRight';
 	import arrowUp from 'svelte-awesome/icons/arrowUp';
-	import keyboardO from 'svelte-awesome/icons/keyboardO';
-	import arrowDown from 'svelte-awesome/icons/arrowDown';
-	import minus from 'svelte-awesome/icons/minus';
 	import { client } from '$lib/socket/socket';
 	import type { ControllerData } from 'typings';
 
