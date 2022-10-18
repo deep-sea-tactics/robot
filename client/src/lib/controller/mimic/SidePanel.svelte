@@ -3,32 +3,32 @@
 	export let data: ControllerData;
 </script>
 
-<div class="flex flex-row w-1/2">
-	<button
+<div class="flex flex-row w-1/2 text-center">
+	<span
 		class="flex-grow m-4 bg-gray-200 px-4 py-2 rounded-md"
-		class:bg-gray-500={data.buttons.side_panel.top_left}>Top Left</button
+		class:bg-gray-500={data.buttons.side_panel.top_left}>Top Left</span
 	>
-	<button
+	<span
 		class="flex-grow m-4 bg-gray-200 px-4 py-2 rounded-md"
-		class:bg-gray-500={data.buttons.side_panel.top_middle}>Top Middle</button
+		class:bg-gray-500={data.buttons.side_panel.top_middle}>Top Middle</span
 	>
-	<button
+	<span
 		class="flex-grow m-4 bg-gray-200 px-4 py-2 rounded-md"
-		class:bg-gray-500={data.buttons.side_panel.top_right}>Top Right</button
+		class:bg-gray-500={data.buttons.side_panel.top_right}>Top Right</span
 	>
 </div>
 <br />
-<div class="flex flex-row w-1/2">
-	<button
+<div class="flex flex-row w-1/2 text-center">
+	<span
 		class="flex-grow m-4 bg-gray-200 px-4 py-2 rounded-md"
-		class:bg-gray-500={data.buttons.side_panel.bottom_left}>Bottom Left</button
+		class:bg-gray-500={data.buttons.side_panel.bottom_left}>Bottom Left</span
 	>
-	<button
+	<span
 		class="flex-grow m-4 bg-gray-200 px-4 py-2 rounded-md"
-		class:bg-gray-500={data.buttons.side_panel.bottom_middle}>Bottom Middle</button
+		class:bg-gray-500={data.buttons.side_panel.bottom_middle}>Bottom Middle</span
 	>
-	<button
+	<span
 		class="flex-grow m-4 bg-gray-200 px-4 py-2 rounded-md"
-		class:bg-gray-500={data.buttons.side_panel.bottom_right}>Bottom Right</button
+		class:bg-gray-500={data.buttons.side_panel.bottom_right}>Bottom Right</span
 	>
 </div>

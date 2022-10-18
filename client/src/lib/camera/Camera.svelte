@@ -79,7 +79,7 @@
 			const { what, data } = msg;
 
 			switch (what) {
-				case 'offer':
+				case 'offer': {
 					await pc.setRemoteDescription(new RTCSessionDescription(JSON.parse(data)));
 					remoteDesc = true;
 					addIceCandidates();
@@ -91,8 +91,9 @@
 					};
 					ws.send(JSON.stringify(request));
 					break;
-
-				case 'iceCandidate': // when trickle is enabled
+				}
+				case 'iceCandidate': {
+					// when trickle is enabled
 					if (!msg.data) {
 						console.log('Ice Gathering Complete');
 						break;
@@ -106,6 +107,7 @@
 					if (remoteDesc) addIceCandidates();
 					document.documentElement.style.cursor = 'default';
 					break;
+				}
 			}
 		};
 
@@ -118,7 +120,7 @@
 			document.documentElement.style.cursor = 'default';
 		};
 
-		ws.onerror = function (evt) {
+		ws.onerror = function () {
 			alert('An error has occurred! The cameras might be faulty on the hardware.');
 			ws.close();
 		};
@@ -149,7 +151,9 @@
 
 	onDestroy(() => {
 		if (video && ws) {
-			ws.onclose = function () {}; // disable onclose handler first
+			ws.onclose = function () {
+				void 0;
+			}; // disable onclose handler first
 			stop();
 		}
 	});

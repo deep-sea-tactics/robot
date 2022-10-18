@@ -8,7 +8,7 @@ setInterval(() => {
 				beep();
 			}
 
-			return { name: "name", time: active ? (time <= 0 ? 0 : time - 1) : time, active };
+			return { name: 'name', time: active ? (time <= 0 ? 0 : time - 1) : time, active };
 		})
 	);
 }, 1000);
@@ -21,11 +21,11 @@ interface Timer {
 
 export const times = writable<Timer[]>([
 	{
-		name: "Task 1",
+		name: 'Task 1',
 		time: 15 * 60
 	},
 	{
-		name: "Task 2",
+		name: 'Task 2',
 		time: 5 * 60
 	}
 ]);

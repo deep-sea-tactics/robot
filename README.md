@@ -29,11 +29,6 @@ If a position is (50, 50) then the position is in the middle and the robot would
 
 The client, server, and robot use socket.io to communicate with eachother instead of raw TCP packets
 
-## Mock
-
-Mocks cameras for camera testing.
-Requires `node-pre-gyp`.
-
 ## Contributing
 
 Use ./run.sh to test out the server and the client.

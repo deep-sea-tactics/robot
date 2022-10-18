@@ -16,3 +16,4 @@ __pycache__
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+vite.config.ts.timestamp-*
