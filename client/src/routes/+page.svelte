@@ -9,6 +9,7 @@
 	import arrowLeft from 'svelte-awesome/icons/arrowLeft';
 	import arrowRight from 'svelte-awesome/icons/arrowRight';
 	import arrowUp from 'svelte-awesome/icons/arrowUp';
+	import keyboardO from 'svelte-awesome/icons/keyboardO';
 	import arrowDown from 'svelte-awesome/icons/arrowDown';
 	import minus from 'svelte-awesome/icons/minus';
 	import Settings from '$lib/settings/Settings.svelte';
@@ -16,7 +17,15 @@
 	import { getContext } from 'svelte';
 	import { fancyTime } from '$lib/timer/timer';
 	import type { ControllerData } from '$lib/controller/mimic/controllerData';
-	const { open } = getContext('svelte-simple-modal');
+	const { open } = getContext('simple-modal');
+
+	import Windowcomp from '$lib/modules/Windowcomp.svelte'
+	import { windowdata } from '$lib/modules/Windowcomp.svelte'
+	import Taskbar from '$lib/modules/Taskbar.svelte'
+
+
+
+	
 
 
 	let selectedCamera: CameraType | null = null;
@@ -80,6 +89,7 @@
 
 	$: client.emit(`clientControllerData`, processedData)
 
+	
 </script>
 
 <svelte:window
@@ -108,17 +118,15 @@
 			openController()
 		}
 	}}
+	
 />
 
 <main class="flex flex-row w-screen h-screen"> 
 	<!--Key Binds-->
+	
 	<div class="primary-container">
-		<div class="dockable-window" use:draggable={{bounds: ".primary-container", defaultPosition: { x: 0, y: 0 } }}>
-			<div class="dockable-tools">
-				<div class="dockable-icon">
-					<Icon data={minus}/>
-				</div>
-			</div>
+		<Taskbar/>
+		<Windowcomp windowname="keybinds">
 			<div class="keybinds-wrap">
 				<div class="keybinds-holder">
 					<Icon data={arrowLeft}/> <p>Cycle Camera Back</p>
@@ -130,7 +138,27 @@
 					<Icon data={arrowUp}/> <p>Enable Controller</p>
 				</div>
 			</div>
-		</div>
+		</Windowcomp>
+		<Windowcomp windowname="visualizer">
+			<ControllerCanvas />
+		</Windowcomp>
+		<Windowcomp windowname="camera">
+			<div class="w-full">
+				{#if selectedCamera}
+					{#key selectedCamera}
+						<Camera port={selectedCamera.port} />
+					{/key}
+				{:else}
+					<p class="flex items-center justify-center w-full h-full text-2xl font-semibold">
+						<span>
+							No camera selected.<br />
+							Press <kbd>V</kbd> to cycle or click to select one.
+						</span>
+					</p>
+				{/if}
+			</div>
+		</Windowcomp>
+		
 	</div>
 	
 	<div class="w-1/5 flex flex-col divide-y border-r border-black divide-black">
@@ -159,44 +187,12 @@
 			Press <kbd>V</kbd> to cycle
 		</div>
 	</div>
-	<div class="w-full">
-		{#if selectedCamera}
-			{#key selectedCamera}
-				<Camera port={selectedCamera.port} />
-			{/key}
-		{:else}
-			<p class="flex items-center justify-center w-full h-full text-2xl font-semibold">
-				<span>
-					No camera selected.<br />
-					Press <kbd>V</kbd> to cycle or click to select one.
-				</span>
-			</p>
-		{/if}
-	</div>
 	<Screenshots />
 </main>
 <div class="fixed bottom-0 right-0">
-	<ControllerCanvas />
 </div>
 
 <style>
-	.dockable-window {
-		display: inline-block;
-		border-width: 2px;
-		flex-wrap: nowrap;
-		border-style: solid;
-		border-image: linear-gradient(90deg, #42a5f5 0%, #0d47a1 100%) 1;
-		background-color: #b6b6b680;
-		cursor: move;
-	}
-	.dockable-window .dockable-tools {
-		display: flex;
-		justify-content: right;
-		border-style: solid;
-		border-bottom-width: 2px;
-		border-image: linear-gradient(90deg, #42a5f5 0%, #0d47a1 100%) 1;
-		background-color: #b6b6b680;
-	}
 	.keybinds-holder {
 		flex-wrap: nowrap;
 		display: flex;
@@ -211,6 +207,7 @@
 		flex-shrink: 1;
 	}
 	.primary-container {
+		z-index: 10;
 		position: fixed;
 		width: 100%;
 		height: 100%;
