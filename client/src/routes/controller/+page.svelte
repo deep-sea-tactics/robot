@@ -4,7 +4,6 @@
 	import ControllerPanel from '$lib/controller/mimic/ControllerPanel.svelte';
 	import Boolean from '$lib/controller/mimic/Boolean.svelte';
 	import GeneralVisualizer from '$lib/controller/mimic/GeneralVisualizer.svelte';
-	import { onMount } from 'svelte';
 
 	let opened = false;
 	const bool = (num: number) => num !== 0;

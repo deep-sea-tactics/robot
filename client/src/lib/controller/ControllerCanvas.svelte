@@ -5,7 +5,7 @@
 
 	const mouseRadius = 10;
 
-	let canvasWidth: number = 300;
+	let canvasWidth = 300;
 
 	$: render = ({ context, width, height }: RenderInterface) => {
 		if (!$data) return;

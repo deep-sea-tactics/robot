@@ -6,9 +6,7 @@
 	import Icon from 'svelte-awesome';
 	import gear from 'svelte-awesome/icons/gear';
 	import { client } from '$lib/socket/socket'
-	import { getContext } from 'svelte';
-	import { fancyTime } from '$lib/timer/timer';
-	const { open } = getContext('simple-modal');
+	import type { ControllerData } from 'typings';
 
 	let selectedCamera: CameraType | null = null;
 	let opened = false;

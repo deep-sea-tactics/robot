@@ -6,7 +6,9 @@
 	let context: CanvasRenderingContext2D
 	
 	onMount(() => {
-		context = canvas.getContext("2d")!;
+		const localContext = canvas.getContext("2d")
+		if (!localContext) throw Error("No 2d context found. Weird?")
+		context = localContext;
 	})
 
 	const processor = {
