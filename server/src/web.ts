@@ -1,15 +1,13 @@
 import { Server } from 'socket.io';
 import { rawDataToControllerData } from './controller/controller.js';
-import { logger } from './logger.js';
+import consola from 'consola';
 import type { ControllerData } from 'typings';
 import { controllerData, mixedControllerData } from './controller/position.js';
 import { device } from './controller/device.js';
-import { env_data } from './env.js';
 import equals from 'fast-deep-equal';
 import flyd from 'flyd';
 
-/* The port. Default is 3000 */
-const port = env_data.WEB_PORT | 3000;
+const port = 3000;
 
 export interface ServerToClientsMap {
 	controllerData: (data: ControllerData) => void;
@@ -31,18 +29,18 @@ const io = new Server<ClientToServerMap, ServerToClientsMap>(port, {
  * Starts the socket server
  */
 export const start = async (): Promise<void> => {
-	logger.debug('Attempting to start socket server.');
+	consola.debug('Attempting to start socket server.');
 
 	io.on('connection', (socket) => {
 		// The client has connected
-		logger.info(`Client connected to web interface. (ID: ${socket.id})`);
+		consola.info(`Client connected to web interface. (ID: ${socket.id})`);
 
 		socket.on('dataOverride', mixedControllerData);
 		socket.on("clientControllerData", controllerData);
-		
+
 		// Warn the server if the client has disconnected
 		socket.on('disconnect', (reason) => {
-			logger.info(`Client ${socket.id} disconnected from web interface: ${reason}`);
+			consola.info(`Client ${socket.id} disconnected from web interface: ${reason}`);
 		});
 	});
 
@@ -60,7 +58,7 @@ export const start = async (): Promise<void> => {
 
 			if (equals(processedData, controllerData())) return;
 
-			logger.debug(processedData);
+			consola.debug(processedData);
 
 			if (processedData === undefined) {
 				return;
@@ -70,11 +68,11 @@ export const start = async (): Promise<void> => {
 		});
 
 		controller.on('error', () => {
-			logger.warn('Device errored out.');
+			consola.warn('Device errored out.');
 
 			device(undefined);
 		});
 	}, device);
 
-	logger.info(`Socket listening to ${port}`);
+	consola.info(`Socket listening to ${port}`);
 };

@@ -1,5 +1,5 @@
 import { Server } from 'socket.io';
-import { logger } from './logger.js';
+import consola from 'consola';
 import flyd from 'flyd';
 import { finalControllerData } from './controller/position.js';
 const port = 9000;
@@ -21,16 +21,16 @@ export async function start(): Promise<void> {
 	}, finalControllerData);
 
 	robot.on('connection', (robotClient) => {
-		logger.info(`Robot connected! ID: ${robotClient.id}`);
+		consola.info(`Robot connected! ID: ${robotClient.id}`);
 
-		robotClient.on('close', () => logger.warn('Robot disconected.'));
+		robotClient.on('close', () => consola.warn('Robot disconected.'));
 		robotClient.on('error', (error) =>
-			logger.warn('An exception with the robot has occured: ' + error)
+		consola.warn('An exception with the robot has occured: ' + error)
 		);
 	});
 
 	// Handle any conenction errors
-	robot.engine.on('connection_error', (err: { message: string }) => logger.warn(err.message));
+	robot.engine.on('connection_error', (err: { message: string }) => consola.warn(err.message));
 
-	logger.info(`Robot ready to connected at port ${port}.`);
+	consola.info(`Robot ready to connected at port ${port}.`);
 }

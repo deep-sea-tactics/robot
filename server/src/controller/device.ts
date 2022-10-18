@@ -1,4 +1,4 @@
-import { logger } from '../logger.js';
+import consola from 'consola';
 import * as HID from 'node-hid';
 import flyd from 'flyd';
 
@@ -18,10 +18,10 @@ const grabController = (log = true): HID.HID | undefined => {
 
 		if (e.message.includes('cannot open device')) {
 			// device is plugged in but can't connect to
-			logger.warn(e.message + ' (Logitech Pro 3D controller)');
+			consola.warn(e.message + ' (Logitech Pro 3D controller)');
 		} else {
 			// device not found / unable to connect
-			logger.warn('Logitech controller not found: ' + e.message);
+			consola.warn('Logitech controller not found: ' + e.message);
 		}
 
 		// either way, no device found
@@ -38,7 +38,7 @@ flyd.on((newDevice) => {
 	if (newDevice !== undefined && interval !== undefined) {
 		clearInterval(interval);
 		interval = undefined;
-		logger.info('Logitech controller reconnected');
+		consola.info('Logitech controller reconnected');
 		return;
 	}
 
