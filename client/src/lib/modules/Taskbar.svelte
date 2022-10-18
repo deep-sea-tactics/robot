@@ -1,12 +1,12 @@
 <script lang="ts">
 	import Icon from 'svelte-awesome';
 	import keyboardO from 'svelte-awesome/icons/keyboardO';
-	import { writable } from "svelte/store"
-	import { windowdata } from "./Windowcomp.svelte"
+	import { writable } from 'svelte/store';
+	import { windowdata } from './Windowcomp.svelte';
 </script>
 
 <div class="taskbar">
-	<div on:click={() => $windowdata.keybinds = !$windowdata.keybinds} style="background: blue">
+	<div on:click={() => ($windowdata.keybinds = !$windowdata.keybinds)} style="background: blue">
 		<Icon data={keyboardO} />
 	</div>
 </div>

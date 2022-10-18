@@ -1,33 +1,38 @@
 <script context="module" lang="ts">
-	import { writable } from "svelte/store"
+	import { writable } from 'svelte/store';
 
-	export let windowdata = writable<{[key: string]: boolean}>({
+	export let windowdata = writable<{ [key: string]: boolean }>({
 		keybinds: true,
 		visualizer: true,
 		camera: true
-	})
+	});
 </script>
+
 <script lang="ts">
-	import Icon from 'svelte-awesome'
+	import Icon from 'svelte-awesome';
 	import minus from 'svelte-awesome/icons/minus';
 	import { draggable } from '@neodrag/svelte';
 	export let windowname: string;
 
 	let manageData = () => {
 		$windowdata[windowname] = false;
-	}
+	};
 </script>
 
 {#if $windowdata[windowname]}
-	<div class="dockable-window" use:draggable={{bounds: ".primary-container", defaultPosition: { x: 0, y: 0 } }}>
+	<div
+		class="dockable-window"
+		use:draggable={{ bounds: '.primary-container', defaultPosition: { x: 0, y: 0 } }}
+	>
 		<div class="dockable-tools">
 			<div class="dockable-icon" on:click={() => manageData()}>
 				<Icon data={minus} />
 			</div>
 		</div>
-		<slot></slot>
+		<slot />
 	</div>
 {/if}
+
 <style>
 	.dockable-window {
 		display: inline-block;

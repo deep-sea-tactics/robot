@@ -11,14 +11,9 @@
 	import { client } from '$lib/socket/socket';
 	import type { ControllerData } from 'typings';
 
-	import Windowcomp from '$lib/modules/Windowcomp.svelte'
-	import { windowdata } from '$lib/modules/Windowcomp.svelte'
-	import Taskbar from '$lib/modules/Taskbar.svelte'
-
-
-
-	
-
+	import Windowcomp from '$lib/modules/Windowcomp.svelte';
+	import { windowdata } from '$lib/modules/Windowcomp.svelte';
+	import Taskbar from '$lib/modules/Taskbar.svelte';
 
 	let selectedCamera: CameraType | null = null;
 	let opened = false;
@@ -80,13 +75,13 @@
 	}
 
 	$: client.emit(`clientControllerData`, processedData);
-	
 </script>
 
 <svelte:window
 	on:keydown|preventDefault={(event) => {
-		console.log(event.key )
-		if (event.key == "ArrowLeft") { // moves the camera backwards on a capital v input
+		console.log(event.key);
+		if (event.key == 'ArrowLeft') {
+			// moves the camera backwards on a capital v input
 			if (!selectedCamera) {
 				selectedCamera = $cameras[$cameras.length - 1];
 				return;
@@ -98,7 +93,8 @@
 						? $cameras.length - 1
 						: $cameras.indexOf(selectedCamera) - 1
 				];
-		} else if (event.key == "ArrowRight") { // moves the camera forwards on a lowwercase v
+		} else if (event.key == 'ArrowRight') {
+			// moves the camera forwards on a lowwercase v
 			if (!selectedCamera) {
 				selectedCamera = $cameras[0];
 				return;
@@ -106,27 +102,29 @@
 
 			selectedCamera = $cameras[($cameras.indexOf(selectedCamera) + 1) % $cameras.length];
 		} else if (event.key == 'ArrowUp') {
-			openController()
+			openController();
 		}
 	}}
-	
 />
 
-<main class="flex flex-row w-screen h-screen"> 
+<main class="flex flex-row w-screen h-screen">
 	<!--Key Binds-->
-	
+
 	<div class="primary-container">
-		<Taskbar/>
+		<Taskbar />
 		<Windowcomp windowname="keybinds">
 			<div class="keybinds-wrap">
 				<div class="keybinds-holder">
-					<Icon data={arrowLeft}/> <p>Cycle Camera Back</p>
+					<Icon data={arrowLeft} />
+					<p>Cycle Camera Back</p>
 				</div>
 				<div class="keybinds-holder">
-					<Icon data={arrowRight}/> <p>Cycle Camera Forward</p>
+					<Icon data={arrowRight} />
+					<p>Cycle Camera Forward</p>
 				</div>
 				<div class="keybinds-holder">
-					<Icon data={arrowUp}/> <p>Enable Controller</p>
+					<Icon data={arrowUp} />
+					<p>Enable Controller</p>
 				</div>
 			</div>
 		</Windowcomp>
@@ -149,9 +147,8 @@
 				{/if}
 			</div>
 		</Windowcomp>
-		
 	</div>
-	
+
 	<div class="w-1/5 flex flex-col divide-y border-r border-black divide-black">
 		{#if $cameras.length === 0}
 			<div
@@ -179,8 +176,7 @@
 	</div>
 	<Screenshots />
 </main>
-<div class="fixed bottom-0 right-0">
-</div>
+<div class="fixed bottom-0 right-0" />
 
 <style>
 	.keybinds-holder {

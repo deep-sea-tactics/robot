@@ -18,6 +18,6 @@ export default <UserConfig>{
 		}
 	},
 	build: {
-		target: "es2022"
+		target: 'es2022'
 	}
 };
