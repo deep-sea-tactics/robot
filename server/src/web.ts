@@ -18,7 +18,6 @@ export interface ServerToClientsMap {
 export interface ClientToServerMap {
 	dataOverride: (data: Partial<ControllerData>) => void;
 	clientControllerData: (data: ControllerData) => void;
-
 }
 
 const io = new Server<ClientToServerMap, ServerToClientsMap>(port, {
@@ -38,12 +37,9 @@ export const start = async (): Promise<void> => {
 		// The client has connected
 		logger.info(`Client connected to web interface. (ID: ${socket.id})`);
 
-		socket.on('dataOverride', (args) => {
-			mixedControllerData(args);
-		});
-		socket.on("clientControllerData", (args) => {
-			controllerData(args);
-		});
+		socket.on('dataOverride', mixedControllerData);
+		socket.on("clientControllerData", controllerData);
+		
 		// Warn the server if the client has disconnected
 		socket.on('disconnect', (reason) => {
 			logger.info(`Client ${socket.id} disconnected from web interface: ${reason}`);

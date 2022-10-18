@@ -7,7 +7,7 @@
 	"type": "module",
 	"scripts": {
 		"build": "tsc",
-		"start": "yarn build && node dist/index.js",
+		"start": "yarn build && yarn node dist/index.js",
 		"dev": "nodemon -q --exec \"yarn start\" src/index.ts"
 	},
 	"keywords": [],

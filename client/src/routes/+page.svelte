@@ -5,11 +5,9 @@
 	import Screenshots from '$lib/screenshots/Screenshots.svelte';
 	import Icon from 'svelte-awesome';
 	import gear from 'svelte-awesome/icons/gear';
-	import Settings from '$lib/settings/Settings.svelte';
 	import { client } from '$lib/socket/socket'
 	import { getContext } from 'svelte';
 	import { fancyTime } from '$lib/timer/timer';
-	import type { ControllerData } from '$lib/controller/mimic/controllerData';
 	const { open } = getContext('simple-modal');
 
 	let selectedCamera: CameraType | null = null;
@@ -108,9 +106,8 @@
 		{#if $cameras.length === 0}
 			<div
 				class="w-full flex-grow p-8 text-center hover:cursor-pointer flex justify-center items-center bg-red-200 hover:bg-red-300 active:bg-red-400 transition-all text-xl"
-				on:click={() => open(Settings)}
 			>
-				No cameras. Add some in the settings.
+				No cameras detected.
 			</div>
 		{:else}
 			{#each $cameras as camera}
