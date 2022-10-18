@@ -13,9 +13,7 @@ export interface Position {
 export const controllerData = flyd.stream<ControllerData>({ ...defaultControllerData });
 
 /** Any controller data an AI task sends */
-export const mixedControllerData = flyd.stream<Partial<ControllerData>>({
-	...defaultControllerData
-});
+export const mixedControllerData = flyd.stream<Partial<ControllerData>>({ });
 
 /** A mix of both the base and overlayd controller data. */
 export const finalControllerData = flyd.combine<
