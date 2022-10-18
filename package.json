@@ -11,7 +11,11 @@
 	],
 	"packageManager": "yarn@3.2.3",
 	"devDependencies": {
+		"@typescript-eslint/eslint-plugin": "^5.40.1",
+		"@typescript-eslint/parser": "^5.40.1",
 		"eslint": "^8.25.0",
+		"eslint-config-prettier": "^8.5.0",
+		"eslint-plugin-svelte3": "^4.0.0",
 		"prettier": "^2.7.1",
 		"prettier-plugin-svelte": "^2.7.0",
 		"svelte": "^3.50.1"
