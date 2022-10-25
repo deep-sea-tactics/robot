@@ -104,6 +104,24 @@
       			client.emit("candidate", id, event.candidate);
    			 }
   		});
+		  client.on("candidate", (id, candidate) => {
+  peerConnection
+    .addIceCandidate(new RTCIceCandidate(candidate))
+    .catch(e => console.error(e));
+	});
+
+	client.on("connect", () => {
+		client.emit("watcher");
+	});
+
+	client.on("broadcaster", () => {
+		client.emit("watcher");
+	});
+
+	window.onunload = window.onbeforeunload = () => {
+		client.close();
+	peerConnection.close();
+};
 	})
 </script>
 
