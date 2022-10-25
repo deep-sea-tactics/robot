@@ -55,7 +55,7 @@
 				video: true
 			});
 
-			client.emit("broadcaster")
+			client.emit('broadcaster');
 
 			return stream;
 		} catch (err) {

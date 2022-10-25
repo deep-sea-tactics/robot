@@ -14,6 +14,7 @@
 	import Windowcomp from '$lib/modules/Windowcomp.svelte';
 	import { windowdata } from '$lib/modules/Windowcomp.svelte';
 	import Taskbar from '$lib/modules/Taskbar.svelte';
+	import { onDestroy } from 'svelte';
 
 	let selectedCamera: CameraType | null = null;
 	let opened = false;
@@ -80,49 +81,47 @@
 	const config: any = {
 		iceServers: [
 			{
-				urls: ["stun:stun.l.google.com:19302"]
+				urls: ['stun:stun.l.google.com:19302']
 			}
 		]
 	};
-	let video;
-	client.on("offer", (id, description) => {
+	let video: HTMLVideoElement;
+	client.on('offer', (id, description) => {
 		peerConnection = new RTCPeerConnection(config);
 		peerConnection
 			.setRemoteDescription(description)
 			.then(() => peerConnection.createAnswer())
-			.then((sdp: any) => peerConnection.setLocalDescription(sdp))
+			.then((sdp) => peerConnection.setLocalDescription(sdp))
 			.then(() => {
-				client.emit("answer", id, peerConnection.localDescription);
+				client.emit('answer', id, peerConnection.localDescription);
 			});
-		
-		peerConnection.addEventListener("track", event => {
-			video = event.streams[0];
-		})
 
-		peerConnection.addEventListener("icecandidate", event => {
-    		if (event.candidate) {
-      			client.emit("candidate", id, event.candidate);
-   			 }
-  		});
-		  client.on("candidate", (id, candidate) => {
-  peerConnection
-    .addIceCandidate(new RTCIceCandidate(candidate))
-    .catch(e => console.error(e));
+		peerConnection.addEventListener('track', (event) => {
+			video.srcObject = event.streams[0];
+		});
+
+		peerConnection.addEventListener('icecandidate', (event) => {
+			if (event.candidate) {
+				client.emit('candidate', id, event.candidate);
+			}
+		});
+	});
+	client.on('candidate', (id, candidate) => {
+		peerConnection.addIceCandidate(new RTCIceCandidate(candidate)).catch((e) => console.error(e));
 	});
 
-	client.on("connect", () => {
-		client.emit("watcher");
+	client.on('connect', () => {
+		client.emit('watcher');
 	});
 
-	client.on("broadcaster", () => {
-		client.emit("watcher");
+	client.on('broadcaster', () => {
+		client.emit('watcher');
 	});
 
-	window.onunload = window.onbeforeunload = () => {
+	onDestroy(() => {
 		client.close();
-	peerConnection.close();
-};
-	})
+		peerConnection.close();
+	});
 </script>
 
 <svelte:window
@@ -161,7 +160,7 @@
 	<div class="primary-container">
 		<Taskbar />
 		<Windowcomp windowname="video">
-			<video bind:this={video}></video>
+			<video bind:this={video} />
 		</Windowcomp>
 		<Windowcomp windowname="keybinds">
 			<div class="keybinds-wrap">
