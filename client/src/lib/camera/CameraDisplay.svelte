@@ -5,7 +5,7 @@
 	let canvas: HTMLCanvasElement;
 	let context: CanvasRenderingContext2D;
 
-	export let name: string
+	export let name: string;
 
 	onMount(() => {
 		const localContext = canvas.getContext('2d');
