@@ -55,9 +55,7 @@
 				video: true
 			});
 
-			client.emit('broadcaster');
-
-			const peerConnection = new RTCPeerConnection(config);
+			client.emit("broadcaster")
 
 			return stream;
 		} catch (err) {
