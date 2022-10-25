@@ -5,11 +5,14 @@
 
 	let stream: MediaStream;
 
-	const peerConnections: { [key in string]: RTCPeerConnection } = {};
+	const peerConnections: { [key in string]: {
+		connection: RTCPeerConnection,
+		candidates: RTCIceCandidate[]
+	} } = {};
 
 	client.on('watcher', (id) => {
 		const peerConnection = new RTCPeerConnection(config);
-		peerConnections[id] = peerConnection;
+		peerConnections[id] = { connection: peerConnection, candidates: [] };
 
 		for (const track of stream.getTracks()) {
 			peerConnection.addTrack(track, stream);
@@ -30,15 +33,15 @@
 	});
 
 	client.on('answer', (id, description) => {
-		peerConnections[id].setRemoteDescription(description);
+		peerConnections[id].connection.setRemoteDescription(description);
 	});
 
 	client.on('candidate', (id, candidate) => {
-		peerConnections[id].addIceCandidate(new RTCIceCandidate(candidate));
+		peerConnections[id].connection.addIceCandidate(new RTCIceCandidate(candidate));
 	});
 
 	client.on('disconnectPeer', (id) => {
-		peerConnections[id].close();
+		peerConnections[id].connection.close();
 		delete peerConnections[id];
 	});
 
