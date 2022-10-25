@@ -1,8 +1,52 @@
 <script lang="ts">
 	import { onDestroy } from 'svelte';
+	import { client } from '$lib/socket/socket';
 	import CameraDisplay from '$lib/camera/CameraDisplay.svelte';
 
 	let stream: MediaStream;
+
+	const peerConnections: { [key in string]: RTCPeerConnection } = {};
+
+	client.on('watcher', (id) => {
+		const peerConnection = new RTCPeerConnection(config);
+		peerConnections[id] = peerConnection;
+
+		stream.getTracks().forEach((track) => peerConnection.addTrack(track, stream));
+
+		peerConnection.onicecandidate = (event) => {
+			if (event.candidate) {
+				client.emit('candidate', id, event.candidate);
+			}
+		};
+
+		peerConnection
+			.createOffer()
+			.then((sdp) => peerConnection.setLocalDescription(sdp))
+			.then(() => {
+				client.emit('offer', id, peerConnection.localDescription);
+			});
+	});
+
+	client.on('answer', (id, description) => {
+		peerConnections[id].setRemoteDescription(description);
+	});
+
+	client.on('candidate', (id, candidate) => {
+		peerConnections[id].addIceCandidate(new RTCIceCandidate(candidate));
+	});
+
+	client.on('disconnectPeer', (id) => {
+		peerConnections[id].close();
+		delete peerConnections[id];
+	});
+
+	const config = {
+		iceServers: [
+			{
+				urls: ['stun:stun.l.google.com:19302']
+			}
+		]
+	};
 
 	async function getMedia(): Promise<MediaStream> {
 		try {
@@ -10,6 +54,10 @@
 				audio: false,
 				video: true
 			});
+
+			client.emit('broadcaster');
+
+			const peerConnection = new RTCPeerConnection(config);
 
 			return stream;
 		} catch (err) {
@@ -24,6 +72,7 @@
 			track.stop();
 			stream.removeTrack(track);
 		}
+		client.close();
 	});
 </script>
 
@@ -31,7 +80,7 @@
 	<p>Waiting for Camera</p>
 {:then mediaStream}
 	<div class="m-16 bg-gray-100 flex flex-col p-8 rounded-lg shadow-lg">
-		<CameraDisplay {mediaStream} />
+		<CameraDisplay {mediaStream} name="Camera Self" />
 		<div class="h-1/2 grow">
 			<p>Streaming Status</p>
 		</div>

@@ -5,6 +5,8 @@
 	let canvas: HTMLCanvasElement;
 	let context: CanvasRenderingContext2D;
 
+	export let name: string;
+
 	onMount(() => {
 		const localContext = canvas.getContext('2d');
 		if (!localContext) throw Error('No 2d context found. Weird?');
