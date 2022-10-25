@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Camera from '$lib/camera/Camera.svelte';
+	import CameraDisplay from '$lib/camera/CameraDisplay.svelte';
 	import { draggable } from '@neodrag/svelte';
 	import { cameras, type Camera as CameraType } from '$lib/camera/camera';
 	import ControllerCanvas from '$lib/controller/ControllerCanvas.svelte';
@@ -18,6 +19,8 @@
 
 	let selectedCamera: CameraType | null = null;
 	let opened = false;
+	let mediaStream: MediaStream;
+
 	const bool = (num: number) => num !== 0;
 	function buf2hex(buffer: ArrayBuffer) {
 		return [...new Uint8Array(buffer)].map((x) => x.toString(16).padStart(2, '0')).join('');
@@ -78,7 +81,7 @@
 	$: client.emit(`clientControllerData`, processedData);
 
 	let peerConnection: RTCPeerConnection;
-	const config: any = {
+	const config = {
 		iceServers: [
 			{
 				urls: ['stun:stun.l.google.com:19302']
@@ -97,7 +100,7 @@
 			});
 
 		peerConnection.addEventListener('track', (event) => {
-			video.srcObject = event.streams[0];
+			mediaStream = event.streams[0];
 		});
 
 		peerConnection.addEventListener('icecandidate', (event) => {
@@ -160,7 +163,7 @@
 	<div class="primary-container">
 		<Taskbar />
 		<Windowcomp windowname="video">
-			<video bind:this={video} />
+			<CameraDisplay {mediaStream} name="Cam"/>
 		</Windowcomp>
 		<Windowcomp windowname="keybinds">
 			<div class="keybinds-wrap">
