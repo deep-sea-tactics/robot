@@ -11,13 +11,15 @@
 		const peerConnection = new RTCPeerConnection(config);
 		peerConnections[id] = peerConnection;
 
-		stream.getTracks().forEach((track) => peerConnection.addTrack(track, stream));
+		for (const track of stream.getTracks()) {
+			peerConnection.addTrack(track, stream);
+		}
 
-		peerConnection.onicecandidate = (event) => {
+		peerConnection.addEventListener("icecandidate", (event) => {
 			if (event.candidate) {
 				client.emit('candidate', id, event.candidate);
 			}
-		};
+		});
 
 		peerConnection
 			.createOffer()
