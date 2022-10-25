@@ -75,6 +75,36 @@
 	}
 
 	$: client.emit(`clientControllerData`, processedData);
+
+	let peerConnection: RTCPeerConnection;
+	const config: any = {
+		iceServers: [
+			{
+				urls: ["stun:stun.l.google.com:19302"]
+			}
+		]
+	};
+	let video;
+	client.on("offer", (id, description) => {
+		peerConnection = new RTCPeerConnection(config);
+		peerConnection
+			.setRemoteDescription(description)
+			.then(() => peerConnection.createAnswer())
+			.then((sdp: any) => peerConnection.setLocalDescription(sdp))
+			.then(() => {
+				client.emit("answer", id, peerConnection.localDescription);
+			});
+		
+		peerConnection.addEventListener("track", event => {
+			video = event.streams[0];
+		})
+
+		peerConnection.addEventListener("icecandidate", event => {
+    		if (event.candidate) {
+      			client.emit("candidate", id, event.candidate);
+   			 }
+  		});
+	})
 </script>
 
 <svelte:window
@@ -112,6 +142,9 @@
 
 	<div class="primary-container">
 		<Taskbar />
+		<Windowcomp windowname="video">
+			<video bind:this={video}></video>
+		</Windowcomp>
 		<Windowcomp windowname="keybinds">
 			<div class="keybinds-wrap">
 				<div class="keybinds-holder">

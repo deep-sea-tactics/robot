@@ -4,7 +4,8 @@
 	export let windowdata = writable<{ [key: string]: boolean }>({
 		keybinds: true,
 		visualizer: true,
-		camera: true
+		camera: true,
+		video: true
 	});
 </script>
 
