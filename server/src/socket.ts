@@ -11,11 +11,23 @@ const port = 3000;
 
 export interface ServerToClientsMap {
 	controllerData: (data: ControllerData) => void;
+	cameraBroadcastInfo: (data: string) => void;
+	broadcaster: () => void;
+	watcher: (id: string) => void
+	disconnectPeer: (id: string) => void
+	offer: (id: string, message: string) => void
+	answer: (id: string, message: string) => void 
+	candidate: (id: string, message: string) => void
 }
 
 export interface ClientToServerMap {
 	dataOverride: (data: Partial<ControllerData>) => void;
 	clientControllerData: (data: ControllerData) => void;
+	broadcaster: () => void
+	watcher: () => void
+	offer: (id: string, message: string) => void
+	answer: (id: string, message: string) => void 
+	candidate: (id: string, message: string) => void
 }
 
 const io = new Server<ClientToServerMap, ServerToClientsMap>(port, {
@@ -29,6 +41,7 @@ const io = new Server<ClientToServerMap, ServerToClientsMap>(port, {
  * Starts the socket server
  */
 export const start = async (): Promise<void> => {
+	let broadcaster: string
 	consola.debug('Attempting to start socket server.');
 
 	io.on('connection', (socket) => {
@@ -41,6 +54,27 @@ export const start = async (): Promise<void> => {
 		// Warn the server if the client has disconnected
 		socket.on('disconnect', (reason) => {
 			consola.info(`Client ${socket.id} disconnected from web interface: ${reason}`);
+		});
+
+		socket.on("broadcaster", () => {
+			broadcaster = socket.id;
+			socket.broadcast.emit("broadcaster");
+		});
+		socket.on("watcher", () => {
+			socket.to(broadcaster).emit("watcher", socket.id);
+		});
+		socket.on("disconnect", () => {
+			socket.to(broadcaster).emit("disconnectPeer", socket.id);
+		});
+
+		socket.on("offer", (id, message) => {
+			socket.to(id).emit("offer", socket.id, message);
+		});
+		socket.on("answer", (id, message) => {
+			socket.to(id).emit("answer", socket.id, message);
+		});
+		socket.on("candidate", (id, message) => {
+			socket.to(id).emit("candidate", socket.id, message);
 		});
 	});
 
