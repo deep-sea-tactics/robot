@@ -26,7 +26,9 @@
 		use:draggable={{ bounds: '.primary-container', defaultPosition: { x: 0, y: 0 } }}
 	>
 		<div class="dockable-tools">
-			<div class="dockable-icon" on:click={() => manageData()}>
+			<div class="dockable-icon" on:click={manageData} on:keydown={event => {
+				if (event.key == "Enter") manageData()
+			}}>
 				<Icon data={minus} />
 			</div>
 		</div>
@@ -51,8 +53,5 @@
 		border-bottom-width: 2px;
 		border-image: linear-gradient(90deg, #42a5f5 0%, #0d47a1 100%) 1;
 		background-color: #b6b6b680;
-	}
-	.dockable-icons {
-		cursor: pointer;
 	}
 </style>

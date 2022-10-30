@@ -215,6 +215,11 @@
 					class:bg-lime-400={selectedCamera == camera}
 					class:font-bold={selectedCamera == camera}
 					on:click={() => (selectedCamera = camera)}
+					on:keydown={event => {
+						if (event.key == "Enter") {
+							selectedCamera = camera
+						}
+					}}
 				>
 					<span>
 						{camera.description} ({camera.port})
