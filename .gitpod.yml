@@ -1,12 +1,12 @@
 tasks:
-  - init: |
+  - name: Install
+    init: |
       export HMR_HOST=`gp url 3000`
       ./install.sh
-    command: |
-      ./run.sh
+  - command: echo Done installing! Now press CTRL + SHIFT + B
 ports:
   - port: 4000
-    onOpen: open-browser
+    onOpen: notify
   - port: 30000
     onOpen: ignore
 

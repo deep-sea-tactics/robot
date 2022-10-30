@@ -6,9 +6,8 @@
 	"main": "index.js",
 	"type": "module",
 	"scripts": {
-		"build": "tsc",
-		"start": "yarn build && yarn node dist/index.js",
-		"dev": "nodemon -q --exec \"yarn start\" src/index.ts"
+		"start": "ts-node --esm --swc dist/index.js",
+		"dev": "nodemon -x \"yarn start\""
 	},
 	"keywords": [],
 	"author": "LeoDog896",
@@ -21,9 +20,12 @@
 		"socket.io": "^4.5.3"
 	},
 	"devDependencies": {
+		"@swc/core": "^1.3.11",
+		"@swc/helpers": "^0.4.12",
 		"@types/node": "^18.7.17",
 		"@types/node-hid": "^1.3.1",
 		"nodemon": "^2.0.19",
+		"regenerator-runtime": "^0.13.10",
 		"ts-node": "^10.9.1",
 		"typescript": "^4.8.3",
 		"typings": "1.0.0"
