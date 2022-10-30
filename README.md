@@ -1,4 +1,6 @@
-# Landstown Underwater Robotics Challenge Repository
+# Landstown Underwater Robotics Challenge
+
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://github.com/LeoDog896/Landstown-Robotics-Challenge)
 
 This is the repository for the LHS robotics challenge.
 
@@ -33,7 +35,7 @@ The client, server, and robot use socket.io to communicate with eachother instea
 
 ## Contributing
 
-Use ./run.sh to test out the server and the client.
+Use `./run.sh`, or use `CTRL + SHIFT + B` to test out the server and the client.
 
 The project is made in TypeScript and it is encouraged to follow the IDE's reccomendations.
 

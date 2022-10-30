@@ -11,7 +11,7 @@
 	import { client } from '$lib/socket/socket';
 	import type { ControllerData } from 'typings';
 
-	import Windowcomp from '$lib/modules/Windowcomp.svelte';
+	import WindowComponent from '$lib/modules/WindowComponent.svelte';
 	import Taskbar from '$lib/modules/Taskbar.svelte';
 	import { onDestroy } from 'svelte';
 
@@ -161,10 +161,10 @@
 
 	<div class="primary-container">
 		<Taskbar />
-		<Windowcomp windowname="video">
+		<WindowComponent windowName="video">
 			<CameraDisplay {mediaStream} name="Cam"/>
-		</Windowcomp>
-		<Windowcomp windowname="keybinds">
+		</WindowComponent>
+		<WindowComponent windowName="keybinds">
 			<div class="keybinds-wrap">
 				<div class="keybinds-holder">
 					<Icon data={arrowLeft} />
@@ -179,59 +179,11 @@
 					<p>Enable Controller</p>
 				</div>
 			</div>
-		</Windowcomp>
-		<Windowcomp windowname="visualizer">
+		</WindowComponent>
+		<WindowComponent windowName="visualizer">
 			<ControllerCanvas />
-		</Windowcomp>
-		<Windowcomp windowname="camera">
-			<div class="w-full">
-				{#if selectedCamera}
-					{#key selectedCamera}
-						<Camera port={selectedCamera.port} />
-					{/key}
-				{:else}
-					<p class="flex items-center justify-center w-full h-full text-2xl font-semibold">
-						<span>
-							No camera selected.<br />
-							Press <kbd>V</kbd> to cycle or click to select one.
-						</span>
-					</p>
-				{/if}
-			</div>
-		</Windowcomp>
+		</WindowComponent>
 	</div>
-
-	<div class="w-1/5 flex flex-col divide-y border-r border-black divide-black">
-		{#if $cameras.length === 0}
-			<div
-				class="w-full flex-grow p-8 text-center hover:cursor-pointer flex justify-center items-center bg-red-200 hover:bg-red-300 active:bg-red-400 transition-all text-xl"
-			>
-				No cameras detected.
-			</div>
-		{:else}
-			{#each $cameras as camera}
-				<div
-					class="w-full hover:cursor-pointer flex-grow p-8 text-center flex justify-center items-center bg-lime-200 hover:bg-lime-300 active:bg-lime-400 transition-all text-xl"
-					class:bg-lime-400={selectedCamera == camera}
-					class:font-bold={selectedCamera == camera}
-					on:click={() => (selectedCamera = camera)}
-					on:keydown={event => {
-						if (event.key == "Enter") {
-							selectedCamera = camera
-						}
-					}}
-				>
-					<span>
-						{camera.description} ({camera.port})
-					</span>
-				</div>
-			{/each}
-		{/if}
-		<div class="w-full flex-shrink p-2 flex justify-center items-center bg-gray-300">
-			Press <kbd>V</kbd> to cycle
-		</div>
-	</div>
-	<Screenshots />
 </main>
 <div class="fixed bottom-0 right-0" />
 

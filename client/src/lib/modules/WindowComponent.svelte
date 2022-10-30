@@ -1,33 +1,24 @@
-<script context="module" lang="ts">
-	import { writable } from 'svelte/store';
-
-	export let windowdata = writable<{ [key: string]: boolean }>({
-		keybinds: true,
-		visualizer: true,
-		camera: true,
-		video: true
-	});
-</script>
-
 <script lang="ts">
 	import Icon from 'svelte-awesome';
 	import minus from 'svelte-awesome/icons/minus';
 	import { draggable } from '@neodrag/svelte';
-	export let windowname: string;
+	import { windows } from "./Taskbar.svelte"
 
-	let manageData = () => {
-		$windowdata[windowname] = false;
-	};
+	export let windowName: string;
+	let x = 0;
+	let y = 0;
+	$windows[windowName] = true
+	const disable = () => $windows[windowName] = false
 </script>
 
-{#if $windowdata[windowname]}
+{#if $windows[windowName]}
 	<div
 		class="dockable-window"
-		use:draggable={{ bounds: '.primary-container', defaultPosition: { x: 0, y: 0 } }}
+		use:draggable={{ bounds: '.primary-container', defaultPosition: { x: 0, y: 0 }, position: { x, y }}}
 	>
 		<div class="dockable-tools">
-			<div class="dockable-icon" on:click={manageData} on:keydown={event => {
-				if (event.key == "Enter") manageData()
+			<div class="dockable-icon" on:click={disable} on:keydown={event => {
+				if (event.key == "Enter") disable()
 			}}>
 				<Icon data={minus} />
 			</div>
