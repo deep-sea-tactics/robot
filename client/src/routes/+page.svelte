@@ -1,7 +1,6 @@
 <script lang="ts">
 	import Camera from '$lib/camera/Camera.svelte';
 	import CameraDisplay from '$lib/camera/CameraDisplay.svelte';
-	import { draggable } from '@neodrag/svelte';
 	import { cameras, type Camera as CameraType } from '$lib/camera/camera';
 	import ControllerCanvas from '$lib/controller/ControllerCanvas.svelte';
 	import Screenshots from '$lib/screenshots/Screenshots.svelte';
@@ -13,7 +12,6 @@
 	import type { ControllerData } from 'typings';
 
 	import Windowcomp from '$lib/modules/Windowcomp.svelte';
-	import { windowdata } from '$lib/modules/Windowcomp.svelte';
 	import Taskbar from '$lib/modules/Taskbar.svelte';
 	import { onDestroy } from 'svelte';
 

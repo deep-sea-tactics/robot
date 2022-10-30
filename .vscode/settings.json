@@ -1,4 +1,16 @@
 {
 	"editor.detectIndentation": false,
-	"editor.insertSpaces": false
+	"editor.insertSpaces": false,
+	"javascript.inlayHints.enumMemberValues.enabled": true,
+	"javascript.inlayHints.functionLikeReturnTypes.enabled": true,
+	"javascript.inlayHints.parameterNames.enabled": "literals",
+	"javascript.inlayHints.parameterTypes.enabled": true,
+	"javascript.inlayHints.propertyDeclarationTypes.enabled": true,
+	"typescript.inlayHints.enumMemberValues.enabled": true,
+	"typescript.inlayHints.variableTypes.enabled": true,
+	"typescript.inlayHints.propertyDeclarationTypes.enabled": true,
+	"typescript.inlayHints.parameterTypes.enabled": true,
+	"typescript.inlayHints.parameterNames.enabled": "literals",
+	"typescript.inlayHints.functionLikeReturnTypes.enabled": true,
+	"javascript.inlayHints.variableTypes.enabled": true,
 }
