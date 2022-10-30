@@ -34,10 +34,13 @@
 
 	client.on('answer', (id, description) => {
 		peerConnections[id].connection.setRemoteDescription(description);
+		for (const candidate of peerConnections[id].candidates) {
+			peerConnections[id].connection.addIceCandidate(candidate)
+		}
 	});
 
 	client.on('candidate', (id, candidate) => {
-		peerConnections[id].connection.addIceCandidate(new RTCIceCandidate(candidate));
+		peerConnections[id].candidates.push(new RTCIceCandidate(candidate));
 	});
 
 	client.on('disconnectPeer', (id) => {

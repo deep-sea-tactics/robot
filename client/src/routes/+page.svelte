@@ -81,6 +81,7 @@
 	$: client.emit(`clientControllerData`, processedData);
 
 	let peerConnection: RTCPeerConnection;
+	let candidates: RTCIceCandidate[]
 	const config = {
 		iceServers: [
 			{
@@ -88,7 +89,7 @@
 			}
 		]
 	};
-	let video: HTMLVideoElement;
+	
 	client.on('offer', (id, description) => {
 		peerConnection = new RTCPeerConnection(config);
 		peerConnection
@@ -110,7 +111,7 @@
 		});
 	});
 	client.on('candidate', (id, candidate) => {
-		peerConnection.addIceCandidate(new RTCIceCandidate(candidate)).catch((e) => console.error(e));
+		candidates.push(new RTCIceCandidate(candidate))
 	});
 
 	client.on('connect', () => {
