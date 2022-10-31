@@ -1003,6 +1003,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/downloadjs@npm:^1.4.3":
+  version: 1.4.3
+  resolution: "@types/downloadjs@npm:1.4.3"
+  checksum: d5b5e29399fdbb415f351fee64e7f7b3ddef0f251d2375ddaa0c16cd5c026f4a8dce1b4c76d05e019bc65c96f589d70f13512b44e54d568063fdefa0dbfd40c8
+  languageName: node
+  linkType: hard
+
 "@types/json-schema@npm:^7.0.9":
   version: 7.0.11
   resolution: "@types/json-schema@npm:7.0.11"
@@ -1667,6 +1674,7 @@ __metadata:
     "@playwright/test": ^1.27.1
     "@sveltejs/adapter-auto": next
     "@sveltejs/kit": next
+    "@types/downloadjs": ^1.4.3
     autoprefixer: ^10.4.13
     capture-video-frame: ^1.0.0
     downloadjs: ^1.4.7
