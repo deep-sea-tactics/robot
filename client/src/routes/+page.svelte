@@ -1,15 +1,14 @@
 <script lang="ts">
-	import Camera from '$lib/camera/Camera.svelte';
 	import CameraDisplay from '$lib/camera/CameraDisplay.svelte';
 	import { cameras, type Camera as CameraType } from '$lib/camera/camera';
 	import ControllerCanvas from '$lib/controller/ControllerCanvas.svelte';
-	import Screenshots from '$lib/screenshots/Screenshots.svelte';
 	import Icon from 'svelte-awesome';
 	import arrowLeft from 'svelte-awesome/icons/arrowLeft';
 	import arrowRight from 'svelte-awesome/icons/arrowRight';
 	import arrowUp from 'svelte-awesome/icons/arrowUp';
 	import { client } from '$lib/socket/socket';
 	import type { ControllerData } from 'typings';
+	import consola from "consola"
 
 	import WindowComponent from '$lib/modules/WindowComponent.svelte';
 	import Taskbar from '$lib/modules/Taskbar.svelte';
@@ -79,7 +78,8 @@
 	$: client.emit(`clientControllerData`, processedData);
 
 	let peerConnection: RTCPeerConnection;
-	let candidates: RTCIceCandidate[]
+	let candidates: RTCIceCandidate[] = []
+	let answered = false
 	const config = {
 		iceServers: [
 			{
@@ -89,16 +89,20 @@
 	};
 	
 	client.on('offer', (id, description) => {
+		consola.info(`offered by ${id}:`, description)
+		answered = true
 		peerConnection = new RTCPeerConnection(config);
 		peerConnection
 			.setRemoteDescription(description)
 			.then(() => peerConnection.createAnswer())
 			.then((sdp) => peerConnection.setLocalDescription(sdp))
 			.then(() => {
+				consola.info(`Sending answer to peer ${id}`)
 				client.emit('answer', id, peerConnection.localDescription);
 			});
 
 		peerConnection.addEventListener('track', (event) => {
+			consola.info("Found Track: ", event.streams[0])
 			mediaStream = event.streams[0];
 		});
 
@@ -107,9 +111,19 @@
 				client.emit('candidate', id, event.candidate);
 			}
 		});
+
+		for (const candidate of candidates) {
+			consola.info("Adding stored candidate", candidate)
+			peerConnection.addIceCandidate(candidate)
+		}
 	});
 	client.on('candidate', (id, candidate) => {
-		candidates.push(new RTCIceCandidate(candidate))
+		consola.info(`Received candidate from ${id}`, candidate)
+		if (answered) {
+			peerConnection.addIceCandidate(new RTCIceCandidate(candidate))
+		} else {
+			candidates.push(new RTCIceCandidate(candidate))
+		}
 	});
 
 	client.on('connect', () => {
@@ -127,8 +141,7 @@
 </script>
 
 <svelte:window
-	on:keydown|preventDefault={(event) => {
-		console.log(event.key);
+	on:keydown={(event) => {
 		if (event.key == 'ArrowLeft') {
 			// moves the camera backwards on a capital v input
 			if (!selectedCamera) {

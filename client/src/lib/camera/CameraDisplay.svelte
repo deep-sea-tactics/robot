@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { tick, onMount } from 'svelte';
+	import consola from "consola"
 
 	let video: HTMLVideoElement;
 	let canvas: HTMLCanvasElement;
@@ -15,7 +16,7 @@
 
 	const processor = {
 		timerCallback() {
-			if (video?.paused || video.ended) {
+			if (video?.paused || video?.ended) {
 				return;
 			}
 			this.computeFrame();
@@ -61,39 +62,42 @@
 	export let height = 0;
 
 	function srcObject(node: HTMLVideoElement, stream: MediaStream) {
-		node.srcObject = stream;
+		consola.info("webrtc: Initially shovelling in stream:", stream)
+		if (stream) {
+			node.srcObject = stream;
+		}
 		return {
 			update(newStream: MediaStream) {
 				if (node.srcObject != newStream) {
+					consola.info("webrtc: Shovelling in new stream:", newStream)
 					node.srcObject = newStream;
-
-					() => {
-						width = node.width;
-						height = node.width;
-					};
+					width = node.width;
+					height = node.width;
 				}
 			}
 		};
 	}
 </script>
 
-<video
-	bind:this={video}
-	style="display: none"
-	use:srcObject={mediaStream}
-	on:play={() => {
-		width = video.width;
-		height = video.height;
-		processor.doLoad();
-	}}
-	on:resize={() => {
-		width = video.width;
-		height = video.height;
-	}}
-	autoplay
-	playsinline
->
-	<track kind="captions">
-</video>
+{#if mediaStream}
+	<video
+		bind:this={video}
+		style="display: none"
+		use:srcObject={mediaStream}
+		on:play={() => {
+			width = video.width;
+			height = video.height;
+			processor.doLoad();
+		}}
+		on:resize={() => {
+			width = video.width;
+			height = video.height;
+		}}
+		autoplay
+		playsinline
+	>
+		<track kind="captions">
+	</video>
+{/if}
 
 <canvas class={classes} bind:this={canvas} />

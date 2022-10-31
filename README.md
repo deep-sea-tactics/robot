@@ -39,4 +39,8 @@ Use `./run.sh`, or use `CTRL + SHIFT + B` to test out the server and the client.
 
 The project is made in TypeScript and it is encouraged to follow the IDE's reccomendations.
 
-If you have any issues with connecting the controller on a linux machine, use `fix_controller.sh` to fix the controller.
+## FAQ
+
+Can't use the controller on a linux machine? Use `./fix_controller.sh` to fix the controller.
+
+Firefox isn't working for you? Set `media.peerconnection.ice.loopback` to true
