@@ -25,10 +25,7 @@
 		},
 		{
 			"label": "Development",
-			"dependsOn": [
-				"Client",
-				"Server"
-			],
+			"dependsOn": ["Client", "Server"],
 			"problemMatcher": [],
 			"group": {
 				"kind": "build",

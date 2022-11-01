@@ -8,7 +8,7 @@
 	import arrowUp from 'svelte-awesome/icons/arrowUp';
 	import { client } from '$lib/socket/socket';
 	import type { ControllerData } from 'typings';
-	import consola from "consola"
+	import consola from 'consola';
 
 	import WindowComponent from '$lib/modules/WindowComponent.svelte';
 	import Taskbar from '$lib/modules/Taskbar.svelte';
@@ -78,8 +78,8 @@
 	$: client.emit(`clientControllerData`, processedData);
 
 	let peerConnection: RTCPeerConnection;
-	let candidates: RTCIceCandidate[] = []
-	let answered = false
+	let candidates: RTCIceCandidate[] = [];
+	let answered = false;
 	const config = {
 		iceServers: [
 			{
@@ -87,22 +87,22 @@
 			}
 		]
 	};
-	
+
 	client.on('offer', (id, description) => {
-		consola.info(`offered by ${id}:`, description)
-		answered = true
+		consola.info(`offered by ${id}:`, description);
+		answered = true;
 		peerConnection = new RTCPeerConnection(config);
 		peerConnection
 			.setRemoteDescription(description)
 			.then(() => peerConnection.createAnswer())
 			.then((sdp) => peerConnection.setLocalDescription(sdp))
 			.then(() => {
-				consola.info(`Sending answer to peer ${id}`)
+				consola.info(`Sending answer to peer ${id}`);
 				client.emit('answer', id, peerConnection.localDescription);
 			});
 
 		peerConnection.addEventListener('track', (event) => {
-			consola.info("Found Track: ", event.streams[0])
+			consola.info('Found Track: ', event.streams[0]);
 			mediaStream = event.streams[0];
 		});
 
@@ -113,16 +113,16 @@
 		});
 
 		for (const candidate of candidates) {
-			consola.info("Adding stored candidate", candidate)
-			peerConnection.addIceCandidate(candidate)
+			consola.info('Adding stored candidate', candidate);
+			peerConnection.addIceCandidate(candidate);
 		}
 	});
 	client.on('candidate', (id, candidate) => {
-		consola.info(`Received candidate from ${id}`, candidate)
+		consola.info(`Received candidate from ${id}`, candidate);
 		if (answered) {
-			peerConnection.addIceCandidate(new RTCIceCandidate(candidate))
+			peerConnection.addIceCandidate(new RTCIceCandidate(candidate));
 		} else {
-			candidates.push(new RTCIceCandidate(candidate))
+			candidates.push(new RTCIceCandidate(candidate));
 		}
 	});
 
@@ -175,7 +175,7 @@
 	<div class="primary-container">
 		<Taskbar />
 		<WindowComponent windowName="video">
-			<CameraDisplay {mediaStream} name="Cam"/>
+			<CameraDisplay {mediaStream} name="Cam" />
 		</WindowComponent>
 		<WindowComponent windowName="keybinds">
 			<div class="keybinds-wrap">

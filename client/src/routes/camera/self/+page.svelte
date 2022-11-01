@@ -2,15 +2,17 @@
 	import { onDestroy } from 'svelte';
 	import { client } from '$lib/socket/socket';
 	import CameraDisplay from '$lib/camera/CameraDisplay.svelte';
-	import consola from "consola"
+	import consola from 'consola';
 
 	let stream: MediaStream;
 
-	const peerConnections: { [key in string]: {
-		connection: RTCPeerConnection,
-		candidates: RTCIceCandidate[],
-		answered: boolean
-	} } = {};
+	const peerConnections: {
+		[key in string]: {
+			connection: RTCPeerConnection;
+			candidates: RTCIceCandidate[];
+			answered: boolean;
+		};
+	} = {};
 
 	client.on('watcher', (id) => {
 		const peerConnection = new RTCPeerConnection(config);
@@ -20,7 +22,7 @@
 			peerConnection.addTrack(track, stream);
 		}
 
-		peerConnection.addEventListener("icecandidate", (event) => {
+		peerConnection.addEventListener('icecandidate', (event) => {
 			if (event.candidate) {
 				client.emit('candidate', id, event.candidate);
 			}
@@ -35,19 +37,19 @@
 	});
 
 	client.on('answer', (id, description) => {
-		consola.info(`Received answer from ${id}:`, description)
+		consola.info(`Received answer from ${id}:`, description);
 		peerConnections[id].connection.setRemoteDescription(description);
-		peerConnections[id].answered = true
+		peerConnections[id].answered = true;
 		for (const candidate of peerConnections[id].candidates) {
-			consola.info("Sending out stored candidates")
-			peerConnections[id].connection.addIceCandidate(candidate)
+			consola.info('Sending out stored candidates');
+			peerConnections[id].connection.addIceCandidate(candidate);
 		}
 	});
 
 	client.on('candidate', (id, candidate) => {
-		consola.info(`Receiving candidate from ${id}:`, candidate)
+		consola.info(`Receiving candidate from ${id}:`, candidate);
 		if (peerConnections[id].answered) {
-			peerConnections[id].connection.addIceCandidate(new RTCIceCandidate(candidate))
+			peerConnections[id].connection.addIceCandidate(new RTCIceCandidate(candidate));
 		} else {
 			peerConnections[id].candidates.push(new RTCIceCandidate(candidate));
 		}

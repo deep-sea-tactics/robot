@@ -2,24 +2,32 @@
 	import Icon from 'svelte-awesome';
 	import minus from 'svelte-awesome/icons/minus';
 	import { draggable } from '@neodrag/svelte';
-	import { windows } from "./Taskbar.svelte"
+	import { windows } from './Taskbar.svelte';
 
 	export let windowName: string;
 	let x = 0;
 	let y = 0;
-	$windows[windowName] = true
-	const disable = () => $windows[windowName] = false
+	$windows[windowName] = true;
+	const disable = () => ($windows[windowName] = false);
 </script>
 
 {#if $windows[windowName]}
 	<div
 		class="dockable-window"
-		use:draggable={{ bounds: '.primary-container', defaultPosition: { x: 0, y: 0 }, position: { x, y }}}
+		use:draggable={{
+			bounds: '.primary-container',
+			defaultPosition: { x: 0, y: 0 },
+			position: { x, y }
+		}}
 	>
 		<div class="dockable-tools">
-			<div class="dockable-icon" on:click={disable} on:keydown={event => {
-				if (event.key == "Enter") disable()
-			}}>
+			<div
+				class="dockable-icon"
+				on:click={disable}
+				on:keydown={(event) => {
+					if (event.key == 'Enter') disable();
+				}}
+			>
 				<Icon data={minus} />
 			</div>
 		</div>

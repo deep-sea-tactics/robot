@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { tick, onMount } from 'svelte';
-	import consola from "consola"
+	import consola from 'consola';
 
 	let video: HTMLVideoElement;
 	let canvas: HTMLCanvasElement;
@@ -62,14 +62,14 @@
 	export let height = 0;
 
 	function srcObject(node: HTMLVideoElement, stream: MediaStream) {
-		consola.info("webrtc: Initially shovelling in stream:", stream)
+		consola.info('webrtc: Initially shovelling in stream:', stream);
 		if (stream) {
 			node.srcObject = stream;
 		}
 		return {
 			update(newStream: MediaStream) {
 				if (node.srcObject != newStream) {
-					consola.info("webrtc: Shovelling in new stream:", newStream)
+					consola.info('webrtc: Shovelling in new stream:', newStream);
 					node.srcObject = newStream;
 					width = node.width;
 					height = node.width;
@@ -96,7 +96,7 @@
 		autoplay
 		playsinline
 	>
-		<track kind="captions">
+		<track kind="captions" />
 	</video>
 {/if}
 
