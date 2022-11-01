@@ -10,13 +10,13 @@ const controllerDelay = 20;
 export async function start(): Promise<void> {
 	const robot = new Server(port);
 
-	let lastChange = new Date();
+	let lastChange = Date.now();
 
 	// Emit any change that occurs to the position variable
 	flyd.on((change) => {
-		if (new Date().getTime() - lastChange.getTime() > controllerDelay) {
+		if (Date.now() - lastChange > controllerDelay) {
 			robot.emit('controllerData', JSON.stringify(change));
-			lastChange = new Date();
+			lastChange = Date.now();
 		}
 	}, finalControllerData);
 

@@ -101,15 +101,15 @@
 				client.emit('answer', id, peerConnection.localDescription);
 			});
 
-		peerConnection.addEventListener('track', (event) => {
-			consola.info('Found Track: ', event.streams[0]);
-			mediaStream = event.streams[0];
-		});
-
 		peerConnection.addEventListener('icecandidate', (event) => {
 			if (event.candidate) {
 				client.emit('candidate', id, event.candidate);
 			}
+		});
+
+		peerConnection.addEventListener('track', (event) => {
+			consola.info('Found Track: ', event.streams[0]);
+			mediaStream = event.streams[0];
 		});
 
 		for (const candidate of candidates) {

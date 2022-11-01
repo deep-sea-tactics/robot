@@ -8,6 +8,9 @@
 	let x = 0;
 	let y = 0;
 	$windows[windowName] = true;
+
+	let beingDragged = false;
+
 	const disable = () => ($windows[windowName] = false);
 </script>
 
@@ -17,7 +20,8 @@
 		use:draggable={{
 			bounds: '.primary-container',
 			defaultPosition: { x: 0, y: 0 },
-			position: { x, y }
+			position: { x, y },
+			disabled: beingDragged
 		}}
 	>
 		<div class="dockable-tools">
@@ -31,6 +35,15 @@
 				<Icon data={minus} />
 			</div>
 		</div>
+		<div 
+			class="dockable-resize {beingDragged ? "dragging" : ""}"
+			on:mousedown|preventDefault={() => {
+				beingDragged = true
+			}}
+			on:mouseup|preventDefault={() => {
+				beingDragged = false
+			}}
+			></div>
 		<slot />
 	</div>
 {/if}
@@ -45,6 +58,22 @@
 		background-color: #b6b6b6;
 		cursor: move;
 	}
+
+	.dockable-resize {
+		position: absolute;
+		bottom: 0;
+		right: 0;
+		cursor: se-resize;
+		width: 1.5rem;
+		height: 1.5rem;
+		transform: translate(0.75rem, 0.75rem);
+		background-color: rgba(200, 0, 0, 0.2);
+	}
+	
+	.dragging {
+		background-color: rgba(0, 200, 0, 0.2);
+	}
+
 	.dockable-window .dockable-tools {
 		display: flex;
 		justify-content: right;
