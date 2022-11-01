@@ -36,10 +36,23 @@ export interface ControllerData {
 
 export interface ServerToClientsMap {
 	controllerData: (data: ControllerData) => void;
+	cameraBroadcastInfo: (data: string) => void;
+	broadcaster: () => void;
+	watcher: (id: string) => void;
+	disconnectPeer: (id: string) => void;
+	offer: (id: string, message: string) => void;
+	answer: (id: string, message: string) => void;
+	candidate: (id: string, message: string) => void;
 }
 
 export interface ClientToServerMap {
-	mixedControllerData: (data: Partial<ControllerData>) => void;
+	dataOverride: (data: Partial<ControllerData>) => void;
+	clientControllerData: (data: ControllerData) => void;
+	broadcaster: () => void;
+	watcher: () => void;
+	offer: (id: string, message: string) => void;
+	answer: (id: string, message: string) => void;
+	candidate: (id: string, message: string) => void;
 }
 
 export const defaultControllerData: ControllerData = Object.freeze({
