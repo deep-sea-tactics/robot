@@ -9,8 +9,8 @@
 	import type { ControllerData } from 'typings';
 	import consola from 'consola';
 
-	import WindowComponent from '$lib/modules/WindowComponent.svelte';
-	import Taskbar from '$lib/modules/Taskbar.svelte';
+	import WindowComponent from '$lib/windowing/WindowComponent.svelte';
+	import Taskbar from '$lib/windowing/Taskbar.svelte';
 	import { onDestroy } from 'svelte';
 
 	let opened = false;
