@@ -1,8 +1,8 @@
 {
 	"private": true,
 	"scripts": {
-		"lint": "prettier --check . && eslint .",
-		"format": "prettier --write .",
+		"lint": "dprint check && eslint .",
+		"format": "dprint fmt",
 		"dev": "bash ./run.sh",
 		"prepare": "husky install"
 	},
