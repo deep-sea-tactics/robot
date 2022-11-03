@@ -58,7 +58,7 @@ export interface ClientToServerMap {
 export const defaultControllerData: ControllerData = Object.freeze({
 	position: {
 		x: 50,
-		y: 50
+		y: 50,
 	},
 	yaw: 0,
 	view: 0,
@@ -72,13 +72,13 @@ export const defaultControllerData: ControllerData = Object.freeze({
 			bottom_middle: false,
 			top_middle: false,
 			bottom_right: false,
-			top_right: false
+			top_right: false,
 		},
 		controller_buttons: {
 			top_left: false,
 			top_right: false,
 			bottom_left: false,
-			bottom_right: false
-		}
-	}
+			bottom_right: false,
+		},
+	},
 });

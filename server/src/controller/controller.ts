@@ -28,7 +28,7 @@ export const rawDataToControllerData = (data: Buffer): ControllerData | undefine
 	return {
 		position: {
 			x: (((parsedRawData[1] & 0x03) << 8) + parsedRawData[0]) / 10.24,
-			y: (((parsedRawData[2] & 0x0f) << 6) + ((parsedRawData[1] & 0xfc) >> 2)) / 10.24
+			y: (((parsedRawData[2] & 0x0f) << 6) + ((parsedRawData[1] & 0xfc) >> 2)) / 10.24,
 		},
 		yaw: parsedRawData[3],
 		view: (parsedRawData[2] & 0xf0) >> 4,
@@ -40,7 +40,7 @@ export const rawDataToControllerData = (data: Buffer): ControllerData | undefine
 				bottom_left: bool((parsedRawData[4] & 0x04) >> 2),
 				bottom_right: bool((parsedRawData[4] & 0x08) >> 3),
 				top_left: bool((parsedRawData[4] & 0x10) >> 4),
-				top_right: bool((parsedRawData[4] & 0x20) >> 5)
+				top_right: bool((parsedRawData[4] & 0x20) >> 5),
 			},
 			side_panel: {
 				bottom_left: bool((parsedRawData[4] & 0x40) >> 6),
@@ -48,8 +48,8 @@ export const rawDataToControllerData = (data: Buffer): ControllerData | undefine
 				bottom_middle: bool((parsedRawData[6] & 0x01) >> 0),
 				top_middle: bool((parsedRawData[6] & 0x02) >> 1),
 				bottom_right: bool((parsedRawData[6] & 0x04) >> 2),
-				top_right: bool((parsedRawData[6] & 0x08) >> 3)
-			}
-		}
+				top_right: bool((parsedRawData[6] & 0x08) >> 3),
+			},
+		},
 	};
 };

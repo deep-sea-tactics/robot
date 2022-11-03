@@ -100,4 +100,7 @@
 	</video>
 {/if}
 
-<canvas class={classes} bind:this={canvas} />
+<canvas
+	class={classes}
+	bind:this={canvas}
+/>

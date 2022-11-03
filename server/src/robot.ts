@@ -1,6 +1,6 @@
-import { Server } from 'socket.io';
 import consola from 'consola';
 import flyd from 'flyd';
+import { Server } from 'socket.io';
 import { finalControllerData } from './controller/position.js';
 const port = 9000;
 
@@ -24,9 +24,7 @@ export async function start(): Promise<void> {
 		consola.info(`Robot connected! ID: ${robotClient.id}`);
 
 		robotClient.on('close', () => consola.warn('Robot disconected.'));
-		robotClient.on('error', error =>
-			consola.warn('An exception with the robot has occured: ' + error)
-		);
+		robotClient.on('error', error => consola.warn('An exception with the robot has occured: ' + error));
 	});
 
 	// Handle any conenction errors

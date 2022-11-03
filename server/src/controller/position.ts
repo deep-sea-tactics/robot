@@ -17,5 +17,5 @@ export const finalControllerData = flyd.combine<
 		// We override our native controller data with AI controller data, to give the AI control
 		return { ...controllerData(), ...mixedControllerData() };
 	},
-	[controllerData, mixedControllerData]
+	[controllerData, mixedControllerData],
 );

@@ -1,19 +1,19 @@
-import { Server } from 'socket.io';
-import { rawDataToControllerData } from './controller/controller.js';
 import consola from 'consola';
-import type { ServerToClientsMap, ClientToServerMap } from 'typings';
-import { controllerData, mixedControllerData } from './controller/position.js';
-import { device } from './controller/device.js';
 import equals from 'fast-deep-equal';
 import flyd from 'flyd';
+import { Server } from 'socket.io';
+import type { ClientToServerMap, ServerToClientsMap } from 'typings';
+import { rawDataToControllerData } from './controller/controller.js';
+import { device } from './controller/device.js';
+import { controllerData, mixedControllerData } from './controller/position.js';
 
 const port = 3000;
 
 const io = new Server<ClientToServerMap, ServerToClientsMap>(port, {
 	cors: {
 		origin: '*',
-		methods: ['GET', 'POST']
-	}
+		methods: ['GET', 'POST'],
+	},
 });
 
 /**

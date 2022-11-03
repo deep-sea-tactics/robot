@@ -1,6 +1,6 @@
 import consola from 'consola';
-import * as HID from 'node-hid';
 import flyd from 'flyd';
+import * as HID from 'node-hid';
 
 /**
  * Grabs a file from the running computer

@@ -72,8 +72,14 @@
 	};
 </script>
 
-<div class="bg-gray-900/[0.3]" bind:clientWidth={canvasWidth}>
-	<Canvas width={canvasWidth} height={canvasWidth}>
+<div
+	class="bg-gray-900/[0.3]"
+	bind:clientWidth={canvasWidth}
+>
+	<Canvas
+		width={canvasWidth}
+		height={canvasWidth}
+	>
 		<Layer {render} />
 	</Canvas>
 </div>

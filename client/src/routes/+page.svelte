@@ -152,7 +152,10 @@
 	<div class="primary-container">
 		<Taskbar />
 		<WindowComponent windowName="video">
-			<CameraDisplay {mediaStream} name="Cam" />
+			<CameraDisplay
+				{mediaStream}
+				name="Cam"
+			/>
 		</WindowComponent>
 		<WindowComponent windowName="keybinds">
 			<div class="keybinds-wrap">

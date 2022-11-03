@@ -1,4 +1,7 @@
-<script lang="ts" context="module">
+<script
+	lang="ts"
+	context="module"
+>
 	import { writable } from 'svelte/store';
 	export const windows = writable<{ [key: string]: boolean }>({});
 </script>

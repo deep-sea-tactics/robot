@@ -1,0 +1,43 @@
+{
+	"useTabs": true,
+	"typescript": {
+		"quoteStyle": "preferSingle",
+		"binaryExpression.operatorPosition": "sameLine"
+	},
+	"json": {
+	},
+	"markdown": {
+	},
+	"toml": {
+	},
+	"dockerfile": {
+	},
+	"prettier": {
+		"useTabs": true,
+		"singleQuote": true,
+		"trailingComma": "none",
+		"printWidth": 100,
+		"semi": true,
+		"bracketSpacing": true,
+		"arrowParens": "avoid",
+		"endOfLine": "lf",
+		"bracketSameLine": false,
+		"singleAttributePerLine": true
+	},
+	"includes": ["**/*.{ts,tsx,js,jsx,cjs,mjs,json,md,toml,dockerfile,svelte,postcss,d.ts,html}"],
+	"excludes": [
+		"**/node_modules",
+		"**/*-lock.json",
+		"**/.svelte-kit",
+		"**/.husky/_",
+		"**/.yarn"
+	],
+	"plugins": [
+		"https://plugins.dprint.dev/typescript-0.77.0.wasm",
+		"https://plugins.dprint.dev/json-0.16.0.wasm",
+		"https://plugins.dprint.dev/markdown-0.14.1.wasm",
+		"https://plugins.dprint.dev/toml-0.5.4.wasm",
+		"https://plugins.dprint.dev/dockerfile-0.3.0.wasm",
+		"https://plugins.dprint.dev/prettier-0.13.0.json@dc5d12b7c1bf1a4683eff317c2c87350e75a5a3dfcc127f3d5628931bfb534b1"
+	]
+}

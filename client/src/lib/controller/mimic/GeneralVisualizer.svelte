@@ -71,6 +71,10 @@
 	};
 </script>
 
-<Canvas style="background-color: #d4d4d4;" width={100} height={100}>
+<Canvas
+	style="background-color: #d4d4d4;"
+	width={100}
+	height={100}
+>
 	<Layer {render} />
 </Canvas>
