@@ -3,7 +3,8 @@
 	"scripts": {
 		"lint": "prettier --check . && eslint .",
 		"format": "prettier --write .",
-		"dev": "bash ./run.sh"
+		"dev": "bash ./run.sh",
+		"prepare": "husky install"
 	},
 	"workspaces": [
 		"client",
@@ -17,6 +18,7 @@
 		"eslint": "^8.25.0",
 		"eslint-config-prettier": "^8.5.0",
 		"eslint-plugin-svelte3": "^4.0.0",
+		"husky": "^8.0.1",
 		"prettier": "^2.7.1",
 		"prettier-plugin-svelte": "^2.7.0",
 		"svelte": "^3.50.1"

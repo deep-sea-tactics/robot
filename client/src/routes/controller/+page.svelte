@@ -44,13 +44,6 @@
 	}
 	let dataBuffer: DataView;
 	$: processedData = dataBuffer ? processData(dataBuffer) : null;
-
-	function hookToDevice(device: HIDDevice) {
-		device.addEventListener('inputreport', ({ data }) => {
-			dataBuffer = data;
-		});
-	}
-
 	async function open() {
 		if (!navigator.hid) return;
 		const hid = navigator.hid;
@@ -64,7 +57,10 @@
 		});
 		await device.open();
 		opened = true;
-		hookToDevice(device);
+
+		device.addEventListener('inputreport', ({ data }) => {
+			dataBuffer = data;
+		});
 	}
 </script>
 
