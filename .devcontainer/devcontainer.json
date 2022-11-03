@@ -14,5 +14,15 @@
 		"ghcr.io/devcontainers/features/github-cli:1": {},
 		"ghcr.io/devcontainers/features/python:1": {},
 		"ghcr.io/devcontainers/features/rust:1": {}
+	},
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"svelte.svelte-vscode",
+				"dbaeumer.vscode-eslint",
+				"esbenp.prettier-vscode",
+				"csstools.postcss"
+			]
+		}
 	}
 }
