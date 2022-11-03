@@ -5,4 +5,5 @@
 		- live score estimate?
 		- (ai) task prioritization?
 - resizable windowing
+		- i3wm-like or traditional click-dragging of windows?
 - better windowing design
