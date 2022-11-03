@@ -13,18 +13,18 @@ export async function start(): Promise<void> {
 	let lastChange = Date.now();
 
 	// Emit any change that occurs to the position variable
-	flyd.on((change) => {
+	flyd.on(change => {
 		if (Date.now() - lastChange > controllerDelay) {
 			robot.emit('controllerData', JSON.stringify(change));
 			lastChange = Date.now();
 		}
 	}, finalControllerData);
 
-	robot.on('connection', (robotClient) => {
+	robot.on('connection', robotClient => {
 		consola.info(`Robot connected! ID: ${robotClient.id}`);
 
 		robotClient.on('close', () => consola.warn('Robot disconected.'));
-		robotClient.on('error', (error) =>
+		robotClient.on('error', error =>
 			consola.warn('An exception with the robot has occured: ' + error)
 		);
 	});

@@ -14,7 +14,7 @@
 		};
 	} = {};
 
-	client.on('watcher', (id) => {
+	client.on('watcher', id => {
 		const peerConnection = new RTCPeerConnection(config);
 		peerConnections[id] = { connection: peerConnection, candidates: [], answered: false };
 
@@ -22,7 +22,7 @@
 			peerConnection.addTrack(track, stream);
 		}
 
-		peerConnection.addEventListener('icecandidate', (event) => {
+		peerConnection.addEventListener('icecandidate', event => {
 			if (event.candidate) {
 				client.emit('candidate', id, event.candidate);
 			}
@@ -30,7 +30,7 @@
 
 		peerConnection
 			.createOffer()
-			.then((sdp) => peerConnection.setLocalDescription(sdp))
+			.then(sdp => peerConnection.setLocalDescription(sdp))
 			.then(() => {
 				client.emit('offer', id, peerConnection.localDescription);
 			});
@@ -55,7 +55,7 @@
 		}
 	});
 
-	client.on('disconnectPeer', (id) => {
+	client.on('disconnectPeer', id => {
 		peerConnections[id].connection.close();
 		delete peerConnections[id];
 	});

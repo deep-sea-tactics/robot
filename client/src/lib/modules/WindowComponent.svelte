@@ -28,22 +28,22 @@
 			<div
 				class="dockable-icon"
 				on:click={disable}
-				on:keydown={(event) => {
+				on:keydown={event => {
 					if (event.key == 'Enter') disable();
 				}}
 			>
 				<Icon data={minus} />
 			</div>
 		</div>
-		<div 
-			class="dockable-resize {beingDragged ? "dragging" : ""}"
+		<div
+			class="dockable-resize {beingDragged ? 'dragging' : ''}"
 			on:mousedown|preventDefault={() => {
-				beingDragged = true
+				beingDragged = true;
 			}}
 			on:mouseup|preventDefault={() => {
-				beingDragged = false
+				beingDragged = false;
 			}}
-			></div>
+		/>
 		<slot />
 	</div>
 {/if}
@@ -69,7 +69,7 @@
 		transform: translate(0.75rem, 0.75rem);
 		background-color: rgba(200, 0, 0, 0.2);
 	}
-	
+
 	.dragging {
 		background-color: rgba(0, 200, 0, 0.2);
 	}

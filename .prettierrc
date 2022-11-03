@@ -2,5 +2,11 @@
 	"useTabs": true,
 	"singleQuote": true,
 	"trailingComma": "none",
-	"printWidth": 100
+	"printWidth": 100,
+	"semi": true,
+	"bracketSpacing": true,
+	"arrowParens": "avoid",
+	"endOfLine": "lf",
+	"bracketSameLine": false,
+	"singleAttributePerLine": true
 }

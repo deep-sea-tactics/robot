@@ -33,7 +33,7 @@ export const device = flyd.stream(grabController());
 
 let interval: NodeJS.Timeout | undefined = undefined;
 
-flyd.on((newDevice) => {
+flyd.on(newDevice => {
 	// We found the device (and the interval is still active) -- let the server know
 	if (newDevice !== undefined && interval !== undefined) {
 		clearInterval(interval);

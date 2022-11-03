@@ -23,7 +23,7 @@ export const rawDataToControllerData = (data: Buffer): ControllerData | undefine
 
 	if (rawDataMatches == null) return;
 
-	const parsedRawData = rawDataMatches.map((item) => parseInt(item, 16));
+	const parsedRawData = rawDataMatches.map(item => parseInt(item, 16));
 
 	return {
 		position: {

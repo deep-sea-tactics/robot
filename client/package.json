@@ -16,6 +16,7 @@
 		"@sveltejs/adapter-auto": "next",
 		"@sveltejs/kit": "next",
 		"@types/downloadjs": "^1.4.3",
+		"@types/w3c-web-hid": "^1.0.3",
 		"autoprefixer": "^10.4.13",
 		"capture-video-frame": "^1.0.0",
 		"downloadjs": "^1.4.7",

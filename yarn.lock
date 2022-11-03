@@ -1070,6 +1070,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/w3c-web-hid@npm:^1.0.3":
+  version: 1.0.3
+  resolution: "@types/w3c-web-hid@npm:1.0.3"
+  checksum: 90ee1eeb2acf5d5ddf0b7acefd4f8aaa7d0175d991c3606a9ad62bdfa7a8de93665f5f6218dc4ecb34ea1d2f3e357813b315f46c1ea6b8aa1693e217e436c9b2
+  languageName: node
+  linkType: hard
+
 "@typescript-eslint/eslint-plugin@npm:^5.40.1":
   version: 5.40.1
   resolution: "@typescript-eslint/eslint-plugin@npm:5.40.1"
@@ -1675,6 +1682,7 @@ __metadata:
     "@sveltejs/adapter-auto": next
     "@sveltejs/kit": next
     "@types/downloadjs": ^1.4.3
+    "@types/w3c-web-hid": ^1.0.3
     autoprefixer: ^10.4.13
     capture-video-frame: ^1.0.0
     downloadjs: ^1.4.7

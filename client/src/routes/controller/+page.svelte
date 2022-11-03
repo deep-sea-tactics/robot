@@ -8,12 +8,12 @@
 	let opened = false;
 	const bool = (num: number) => num !== 0;
 	function buf2hex(buffer: ArrayBuffer) {
-		return [...new Uint8Array(buffer)].map((x) => x.toString(16).padStart(2, '0')).join('');
+		return [...new Uint8Array(buffer)].map(x => x.toString(16).padStart(2, '0')).join('');
 	}
 	function processData(view: DataView): ControllerData {
 		const rawData = buf2hex(view.buffer).match(/..?/g);
 		if (rawData == null) throw Error('No data?');
-		const parsedRawData = rawData.map((item) => parseInt(item, 16));
+		const parsedRawData = rawData.map(item => parseInt(item, 16));
 		return {
 			position: {
 				x: (((parsedRawData[1] & 0x03) << 8) + parsedRawData[0]) / 10.24,
@@ -45,15 +45,15 @@
 	let dataBuffer: DataView;
 	$: processedData = dataBuffer ? processData(dataBuffer) : null;
 
-	function hookToDevice(device: any) {
-		device.addEventListener('inputreport', ({ data }: { data: any }) => {
+	function hookToDevice(device: HIDDevice) {
+		device.addEventListener('inputreport', ({ data }) => {
 			dataBuffer = data;
 		});
 	}
 
 	async function open() {
-		if (!(navigator as any).hid) return;
-		const hid = (navigator as unknown as { hid: any }).hid;
+		if (!navigator.hid) return;
+		const hid = navigator.hid;
 		const [device] = await hid.requestDevice({
 			filters: [
 				{

@@ -1,34 +1,13 @@
 import { Server } from 'socket.io';
 import { rawDataToControllerData } from './controller/controller.js';
 import consola from 'consola';
-import type { ControllerData } from 'typings';
+import type { ServerToClientsMap, ClientToServerMap } from 'typings';
 import { controllerData, mixedControllerData } from './controller/position.js';
 import { device } from './controller/device.js';
 import equals from 'fast-deep-equal';
 import flyd from 'flyd';
 
 const port = 3000;
-
-export interface ServerToClientsMap {
-	controllerData: (data: ControllerData) => void;
-	cameraBroadcastInfo: (data: string) => void;
-	broadcaster: () => void;
-	watcher: (id: string) => void;
-	disconnectPeer: (id: string) => void;
-	offer: (id: string, message: string) => void;
-	answer: (id: string, message: string) => void;
-	candidate: (id: string, message: string) => void;
-}
-
-export interface ClientToServerMap {
-	dataOverride: (data: Partial<ControllerData>) => void;
-	clientControllerData: (data: ControllerData) => void;
-	broadcaster: () => void;
-	watcher: () => void;
-	offer: (id: string, message: string) => void;
-	answer: (id: string, message: string) => void;
-	candidate: (id: string, message: string) => void;
-}
 
 const io = new Server<ClientToServerMap, ServerToClientsMap>(port, {
 	cors: {
@@ -44,7 +23,7 @@ export const start = async (): Promise<void> => {
 	let broadcaster: string;
 	consola.debug('Attempting to start socket server.');
 
-	io.on('connection', (socket) => {
+	io.on('connection', socket => {
 		// The client has connected
 		consola.info(`Client connected to web interface. (ID: ${socket.id})`);
 
@@ -52,7 +31,7 @@ export const start = async (): Promise<void> => {
 		socket.on('clientControllerData', controllerData);
 
 		// Warn the server if the client has disconnected
-		socket.on('disconnect', (reason) => {
+		socket.on('disconnect', reason => {
 			consola.info(`Client ${socket.id} disconnected from web interface: ${reason}`);
 		});
 
@@ -78,14 +57,14 @@ export const start = async (): Promise<void> => {
 		});
 	});
 
-	flyd.on((change) => {
+	flyd.on(change => {
 		io.emit(`controllerData`, change);
 	}, controllerData);
 
-	flyd.on((controller) => {
+	flyd.on(controller => {
 		if (!controller) return;
 
-		controller.on('data', (data) => {
+		controller.on('data', data => {
 			const processedData = rawDataToControllerData(data);
 
 			if (processedData === undefined) return;

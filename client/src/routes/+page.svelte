@@ -20,12 +20,12 @@
 
 	const bool = (num: number) => num !== 0;
 	function buf2hex(buffer: ArrayBuffer) {
-		return [...new Uint8Array(buffer)].map((x) => x.toString(16).padStart(2, '0')).join('');
+		return [...new Uint8Array(buffer)].map(x => x.toString(16).padStart(2, '0')).join('');
 	}
 	function processData(view: DataView): ControllerData {
 		const rawData = buf2hex(view.buffer).match(/..?/g);
 		if (rawData == null) throw Error('No data?');
-		const parsedRawData = rawData.map((item) => parseInt(item, 16));
+		const parsedRawData = rawData.map(item => parseInt(item, 16));
 		return {
 			position: {
 				x: (((parsedRawData[1] & 0x03) << 8) + parsedRawData[0]) / 10.24,
@@ -57,7 +57,7 @@
 	let dataBuffer: DataView;
 	$: processedData = dataBuffer ? processData(dataBuffer) : null;
 	async function openController() {
-		if (!(navigator as any).hid) return;
+		if (!navigator.hid) return;
 		const hid = navigator.hid;
 		const [device] = await hid.requestDevice({
 			filters: [
@@ -95,19 +95,19 @@
 		peerConnection
 			.setRemoteDescription(description)
 			.then(() => peerConnection.createAnswer())
-			.then((sdp) => peerConnection.setLocalDescription(sdp))
+			.then(sdp => peerConnection.setLocalDescription(sdp))
 			.then(() => {
 				consola.info(`Sending answer to peer ${id}`);
 				client.emit('answer', id, peerConnection.localDescription);
 			});
 
-		peerConnection.addEventListener('icecandidate', (event) => {
+		peerConnection.addEventListener('icecandidate', event => {
 			if (event.candidate) {
 				client.emit('candidate', id, event.candidate);
 			}
 		});
 
-		peerConnection.addEventListener('track', (event) => {
+		peerConnection.addEventListener('track', event => {
 			consola.info('Found Track: ', event.streams[0]);
 			mediaStream = event.streams[0];
 		});
@@ -141,7 +141,7 @@
 </script>
 
 <svelte:window
-	on:keydown={(event) => {
+	on:keydown={event => {
 		if (event.key == 'ArrowLeft') {
 			// moves the camera backwards on a capital v input
 			if (!selectedCamera) {

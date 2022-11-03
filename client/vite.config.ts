@@ -8,7 +8,7 @@ export default <UserConfig>{
 		strictPort: true,
 		host: '0.0.0.0',
 		hmr: !process.env.HMR_HOST,
-		port: 4000,
+		port: 4000
 	},
 	build: {
 		target: 'es2022'
