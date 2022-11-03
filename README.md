@@ -4,7 +4,7 @@
 
 This is the repository for the LHS robotics challenge.
 
-To run, open VSCode (or gitpod!) and press `CTRL + SHIFT + B`
+To run, open VSCode (or gitpod, or github codespaces) and press `CTRL + SHIFT + B`
 
 ## Components
 

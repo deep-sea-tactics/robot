@@ -6,7 +6,7 @@
 	"main": "dist/index.js",
 	"type": "module",
 	"scripts": {
-		"start": "ts-node --esm --swc dist/index.js",
+		"start": "ts-node --esm --swc src/index.ts",
 		"dev": "nodemon -x \"yarn start\""
 	},
 	"keywords": [],
