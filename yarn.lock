@@ -1616,13 +1616,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"capture-video-frame@npm:^1.0.0":
-  version: 1.0.0
-  resolution: "capture-video-frame@npm:1.0.0"
-  checksum: 60c9b8bee0ef6d75841b80e48b384eb877b153353f0728c54434d7bd6e95a5492cf8cae4c27164813df2ba522e05d8d4d3d089c6c72870346597b85037de075c
-  languageName: node
-  linkType: hard
-
 "chalk@npm:^4.0.0":
   version: 4.1.2
   resolution: "chalk@npm:4.1.2"
@@ -1684,7 +1677,6 @@ __metadata:
     "@types/downloadjs": ^1.4.3
     "@types/w3c-web-hid": ^1.0.3
     autoprefixer: ^10.4.13
-    capture-video-frame: ^1.0.0
     downloadjs: ^1.4.7
     jimp: ^0.16.2
     opencv-wasm: ^4.3.0-10

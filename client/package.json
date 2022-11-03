@@ -18,7 +18,6 @@
 		"@types/downloadjs": "^1.4.3",
 		"@types/w3c-web-hid": "^1.0.3",
 		"autoprefixer": "^10.4.13",
-		"capture-video-frame": "^1.0.0",
 		"downloadjs": "^1.4.7",
 		"jimp": "^0.16.2",
 		"opencv-wasm": "^4.3.0-10",

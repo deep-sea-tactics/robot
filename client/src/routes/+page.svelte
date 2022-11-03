@@ -1,6 +1,5 @@
 <script lang="ts">
 	import CameraDisplay from '$lib/camera/CameraDisplay.svelte';
-	import { cameras, type Camera as CameraType } from '$lib/camera/camera';
 	import ControllerCanvas from '$lib/controller/ControllerCanvas.svelte';
 	import Icon from 'svelte-awesome';
 	import arrowLeft from 'svelte-awesome/icons/arrowLeft';
@@ -14,7 +13,6 @@
 	import Taskbar from '$lib/modules/Taskbar.svelte';
 	import { onDestroy } from 'svelte';
 
-	let selectedCamera: CameraType | null = null;
 	let opened = false;
 	let mediaStream: MediaStream;
 
@@ -142,28 +140,7 @@
 
 <svelte:window
 	on:keydown={event => {
-		if (event.key == 'ArrowLeft') {
-			// moves the camera backwards on a capital v input
-			if (!selectedCamera) {
-				selectedCamera = $cameras[$cameras.length - 1];
-				return;
-			}
-
-			selectedCamera =
-				$cameras[
-					$cameras.indexOf(selectedCamera) == 0
-						? $cameras.length - 1
-						: $cameras.indexOf(selectedCamera) - 1
-				];
-		} else if (event.key == 'ArrowRight') {
-			// moves the camera forwards on a lowwercase v
-			if (!selectedCamera) {
-				selectedCamera = $cameras[0];
-				return;
-			}
-
-			selectedCamera = $cameras[($cameras.indexOf(selectedCamera) + 1) % $cameras.length];
-		} else if (event.key == 'ArrowUp') {
+		if (event.key == 'ArrowUp') {
 			openController();
 		}
 	}}

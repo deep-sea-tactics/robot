@@ -1,14 +1,6 @@
 import flyd from 'flyd';
 import { type ControllerData, defaultControllerData } from 'typings';
 
-/**
- * General X and Y position interface
- */
-export interface Position {
-	x: number;
-	y: number;
-}
-
 /** The base controller data, coming from either the native client or a browser client */
 export const controllerData = flyd.stream<ControllerData>({ ...defaultControllerData });
 
