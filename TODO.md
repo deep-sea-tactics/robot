@@ -12,3 +12,5 @@
 - make UI and human interfacing as efficient as possible
 - find most necessary robot information and order it as such
 - hud-like with buttons instead of button overload and no information 
+- cross-connect TODO.md with discord server
+                - official discord bot?
