@@ -7,3 +7,4 @@
 - resizable windowing
 		- i3wm-like or traditional click-dragging of windows?
 - better windowing design
+- make UI as user friendly as possible
