@@ -10,6 +10,7 @@
 - Fix WebRTC issue from non-local receivers
 - Allow multiple receivers and multiple broadcasters
 - Finish [rustun-cli](https://github.com/LeoDog896/rustun-cli) (need for light stun server)
+- Finish window resizability
 
 # IDEAS
 
