@@ -8,7 +8,9 @@
 - Finish [rustun-cli](https://github.com/LeoDog896/rustun-cli) (need for light stun server)
 
 # DESIGN
+
 - Windowing (i3m-like?)
+- Make window position stay when you start resizing.
 - Task List
 - Camera Management (for windowing)
 

@@ -5,14 +5,34 @@
 	import { windows } from './Taskbar.svelte';
 
 	export let windowName: string;
-	let x = 0;
-	let y = 0;
+	let x = 100;
+	let y = 100;
+	let mouseStart = { x: 0, y: 0 };
+	export let width = 0;
+	export let height = 0;
 	$windows[windowName] = true;
 
 	let beingDragged = false;
 
 	const disable = () => ($windows[windowName] = false);
 </script>
+
+<svelte:window
+	on:mousemove={mouse => {
+		if (beingDragged) {
+			let heightChange = mouse.y - mouseStart.y;
+			let widthChange = mouse.x - mouseStart.x;
+			height += heightChange;
+			width += widthChange;
+			mouseStart = { x: mouse.x, y: mouse.y };
+		}
+	}}
+	on:mouseup={mouse => {
+		if (beingDragged) {
+			beingDragged = false;
+		}
+	}}
+/>
 
 {#if $windows[windowName]}
 	<div
@@ -23,6 +43,7 @@
 			position: { x, y },
 			disabled: beingDragged
 		}}
+		style="height: {height}px; width: {width}px"
 	>
 		<div class="dockable-tools">
 			<div
@@ -37,11 +58,10 @@
 		</div>
 		<div
 			class="dockable-resize {beingDragged ? 'dragging' : ''}"
-			on:mousedown|preventDefault={() => {
+			on:mousedown={mouse => {
+				mouseStart = { x: mouse.x, y: mouse.y };
 				beingDragged = true;
-			}}
-			on:mouseup|preventDefault={() => {
-				beingDragged = false;
+				console.log(`Height: ${height}, Width: ${width}`);
 			}}
 		/>
 		<slot />
@@ -50,6 +70,7 @@
 
 <style>
 	.dockable-window {
+		position: fixed;
 		display: inline-block;
 		border-width: 2px;
 		flex-wrap: nowrap;

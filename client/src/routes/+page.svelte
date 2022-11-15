@@ -151,13 +151,21 @@
 
 	<div class="primary-container">
 		<Taskbar />
-		<WindowComponent windowName="video">
+		<WindowComponent
+			windowName="video"
+			height={200}
+			width={200}
+		>
 			<CameraDisplay
 				{mediaStream}
 				name="Cam"
 			/>
 		</WindowComponent>
-		<WindowComponent windowName="keybinds">
+		<WindowComponent
+			windowName="keybinds"
+			height={200}
+			width={200}
+		>
 			<div class="keybinds-wrap">
 				<div class="keybinds-holder">
 					<Icon data={arrowLeft} />
@@ -173,7 +181,11 @@
 				</div>
 			</div>
 		</WindowComponent>
-		<WindowComponent windowName="visualizer">
+		<WindowComponent
+			windowName="visualizer"
+			height={200}
+			width={200}
+		>
 			<ControllerCanvas />
 		</WindowComponent>
 	</div>
