@@ -28,6 +28,10 @@
 			"type": "shell",
 			"command": "cd server && yarn dev",
 			"isBackground": true,
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
 			"presentation": {
 				"group": "test",
 				"reveal": "always",
