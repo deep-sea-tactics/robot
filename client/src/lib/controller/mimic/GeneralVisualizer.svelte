@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Canvas, Layer } from 'svelte-canvas';
-	import type { ControllerData } from './controllerData';
+	import type { ControllerData } from 'typings';
 	export let data: ControllerData;
 	const mouseRadius = 10;
 	$: render = ({
@@ -71,6 +71,10 @@
 	};
 </script>
 
-<Canvas style="background-color: #d4d4d4;" width={100} height={100}>
+<Canvas
+	style="background-color: #d4d4d4;"
+	width={100}
+	height={100}
+>
 	<Layer {render} />
 </Canvas>

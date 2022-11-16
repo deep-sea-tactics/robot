@@ -1,0 +1,27 @@
+{
+	"name": "Node.js & TypeScript",
+	"image": "mcr.microsoft.com/devcontainers/typescript-node:18",
+
+	"forwardPorts": [4000],
+
+	"postCreateCommand": "bash ./install.sh",
+
+	// Set `remoteUser` to `root` to connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
+	"remoteUser": "node",
+	"features": {
+		"ghcr.io/devcontainers/features/github-cli:1": {},
+		"ghcr.io/devcontainers/features/python:1": {},
+		"ghcr.io/devcontainers/features/rust:1": {}
+	},
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"svelte.svelte-vscode",
+				"dbaeumer.vscode-eslint",
+				"esbenp.prettier-vscode",
+				"csstools.postcss",
+				"bradlc.vscode-tailwindcss"
+			]
+		}
+	}
+}

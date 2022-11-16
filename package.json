@@ -1,16 +1,26 @@
 {
 	"private": true,
 	"scripts": {
-		"lint": "prettier --check . && (cd client && eslint .) && (cd server && eslint .) && (cd typings && eslint .)",
-		"format": "prettier --write ."
+		"lint": "dprint check && eslint .",
+		"format": "dprint fmt",
+		"dev": "bash ./run.sh",
+		"prepare": "husky install"
 	},
 	"workspaces": [
 		"client",
 		"server",
-		"typings"
+		"typings",
+		"native-broadcaster"
 	],
 	"packageManager": "yarn@3.2.3",
 	"devDependencies": {
+		"@typescript-eslint/eslint-plugin": "^5.40.1",
+		"@typescript-eslint/parser": "^5.40.1",
+		"dprint": "^0.32.2",
+		"eslint": "^8.25.0",
+		"eslint-config-prettier": "^8.5.0",
+		"eslint-plugin-svelte3": "^4.0.0",
+		"husky": "^8.0.1",
 		"prettier": "^2.7.1",
 		"prettier-plugin-svelte": "^2.7.0",
 		"svelte": "^3.50.1"

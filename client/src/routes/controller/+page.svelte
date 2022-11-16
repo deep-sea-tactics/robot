@@ -1,18 +1,19 @@
 <script lang="ts">
-	import type { ControllerData } from '$lib/controller/mimic/controllerData';
+	import type { ControllerData } from 'typings';
 	import SidePanel from '$lib/controller/mimic/SidePanel.svelte';
 	import ControllerPanel from '$lib/controller/mimic/ControllerPanel.svelte';
 	import Boolean from '$lib/controller/mimic/Boolean.svelte';
 	import GeneralVisualizer from '$lib/controller/mimic/GeneralVisualizer.svelte';
+
 	let opened = false;
 	const bool = (num: number) => num !== 0;
 	function buf2hex(buffer: ArrayBuffer) {
-		return [...new Uint8Array(buffer)].map((x) => x.toString(16).padStart(2, '0')).join('');
+		return [...new Uint8Array(buffer)].map(x => x.toString(16).padStart(2, '0')).join('');
 	}
 	function processData(view: DataView): ControllerData {
 		const rawData = buf2hex(view.buffer).match(/..?/g);
 		if (rawData == null) throw Error('No data?');
-		const parsedRawData = rawData.map((item) => parseInt(item, 16));
+		const parsedRawData = rawData.map(item => parseInt(item, 16));
 		return {
 			position: {
 				x: (((parsedRawData[1] & 0x03) << 8) + parsedRawData[0]) / 10.24,
@@ -44,7 +45,7 @@
 	let dataBuffer: DataView;
 	$: processedData = dataBuffer ? processData(dataBuffer) : null;
 	async function open() {
-		if (!(navigator as any).hid) return;
+		if (!navigator.hid) return;
 		const hid = navigator.hid;
 		const [device] = await hid.requestDevice({
 			filters: [
@@ -56,6 +57,7 @@
 		});
 		await device.open();
 		opened = true;
+
 		device.addEventListener('inputreport', ({ data }) => {
 			dataBuffer = data;
 		});
@@ -63,7 +65,7 @@
 </script>
 
 {#if processedData}
-	<div class="m-8">
+	<div class="m-auto">
 		<GeneralVisualizer data={processedData} />
 		<p>X: {processedData.position.x} | Y: {processedData.position.y}</p>
 		<p>Yaw: {processedData.yaw}</p>

@@ -13,17 +13,6 @@
 			}
 		},
 		{
-			"label": "Mock",
-			"type": "shell",
-			"command": "cd mock && yarn dev",
-			"isBackground": true,
-			"presentation": {
-				"group": "test",
-				"reveal": "always",
-				"panel": "new"
-			}
-		},
-		{
 			"label": "Server",
 			"type": "shell",
 			"command": "cd server && yarn dev",
@@ -36,6 +25,15 @@
 				"group": "test",
 				"reveal": "always",
 				"panel": "new"
+			}
+		},
+		{
+			"label": "Development",
+			"dependsOn": ["Client", "Server"],
+			"problemMatcher": [],
+			"group": {
+				"kind": "build",
+				"isDefault": true
 			}
 		}
 	]

@@ -1,7 +1,7 @@
-import { Server } from 'socket.io';
-import { logger } from './logger.js';
+import consola from 'consola';
 import flyd from 'flyd';
-import { controllerData } from './controller/position.js';
+import { Server } from 'socket.io';
+import { finalControllerData } from './controller/position.js';
 const port = 9000;
 
 const controllerDelay = 20;
@@ -10,27 +10,25 @@ const controllerDelay = 20;
 export async function start(): Promise<void> {
 	const robot = new Server(port);
 
-	let lastChange = new Date();
+	let lastChange = Date.now();
 
 	// Emit any change that occurs to the position variable
-	flyd.on((change) => {
-		if (new Date().getTime() - lastChange.getTime() > controllerDelay) {
+	flyd.on(change => {
+		if (Date.now() - lastChange > controllerDelay) {
 			robot.emit('controllerData', JSON.stringify(change));
-			lastChange = new Date();
+			lastChange = Date.now();
 		}
-	}, controllerData);
+	}, finalControllerData);
 
-	robot.on('connection', (robotClient) => {
-		logger.info(`Robot connected! ID: ${robotClient.id}`);
+	robot.on('connection', robotClient => {
+		consola.info(`Robot connected! ID: ${robotClient.id}`);
 
-		robotClient.on('close', () => logger.warn('Robot disconected.'));
-		robotClient.on('error', (error) =>
-			logger.warn('An exception with the robot has occured: ' + error)
-		);
+		robotClient.on('close', () => consola.warn('Robot disconected.'));
+		robotClient.on('error', error => consola.warn('An exception with the robot has occured: ' + error));
 	});
 
 	// Handle any conenction errors
-	robot.engine.on('connection_error', (err: { message: string }) => logger.warn(err.message));
+	robot.engine.on('connection_error', (err: { message: string }) => consola.warn(err.message));
 
-	logger.info(`Robot ready to connected at port ${port}.`);
+	consola.info(`Robot ready to connected at port ${port}.`);
 }

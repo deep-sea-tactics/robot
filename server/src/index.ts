@@ -1,11 +1,8 @@
-console.log(chalk.magenta('---  Starting server  ---'));
-
-import { start as startWebsite } from './web.js';
+import consola from 'consola';
 import { start as startRobot } from './robot.js';
-import { config } from 'dotenv';
-import chalk from 'chalk';
+import { start as startWebsite } from './socket.js';
 
-config();
+consola.success('Server starting!');
 
 startWebsite();
 startRobot();

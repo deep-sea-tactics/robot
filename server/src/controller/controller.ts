@@ -1,6 +1,6 @@
 // Adapted and modernized from https://github.com/poweic/node-Logitech-Extreme-3D-Pro/blob/master/app.js
 
-import { ControllerData } from './position.js';
+import type { ControllerData } from 'typings';
 
 /**
  * If the num is 0, return false, else return true
@@ -23,12 +23,12 @@ export const rawDataToControllerData = (data: Buffer): ControllerData | undefine
 
 	if (rawDataMatches == null) return;
 
-	const parsedRawData = rawDataMatches.map((item) => parseInt(item, 16));
+	const parsedRawData = rawDataMatches.map(item => parseInt(item, 16));
 
 	return {
 		position: {
 			x: (((parsedRawData[1] & 0x03) << 8) + parsedRawData[0]) / 10.24,
-			y: (((parsedRawData[2] & 0x0f) << 6) + ((parsedRawData[1] & 0xfc) >> 2)) / 10.24
+			y: (((parsedRawData[2] & 0x0f) << 6) + ((parsedRawData[1] & 0xfc) >> 2)) / 10.24,
 		},
 		yaw: parsedRawData[3],
 		view: (parsedRawData[2] & 0xf0) >> 4,
@@ -40,16 +40,16 @@ export const rawDataToControllerData = (data: Buffer): ControllerData | undefine
 				bottom_left: bool((parsedRawData[4] & 0x04) >> 2),
 				bottom_right: bool((parsedRawData[4] & 0x08) >> 3),
 				top_left: bool((parsedRawData[4] & 0x10) >> 4),
-				top_right: bool((parsedRawData[4] & 0x20) >> 5)
+				top_right: bool((parsedRawData[4] & 0x20) >> 5),
 			},
 			side_panel: {
-				top_left: bool((parsedRawData[4] & 0x40) >> 6),
-				top_right: bool((parsedRawData[4] & 0x80) >> 7),
-				middle_left: bool((parsedRawData[6] & 0x01) >> 0),
-				middle_right: bool((parsedRawData[6] & 0x02) >> 1),
-				bottom_left: bool((parsedRawData[6] & 0x04) >> 2),
-				bottom_right: bool((parsedRawData[6] & 0x08) >> 3)
-			}
-		}
+				bottom_left: bool((parsedRawData[4] & 0x40) >> 6),
+				top_left: bool((parsedRawData[4] & 0x80) >> 7),
+				bottom_middle: bool((parsedRawData[6] & 0x01) >> 0),
+				top_middle: bool((parsedRawData[6] & 0x02) >> 1),
+				bottom_right: bool((parsedRawData[6] & 0x04) >> 2),
+				top_right: bool((parsedRawData[6] & 0x08) >> 3),
+			},
+		},
 	};
 };

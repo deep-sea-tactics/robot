@@ -1,6 +1,10 @@
-# Landstown Underwater Robotics Challenge Repository
+# Landstown Underwater Robotics Challenge
+
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://github.com/LeoDog896/Landstown-Robotics-Challenge)
 
 This is the repository for the LHS robotics challenge.
+
+To run, open VSCode (or gitpod, or github codespaces) and press `CTRL + SHIFT + B`
 
 ## Components
 
@@ -29,15 +33,14 @@ If a position is (50, 50) then the position is in the middle and the robot would
 
 The client, server, and robot use socket.io to communicate with eachother instead of raw TCP packets
 
-## Mock
-
-Mocks cameras for camera testing.
-Requires `node-pre-gyp`.
-
 ## Contributing
 
-Use ./run.sh to test out the server and the client.
+Use `./run.sh`, or use `CTRL + SHIFT + B` to test out the server and the client.
 
 The project is made in TypeScript and it is encouraged to follow the IDE's reccomendations.
 
-If you have any issues with connecting the controller on a linux machine, use `fix_controller.sh` to fix the controller.
+## FAQ
+
+Can't use the controller on a linux machine? Use `./fix_controller.sh` to fix the controller.
+
+Firefox isn't working for you? Set `media.peerconnection.ice.loopback` to true

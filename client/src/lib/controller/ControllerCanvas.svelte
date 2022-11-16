@@ -1,21 +1,26 @@
 <script lang="ts">
 	import { Canvas, Layer } from 'svelte-canvas';
 	import { data } from './controller';
-	import type { Position, RenderInterface } from './typings';
+
+	interface RenderInterface {
+		context: CanvasRenderingContext2D;
+		width: number;
+		height: number;
+	}
 
 	const mouseRadius = 10;
 
-	let canvasWidth: number = 300;
+	let canvasWidth = 300;
 
 	$: render = ({ context, width, height }: RenderInterface) => {
 		if (!$data) return;
 
-		const canvasOrigin: Position = {
+		const canvasOrigin = {
 			x: width / 2,
 			y: height / 2
 		};
 
-		const translatedPosition: Position = {
+		const translatedPosition = {
 			x: $data.position.x * (width / 100),
 			y: $data.position.y * (height / 100)
 		};
@@ -67,8 +72,14 @@
 	};
 </script>
 
-<div class="bg-gray-900/[0.3]" bind:clientWidth={canvasWidth}>
-	<Canvas width={canvasWidth} height={canvasWidth}>
+<div
+	class="bg-gray-900/[0.3]"
+	bind:clientWidth={canvasWidth}
+>
+	<Canvas
+		width={canvasWidth}
+		height={canvasWidth}
+	>
 		<Layer {render} />
 	</Canvas>
 </div>

@@ -1,91 +1,217 @@
 <script lang="ts">
-	import Camera from '$lib/camera/Camera.svelte';
-	import { cameras, type Camera as CameraType } from '$lib/camera/camera';
+	import CameraDisplay from '$lib/camera/CameraDisplay.svelte';
 	import ControllerCanvas from '$lib/controller/ControllerCanvas.svelte';
-	import Screenshots from '$lib/screenshots/Screenshots.svelte';
 	import Icon from 'svelte-awesome';
-	import gear from 'svelte-awesome/icons/gear';
-	import Settings from '$lib/settings/Settings.svelte';
-	import { getContext } from 'svelte';
-	const { open } = getContext('simple-modal');
+	import arrowLeft from 'svelte-awesome/icons/arrowLeft';
+	import arrowRight from 'svelte-awesome/icons/arrowRight';
+	import arrowUp from 'svelte-awesome/icons/arrowUp';
+	import { client } from '$lib/socket/socket';
+	import type { ControllerData } from 'typings';
+	import consola from 'consola';
 
-	let selectedCamera: CameraType | null = null;
+	import WindowComponent from '$lib/windowing/WindowComponent.svelte';
+	import Taskbar from '$lib/windowing/Taskbar.svelte';
+	import { onDestroy } from 'svelte';
+
+	let opened = false;
+	let mediaStream: MediaStream;
+
+	const bool = (num: number) => num !== 0;
+	function buf2hex(buffer: ArrayBuffer) {
+		return [...new Uint8Array(buffer)].map(x => x.toString(16).padStart(2, '0')).join('');
+	}
+	function processData(view: DataView): ControllerData {
+		const rawData = buf2hex(view.buffer).match(/..?/g);
+		if (rawData == null) throw Error('No data?');
+		const parsedRawData = rawData.map(item => parseInt(item, 16));
+		return {
+			position: {
+				x: (((parsedRawData[1] & 0x03) << 8) + parsedRawData[0]) / 10.24,
+				y: (((parsedRawData[2] & 0x0f) << 6) + ((parsedRawData[1] & 0xfc) >> 2)) / 10.24
+			},
+			yaw: parsedRawData[3],
+			view: (parsedRawData[2] & 0xf0) >> 4,
+			throttle: -parsedRawData[5] + 255,
+			buttons: {
+				trigger: bool((parsedRawData[4] & 0x01) >> 0),
+				side_grip: bool((parsedRawData[4] & 0x02) >> 1),
+				controller_buttons: {
+					bottom_left: bool((parsedRawData[4] & 0x04) >> 2),
+					bottom_right: bool((parsedRawData[4] & 0x08) >> 3),
+					top_left: bool((parsedRawData[4] & 0x10) >> 4),
+					top_right: bool((parsedRawData[4] & 0x20) >> 5)
+				},
+				side_panel: {
+					bottom_left: bool((parsedRawData[4] & 0x40) >> 6),
+					top_left: bool((parsedRawData[4] & 0x80) >> 7),
+					bottom_middle: bool((parsedRawData[6] & 0x01) >> 0),
+					top_middle: bool((parsedRawData[6] & 0x02) >> 1),
+					bottom_right: bool((parsedRawData[6] & 0x04) >> 2),
+					top_right: bool((parsedRawData[6] & 0x08) >> 3)
+				}
+			}
+		};
+	}
+	let dataBuffer: DataView;
+	$: processedData = dataBuffer ? processData(dataBuffer) : null;
+	async function openController() {
+		if (!navigator.hid) return;
+		const hid = navigator.hid;
+		const [device] = await hid.requestDevice({
+			filters: [
+				{
+					vendorId: 1133,
+					productId: 49685
+				}
+			]
+		});
+
+		await device.open();
+		opened = true;
+		device.addEventListener('inputreport', ({ data }) => {
+			dataBuffer = data;
+		});
+	}
+
+	$: client.emit(`clientControllerData`, processedData);
+
+	let peerConnection: RTCPeerConnection;
+	let candidates: RTCIceCandidate[] = [];
+	let answered = false;
+	const config = {
+		iceServers: [
+			{
+				urls: ['stun:stun.l.google.com:19302']
+			}
+		]
+	};
+
+	client.on('offer', (id, description) => {
+		consola.info(`offered by ${id}:`, description);
+		answered = true;
+		peerConnection = new RTCPeerConnection(config);
+		peerConnection
+			.setRemoteDescription(description)
+			.then(() => peerConnection.createAnswer())
+			.then(sdp => peerConnection.setLocalDescription(sdp))
+			.then(() => {
+				consola.info(`Sending answer to peer ${id}`);
+				client.emit('answer', id, peerConnection.localDescription);
+			});
+
+		peerConnection.addEventListener('icecandidate', event => {
+			if (event.candidate) {
+				client.emit('candidate', id, event.candidate);
+			}
+		});
+
+		peerConnection.addEventListener('track', event => {
+			consola.info('Found Track: ', event.streams[0]);
+			mediaStream = event.streams[0];
+		});
+
+		for (const candidate of candidates) {
+			consola.info('Adding stored candidate', candidate);
+			peerConnection.addIceCandidate(candidate);
+		}
+	});
+	client.on('candidate', (id, candidate) => {
+		consola.info(`Received candidate from ${id}`, candidate);
+		if (answered) {
+			peerConnection.addIceCandidate(new RTCIceCandidate(candidate));
+		} else {
+			candidates.push(new RTCIceCandidate(candidate));
+		}
+	});
+
+	client.on('connect', () => {
+		client.emit('watcher');
+	});
+
+	client.on('broadcaster', () => {
+		client.emit('watcher');
+	});
+
+	onDestroy(() => {
+		client.close();
+		peerConnection.close();
+	});
 </script>
 
 <svelte:window
-	on:keypress={(event) => {
-		if (event.key == 'V' && !document.activeElement) {
-			if (!selectedCamera) {
-				selectedCamera = $cameras[$cameras.length - 1];
-				return;
-			}
-
-			selectedCamera =
-				$cameras[
-					$cameras.indexOf(selectedCamera) == 0
-						? $cameras.length - 1
-						: $cameras.indexOf(selectedCamera) - 1
-				];
-		} else if (event.key == 'v' && !document.activeElement) {
-			if (!selectedCamera) {
-				selectedCamera = $cameras[0];
-				return;
-			}
-
-			selectedCamera = $cameras[($cameras.indexOf(selectedCamera) + 1) % $cameras.length];
+	on:keydown={event => {
+		if (event.key == 'ArrowUp') {
+			openController();
 		}
 	}}
 />
 
 <main class="flex flex-row w-screen h-screen">
-	<div class="w-1/5 flex flex-col divide-y border-r border-black divide-black">
-		{#if $cameras.length === 0}
-			<div
-				class="w-full flex-grow p-8 text-center hover:cursor-pointer flex justify-center items-center bg-red-200 hover:bg-red-300 active:bg-red-400 transition-all text-xl"
-				on:click={() => open(Settings)}
-			>
-				No cameras. Add some in the settings.
-			</div>
-		{:else}
-			{#each $cameras as camera}
-				<div
-					class="w-full hover:cursor-pointer flex-grow p-8 text-center flex justify-center items-center bg-lime-200 hover:bg-lime-300 active:bg-lime-400 transition-all text-xl"
-					class:bg-lime-400={selectedCamera == camera}
-					class:font-bold={selectedCamera == camera}
-					on:click={() => (selectedCamera = camera)}
-				>
-					<span>
-						{camera.description} ({camera.port})
-					</span>
+	<!--Key Binds-->
+
+	<div class="primary-container">
+		<Taskbar />
+		<WindowComponent
+			windowName="video"
+			height={200}
+			width={200}
+		>
+			<CameraDisplay
+				{mediaStream}
+				name="Cam"
+			/>
+		</WindowComponent>
+		<WindowComponent
+			windowName="keybinds"
+			height={200}
+			width={200}
+		>
+			<div class="keybinds-wrap">
+				<div class="keybinds-holder">
+					<Icon data={arrowLeft} />
+					<p>Cycle Camera Back</p>
 				</div>
-			{/each}
-		{/if}
-		<div class="w-full flex-shrink p-2 flex justify-center items-center bg-gray-300">
-			Press <kbd>V</kbd> to cycle
-		</div>
+				<div class="keybinds-holder">
+					<Icon data={arrowRight} />
+					<p>Cycle Camera Forward</p>
+				</div>
+				<div class="keybinds-holder">
+					<Icon data={arrowUp} />
+					<p>Enable Controller</p>
+				</div>
+			</div>
+		</WindowComponent>
+		<WindowComponent
+			windowName="visualizer"
+			height={200}
+			width={200}
+		>
+			<ControllerCanvas />
+		</WindowComponent>
 	</div>
-	<div class="w-full">
-		{#if selectedCamera}
-			{#key selectedCamera}
-				<Camera port={selectedCamera.port} />
-			{/key}
-		{:else}
-			<p class="flex items-center justify-center w-full h-full text-2xl font-semibold">
-				<span>
-					No camera selected.<br />
-					Press <kbd>V</kbd> to cycle or click to select one.
-				</span>
-			</p>
-		{/if}
-	</div>
-	<Screenshots />
 </main>
-<div
-	class="fixed right-0 top-1/2 translate-y-[-50%] p-4 border-b border-t border-l bg-gray-100 shadow-md rounded-l-lg border-black text-lg lg:text-xl xl:text-2xl"
-/>
-<button class="fixed top-0 right-0 m-4" on:click={() => open(Settings)}>
-	<Icon data={gear} scale={5} class="hover:rotate-12 transition-all" />
-</button>
-<div class="fixed bottom-0 right-0">
-	<ControllerCanvas />
-</div>
+<div class="fixed bottom-0 right-0" />
+
+<style>
+	.keybinds-holder {
+		flex-wrap: nowrap;
+		display: flex;
+		justify-content: left;
+		align-items: center;
+		text-align: left;
+		margin: 5px;
+	}
+	.keybinds-holder p {
+		margin-left: 10px;
+		flex-grow: 1;
+		flex-shrink: 1;
+	}
+	.primary-container {
+		z-index: 10;
+		position: fixed;
+		width: 100%;
+		height: 100%;
+		left: 0;
+		top: 0;
+	}
+</style>
