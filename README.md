@@ -17,7 +17,7 @@ This is the main controller.
 
 It hosts the web service and the robot hooks into it. It also handles data processing and external devices such as controllers.
 
-### Client
+### UI
 
 This is the website. It acts as a user-friendly UI for managing the robot and viewing data sent out by the server.
 
@@ -31,11 +31,11 @@ A position is a set of two numbers (x, y) between 0 - 100.
 
 If a position is (50, 50) then the position is in the middle and the robot would stay still
 
-The client, server, and robot use socket.io to communicate with eachother instead of raw TCP packets
+The UI, server, and robot use socket.io to communicate with eachother instead of raw TCP packets
 
 ## Contributing
 
-Use `./run.sh`, or use `CTRL + SHIFT + B` to test out the server and the client.
+Use `./run.sh`, or use `CTRL + SHIFT + B` to test out the server and the UI.
 
 The project is made in TypeScript and it is encouraged to follow the IDE's reccomendations.
 

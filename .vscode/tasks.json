@@ -2,9 +2,9 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
-			"label": "Client",
+			"label": "UI",
 			"type": "shell",
-			"command": "cd client && yarn dev",
+			"command": "cd ui && yarn dev",
 			"isBackground": true,
 			"presentation": {
 				"group": "test",
@@ -29,7 +29,7 @@
 		},
 		{
 			"label": "Development",
-			"dependsOn": ["Client", "Server"],
+			"dependsOn": ["UI", "Server"],
 			"problemMatcher": [],
 			"group": {
 				"kind": "build",

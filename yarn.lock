@@ -1666,39 +1666,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"client@workspace:client":
-  version: 0.0.0-use.local
-  resolution: "client@workspace:client"
-  dependencies:
-    "@neodrag/svelte": ^1.2.4
-    "@playwright/test": ^1.27.1
-    "@sveltejs/adapter-auto": next
-    "@sveltejs/kit": next
-    "@types/downloadjs": ^1.4.3
-    "@types/w3c-web-hid": ^1.0.3
-    autoprefixer: ^10.4.13
-    downloadjs: ^1.4.7
-    jimp: ^0.16.2
-    opencv-wasm: ^4.3.0-10
-    postcss: ^8.4.18
-    postcss-load-config: ^4.0.1
-    socket.io-client: ^4.5.3
-    svelte: ^3.52.0
-    svelte-awesome: ^3.0.0
-    svelte-canvas: ^0.7.1
-    svelte-check: ^2.9.2
-    svelte-persistent: ^0.0.1
-    svelte-preprocess: ^4.10.7
-    svelte-simple-modal: ^1.4.1
-    svelte-writable-derived: ^2.1.5
-    tailwindcss: ^3.2.1
-    tslib: ^2.4.0
-    typescript: ^4.8.4
-    typings: 1.0.0
-    vite: ^3.2.1
-  languageName: unknown
-  linkType: soft
-
 "color-convert@npm:^2.0.1":
   version: 2.0.1
   resolution: "color-convert@npm:2.0.1"
@@ -3732,14 +3699,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"native-broadcaster@workspace:native-broadcaster":
-  version: 0.0.0-use.local
-  resolution: "native-broadcaster@workspace:native-broadcaster"
-  dependencies:
-    typescript: ^4.9.3
-  languageName: unknown
-  linkType: soft
-
 "natural-compare@npm:^1.4.0":
   version: 1.4.0
   resolution: "natural-compare@npm:1.4.0"
@@ -5319,16 +5278,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:^4.9.3":
-  version: 4.9.3
-  resolution: "typescript@npm:4.9.3"
-  bin:
-    tsc: bin/tsc
-    tsserver: bin/tsserver
-  checksum: 17b8f816050b412403e38d48eef0e893deb6be522d6dc7caf105e54a72e34daf6835c447735fd2b28b66784e72bfbf87f627abb4818a8e43d1fa8106396128dc
-  languageName: node
-  linkType: hard
-
 "typescript@patch:typescript@*#~builtin<compat/typescript>, typescript@patch:typescript@^4.8.3#~builtin<compat/typescript>":
   version: 4.8.3
   resolution: "typescript@patch:typescript@npm%3A4.8.3#~builtin<compat/typescript>::version=4.8.3&hash=a1c5e5"
@@ -5349,22 +5298,45 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@^4.9.3#~builtin<compat/typescript>":
-  version: 4.9.3
-  resolution: "typescript@patch:typescript@npm%3A4.9.3#~builtin<compat/typescript>::version=4.9.3&hash=a1c5e5"
-  bin:
-    tsc: bin/tsc
-    tsserver: bin/tsserver
-  checksum: ef65c22622d864497d0a0c5db693523329b3284c15fe632e93ad9aa059e8dc38ef3bd767d6f26b1e5ecf9446f49bd0f6c4e5714a2eeaf352805dc002479843d1
-  languageName: node
-  linkType: hard
-
 "typings@1.0.0, typings@workspace:typings":
   version: 0.0.0-use.local
   resolution: "typings@workspace:typings"
   dependencies:
     "@types/node": ^18.8.2
     typescript: ^4.8.3
+  languageName: unknown
+  linkType: soft
+
+"ui@workspace:ui":
+  version: 0.0.0-use.local
+  resolution: "ui@workspace:ui"
+  dependencies:
+    "@neodrag/svelte": ^1.2.4
+    "@playwright/test": ^1.27.1
+    "@sveltejs/adapter-auto": next
+    "@sveltejs/kit": next
+    "@types/downloadjs": ^1.4.3
+    "@types/w3c-web-hid": ^1.0.3
+    autoprefixer: ^10.4.13
+    downloadjs: ^1.4.7
+    jimp: ^0.16.2
+    opencv-wasm: ^4.3.0-10
+    postcss: ^8.4.18
+    postcss-load-config: ^4.0.1
+    socket.io-client: ^4.5.3
+    svelte: ^3.52.0
+    svelte-awesome: ^3.0.0
+    svelte-canvas: ^0.7.1
+    svelte-check: ^2.9.2
+    svelte-persistent: ^0.0.1
+    svelte-preprocess: ^4.10.7
+    svelte-simple-modal: ^1.4.1
+    svelte-writable-derived: ^2.1.5
+    tailwindcss: ^3.2.1
+    tslib: ^2.4.0
+    typescript: ^4.8.4
+    typings: 1.0.0
+    vite: ^3.2.1
   languageName: unknown
   linkType: soft
 
