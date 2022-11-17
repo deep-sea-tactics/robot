@@ -32,7 +32,7 @@
 			.createOffer()
 			.then(sdp => peerConnection.setLocalDescription(sdp))
 			.then(() => {
-				client.emit('offer', id, peerConnection.localDescription);
+				client.emit('offer', id, peerConnection.localDescription!);
 			});
 	});
 
@@ -80,7 +80,7 @@
 			return stream;
 		} catch (err) {
 			alert(err);
-			throw 'NO camera found';
+			throw 'No camera found';
 		}
 	}
 

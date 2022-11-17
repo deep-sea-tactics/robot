@@ -40,9 +40,9 @@ export interface ServerToClientsMap {
 	broadcaster: () => void;
 	watcher: (id: string) => void;
 	disconnectPeer: (id: string) => void;
-	offer: (id: string, message: string) => void;
-	answer: (id: string, message: string) => void;
-	candidate: (id: string, message: string) => void;
+	offer: (id: string, message: RTCSessionDescription) => void;
+	answer: (id: string, message: RTCSessionDescriptionInit) => void;
+	candidate: (id: string, message: RTCIceCandidateInit) => void;
 }
 
 export interface ClientToServerMap {
@@ -50,9 +50,9 @@ export interface ClientToServerMap {
 	clientControllerData: (data: ControllerData) => void;
 	broadcaster: () => void;
 	watcher: () => void;
-	offer: (id: string, message: string) => void;
-	answer: (id: string, message: string) => void;
-	candidate: (id: string, message: string) => void;
+	offer: (id: string, message: RTCSessionDescription) => void;
+	answer: (id: string, message: RTCSessionDescription) => void;
+	candidate: (id: string, message: RTCIceCandidateInit) => void;
 }
 
 export const defaultControllerData: ControllerData = Object.freeze({

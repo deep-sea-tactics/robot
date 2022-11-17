@@ -73,7 +73,7 @@
 		});
 	}
 
-	$: client.emit(`clientControllerData`, processedData);
+	$: if (processedData) client.emit(`clientControllerData`, processedData);
 
 	let peerConnection: RTCPeerConnection;
 	let candidates: RTCIceCandidate[] = [];
@@ -96,7 +96,7 @@
 			.then(sdp => peerConnection.setLocalDescription(sdp))
 			.then(() => {
 				consola.info(`Sending answer to peer ${id}`);
-				client.emit('answer', id, peerConnection.localDescription);
+				client.emit('answer', id, peerConnection.localDescription!);
 			});
 
 		peerConnection.addEventListener('icecandidate', event => {
