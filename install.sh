@@ -1,4 +1,4 @@
 #!/bin/sh
 yarn
 
-(cd typings; yarn build)
+(cd landstown-robotics-types; yarn build)

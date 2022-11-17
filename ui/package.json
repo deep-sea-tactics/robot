@@ -20,6 +20,7 @@
 		"autoprefixer": "^10.4.13",
 		"downloadjs": "^1.4.7",
 		"jimp": "^0.16.2",
+		"landstown-robotics-types": "1.0.0",
 		"opencv-wasm": "^4.3.0-10",
 		"postcss": "^8.4.19",
 		"postcss-load-config": "^4.0.1",
@@ -35,7 +36,6 @@
 		"tailwindcss": "^3.2.4",
 		"tslib": "^2.4.1",
 		"typescript": "^4.9.3",
-		"typings": "1.0.0",
 		"vite": "^3.2.4"
 	},
 	"type": "module"

@@ -9,7 +9,7 @@
 	"workspaces": [
 		"ui",
 		"server",
-		"typings",
+		"landstown-robotics-types",
 		"robot-mock"
 	],
 	"packageManager": "yarn@3.2.3",

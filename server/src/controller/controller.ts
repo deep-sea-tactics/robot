@@ -1,6 +1,6 @@
 // Adapted and modernized from https://github.com/poweic/node-Logitech-Extreme-3D-Pro/blob/master/app.js
 
-import type { ControllerData } from 'typings';
+import type { ControllerData } from 'landstown-robotics-types';
 
 /**
  * If the num is 0, return false, else return true

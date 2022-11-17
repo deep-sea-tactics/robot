@@ -1,6 +1,6 @@
 #!/bin/bash
 
-(cd typings; yarn build)
+(cd landstown-robotics-types; yarn build)
 
 # kill all subshells and processes on exit
 trap "kill 0" SIGINT

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { ControllerData } from 'typings';
+	import type { ControllerData } from 'landstown-robotics-types';
 	export let data: ControllerData;
 </script>
 

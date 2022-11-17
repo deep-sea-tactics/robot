@@ -6,7 +6,7 @@
 	import arrowRight from 'svelte-awesome/icons/arrowRight';
 	import arrowUp from 'svelte-awesome/icons/arrowUp';
 	import { client } from '$lib/socket/socket';
-	import type { ControllerData } from 'typings';
+	import type { ControllerData } from 'landstown-robotics-types';
 	import consola from 'consola';
 
 	import WindowComponent from '$lib/windowing/WindowComponent.svelte';
