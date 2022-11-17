@@ -27,7 +27,7 @@
 			mouseStart = { x: mouse.x, y: mouse.y };
 		}
 	}}
-	on:mouseup={mouse => {
+	on:mouseup={() => {
 		if (beingDragged) {
 			beingDragged = false;
 		}

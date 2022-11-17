@@ -31,7 +31,6 @@
 		"svelte-check": "^2.9.2",
 		"svelte-persistent": "^0.0.1",
 		"svelte-preprocess": "^4.10.7",
-		"svelte-simple-modal": "^1.4.5",
 		"svelte-writable-derived": "^2.1.5",
 		"tailwindcss": "^3.2.4",
 		"tslib": "^2.4.1",

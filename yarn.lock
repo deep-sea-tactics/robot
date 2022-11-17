@@ -4783,15 +4783,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"svelte-simple-modal@npm:^1.4.5":
-  version: 1.4.5
-  resolution: "svelte-simple-modal@npm:1.4.5"
-  peerDependencies:
-    svelte: ^3.31.2
-  checksum: d58185575182e8d70445ddcd2bfe5c9863d232f0c5a3a77d05805e6cb62415b38b90c6bc78ff45eae0e805da62aab6305099f93f5e2d4f8c51f71b864fdddd26
-  languageName: node
-  linkType: hard
-
 "svelte-writable-derived@npm:^2.1.5":
   version: 2.1.5
   resolution: "svelte-writable-derived@npm:2.1.5"
@@ -5104,7 +5095,6 @@ __metadata:
     svelte-check: ^2.9.2
     svelte-persistent: ^0.0.1
     svelte-preprocess: ^4.10.7
-    svelte-simple-modal: ^1.4.5
     svelte-writable-derived: ^2.1.5
     tailwindcss: ^3.2.4
     tslib: ^2.4.1

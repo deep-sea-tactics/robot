@@ -13,7 +13,6 @@
 	import Taskbar from '$lib/windowing/Taskbar.svelte';
 	import { onDestroy } from 'svelte';
 
-	let opened = false;
 	let mediaStream: MediaStream;
 
 	const bool = (num: number) => num !== 0;
@@ -67,7 +66,6 @@
 		});
 
 		await device.open();
-		opened = true;
 		device.addEventListener('inputreport', ({ data }) => {
 			dataBuffer = data;
 		});
@@ -190,7 +188,6 @@
 		</WindowComponent>
 	</div>
 </main>
-<div class="fixed bottom-0 right-0" />
 
 <style>
 	.keybinds-holder {

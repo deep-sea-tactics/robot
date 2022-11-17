@@ -1,14 +1,14 @@
 import consola from 'consola';
 import flyd from 'flyd';
-import * as HID from 'node-hid';
+import { HID } from 'node-hid';
 
 /**
  * Grabs a file from the running computer
  * @returns A HID device
  */
-const grabController = (log = true): HID.HID | undefined => {
+const grabController = (log = true): HID | undefined => {
 	try {
-		return new HID.HID(1133, 49685); // Logitech Pro 3D controller vendor/product ID
+		return new HID(1133, 49685); // Logitech Pro 3D controller vendor/product ID
 	} catch (e) {
 		// Typescript Type Check
 		if (!(e instanceof Error)) return undefined;
