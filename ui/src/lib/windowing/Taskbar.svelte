@@ -23,6 +23,10 @@
 	{/if}
 </div>
 
+<div class="container">
+	<slot></slot>
+</div>
+
 <style>
 	.none {
 		color: rgb(60, 60, 60);
@@ -40,5 +44,11 @@
 		width: calc(100vw - 4rem);
 		font-size: 2rem;
 		background-color: #b6b6b6;
+	}
+
+	.container {
+		width: calc(100% - 4rem);
+		height: 100%;
+		margin: 2rem;
 	}
 </style>

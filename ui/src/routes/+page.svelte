@@ -145,10 +145,7 @@
 />
 
 <main>
-	<!--Key Binds-->
-
-	<Taskbar />
-	<div class="primary-container">
+	<Taskbar>
 		<WindowComponent
 			windowName="video"
 			height={200}
@@ -181,7 +178,7 @@
 		>
 			<ControllerCanvas />
 		</WindowComponent>
-	</div>
+	</Taskbar>
 </main>
 
 <style>
@@ -206,10 +203,5 @@
 		margin-left: 10px;
 		flex-grow: 1;
 		flex-shrink: 1;
-	}
-	.primary-container {
-		width: calc(100% - 4rem);
-		height: 100%;
-		margin: 2rem;
 	}
 </style>

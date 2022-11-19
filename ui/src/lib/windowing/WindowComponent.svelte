@@ -5,11 +5,10 @@
 	import { windows } from './Taskbar.svelte';
 
 	export let windowName: string;
-	let x = 100;
-	let y = 100;
-	let mouseStart = { x: 0, y: 0 };
-	export let width = 0;
-	export let height = 0;
+	export let x = 100;
+	export let y = 100;
+	export let width = 200;
+	export let height = 200;
 	export let color: string;
 	$windows[windowName] = true;
 
@@ -19,24 +18,20 @@
 </script>
 
 <svelte:window
-	on:mousemove={mouse => {
+	on:mousemove={({ movementX, movementY }) => {
 		if (beingDragged) {
-			let heightChange = mouse.y - mouseStart.y;
-			let widthChange = mouse.x - mouseStart.x;
-			height += heightChange;
-			width += widthChange;
-			mouseStart = { x: mouse.x, y: mouse.y };
+			height += movementY;
+			width += movementX;
 		}
 	}}
 	on:selectstart={event => {
+		// prevent silly text selection
 		if (beingDragged) {
 			event.preventDefault()
 		}
 	}}
 	on:mouseup={() => {
-		if (beingDragged) {
-			beingDragged = false;
-		}
+		beingDragged = false;
 	}}
 />
 
@@ -44,7 +39,7 @@
 	<div
 		class="dockable-window"
 		use:draggable={{
-			bounds: '.primary-container',
+			bounds: '.container',
 			defaultPosition: { x, y },
 			position: { x, y },
 			disabled: beingDragged,
@@ -69,8 +64,7 @@
 		</div>
 		<div
 			class="dockable-resize {beingDragged ? 'dragging' : ''}"
-			on:mousedown={mouse => {
-				mouseStart = { x: mouse.x, y: mouse.y };
+			on:mousedown={() => {
 				beingDragged = true;
 			}}
 		/>
