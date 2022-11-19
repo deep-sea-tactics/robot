@@ -10,7 +10,9 @@
 
 	const mouseRadius = 10;
 
-	let canvasWidth = 300;
+	let width = 0;
+	let height = 0;
+	$: minDimension = Math.min(width, height);
 
 	$: render = ({ context, width, height }: RenderInterface) => {
 		if (!$data) return;
@@ -73,12 +75,13 @@
 </script>
 
 <div
-	class="bg-gray-900/[0.3]"
-	bind:clientWidth={canvasWidth}
+	class="bg-gray-900/[0.3] w-full h-full"
+	bind:clientWidth={width} bind:clientHeight={height}
 >
 	<Canvas
-		width={canvasWidth}
-		height={canvasWidth}
+		style="margin: 0 auto; padding: 2rem;"
+		width={minDimension}
+		height={minDimension}
 	>
 		<Layer {render} />
 	</Canvas>

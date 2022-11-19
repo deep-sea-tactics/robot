@@ -144,11 +144,11 @@
 	}}
 />
 
-<main class="flex flex-row w-screen h-screen">
+<main class="w-screen h-screen">
 	<!--Key Binds-->
 
+	<Taskbar />
 	<div class="primary-container">
-		<Taskbar />
 		<WindowComponent
 			windowName="video"
 			height={200}
@@ -165,14 +165,6 @@
 			width={200}
 		>
 			<div class="keybinds-wrap">
-				<div class="keybinds-holder">
-					<Icon data={arrowLeft} />
-					<p>Cycle Camera Back</p>
-				</div>
-				<div class="keybinds-holder">
-					<Icon data={arrowRight} />
-					<p>Cycle Camera Forward</p>
-				</div>
 				<div class="keybinds-holder">
 					<Icon data={arrowUp} />
 					<p>Enable Controller</p>
@@ -204,11 +196,8 @@
 		flex-shrink: 1;
 	}
 	.primary-container {
-		z-index: 10;
-		position: fixed;
-		width: 100%;
-		height: 100%;
-		left: 0;
-		top: 0;
+		width: calc(100% - 4rem);
+		height: calc(100% - 4rem);
+		margin: 2rem;
 	}
 </style>

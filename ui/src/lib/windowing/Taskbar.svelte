@@ -30,12 +30,13 @@
 	}
 
 	.taskbar {
+		display: block;
+		height: min-content;
 		padding: 2rem;
-		position: fixed;
-		bottom: 0;
-		left: 0;
+		margin: 2rem;
+		border-radius: 2rem;
 		border-style: solid;
-		width: 100%;
+		width: calc(100vw - 4rem);
 		font-size: 2rem;
 		border-image: linear-gradient(90deg, #42a5f5 0%, #0d47a1 100%) 1;
 		background-color: #b6b6b6;
