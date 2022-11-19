@@ -10,6 +10,7 @@
 	let mouseStart = { x: 0, y: 0 };
 	export let width = 0;
 	export let height = 0;
+	export let color: string;
 	$windows[windowName] = true;
 
 	let beingDragged = false;
@@ -52,7 +53,7 @@
 				y = offsetY
 			}
 		}}
-		style="width: {width}px"
+		style="--color: {color}; width: {width}px"
 	>
 		<div class="dockable-tools">
 			{windowName}
@@ -79,7 +80,9 @@
 	</div>
 {/if}
 
-<style>
+<style lang="scss">
+
+	$debug: false;
 	
 	.dockable-window {
 		position: fixed;
@@ -101,12 +104,17 @@
 		cursor: se-resize;
 		width: 1.5rem;
 		height: 1.5rem;
-		transform: translate(0.75rem, 0.75rem);
-		background-color: rgba(200, 0, 0, 0.2);
+		transform: translate(0.50rem, 0.50rem);
+		z-index: 10;
+		@if $debug {
+			background-color: rgba(200, 0, 0, 0.2);
+		}
 	}
 
-	.dragging {
-		background-color: rgba(0, 200, 0, 0.2);
+	@if $debug {
+		.dragging {
+			background-color: rgba(0, 200, 0, 0.2);
+		}
 	}
 
 	.dockable-icon {
@@ -133,6 +141,6 @@
 		padding: 0.5rem;
 		border-radius: 1rem 1rem 0 0;
 		justify-content: space-between;
-		background-color: #adadad;
+		background-color: var(--color);
 	}
 </style>

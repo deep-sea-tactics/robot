@@ -24,6 +24,7 @@
 		"opencv-wasm": "^4.3.0-10",
 		"postcss": "^8.4.19",
 		"postcss-load-config": "^4.0.1",
+		"sass": "^1.56.1",
 		"socket.io-client": "^4.5.3",
 		"svelte": "^3.53.1",
 		"svelte-awesome": "^3.0.0",

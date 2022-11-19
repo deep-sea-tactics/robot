@@ -30,15 +30,15 @@
 	}
 
 	.taskbar {
+		border: 2px solid;
 		display: block;
 		height: min-content;
 		padding: 2rem;
 		margin: 2rem;
-		border-radius: 2rem;
-		border-style: solid;
+		margin-bottom: 0;
+		border-radius: 1rem;
 		width: calc(100vw - 4rem);
 		font-size: 2rem;
-		border-image: linear-gradient(90deg, #42a5f5 0%, #0d47a1 100%) 1;
 		background-color: #b6b6b6;
 	}
 </style>

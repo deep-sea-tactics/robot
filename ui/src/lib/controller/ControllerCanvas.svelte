@@ -75,7 +75,7 @@
 </script>
 
 <div
-	class="bg-gray-900/[0.3] w-full h-full"
+	class="w-full h-full"
 	bind:clientWidth={width} bind:clientHeight={height}
 >
 	<Canvas

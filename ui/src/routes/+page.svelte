@@ -144,7 +144,7 @@
 	}}
 />
 
-<main class="w-screen h-screen">
+<main>
 	<!--Key Binds-->
 
 	<Taskbar />
@@ -153,6 +153,7 @@
 			windowName="video"
 			height={200}
 			width={200}
+			color="#5DA9E9"
 		>
 			<CameraDisplay
 				{mediaStream}
@@ -160,6 +161,7 @@
 			/>
 		</WindowComponent>
 		<WindowComponent
+			color="#72E1D1"
 			windowName="keybinds"
 			height={200}
 			width={200}
@@ -173,6 +175,7 @@
 		</WindowComponent>
 		<WindowComponent
 			windowName="visualizer"
+			color="#E58F65"
 			height={200}
 			width={200}
 		>
@@ -182,6 +185,15 @@
 </main>
 
 <style>
+
+	main {
+		display: flex;
+		flex-direction: column;
+		width: 100vw;
+		height: 100vh;
+		background-color: white;
+	}
+
 	.keybinds-holder {
 		flex-wrap: nowrap;
 		display: flex;
@@ -197,7 +209,7 @@
 	}
 	.primary-container {
 		width: calc(100% - 4rem);
-		height: calc(100% - 4rem);
+		height: 100%;
 		margin: 2rem;
 	}
 </style>
