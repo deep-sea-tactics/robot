@@ -2,7 +2,7 @@
 	import Icon from 'svelte-awesome';
 	import close from 'svelte-awesome/icons/close';
 	import { draggable } from '@neodrag/svelte';
-	import { windows } from './Taskbar.svelte';
+	import { windows, zIndex } from './Taskbar.svelte';
 
 	export let windowName: string;
 	export let x = 0;
@@ -13,6 +13,7 @@
 	$windows[windowName] = { enabled: true, color };
 
 	let beingDragged = false;
+	let localZIndex = $zIndex;
 
 	const disable = () =>{
 		$windows[windowName] = { ...$windows[windowName], enabled: false }
@@ -51,7 +52,7 @@
 				y = offsetY
 			}
 		}}
-		style="--color: {color}; width: {width}px"
+		style="--color: {color}; width: {width}px; z-index: {localZIndex};"
 	>
 		<div class="dockable-tools">
 			{windowName}
@@ -68,6 +69,8 @@
 		<div
 			class="dockable-resize {beingDragged ? 'dragging' : ''}"
 			on:mousedown={() => {
+				$zIndex++;
+				localZIndex = $zIndex;
 				beingDragged = true;
 			}}
 		/>

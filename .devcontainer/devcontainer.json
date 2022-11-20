@@ -19,7 +19,7 @@
 				"svelte.svelte-vscode",
 				"dbaeumer.vscode-eslint",
 				"esbenp.prettier-vscode",
-				"csstools.postcss",
+				"csstools.postcss"
 			]
 		}
 	}

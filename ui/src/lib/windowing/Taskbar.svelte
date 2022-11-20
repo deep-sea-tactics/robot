@@ -9,6 +9,7 @@
 		color: string;
 	}
 
+	export const zIndex = writable(0)
 	export const windows = writable<{ [key: string]: WindowInfo }>({});
 </script>
 
