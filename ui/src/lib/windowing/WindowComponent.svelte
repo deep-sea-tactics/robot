@@ -90,13 +90,11 @@
 	.dockable-window {
 		position: fixed;
 		display: inline-block;
-		border-width: 2px;
 		flex-wrap: nowrap;
-		border-style: solid;
-		border: 2px solid;
 		border-radius: 1rem;
 		background-color: #EEE6D3;
-		box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.2);
+		// We don't use border here because a border will leave a smapp gap
+		box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.2), 0 0 0 2px black;
 		cursor: move;
 	}
 
@@ -143,6 +141,9 @@
 		display: flex;
 		padding: 0.5rem;
 		border-radius: 1rem 1rem 0 0;
+		object-fit: contain;
+		box-sizing: border-box;
+		background-clip: border-box;
 		justify-content: space-between;
 		background-color: var(--color);
 	}
