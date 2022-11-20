@@ -50,7 +50,10 @@
 			onDrag: ({ offsetX, offsetY }) => {
 				x = offsetX
 				y = offsetY
-			}
+			},
+			onDragStart: () => {
+				localZIndex = $zIndex += 1;
+			},
 		}}
 		style="--color: {color}; width: {width}px; z-index: {localZIndex};"
 	>
@@ -68,7 +71,7 @@
 		</div>
 		<div
 			class="dockable-resize {beingDragged ? 'dragging' : ''}"
-			on:mousedown={() => {
+			on:mousedown|preventDefault={() => {
 				$zIndex++;
 				localZIndex = $zIndex;
 				beingDragged = true;
