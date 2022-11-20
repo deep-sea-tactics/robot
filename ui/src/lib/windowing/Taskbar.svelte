@@ -3,17 +3,23 @@
 	context="module"
 >
 	import { writable } from 'svelte/store';
-	export const windows = writable<{ [key: string]: boolean }>({});
+
+	interface WindowInfo {
+		enabled: boolean;
+		color: string;
+	}
+
+	export const windows = writable<{ [key: string]: WindowInfo }>({});
 </script>
 
 <div class="taskbar">
-	{#if Object.values($windows).some(bool => !bool)}
-		{#each Object.entries($windows) as [name, on]}
-			{#if !on}
-				<span
-					on:click={() => ($windows[name] = true)}
+	{#if Object.values($windows).some(data => !data.enabled)}
+		{#each Object.entries($windows) as [name, data]}
+			{#if !data.enabled}
+				<span style="--color: {data.color}"
+					on:click={() => ($windows[name] = { ...data, enabled: true  })}
 					on:keydown={event => {
-						if (event.key == 'Enter') $windows[name] = true;
+						if (event.key == 'Enter') $windows[name] = { ...data, enabled: true  };
 					}}>{name}</span
 				>
 			{/if}
@@ -34,21 +40,29 @@
 	}
 
 	.taskbar {
-		border: 2px solid;
+		border: 2px solid black;
 		display: block;
-		height: min-content;
-		padding: 2rem;
+		flex-shrink: 1;
+		padding: 1rem;
 		margin: 2rem;
 		margin-bottom: 0;
 		border-radius: 1rem;
 		width: calc(100vw - 4rem);
-		font-size: 2rem;
-		background-color: #b6b6b6;
+		font-size: 1.5rem;
+		background-color: #D0F0F0;
+	}
+
+	span {
+		background-color: var(--color);
+		padding: 0.5rem;
+		border-radius: 1rem;
+		margin-right: 1rem;
 	}
 
 	.container {
-		width: calc(100% - 4rem);
+		width: calc(100vw - 4rem);
 		height: 100%;
 		margin: 2rem;
+		flex-grow: 1;
 	}
 </style>

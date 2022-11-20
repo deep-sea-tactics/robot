@@ -5,16 +5,19 @@
 	import { windows } from './Taskbar.svelte';
 
 	export let windowName: string;
-	export let x = 100;
-	export let y = 100;
+	export let x = 0;
+	export let y = 0;
 	export let width = 200;
 	export let height = 200;
 	export let color: string;
-	$windows[windowName] = true;
+	$windows[windowName] = { enabled: true, color };
 
 	let beingDragged = false;
 
-	const disable = () => ($windows[windowName] = false);
+	const disable = () =>{
+		$windows[windowName] = { ...$windows[windowName], enabled: false }
+		$windows = $windows
+	}
 </script>
 
 <svelte:window
@@ -35,7 +38,7 @@
 	}}
 />
 
-{#if $windows[windowName]}
+{#if $windows[windowName].enabled}
 	<div
 		class="dockable-window"
 		use:draggable={{
@@ -86,7 +89,7 @@
 		border-style: solid;
 		border: 2px solid;
 		border-radius: 1rem;
-		background-color: #d3d3d3;
+		background-color: #EEE6D3;
 		box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.2);
 		cursor: move;
 	}
@@ -123,11 +126,11 @@
 		align-items: center;
 		text-align: center;
 		border-radius: 50%;
-		background-color: #d3d3d3;
+		background-color: #D0F0F0;
 	}
 
 	.dockable-icon:hover {
-		background-color: #c3c3c3;
+		background-color: #D0F0F0;
 	}
 
 	.dockable-tools {

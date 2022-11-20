@@ -148,9 +148,10 @@
 	<Taskbar>
 		<WindowComponent
 			windowName="video"
-			height={200}
-			width={200}
+			height={400}
+			width={400}
 			color="#5DA9E9"
+			x={400}
 		>
 			<CameraDisplay
 				{mediaStream}
@@ -175,6 +176,7 @@
 			color="#E58F65"
 			height={200}
 			width={200}
+			y={300}
 		>
 			<ControllerCanvas />
 		</WindowComponent>
@@ -188,7 +190,7 @@
 		flex-direction: column;
 		width: 100vw;
 		height: 100vh;
-		background-color: white;
+		background-color: #FFF0F9;
 	}
 
 	.keybinds-holder {
