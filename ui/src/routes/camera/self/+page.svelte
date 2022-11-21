@@ -3,6 +3,7 @@
 	import { client } from '$lib/socket/socket';
 	import CameraDisplay from '$lib/camera/CameraDisplay.svelte';
 	import consola from 'consola';
+	import { config } from '$lib/socket/webrtc';
 
 	let stream: MediaStream;
 
@@ -60,14 +61,6 @@
 		delete peerConnections[id];
 	});
 
-	const config = {
-		iceServers: [
-			{
-				urls: ['stun:stun.l.google.com:19302']
-			}
-		]
-	};
-
 	async function getMedia(): Promise<MediaStream> {
 		try {
 			stream = await navigator.mediaDevices.getUserMedia({
@@ -100,7 +93,6 @@
 	<div class="m-16 bg-gray-100 flex flex-col p-8 rounded-lg shadow-lg">
 		<CameraDisplay
 			{mediaStream}
-			name="Camera Self"
 		/>
 		<div class="h-1/2 grow">
 			<p>Streaming Status</p>

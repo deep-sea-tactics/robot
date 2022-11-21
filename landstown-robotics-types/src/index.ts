@@ -1,5 +1,10 @@
 /**
- * General X and Y position interface
+ * General X and Y position interface.
+ * 
+ * X and Y are between 0-100. 50 is in the middle.
+ * 
+ * 0y means backwards, 100y means forwards
+ * 0x means left, 100x means right
  */
 export interface Position {
 	x: number;
@@ -35,10 +40,11 @@ export interface ControllerData {
 }
 
 export interface ServerToClientsMap {
+	/** The new controller data */
 	controllerData: (data: ControllerData) => void;
-	cameraBroadcastInfo: (data: string) => void;
 	broadcaster: () => void;
 	watcher: (id: string) => void;
+	/** A peer has disconnected -- disconnect from them */
 	disconnectPeer: (id: string) => void;
 	offer: (id: string, message: RTCSessionDescription) => void;
 	answer: (id: string, message: RTCSessionDescriptionInit) => void;
@@ -48,6 +54,7 @@ export interface ServerToClientsMap {
 export interface ClientToServerMap {
 	dataOverride: (data: Partial<ControllerData>) => void;
 	clientControllerData: (data: ControllerData) => void;
+	/** A broadcaster is ready to broadcast */
 	broadcaster: () => void;
 	watcher: () => void;
 	offer: (id: string, message: RTCSessionDescription) => void;

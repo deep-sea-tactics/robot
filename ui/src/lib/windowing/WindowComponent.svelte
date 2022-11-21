@@ -15,10 +15,10 @@
 	let beingDragged = false;
 	let localZIndex = $zIndex;
 
-	const disable = () =>{
-		$windows[windowName] = { ...$windows[windowName], enabled: false }
-		$windows = $windows
-	}
+	const disable = () => {
+		$windows[windowName] = { ...$windows[windowName], enabled: false };
+		$windows = $windows;
+	};
 </script>
 
 <svelte:window
@@ -31,7 +31,7 @@
 	on:selectstart={event => {
 		// prevent silly text selection
 		if (beingDragged) {
-			event.preventDefault()
+			event.preventDefault();
 		}
 	}}
 	on:mouseup={() => {
@@ -48,12 +48,12 @@
 			position: { x, y },
 			disabled: beingDragged,
 			onDrag: ({ offsetX, offsetY }) => {
-				x = offsetX
-				y = offsetY
+				x = offsetX;
+				y = offsetY;
 			},
 			onDragStart: () => {
 				localZIndex = $zIndex += 1;
-			},
+			}
 		}}
 		style="--color: {color}; width: {width}px; z-index: {localZIndex};"
 	>
@@ -77,23 +77,25 @@
 				beingDragged = true;
 			}}
 		/>
-		<div class="dockable-content" style="height: {height}px; width: {width}px">
+		<div
+			class="dockable-content"
+			style="height: {height}px; width: {width}px"
+		>
 			<slot />
 		</div>
 	</div>
 {/if}
 
 <style lang="scss">
-
 	$debug: false;
-	
+
 	.dockable-window {
 		position: fixed;
 		display: inline-block;
 		flex-wrap: nowrap;
 		border-radius: 1rem;
-		background-color: #EEE6D3;
-		// We don't use border here because a border will leave a smapp gap
+		background-color: #eee6d3;
+		// We don't use border here because a border will leave a small gap
 		box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.2), 0 0 0 2px black;
 		cursor: move;
 	}
@@ -105,7 +107,7 @@
 		cursor: se-resize;
 		width: 1.5rem;
 		height: 1.5rem;
-		transform: translate(0.50rem, 0.50rem);
+		transform: translate(0.5rem, 0.5rem);
 		z-index: 10;
 		@if $debug {
 			background-color: rgba(200, 0, 0, 0.2);
@@ -123,18 +125,18 @@
 		cursor: pointer;
 		padding: 0rem;
 		width: 25px;
-    	height: 25px;
+		height: 25px;
 		line-height: 25px;
 		display: flex;
 		justify-content: center;
 		align-items: center;
 		text-align: center;
 		border-radius: 50%;
-		background-color: #D0F0F0;
+		background-color: #d0f0f0;
 	}
 
 	.dockable-icon:hover {
-		background-color: #D0F0F0;
+		background-color: #d0f0f0;
 	}
 
 	.dockable-tools {

@@ -1,15 +1,6 @@
-# PROGRAMMING
-
-- Native camera broadcaster
-- Finish resizable windowing
-- Fix WebRTC issue from non-local (remote) receivers
-- Allow multiple receivers and multiple broadcasters
-- Finish [rustun-cli](https://github.com/LeoDog896/rustun-cli) (need for light stun server) -- **main finished, testing required on local laptop**)
-
 # DESIGN
 
 - Windowing (i3m-like?)
-- Make window position stay when you start resizing.
 - Task List
 - Camera Management (for windowing)
 
@@ -19,7 +10,6 @@
 - live score estimate?
 - (ai) task prioritization?
 - ~~discord integration~~
-- THREE.JS robot mock?
 
 # GOALS
 
