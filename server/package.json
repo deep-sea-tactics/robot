@@ -7,7 +7,7 @@
 	"type": "module",
 	"scripts": {
 		"start": "ts-node --esm --swc src/index.ts",
-		"dev": "nodemon -x \"yarn start\""
+		"dev": "nodemon -x \"yarn start\" -e .ts,.json"
 	},
 	"keywords": [],
 	"author": "LeoDog896",
