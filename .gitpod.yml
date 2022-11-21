@@ -1,7 +1,6 @@
 tasks:
   - name: Install
     init: |
-      export HMR_HOST=`gp url 3000`
       sudo apt-get update
       sudo apt install coturn
       ./install.sh

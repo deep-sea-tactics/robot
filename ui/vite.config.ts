@@ -7,7 +7,7 @@ export default <UserConfig> {
 	server: {
 		strictPort: true,
 		host: '0.0.0.0',
-		hmr: !process.env.HMR_HOST,
+		hmr: !process.env.GITPOD_WORKSPACE_ID,
 		port: 4000,
 	},
 	build: {
