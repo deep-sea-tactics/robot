@@ -147,7 +147,6 @@
 		>
 			<CameraDisplay
 				{mediaStream}
-				name="Cam"
 			/>
 		</WindowComponent>
 		<WindowComponent
