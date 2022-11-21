@@ -9,12 +9,7 @@ import { controllerData, mixedControllerData } from './controller/position.js';
 
 const port = 3000;
 
-const io = new Server<ClientToServerMap, ServerToClientsMap>(port, {
-	cors: {
-		origin: '*',
-		methods: ['GET', 'POST'],
-	},
-});
+const io = new Server<ClientToServerMap, ServerToClientsMap>(port);
 
 /**
  * Starts the socket server
