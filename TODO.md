@@ -3,9 +3,8 @@
 - Native camera broadcaster
 - Resizable windowing on borders
 - Layout management (ex moving windows to take the left or right side of the screen)
-- Fix WebRTC issue from non-local (remote) receivers
 - Allow multiple broadcasters
-- (GitPod, GitHub Workspaces, installation) setup stun & turn server (coturn)
+- (~~GitPod, GitHub Workspaces~~, local installation) setup stun & turn server (coturn)
 
 # DESIGN
 
