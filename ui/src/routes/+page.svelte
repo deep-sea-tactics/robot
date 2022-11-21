@@ -10,6 +10,7 @@
 	import WindowComponent from '$lib/windowing/WindowComponent.svelte';
 	import Taskbar from '$lib/windowing/Taskbar.svelte';
 	import { onDestroy } from 'svelte';
+  import { config } from '$lib/socket/webrtc';
 
 	let mediaStream: MediaStream;
 
@@ -74,13 +75,6 @@
 	let peerConnection: RTCPeerConnection;
 	let candidates: RTCIceCandidate[] = [];
 	let answered = false;
-	const config = {
-		iceServers: [
-			{
-				urls: ['stun:stun.l.google.com:19302']
-			}
-		]
-	};
 
 	client.on('offer', (id, description) => {
 		consola.info(`offered by ${id}:`, description);

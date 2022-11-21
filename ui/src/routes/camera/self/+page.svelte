@@ -3,6 +3,7 @@
 	import { client } from '$lib/socket/socket';
 	import CameraDisplay from '$lib/camera/CameraDisplay.svelte';
 	import consola from 'consola';
+	import { config } from '$lib/socket/webrtc';
 
 	let stream: MediaStream;
 
@@ -59,14 +60,6 @@
 		peerConnections[id].connection.close();
 		delete peerConnections[id];
 	});
-
-	const config = {
-		iceServers: [
-			{
-				urls: ['stun:stun.l.google.com:19302']
-			}
-		]
-	};
 
 	async function getMedia(): Promise<MediaStream> {
 		try {
