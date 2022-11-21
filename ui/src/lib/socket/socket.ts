@@ -7,7 +7,7 @@ export const client: Socket<ServerToClientsMap, ClientToServerMap> = io(
 	{ transports: ['websocket'] }, // fixes any cross-domain issues
 );
 
-export const connected = writable<boolean>(false);
+export const connected = writable(false);
 
 client.on('connect', () => {
 	connected.set(true);
