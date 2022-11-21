@@ -2,8 +2,6 @@
 	import CameraDisplay from '$lib/camera/CameraDisplay.svelte';
 	import ControllerCanvas from '$lib/controller/ControllerCanvas.svelte';
 	import Icon from 'svelte-awesome';
-	import arrowLeft from 'svelte-awesome/icons/arrowLeft';
-	import arrowRight from 'svelte-awesome/icons/arrowRight';
 	import arrowUp from 'svelte-awesome/icons/arrowUp';
 	import { client } from '$lib/socket/socket';
 	import type { ControllerData } from 'landstown-robotics-types';
@@ -184,13 +182,12 @@
 </main>
 
 <style>
-
 	main {
 		display: flex;
 		flex-direction: column;
 		width: 100vw;
 		height: 100vh;
-		background-color: #FFF0F9;
+		background-color: #fff0f9;
 	}
 
 	.keybinds-holder {

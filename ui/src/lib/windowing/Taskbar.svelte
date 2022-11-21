@@ -9,7 +9,7 @@
 		color: string;
 	}
 
-	export const zIndex = writable(0)
+	export const zIndex = writable(0);
 	export const windows = writable<{ [key: string]: WindowInfo }>({});
 </script>
 
@@ -17,10 +17,11 @@
 	{#if Object.values($windows).some(data => !data.enabled)}
 		{#each Object.entries($windows) as [name, data]}
 			{#if !data.enabled}
-				<span style="--color: {data.color}"
-					on:click={() => ($windows[name] = { ...data, enabled: true  })}
+				<span
+					style="--color: {data.color}"
+					on:click={() => ($windows[name] = { ...data, enabled: true })}
 					on:keydown={event => {
-						if (event.key == 'Enter') $windows[name] = { ...data, enabled: true  };
+						if (event.key == 'Enter') $windows[name] = { ...data, enabled: true };
 					}}>{name}</span
 				>
 			{/if}
@@ -31,7 +32,7 @@
 </div>
 
 <div class="container">
-	<slot></slot>
+	<slot />
 </div>
 
 <style>
@@ -50,7 +51,7 @@
 		border-radius: 1rem;
 		width: calc(100vw - 4rem);
 		font-size: 1.5rem;
-		background-color: #D0F0F0;
+		background-color: #d0f0f0;
 	}
 
 	span {

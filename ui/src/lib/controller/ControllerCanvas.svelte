@@ -76,7 +76,8 @@
 
 <div
 	class="w-full h-full"
-	bind:clientWidth={width} bind:clientHeight={height}
+	bind:clientWidth={width}
+	bind:clientHeight={height}
 >
 	<Canvas
 		style="margin: 0 auto; padding: 2rem;"

@@ -1,15 +1,15 @@
 # PROGRAMMING
 
 - Native camera broadcaster
-- Finish resizable windowing
+- Resizable windowing on borders
+- Layout management (ex moving windows to take the left or right side of the screen)
 - Fix WebRTC issue from non-local (remote) receivers
-- Allow multiple receivers and multiple broadcasters
-- Finish [rustun-cli](https://github.com/LeoDog896/rustun-cli) (need for light stun server) -- **main finished, testing required on local laptop**)
+- Allow multiple broadcasters
+- (GitPod, GitHub Workspaces, installation) setup stun & turn server (euternal or coturn)
 
 # DESIGN
 
 - Windowing (i3m-like?)
-- Make window position stay when you start resizing.
 - Task List
 - Camera Management (for windowing)
 
