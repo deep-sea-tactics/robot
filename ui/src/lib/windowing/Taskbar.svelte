@@ -52,6 +52,7 @@
 		width: calc(100vw - 4rem);
 		font-size: 1.5rem;
 		background-color: #c2d0f3;
+		position: absolute;
 	}
 
 	span {
@@ -62,9 +63,8 @@
 	}
 
 	.container {
-		width: calc(100vw - 4rem);
+		width: 100vw;
 		height: 100%;
-		margin: 2rem;
 		flex-grow: 1;
 	}
 </style>

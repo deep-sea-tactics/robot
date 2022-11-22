@@ -3,6 +3,7 @@
 	import close from 'svelte-awesome/icons/close';
 	import { draggable } from '@neodrag/svelte';
 	import { windows, zIndex } from './Taskbar.svelte';
+	import { time_ranges_to_array } from 'svelte/internal';
 
 	export let windowName: string;
 	export let x = 0;
@@ -10,6 +11,10 @@
 	export let width = 200;
 	export let height = 200;
 	export let color: string;
+	let thisTarget = false;
+	let windowX = 0;
+	let windowY = 0;
+	let toolsHeight = 0;
 	$windows[windowName] = { enabled: true, color };
 
 	let beingDragged = false;
@@ -22,10 +27,12 @@
 </script>
 
 <svelte:window
-	on:mousemove={({ movementX, movementY }) => {
+	bind:innerWidth={windowX}
+	bind:innerHeight={windowY}
+	on:mousemove={({ movementX, movementY, clientX, clientY }) => {
 		if (beingDragged) {
-			height += movementY; //height += movementY > 200 ? height += movementY : height = 200;
-			width += movementX;
+			height = Math.max(height + movementY, 200);
+			width = Math.max(width + movementX, 200);
 		}
 	}}
 	on:selectstart={event => {
@@ -34,8 +41,23 @@
 			event.preventDefault();
 		}
 	}}
-	on:mouseup={() => {
+	on:mouseup={({ clientX, clientY }) => {
 		beingDragged = false;
+		if (thisTarget) {
+			//special positions that perform special resizing actions with the mouse.
+			//check if the mouse is within 10 px of the edge
+			console.log(x, windowX);
+			if (clientX <= 50) {
+				x = 0;
+				y = 0;
+				height = windowY - toolsHeight;
+				width = windowX / 2;
+			}
+			thisTarget = false;
+		}
+	}}
+	on:mousedown={event => {
+		console.log(event.target);
 	}}
 />
 
@@ -52,12 +74,16 @@
 				y = offsetY;
 			},
 			onDragStart: () => {
+				thisTarget = true;
 				localZIndex = $zIndex += 1;
 			}
 		}}
 		style="--color: {color}; width: {width}px; z-index: {localZIndex};"
 	>
-		<div class="dockable-tools">
+		<div
+			class="dockable-tools"
+			bind:clientHeight={toolsHeight}
+		>
 			{windowName}
 			<div
 				class="dockable-icon"
