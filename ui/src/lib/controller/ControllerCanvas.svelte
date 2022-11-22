@@ -15,7 +15,11 @@
 	$: minDimension = Math.min(width, height);
 
 	$: render = ({ context, width, height }: RenderInterface) => {
-		if (!$data) return;
+		if (!$data) {
+			context.fillText("Press ^ to reconnected", width / 2, height / 2)
+
+			return;
+		}
 
 		const canvasOrigin = {
 			x: width / 2,
