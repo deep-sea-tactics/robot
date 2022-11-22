@@ -17,7 +17,7 @@
 	let mediaStream: MediaStream;
 
 	let bound = false;
-	let dataBuffer: DataView;
+	let dataBuffer: DataView | undefined;
 	$: processedData = dataBuffer ? processData(dataBuffer) : null;
 	$: if (processedData) $data = processedData;
 	//check if there is already an authorized controller
