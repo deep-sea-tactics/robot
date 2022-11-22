@@ -3,7 +3,8 @@
 	import close from 'svelte-awesome/icons/close';
 	import { draggable } from '@neodrag/svelte';
 	import { windows, zIndex } from './Taskbar.svelte';
-	import { time_ranges_to_array } from 'svelte/internal';
+	import { missing_component, time_ranges_to_array } from 'svelte/internal';
+	import Boolean from '$lib/controller/mimic/Boolean.svelte';
 
 	export let windowName: string;
 	export let x = 0;
@@ -16,6 +17,9 @@
 	let windowX = 0;
 	let windowY = 0;
 	let toolsHeight = 0;
+	let savedWindowDetails = { x: 0, y: 0 };
+	let currentMousePos = { x: 0, y: 0 };
+	let originalMousePos = { x: 0, y: 0 };
 	$windows[windowName] = { enabled: true, color };
 
 	let beingDragged = false;
@@ -31,9 +35,12 @@
 	bind:innerWidth={windowX}
 	bind:innerHeight={windowY}
 	on:mousemove={({ movementX, movementY, clientX, clientY }) => {
+		currentMousePos = { x: clientX, y: clientY };
 		if (beingDragged) {
-			height = Math.max(height + movementY, 200);
-			width = Math.max(width + movementX, 200);
+			height = Math.max(savedWindowDetails.y + (currentMousePos.y - originalMousePos.y), 200);
+			width = Math.max(savedWindowDetails.x + (currentMousePos.x - originalMousePos.x), 200);
+			/* height = Math.max(height + movementY, 200);
+			width = Math.max(width + movementX, 200); */
 		}
 	}}
 	on:selectstart={event => {
@@ -64,7 +71,9 @@
 		}
 	}}
 	on:mousedown={event => {
+		savedWindowDetails = { x: width, y: height };
 		console.log(event.target);
+		originalMousePos = { ...currentMousePos };
 	}}
 />
 
@@ -103,7 +112,31 @@
 			</div>
 		</div>
 		<div
-			class="dockable-resize {beingDragged ? 'dragging' : ''}"
+			class="dockable-resize BR {beingDragged ? 'dragging' : ''}"
+			on:mousedown|preventDefault={() => {
+				$zIndex++;
+				localZIndex = $zIndex;
+				beingDragged = true;
+			}}
+		/>
+		<div
+			class="dockable-resize TR {beingDragged ? 'dragging' : ''}"
+			on:mousedown|preventDefault={() => {
+				$zIndex++;
+				localZIndex = $zIndex;
+				beingDragged = true;
+			}}
+		/>
+		<div
+			class="dockable-resize BL {beingDragged ? 'dragging' : ''}"
+			on:mousedown|preventDefault={() => {
+				$zIndex++;
+				localZIndex = $zIndex;
+				beingDragged = true;
+			}}
+		/>
+		<div
+			class="dockable-resize TL {beingDragged ? 'dragging' : ''}"
 			on:mousedown|preventDefault={() => {
 				$zIndex++;
 				localZIndex = $zIndex;
@@ -120,7 +153,7 @@
 {/if}
 
 <style lang="scss">
-	$debug: false;
+	$debug: true;
 
 	.dockable-window {
 		position: fixed;
@@ -132,24 +165,43 @@
 		box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.2), 0 0 0 2px black;
 		cursor: move;
 	}
-
-	.dockable-resize {
-		position: absolute;
+	.BR {
 		bottom: 0;
 		right: 0;
+		z-index: 10;
+		transform: translate(0.5rem, 0.5rem);
+	}
+	.TR {
+		top: 0;
+		right: 0;
+		z-index: 10;
+		transform: translate(0.5rem, -0.5rem);
+	}
+	.BL {
+		bottom: 0;
+		left: 0;
+		z-index: 10;
+		transform: translate(-0.5rem, 0.5rem);
+	}
+	.TL {
+		top: 0;
+		left: 0;
+		z-index: 10;
+		transform: translate(-0.5rem, -0.5rem);
+	}
+	.dockable-resize {
+		position: absolute;
 		cursor: se-resize;
 		width: 1.5rem;
 		height: 1.5rem;
-		transform: translate(0.5rem, 0.5rem);
-		z-index: 10;
 		@if $debug {
-			background-color: rgba(200, 0, 0, 0.2);
+			background-color: rgba(255, 0, 0, 0.5);
 		}
 	}
 
 	@if $debug {
 		.dragging {
-			background-color: rgba(0, 200, 0, 0.2);
+			background-color: rgba(0, 255, 0, 0.5);
 		}
 	}
 
