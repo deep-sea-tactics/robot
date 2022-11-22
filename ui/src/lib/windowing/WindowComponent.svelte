@@ -55,7 +55,7 @@
 				width = windowX / 2;
 			}
 			if (clientX >= windowX - snapSensativity) {
-				x = windowX - windowX/2;
+				x = windowX - windowX / 2;
 				y = 0;
 				height = windowY - toolsHeight;
 				width = windowX / 2;
