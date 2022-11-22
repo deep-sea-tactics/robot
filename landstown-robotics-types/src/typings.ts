@@ -40,8 +40,6 @@ export interface ControllerData {
 }
 
 export interface ServerToClientsMap {
-	/** The new controller data */
-	controllerData: (data: ControllerData) => void;
 	broadcaster: () => void;
 	watcher: (id: string) => void;
 	/** A peer has disconnected -- disconnect from them */
