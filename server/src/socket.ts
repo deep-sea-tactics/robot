@@ -22,8 +22,8 @@ export const start = async (): Promise<void> => {
 
 		socket.on('dataOverride', mixedControllerData);
 		socket.on('clientControllerData', data => {
-			if (equals(controllerData(), data)) return
-			controllerData(data)
+			if (equals(controllerData(), data)) return;
+			controllerData(data);
 		});
 
 		// Warn the server if the client has disconnected
