@@ -1,7 +1,7 @@
 <script lang="ts">
 	import CameraDisplay from '$lib/camera/CameraDisplay.svelte';
 	import ControllerCanvas from '$lib/controller/ControllerCanvas.svelte';
-	import { data } from "$lib/controller/controller"
+	import { data } from '$lib/controller/controller';
 	import Icon from 'svelte-awesome';
 	import arrowUp from 'svelte-awesome/icons/arrowUp';
 	import { client } from '$lib/socket/socket';
@@ -54,12 +54,12 @@
 	let bound = false;
 	let dataBuffer: DataView;
 	$: processedData = dataBuffer ? processData(dataBuffer) : null;
-	$: if (processedData) $data = processedData
+	$: if (processedData) $data = processedData;
 	//check if there is already an authorized controller
 	async function testController() {
 		let [device] = await navigator.hid.getDevices();
 		if (device.productId != 49685 || device.vendorId != 1133) {
-			return
+			return;
 		}
 
 		await device.open();
@@ -67,12 +67,12 @@
 		device.addEventListener('inputreport', ({ data }) => {
 			dataBuffer = data;
 		});
-		console.log(device)
+		console.log(device);
 	}
-	testController()
+	testController();
 	async function openController() {
 		if (!navigator.hid) return;
-		const hid = navigator.hid;;
+		const hid = navigator.hid;
 
 		const [device] = await hid.requestDevice({
 			filters: [

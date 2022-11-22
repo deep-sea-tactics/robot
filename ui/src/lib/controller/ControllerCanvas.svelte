@@ -15,7 +15,7 @@
 	$: minDimension = Math.min(width, height);
 
 	$: render = ({ context, width, height }: RenderInterface) => {
-		if (!($data)) return;
+		if (!$data) return;
 
 		const canvasOrigin = {
 			x: width / 2,
