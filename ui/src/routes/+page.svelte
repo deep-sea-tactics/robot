@@ -1,6 +1,7 @@
 <script lang="ts">
 	import CameraDisplay from '$lib/camera/CameraDisplay.svelte';
 	import ControllerCanvas from '$lib/controller/ControllerCanvas.svelte';
+	import { data } from "$lib/controller/controller"
 	import Icon from 'svelte-awesome';
 	import arrowUp from 'svelte-awesome/icons/arrowUp';
 	import { client } from '$lib/socket/socket';
@@ -52,6 +53,7 @@
 	}
 	let dataBuffer: DataView;
 	$: processedData = dataBuffer ? processData(dataBuffer) : null;
+	$: if (processedData) $data = processedData
 	async function openController() {
 		if (!navigator.hid) return;
 		const hid = navigator.hid;

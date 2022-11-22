@@ -15,7 +15,7 @@
 	$: minDimension = Math.min(width, height);
 
 	$: render = ({ context, width, height }: RenderInterface) => {
-		if (!$data) return;
+		if (!($data)) return;
 
 		const canvasOrigin = {
 			x: width / 2,
@@ -75,15 +75,21 @@
 </script>
 
 <div
-	class="w-full h-full"
+	class="camera-container"
 	bind:clientWidth={width}
 	bind:clientHeight={height}
 >
 	<Canvas
-		style="margin: 0 auto; padding: 2rem;"
 		width={minDimension}
 		height={minDimension}
 	>
 		<Layer {render} />
 	</Canvas>
 </div>
+
+<style>
+	.camera-container {
+		width: 100%;
+		height: 100%;
+	}
+</style>
