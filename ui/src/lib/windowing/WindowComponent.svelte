@@ -11,6 +11,7 @@
 	export let width = 200;
 	export let height = 200;
 	export let color: string;
+	let snapSensativity = 50;
 	let thisTarget = false;
 	let windowX = 0;
 	let windowY = 0;
@@ -47,8 +48,14 @@
 			//special positions that perform special resizing actions with the mouse.
 			//check if the mouse is within 10 px of the edge
 			console.log(x, windowX);
-			if (clientX <= 50) {
+			if (clientX <= snapSensativity) {
 				x = 0;
+				y = 0;
+				height = windowY - toolsHeight;
+				width = windowX / 2;
+			}
+			if (clientX >= windowX - snapSensativity) {
+				x = windowX - windowX / 2;
 				y = 0;
 				height = windowY - toolsHeight;
 				width = windowX / 2;
