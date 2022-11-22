@@ -24,7 +24,7 @@
 <svelte:window
 	on:mousemove={({ movementX, movementY }) => {
 		if (beingDragged) {
-			height += movementY;
+			height += movementY; //height += movementY > 200 ? height += movementY : height = 200;
 			width += movementX;
 		}
 	}}
@@ -128,10 +128,11 @@
 		height: 25px;
 		line-height: 25px;
 		display: flex;
+		flex-wrap: hide;
 		justify-content: center;
 		align-items: center;
 		text-align: center;
-		border-radius: 50%;
+		border-radius: 500000000000px; /*yum*/
 		background-color: #f3e5ed;
 	}
 
@@ -147,6 +148,7 @@
 		box-sizing: border-box;
 		background-clip: border-box;
 		justify-content: space-between;
+		flex-wrap: hide;
 		background-color: var(--color);
 	}
 </style>

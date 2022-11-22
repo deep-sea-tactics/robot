@@ -51,12 +51,29 @@
 			}
 		};
 	}
+	let bound = false;
 	let dataBuffer: DataView;
 	$: processedData = dataBuffer ? processData(dataBuffer) : null;
 	$: if (processedData) $data = processedData
+	//check if there is already an authorized controller
+	async function testController() {
+		let [device] = await navigator.hid.getDevices();
+		if (device.productId != 49685 || device.vendorId != 1133) {
+			return
+		}
+
+		await device.open();
+		bound = true;
+		device.addEventListener('inputreport', ({ data }) => {
+			dataBuffer = data;
+		});
+		console.log(device)
+	}
+	testController()
 	async function openController() {
 		if (!navigator.hid) return;
-		const hid = navigator.hid;
+		const hid = navigator.hid;;
+
 		const [device] = await hid.requestDevice({
 			filters: [
 				{
@@ -67,6 +84,7 @@
 		});
 
 		await device.open();
+		bound = true;
 		device.addEventListener('inputreport', ({ data }) => {
 			dataBuffer = data;
 		});
