@@ -4570,6 +4570,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"svelte-loading-spinners@npm:^0.3.4":
+  version: 0.3.4
+  resolution: "svelte-loading-spinners@npm:0.3.4"
+  checksum: 33584fd52c10ccef3937977865002c997bd98be8284108ab4e682303bedbeaebc37a8c2d6bd1a98a6ade7272c22b4a7a76c80f96bd9b643dc6fa4db36750da27
+  languageName: node
+  linkType: hard
+
 "svelte-persistent@npm:^0.0.1":
   version: 0.0.1
   resolution: "svelte-persistent@npm:0.0.1"
@@ -4901,6 +4908,7 @@ __metadata:
     svelte-awesome: ^3.0.0
     svelte-canvas: ^0.7.1
     svelte-check: ^2.9.2
+    svelte-loading-spinners: ^0.3.4
     svelte-persistent: ^0.0.1
     svelte-preprocess: ^4.10.7
     svelte-writable-derived: ^2.1.5

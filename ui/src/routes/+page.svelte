@@ -10,7 +10,7 @@
 	import WindowComponent from '$lib/windowing/WindowComponent.svelte';
 	import Taskbar from '$lib/windowing/Taskbar.svelte';
 	import { onDestroy } from 'svelte';
-  import { config } from '$lib/socket/webrtc';
+	import { config } from '$lib/socket/webrtc';
 
 	let mediaStream: MediaStream;
 
@@ -142,12 +142,10 @@
 			windowName="video"
 			height={400}
 			width={400}
-			color="#5DA9E9"
-			x={400}
+			color="#E1CE7A"
+			x={300}
 		>
-			<CameraDisplay
-				{mediaStream}
-			/>
+			<CameraDisplay {mediaStream} />
 		</WindowComponent>
 		<WindowComponent
 			color="#72E1D1"
@@ -180,7 +178,7 @@
 		flex-direction: column;
 		width: 100vw;
 		height: 100vh;
-		background-color: #fff0f9;
+		background-color: #ffd7ef;
 	}
 
 	.keybinds-holder {

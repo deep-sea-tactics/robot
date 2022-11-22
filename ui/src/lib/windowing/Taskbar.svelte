@@ -51,7 +51,7 @@
 		border-radius: 1rem;
 		width: calc(100vw - 4rem);
 		font-size: 1.5rem;
-		background-color: #d0f0f0;
+		background-color: #c2d0f3;
 	}
 
 	span {

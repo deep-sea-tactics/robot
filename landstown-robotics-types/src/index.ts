@@ -1,8 +1,8 @@
 /**
  * General X and Y position interface.
- * 
+ *
  * X and Y are between 0-100. 50 is in the middle.
- * 
+ *
  * 0y means backwards, 100y means forwards
  * 0x means left, 100x means right
  */

@@ -54,10 +54,13 @@
 	};
 
 	export let mediaStream: MediaStream;
-	export let classes = '';
+	let classes = '';
+	export let style = '';
 
-	export let width = 0;
-	export let height = 0;
+	export { classes as class };
+
+	let width = 0;
+	let height = 0;
 
 	function srcObject(node: HTMLVideoElement, stream: MediaStream) {
 		consola.info('webrtc: Initially shovelling in stream:', stream);
@@ -80,6 +83,8 @@
 {#if mediaStream}
 	<video
 		bind:this={video}
+		bind:clientWidth={width}
+		bind:clientHeight={height}
 		style="display: none"
 		use:srcObject={mediaStream}
 		on:play={() => {
@@ -99,6 +104,9 @@
 {/if}
 
 <canvas
+	{style}
+	{width}
+	{height}
 	class={classes}
 	bind:this={canvas}
 />
