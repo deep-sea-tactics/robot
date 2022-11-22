@@ -6,7 +6,7 @@
  * 0y means backwards, 100y means forwards
  * 0x means left, 100x means right
  */
- export interface Position {
+export interface Position {
 	x: number;
 	y: number;
 }

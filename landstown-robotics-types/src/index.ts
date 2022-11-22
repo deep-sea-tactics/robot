@@ -1,6 +1,6 @@
-import { ControllerData } from "./typings";
-export * from "./typings"
-export * from "./parse"
+import { ControllerData } from './typings';
+export * from './parse';
+export * from './typings';
 
 export const defaultControllerData: ControllerData = Object.freeze({
 	position: {
