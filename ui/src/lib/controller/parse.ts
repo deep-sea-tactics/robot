@@ -1,4 +1,4 @@
-import type { ControllerData } from './typings';
+import type { ControllerData } from 'landstown-robotics-types';
 
 const bool = (num: number) => num !== 0;
 
