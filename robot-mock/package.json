@@ -1,7 +1,13 @@
 {
 	"name": "robot-mock",
 	"packageManager": "yarn@3.2.3",
+	"type": "module",
+	"scripts": {
+		"start": "ts-node --esm --swc src/index.ts",
+		"dev": "nodemon -x \"yarn start\" -e .ts,.json"
+	},
 	"dependencies": {
+		"gl": "^6.0.1",
 		"three.js": "^0.77.1",
 		"wrtc": "^0.4.7"
 	},
