@@ -9,5 +9,6 @@
 		"skipLibCheck": true,
 		"sourceMap": true,
 		"strict": true
-	}
+	},
+	"include": ["src/**/*", "tests/**/*", "svelte.config.js", "vite.config.ts", "playwright.config.ts"]
 }

@@ -12,7 +12,7 @@ const io = new Server<ClientToServerMap, ServerToClientsMap>(port);
 /**
  * Starts the socket server
  */
-export const start = async (): Promise<void> => {
+export const start = (): void => {
 	let broadcaster: string;
 	consola.debug('Attempting to start socket server.');
 
