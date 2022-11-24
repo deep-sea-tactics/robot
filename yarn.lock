@@ -862,6 +862,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/gl@npm:^6.0.2":
+  version: 6.0.2
+  resolution: "@types/gl@npm:6.0.2"
+  checksum: f1141decfce882e294459c5793be293f0b430e2cfa3389fe63eef2d505f1c9490635d6e8175d101683069307bf677cfc9670554485fb1156d0f287930a4fcc5c
+  languageName: node
+  linkType: hard
+
 "@types/json-schema@npm:^7.0.9":
   version: 7.0.11
   resolution: "@types/json-schema@npm:7.0.11"
@@ -4087,11 +4094,13 @@ __metadata:
   dependencies:
     "@swc/core": ^1.3.18
     "@swc/helpers": ^0.4.13
+    "@types/gl": ^6.0.2
     "@types/node": ^18.11.9
     gl: ^6.0.1
     nodemon: ^2.0.20
     regenerator-runtime: ^0.13.11
-    three.js: ^0.77.1
+    socket.io-client: ^4.5.4
+    three: ^0.146.0
     ts-node: ^10.9.1
     typescript: ^4.9.3
     wrtc: ^0.4.7
@@ -4356,7 +4365,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"socket.io-parser@npm:~4.2.0":
+"socket.io-client@npm:^4.5.4":
+  version: 4.5.4
+  resolution: "socket.io-client@npm:4.5.4"
+  dependencies:
+    "@socket.io/component-emitter": ~3.1.0
+    debug: ~4.3.2
+    engine.io-client: ~6.2.3
+    socket.io-parser: ~4.2.1
+  checksum: 8320ce4a96e9c28318b17037e412746b1d612cfba653c3c321c0e49042f0be9aeb8de67d5861e45e9aad32407bb4dd204bfe199565d78d5320aaf65253371b7f
+  languageName: node
+  linkType: hard
+
+"socket.io-parser@npm:~4.2.0, socket.io-parser@npm:~4.2.1":
   version: 4.2.1
   resolution: "socket.io-parser@npm:4.2.1"
   dependencies:
@@ -4743,19 +4764,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"three.js@npm:^0.77.1":
-  version: 0.77.1
-  resolution: "three.js@npm:0.77.1"
-  dependencies:
-    three: 0.77.0
-  checksum: e56c3376d915bddc6720128998b0594583a7f0369d286fa08acd9cc6a99d10a6a3823c2c4999c7db6f4af1d3507f2d1bfd37138b25bc9ccd5859ac77f2dfb92e
-  languageName: node
-  linkType: hard
-
-"three@npm:0.77.0":
-  version: 0.77.0
-  resolution: "three@npm:0.77.0"
-  checksum: 185e1aeb5329bf64b23866be718a246b7f19fa59c3e8d46350672fad133ac315a1174a47282a5b1d8d4e9ba97e5a50eabf7c63a7b974390b1cccf76dfcb5ad66
+"three@npm:^0.146.0":
+  version: 0.146.0
+  resolution: "three@npm:0.146.0"
+  checksum: c6eb2005d97c599de7f4eccf73c4b1e8731c353ca3e7b9bf9d3bc2b52a8e288c59c06c148fd93df16df323b28938947227a37e07cc6fbe04aa8f8725e49caa8a
   languageName: node
   linkType: hard
 

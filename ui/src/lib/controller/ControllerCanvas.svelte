@@ -16,7 +16,7 @@
 
 	$: render = ({ context, width, height }: RenderInterface) => {
 		if (!$data) {
-			context.fillText("Press ^ to reconnected", width / 2, height / 2)
+			context.fillText('Press ^ to reconnected', width / 2, height / 2);
 
 			return;
 		}
