@@ -3,7 +3,7 @@ import equals from 'fast-deep-equal';
 import flyd from 'flyd';
 import type { ClientToServerMap, ServerToClientsMap } from 'landstown-robotics-types';
 import { Server } from 'socket.io';
-import { controllerData, mixedControllerData } from './controller/position.js';
+import { controllerData, mixedControllerData } from './position.js';
 
 const port = 3000;
 

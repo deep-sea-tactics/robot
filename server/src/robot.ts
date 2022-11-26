@@ -1,7 +1,7 @@
 import consola from 'consola';
 import flyd from 'flyd';
 import { Server } from 'socket.io';
-import { finalControllerData } from './controller/position.js';
+import { finalControllerData } from './position.js';
 const port = 9000;
 
 const controllerDelay = 20;
@@ -28,7 +28,7 @@ export function start(): void {
 	});
 
 	// Handle any conenction errors
-	// TODO engine needs typings
+	// NOTE engine needs typings
 	// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
 	robot.engine.on('connection_error', (err: { message: string }) => consola.warn(err.message));
 
