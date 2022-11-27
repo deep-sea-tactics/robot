@@ -913,10 +913,26 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/three@npm:^0.146.0":
+  version: 0.146.0
+  resolution: "@types/three@npm:0.146.0"
+  dependencies:
+    "@types/webxr": "*"
+  checksum: f8ea5ba032f6aaa1cb5ad7dfbbd13851e8cba04365bc7fa9a5320ea7e9a2538ea5f2426391f690f0465347ade15cc145d5dc84b1730d8cceea89f746231f667c
+  languageName: node
+  linkType: hard
+
 "@types/w3c-web-hid@npm:^1.0.3":
   version: 1.0.3
   resolution: "@types/w3c-web-hid@npm:1.0.3"
   checksum: 90ee1eeb2acf5d5ddf0b7acefd4f8aaa7d0175d991c3606a9ad62bdfa7a8de93665f5f6218dc4ecb34ea1d2f3e357813b315f46c1ea6b8aa1693e217e436c9b2
+  languageName: node
+  linkType: hard
+
+"@types/webxr@npm:*":
+  version: 0.5.0
+  resolution: "@types/webxr@npm:0.5.0"
+  checksum: 891af0e96a229f45584d89daa3101232862da2ded14076aa631b2e12deb4e4b91fa35ff8d8d5ab4613aa8adce0870bd32cd61f070c1bc70d37303c515e1ae6ac
   languageName: node
   linkType: hard
 
@@ -4103,6 +4119,7 @@ __metadata:
     "@swc/helpers": ^0.4.13
     "@types/gl": ^6.0.2
     "@types/node": ^18.11.9
+    "@types/three": ^0.146.0
     chalk: ^5.1.2
     gl: ^6.0.1
     nodemon: ^2.0.20

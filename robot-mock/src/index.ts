@@ -1,1 +1,1 @@
-import "./gl.js"
+import './gl.js';
