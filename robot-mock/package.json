@@ -7,6 +7,7 @@
 		"dev": "nodemon -x \"yarn start\" -e .ts,.json"
 	},
 	"dependencies": {
+		"chalk": "^5.1.2",
 		"gl": "^6.0.1",
 		"three": "^0.146.0",
 		"wrtc": "^0.4.7"

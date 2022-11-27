@@ -1424,6 +1424,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"chalk@npm:^5.1.2":
+  version: 5.1.2
+  resolution: "chalk@npm:5.1.2"
+  checksum: 804d7485e33531abe45b14e91026ceb5615974a8c04259ab0806f214a7666f6ea03e39ab124f7d5a0c78a83fda89005f236db3c5f10c2abe9ae875f7aa56bcb5
+  languageName: node
+  linkType: hard
+
 "chokidar@npm:>=3.0.0 <4.0.0, chokidar@npm:^3.4.1, chokidar@npm:^3.5.2":
   version: 3.5.3
   resolution: "chokidar@npm:3.5.3"
@@ -4096,6 +4103,7 @@ __metadata:
     "@swc/helpers": ^0.4.13
     "@types/gl": ^6.0.2
     "@types/node": ^18.11.9
+    chalk: ^5.1.2
     gl: ^6.0.1
     nodemon: ^2.0.20
     regenerator-runtime: ^0.13.11
