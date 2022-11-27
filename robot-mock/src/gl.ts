@@ -12,7 +12,7 @@ function createScene() {
 	const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
 	const cube = new THREE.Mesh(geometry, material);
 	scene.add(cube);
-	cube.rotation.set(0, Math.PI / 4, 0)
+	cube.rotation.set(0, Math.PI / 4, 0);
 
 	camera.position.z = 5;
 
@@ -66,7 +66,7 @@ function extractPixels(context: WebGLRenderingContext): RenderData {
 	const height = context.drawingBufferHeight;
 	const frameBufferPixels = new Uint8Array(width * height * 4);
 	context.readPixels(0, 0, width, height, context.RGBA, context.UNSIGNED_BYTE, frameBufferPixels);
-	
+
 	const pixels = new Uint8Array(width * height * 4);
 	for (let fbRow = 0; fbRow < height; fbRow += 1) {
 		const rowData = frameBufferPixels.subarray(fbRow * width * 4, (fbRow + 1) * width * 4);
