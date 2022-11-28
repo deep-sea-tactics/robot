@@ -51,7 +51,7 @@ function createScene(): SceneInstance {
 		scene,
 		camera,
 		step() {
-			rotation += 0.1;
+			rotation += 0.5;
 			box.rotation.set(0, rotation, 0);
 		},
 	};
@@ -68,4 +68,4 @@ setInterval(() => {
 	const pixels = extractPixels(renderer.getContext());
 	console.clear();
 	output(pixels);
-}, 1000 / 0.2);
+}, 1000 / 1);
