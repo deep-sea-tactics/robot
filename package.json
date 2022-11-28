@@ -4,8 +4,7 @@
 		"lint": "yarn format && eslint .",
 		"check": "dprint check && eslint .",
 		"format": "dprint fmt",
-		"dev": "bash ./run.sh",
-		"prepare": "husky install"
+		"dev": "bash ./run.sh"
 	},
 	"workspaces": [
 		"ui",
@@ -21,7 +20,6 @@
 		"eslint": "^8.28.0",
 		"eslint-config-prettier": "^8.5.0",
 		"eslint-plugin-svelte3": "^4.0.0",
-		"husky": "^8.0.2",
 		"prettier": "^2.7.1",
 		"prettier-plugin-svelte": "^2.8.1",
 		"svelte": "^3.53.1"
