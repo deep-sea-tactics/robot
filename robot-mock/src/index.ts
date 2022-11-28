@@ -1,5 +1,5 @@
-import { createRenderer, output, extractPixels } from './gl.js';
 import * as THREE from 'three';
+import { createRenderer, extractPixels, output } from './gl.js';
 interface SceneInstance {
 	scene: THREE.Scene;
 	camera: THREE.Camera;
