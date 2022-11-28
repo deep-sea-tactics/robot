@@ -4,22 +4,19 @@
 
 This is the repository for the LHS robotics challenge.
 
-To run, open VSCode (or gitpod, or github codespaces) and press `CTRL + SHIFT + B`
+To run, open VSCode (or gitpod, or github codespaces) and use `CTRL + SHIFT + B` -- select the `Development` build task.
 
 ## Components
-
-There are multiple components that make up
-this project.
 
 ### Server
 
 This is the main controller.
 
-It hosts the web service and the robot hooks into it. It also handles data processing and external devices such as controllers.
+It makes two `socket.io` hooks for the UI and the robot.
 
 ### UI
 
-This is the website. It acts as a user-friendly UI for managing the robot and viewing data sent out by the server.
+A user-friendly UI for managing the robot and receiving data from the controller.
 
 ### Robot (robot-py)
 
@@ -27,12 +24,8 @@ This is the robot controller. It hooks into the server and sends the processed d
 
 ## Contributing
 
-Run yarn and build typings using `./install.sh`
+Run `./install.sh` to install dependencies using yarn and build the project's Typings
 
-Use `./run.sh`, or use `CTRL + SHIFT + B` to test out the server and the UI.
+Use `./run.sh`, or use `CTRL + SHIFT + B` and select `Development` to test out the server and the UI.
 
 The project is made in TypeScript and it is encouraged to follow the IDE's reccomendations.
-
-## FAQ
-
-Can't use the controller on a linux machine? Use `./fix_controller.sh` to fix the controller.

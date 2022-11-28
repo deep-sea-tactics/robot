@@ -52,7 +52,7 @@ function createScene(): SceneInstance {
 		camera,
 		step() {
 			rotation += 0.5;
-			box.rotation.set(0, rotation, 0);
+			box.rotation.set(rotation / 2, rotation, rotation / 3);
 		},
 	};
 }
