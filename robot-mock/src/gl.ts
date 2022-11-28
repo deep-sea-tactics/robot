@@ -9,7 +9,7 @@ export function createRenderer({ height, width }: { height: number; width: numbe
 		width,
 		height,
 		addEventListener: () => undefined,
-		removeEventListener: () => undefined
+		removeEventListener: () => undefined,
 	};
 
 	const glInstance = gl(width, height, {

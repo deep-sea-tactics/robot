@@ -30,7 +30,8 @@
 		"**/*-lock.json",
 		"**/.svelte-kit",
 		"**/.husky/_",
-		"**/.yarn"
+		"**/.yarn",
+		"**/dist"
 	],
 	"plugins": [
 		"https://plugins.dprint.dev/typescript-0.77.0.wasm",

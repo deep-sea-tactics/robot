@@ -20,7 +20,7 @@
 		"autoprefixer": "^10.4.13",
 		"downloadjs": "^1.4.7",
 		"jimp": "^0.16.2",
-		"landstown-robotics-types": "1.0.0",
+		"landstown-robotics-types": "workspace:.",
 		"opencv-wasm": "^4.3.0-10",
 		"postcss": "^8.4.19",
 		"postcss-load-config": "^4.0.1",
