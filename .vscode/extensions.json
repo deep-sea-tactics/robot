@@ -4,6 +4,7 @@
 		"dbaeumer.vscode-eslint",
 		"esbenp.prettier-vscode",
 		"csstools.postcss",
-		"ms-python.python"
+		"ms-python.python",
+		"ms-azuretools.vscode-docker"
 	]
 }

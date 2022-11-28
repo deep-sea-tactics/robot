@@ -1,6 +1,8 @@
 {
 	"name": "Node.js & TypeScript",
-	"image": "mcr.microsoft.com/devcontainers/typescript-node:18",
+	"build": {
+		"dockerfile": "Dockerfile"
+	},
 
 	"forwardPorts": [4000],
 
@@ -19,7 +21,8 @@
 				"svelte.svelte-vscode",
 				"dbaeumer.vscode-eslint",
 				"esbenp.prettier-vscode",
-				"csstools.postcss"
+				"csstools.postcss",
+				"ms-azuretools.vscode-docker"
 			]
 		}
 	}
