@@ -143,6 +143,6 @@ renderer.render(scene, camera);
 setInterval(() => {
 	step?.();
 	renderer.render(scene, camera);
-	console.clear()
+	console.clear();
 	output(extractPixels(renderer.getContext()));
 }, 1000 / 10);
