@@ -3,7 +3,7 @@ import equals from 'fast-deep-equal';
 import flyd from 'flyd';
 import type { ClientToServerMap, ServerToClientsMap } from 'landstown-robotics-types';
 import { Server } from 'socket.io';
-import { controllerData, mixedControllerData } from './controller/position.js';
+import { controllerData, mixedControllerData } from './position.js';
 
 const port = 3000;
 
@@ -12,7 +12,7 @@ const io = new Server<ClientToServerMap, ServerToClientsMap>(port);
 /**
  * Starts the socket server
  */
-export const start = async (): Promise<void> => {
+export const start = (): void => {
 	let broadcaster: string;
 	consola.debug('Attempting to start socket server.');
 

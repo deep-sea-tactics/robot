@@ -20,7 +20,7 @@
 			this.computeFrame();
 			setTimeout(() => {
 				this.timerCallback();
-			}, 16); // TODO haha this is a really bad idea oh my god
+			}, 16); // NOTE i can only imagine the consequences of this
 		},
 
 		doLoad() {

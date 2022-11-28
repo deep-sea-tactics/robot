@@ -1,7 +1,8 @@
 {
 	"private": true,
 	"scripts": {
-		"lint": "dprint check && eslint .",
+		"lint": "yarn format && eslint .",
+		"check": "dprint check && eslint .",
 		"format": "dprint fmt",
 		"dev": "bash ./run.sh",
 		"prepare": "husky install"

@@ -3,8 +3,6 @@
 	import close from 'svelte-awesome/icons/close';
 	import { draggable } from '@neodrag/svelte';
 	import { windows, zIndex } from './Taskbar.svelte';
-	import { missing_component, time_ranges_to_array } from 'svelte/internal';
-	import Boolean from '$lib/controller/mimic/Boolean.svelte';
 
 	export let windowName: string;
 	export let x = 0;
@@ -40,7 +38,7 @@
 <svelte:window
 	bind:innerWidth={windowX}
 	bind:innerHeight={windowY}
-	on:mousemove={({ movementX, movementY, clientX, clientY }) => {
+	on:mousemove={({ clientX, clientY }) => {
 		currentMousePos = { x: clientX, y: clientY };
 		if (beingDragged) {
 			if (!disableWidthChange) {

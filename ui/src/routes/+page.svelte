@@ -5,7 +5,6 @@
 	import Icon from 'svelte-awesome';
 	import arrowUp from 'svelte-awesome/icons/arrowUp';
 	import { client } from '$lib/socket/socket';
-	import type { ControllerData } from 'landstown-robotics-types';
 	import consola from 'consola';
 
 	import WindowComponent from '$lib/windowing/WindowComponent.svelte';
@@ -16,11 +15,10 @@
 
 	let mediaStream: MediaStream;
 
-	let bound = false;
 	let dataBuffer: DataView | undefined;
 	$: processedData = dataBuffer ? processData(dataBuffer) : null;
 	$: if (processedData) $data = processedData;
-	//check if there is already an authorized controller
+
 	async function testController() {
 		let [device] = await navigator.hid.getDevices();
 		if (device.productId != 49685 || device.vendorId != 1133) {
@@ -28,7 +26,6 @@
 		}
 
 		await device.open();
-		bound = true;
 		device.addEventListener('inputreport', ({ data }) => {
 			dataBuffer = data;
 		});
@@ -49,7 +46,6 @@
 		});
 
 		await device.open();
-		bound = true;
 		device.addEventListener('inputreport', ({ data }) => {
 			dataBuffer = data;
 		});
