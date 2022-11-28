@@ -12,7 +12,7 @@
 	import Taskbar from '$lib/windowing/Taskbar.svelte';
 	import { onDestroy } from 'svelte';
 	import { config } from '$lib/socket/webrtc';
-  import { processData } from '$lib/controller/parse';
+	import { processData } from '$lib/controller/parse';
 
 	let mediaStream: MediaStream;
 

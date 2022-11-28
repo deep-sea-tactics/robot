@@ -12,15 +12,21 @@
 	export let width = 200;
 	export let height = 200;
 	export let color: string;
+	let minwidth = 200;
 	let snapSensativity = 50;
 	let thisTarget = false;
 	let windowX = 0;
 	let windowY = 0;
 	let toolsHeight = 0;
 	let savedWindowDetails = { x: 0, y: 0 };
+	let savedWindowPos = { x: 0, y: 0 };
 	let currentMousePos = { x: 0, y: 0 };
 	let originalMousePos = { x: 0, y: 0 };
 	$windows[windowName] = { enabled: true, color };
+	let heightOffset = false;
+	let widthOffset = false;
+	let disableHeightChange = false;
+	let disableWidthChange = false;
 
 	let beingDragged = false;
 	let localZIndex = $zIndex;
@@ -37,8 +43,39 @@
 	on:mousemove={({ movementX, movementY, clientX, clientY }) => {
 		currentMousePos = { x: clientX, y: clientY };
 		if (beingDragged) {
-			height = Math.max(savedWindowDetails.y + (currentMousePos.y - originalMousePos.y), 200);
-			width = Math.max(savedWindowDetails.x + (currentMousePos.x - originalMousePos.x), 200);
+			if (!disableWidthChange) {
+				if (!widthOffset) {
+					width = Math.max(
+						savedWindowDetails.x + (currentMousePos.x - originalMousePos.x),
+						minwidth
+					);
+				} else {
+					width = Math.max(
+						savedWindowDetails.x - (currentMousePos.x - originalMousePos.x),
+						minwidth
+					);
+					if (savedWindowDetails.x - (currentMousePos.x - originalMousePos.x) > 200) {
+						x = savedWindowPos.x + (currentMousePos.x - originalMousePos.x);
+					}
+				}
+			}
+			if (!disableHeightChange) {
+				if (!heightOffset) {
+					height = Math.max(
+						savedWindowDetails.y + (currentMousePos.y - originalMousePos.y),
+						minwidth
+					);
+				} else {
+					height = Math.max(
+						savedWindowDetails.y - (currentMousePos.y - originalMousePos.y),
+						minwidth
+					);
+					if (savedWindowDetails.y - (currentMousePos.y - originalMousePos.y) > 200) {
+						y = savedWindowPos.y + (currentMousePos.y - originalMousePos.y);
+					}
+				}
+			}
+
 			/* height = Math.max(height + movementY, 200);
 			width = Math.max(width + movementX, 200); */
 		}
@@ -72,6 +109,7 @@
 	}}
 	on:mousedown={event => {
 		savedWindowDetails = { x: width, y: height };
+		savedWindowPos = { x, y };
 		console.log(event.target);
 		originalMousePos = { ...currentMousePos };
 	}}
@@ -112,35 +150,99 @@
 			</div>
 		</div>
 		<div
-			class="dockable-resize BR {beingDragged ? 'dragging' : ''}"
+			class="dockable-resize BR CORNER {beingDragged ? 'dragging' : ''}"
 			on:mousedown|preventDefault={() => {
 				$zIndex++;
 				localZIndex = $zIndex;
 				beingDragged = true;
+				widthOffset = false;
+				heightOffset = false;
+				disableHeightChange = false;
+				disableWidthChange = false;
 			}}
 		/>
 		<div
-			class="dockable-resize TR {beingDragged ? 'dragging' : ''}"
+			class="dockable-resize TR CORNER {beingDragged ? 'dragging' : ''}"
 			on:mousedown|preventDefault={() => {
 				$zIndex++;
 				localZIndex = $zIndex;
 				beingDragged = true;
+				widthOffset = false;
+				heightOffset = true;
+				disableHeightChange = false;
+				disableWidthChange = false;
 			}}
 		/>
 		<div
-			class="dockable-resize BL {beingDragged ? 'dragging' : ''}"
+			class="dockable-resize BL CORNER {beingDragged ? 'dragging' : ''}"
 			on:mousedown|preventDefault={() => {
 				$zIndex++;
 				localZIndex = $zIndex;
 				beingDragged = true;
+				widthOffset = true;
+				heightOffset = false;
+				disableHeightChange = false;
+				disableWidthChange = false;
 			}}
 		/>
 		<div
-			class="dockable-resize TL {beingDragged ? 'dragging' : ''}"
+			class="dockable-resize TL CORNER {beingDragged ? 'dragging' : ''}"
 			on:mousedown|preventDefault={() => {
 				$zIndex++;
 				localZIndex = $zIndex;
 				beingDragged = true;
+				widthOffset = true;
+				heightOffset = true;
+				disableHeightChange = false;
+				disableWidthChange = false;
+			}}
+		/>
+		<div
+			class="dockable-resize TC HORIZONTAL {beingDragged ? 'dragging' : ''}"
+			on:mousedown|preventDefault={() => {
+				$zIndex++;
+				localZIndex = $zIndex;
+				beingDragged = true;
+				widthOffset = true;
+				heightOffset = true;
+				disableHeightChange = false;
+				disableWidthChange = true;
+			}}
+		/>
+		<div
+			class="dockable-resize BC HORIZONTAL {beingDragged ? 'dragging' : ''}"
+			on:mousedown|preventDefault={() => {
+				$zIndex++;
+				localZIndex = $zIndex;
+				beingDragged = true;
+				widthOffset = false;
+				heightOffset = false;
+				disableHeightChange = false;
+				disableWidthChange = true;
+			}}
+		/>
+		<div
+			class="dockable-resize LC VERTICLE {beingDragged ? 'dragging' : ''}"
+			on:mousedown|preventDefault={() => {
+				$zIndex++;
+				localZIndex = $zIndex;
+				beingDragged = true;
+				widthOffset = true;
+				heightOffset = false;
+				disableHeightChange = true;
+				disableWidthChange = false;
+			}}
+		/>
+		<div
+			class="dockable-resize RC VERTICLE {beingDragged ? 'dragging' : ''}"
+			on:mousedown|preventDefault={() => {
+				$zIndex++;
+				localZIndex = $zIndex;
+				beingDragged = true;
+				widthOffset = false;
+				heightOffset = false;
+				disableHeightChange = true;
+				disableWidthChange = false;
 			}}
 		/>
 		<div
@@ -153,8 +255,7 @@
 {/if}
 
 <style lang="scss">
-	$debug: true;
-
+	$debug: false;
 	.dockable-window {
 		position: fixed;
 		display: inline-block;
@@ -165,38 +266,88 @@
 		box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.2), 0 0 0 2px black;
 		cursor: move;
 	}
-	.BR {
-		bottom: 0;
-		right: 0;
+
+	//just a bunch of utility classes for window resizing. A little messy but um, I have no intention of fixing that.
+	.CORNER {
+		width: 1.2rem;
+		height: 1.2rem;
 		z-index: 10;
-		transform: translate(0.5rem, 0.5rem);
-	}
-	.TR {
-		top: 0;
-		right: 0;
-		z-index: 10;
-		transform: translate(0.5rem, -0.5rem);
-	}
-	.BL {
-		bottom: 0;
-		left: 0;
-		z-index: 10;
-		transform: translate(-0.5rem, 0.5rem);
-	}
-	.TL {
-		top: 0;
-		left: 0;
-		z-index: 10;
-		transform: translate(-0.5rem, -0.5rem);
-	}
-	.dockable-resize {
-		position: absolute;
-		cursor: se-resize;
-		width: 1.5rem;
-		height: 1.5rem;
 		@if $debug {
 			background-color: rgba(255, 0, 0, 0.5);
 		}
+	}
+	.HORIZONTAL {
+		height: 1.2rem;
+		width: 100%;
+		z-index: 9;
+		@if $debug {
+			background-color: rgba(255, 255, 0, 0.5);
+		}
+	}
+	.VERTICLE {
+		height: 100%;
+		width: 1.2rem;
+		z-index: 9;
+		@if $debug {
+			background-color: rgba(255, 255, 0, 0.5);
+		}
+	}
+	.BR {
+		//bottom right
+		bottom: 0;
+		right: 0;
+		cursor: se-resize;
+		transform: translate(0.5rem, 0.5rem);
+	}
+	.TR {
+		//top right
+		top: 0;
+		right: 0;
+		cursor: sw-resize;
+		transform: translate(0.5rem, -0.5rem);
+	}
+	.BL {
+		//bottom left
+		bottom: 0;
+		left: 0;
+		cursor: sw-resize;
+		transform: translate(-0.5rem, 0.5rem);
+	}
+	.TL {
+		//top left
+		top: 0;
+		left: 0;
+		cursor: se-resize;
+		transform: translate(-0.5rem, -0.5rem);
+	}
+	.TC {
+		//top center
+		top: 0;
+		cursor: n-resize;
+		transform: translate(0rem, -0.5rem);
+	}
+	.BC {
+		//bottom center
+		bottom: 0;
+		cursor: n-resize;
+		transform: translate(0rem, 0.5rem);
+	}
+	.LC {
+		//left center
+		left: 0;
+		top: 0;
+		cursor: e-resize;
+		transform: translate(-0.5rem, 0rem);
+	}
+	.RC {
+		//right center
+		right: 0;
+		top: 0;
+		cursor: e-resize;
+		transform: translate(0.5rem, 0rem);
+	}
+	.dockable-resize {
+		position: absolute;
 	}
 
 	@if $debug {
