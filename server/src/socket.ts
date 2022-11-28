@@ -1,6 +1,5 @@
 import consola from 'consola';
 import equals from 'fast-deep-equal';
-import flyd from 'flyd';
 import type { ClientToServerMap, ServerToClientsMap } from 'landstown-robotics-types';
 import { Server } from 'socket.io';
 import { controllerData, mixedControllerData } from './position.js';
@@ -52,10 +51,6 @@ export const start = (): void => {
 			socket.to(id).emit('candidate', socket.id, message);
 		});
 	});
-
-	flyd.on(change => {
-		io.emit(`controllerData`, change);
-	}, controllerData);
 
 	consola.info(`Socket listening to ${port}`);
 };
