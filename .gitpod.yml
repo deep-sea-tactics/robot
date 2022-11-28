@@ -2,7 +2,7 @@ tasks:
   - name: Install
     init: |
       sudo apt-get update
-      sudo apt install coturn
+      sudo apt-get install coturn libgl1-mesa-dev xvfb
       ./install.sh
   - command: echo Done installing! Now press CTRL + SHIFT + B
 ports:

@@ -3,7 +3,7 @@
 	"packageManager": "yarn@3.2.3",
 	"type": "module",
 	"scripts": {
-		"start": "ts-node --esm --swc src/index.ts",
+		"start": "xvfb-run -s \"-ac -screen 0 1280x1024x24\" ts-node --esm --swc src/index.ts",
 		"dev": "nodemon -x \"yarn start\" -e .ts,.json"
 	},
 	"dependencies": {
