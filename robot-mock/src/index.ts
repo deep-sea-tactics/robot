@@ -68,4 +68,4 @@ setInterval(() => {
 	const pixels = extractPixels(renderer.getContext());
 	console.clear();
 	output(pixels);
-}, 1000 / 10);
+}, 1000 / 0.2);
