@@ -10,6 +10,7 @@
 	export let width = 200;
 	export let height = 200;
 	export let color: string;
+	export let open = true;
 	let minWidth = 200;
 	let snapSensitivity = 50;
 	let windowX = 0;
@@ -29,10 +30,14 @@
 	let beingResized = false;
 	let localZIndex = $zIndex;
 
-	const disable = () => {
+	let disable = () => {
 		$windows[windowName] = { ...$windows[windowName], enabled: false };
 		$windows = $windows;
 	};
+
+	if (!open) {
+		disable()
+	}
 
 	function drag(
 		/** If, when dragging, should the X position be translated (X modified) instead of just changing width */

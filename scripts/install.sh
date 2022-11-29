@@ -9,4 +9,6 @@ fi
 
 yarn
 
+pip3 install -r .devcontainer/requirements.txt
+
 (cd landstown-robotics-types; yarn build)
