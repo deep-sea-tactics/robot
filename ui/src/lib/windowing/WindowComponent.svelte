@@ -10,6 +10,7 @@
 	export let width = 200;
 	export let height = 200;
 	export let color: string;
+	export let open = true;
 	let minWidth = 200;
 	let snapSensitivity = 50;
 	let windowX = 0;
@@ -29,10 +30,14 @@
 	let beingResized = false;
 	let localZIndex = $zIndex;
 
-	const disable = () => {
+	let disable = () => {
 		$windows[windowName] = { ...$windows[windowName], enabled: false };
 		$windows = $windows;
 	};
+
+	if (!open) {
+		disable()
+	}
 
 	function drag(
 		/** If, when dragging, should the X position be translated (X modified) instead of just changing width */
@@ -43,7 +48,7 @@
 		shouldDisableWidthChange: boolean
 	) {
 		return (event: Event) => {
-			event.preventDefault()
+			event.preventDefault();
 			$zIndex++;
 			beingDragged = true;
 			localZIndex = $zIndex;
@@ -51,7 +56,7 @@
 			heightOffset = shouldTransformY;
 			disableHeightChange = shouldDisableHeightChange;
 			disableWidthChange = shouldDisableWidthChange;
-		}
+		};
 	}
 </script>
 
@@ -162,10 +167,10 @@
 				<Icon data={close} />
 			</div>
 		</div>
-		{#each ["BR", "TR", "BL", "TL"] as location}
+		{#each ['BR', 'TR', 'BL', 'TL'] as location}
 			<div
 				class="dockable-resize {location} corner {beingDragged ? 'dragging' : ''}"
-				on:mousedown={drag(location[1] == "L", location[0] == "T", false, false)}
+				on:mousedown={drag(location[1] == 'L', location[0] == 'T', false, false)}
 			/>
 		{/each}
 		{#each ["T", "B", "L", "R"] as location}
@@ -189,10 +194,10 @@
 		position: fixed;
 		display: inline-block;
 		flex-wrap: nowrap;
-		border-radius: 1rem;
-		background-color: #fff0f9;
+		border-radius: 5px;
+		background-color: #FFFFFF;
 		// We don't use border here because a border will leave a small gap
-		box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.2), 0 0 0 2px black;
+		box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.2); 
 		cursor: move;
 	}
 
@@ -297,18 +302,16 @@
 		justify-content: center;
 		align-items: center;
 		text-align: center;
-		border-radius: 100%;
-		background-color: #f3e5ed;
 	}
 
 	.dockable-icon:hover {
-		background-color: #f3e5ed;
+		color: rgba(255, 0, 0, 0.8);
 	}
 
 	.dockable-tools {
 		display: flex;
 		padding: 0.5rem;
-		border-radius: 1rem 1rem 0 0;
+		border-radius: 5px 5px 0 0;
 		object-fit: contain;
 		box-sizing: border-box;
 		background-clip: border-box;

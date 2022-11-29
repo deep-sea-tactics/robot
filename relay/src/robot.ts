@@ -1,7 +1,7 @@
 import consola from 'consola';
 import flyd from 'flyd';
 import { Server } from 'socket.io';
-import { finalControllerData } from './position.js';
+import { controllerData } from './position.js';
 const port = 9000;
 
 const controllerDelay = 20;
@@ -18,7 +18,7 @@ export function start(): void {
 			robot.emit('controllerData', JSON.stringify(change));
 			lastChange = Date.now();
 		}
-	}, finalControllerData);
+	}, controllerData);
 
 	robot.on('connection', robotClient => {
 		consola.info(`Robot connected! ID: ${robotClient.id}`);

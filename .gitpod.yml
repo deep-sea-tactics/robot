@@ -1,10 +1,9 @@
 tasks:
   - name: Install
-    init: |
-      sudo apt-get update
-      sudo apt-get install coturn libgl1-mesa-dev xvfb
-      ./install.sh
+    init: ./install.sh
   - command: echo Done installing! Now press CTRL + SHIFT + B
+image:
+  file: .gitpod.Dockerfile
 ports:
   - port: 4000
     onOpen: notify

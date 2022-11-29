@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Canvas, Layer } from 'svelte-canvas';
-	import { data } from './controller';
+	import { data, controllerConnected } from './controller';
 
 	interface RenderInterface {
 		context: CanvasRenderingContext2D;
@@ -16,7 +16,7 @@
 
 	$: render = ({ context, width, height }: RenderInterface) => {
 		if (!$data) {
-			context.fillText('Press ^ to reconnected', width / 2, height / 2);
+			context.fillText('Input needed', width / 2, height / 2);
 
 			return;
 		}
@@ -31,7 +31,7 @@
 			y: $data.position.y * (height / 100)
 		};
 
-		context.fillStyle = `rgba(0, 200, 0, 0.2)`;
+		context.fillStyle = $controllerConnected ? `rgba(0, 200, 0, 0.2)` : `rgba(200, 0, 0, 0.2)`;
 
 		// Add throttle
 		context.fillRect(
@@ -42,8 +42,9 @@
 		);
 
 		// Base stroke style
-		context.strokeStyle = `rgb(50, 168, 96)`;
-		context.fillStyle = `rgb(50, 168, 96)`;
+		const style = $controllerConnected ? "rgb(50, 168, 96)" : "rgb(212 82 12)"
+		context.strokeStyle = style;
+		context.fillStyle = style;
 
 		// Create a line between the center of the circle and the mouse's position
 		context.beginPath();
