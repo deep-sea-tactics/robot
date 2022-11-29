@@ -159,7 +159,7 @@
 		flex-direction: column;
 		width: 100vw;
 		height: 100vh;
-		background-color: #ffd7ef;
+		background-color: white;
 	}
 
 	.keybinds-holder {
