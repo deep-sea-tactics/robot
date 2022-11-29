@@ -5,5 +5,6 @@
 		font-size: 1.2rem;
 		height: 100%;
 		width: 100%;
+		resize: none;
 	}
 </style>
