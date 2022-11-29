@@ -361,7 +361,7 @@
 		justify-content: center;
 		align-items: center;
 		text-align: center;
-		border-radius: 500000000000px; /*yum*/
+		border-radius: 100%;
 		background-color: #f3e5ed;
 	}
 
