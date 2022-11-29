@@ -4,6 +4,16 @@ import { writable } from 'svelte/store';
 /* A position from 0-100 on two axises, where 0 is the top left and 100 is the bottom right. */
 export const data = writable<ControllerData | undefined>(undefined);
 
+export const controllerConnected = writable<boolean>(false);
+
+window.addEventListener("gamepadconnected", (e) => {
+  if (e.gamepad.id.includes("Logitech Extreme 3D")) controllerConnected.set(true)
+});
+
+window.addEventListener("gamepaddisconnected", (e) => {
+  if (e.gamepad.id.includes("Logitech Extreme 3D")) controllerConnected.set(false)
+});
+
 function grabController() {
 	const gamepads = navigator.getGamepads();
 
