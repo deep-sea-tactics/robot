@@ -35,17 +35,20 @@
 	};
 
 	function drag(
-		toWidthOffset: boolean,
-		toHeightOffset: boolean,
+		/** If, when dragging, should the X position be translated (X modified) instead of just changing width */
+		shouldTransformX: boolean,
+		/** If, when dragging, should the Y position be translated (Y modified) instead of just changing height */
+		shouldTransformY: boolean,
 		shouldDisableHeightChange: boolean,
 		shouldDisableWidthChange: boolean
 	) {
-		return () => {
+		return (event: Event) => {
+			event.preventDefault()
 			$zIndex++;
 			beingDragged = true;
 			localZIndex = $zIndex;
-			widthOffset = toWidthOffset;
-			heightOffset = toHeightOffset;
+			widthOffset = shouldTransformX;
+			heightOffset = shouldTransformY;
 			disableHeightChange = shouldDisableHeightChange;
 			disableWidthChange = shouldDisableWidthChange;
 		}
@@ -159,37 +162,27 @@
 				<Icon data={close} />
 			</div>
 		</div>
+		{#each ["BR", "TR", "BL", "TL"] as location}
+			<div
+				class="dockable-resize {location} corner {beingDragged ? 'dragging' : ''}"
+				on:mousedown={drag(location[1] == "L", location[0] == "T", false, false)}
+			/>
+		{/each}
 		<div
-			class="dockable-resize BR corner {beingDragged ? 'dragging' : ''}"
-			on:mousedown|preventDefault={drag(false, false, false, false)}
+			class="dockable-resize TC horizontal-grabber {beingDragged ? 'dragging' : ''}"
+			on:mousedown={drag(true, true, false, true)}
 		/>
 		<div
-			class="dockable-resize TR corner {beingDragged ? 'dragging' : ''}"
-			on:mousedown|preventDefault={drag(false, true, false, false)}
+			class="dockable-resize BC horizontal-grabber {beingDragged ? 'dragging' : ''}"
+			on:mousedown={drag(false, false, false, true)}
 		/>
 		<div
-			class="dockable-resize BL corner {beingDragged ? 'dragging' : ''}"
-			on:mousedown|preventDefault={drag(true, false, false, false)}
+			class="dockable-resize LC vertical-grabber {beingDragged ? 'dragging' : ''}"
+			on:mousedown={drag(true, false, true, false)}
 		/>
 		<div
-			class="dockable-resize TL corner {beingDragged ? 'dragging' : ''}"
-			on:mousedown|preventDefault={drag(true, true, false, false)}
-		/>
-		<div
-			class="dockable-resize TC horizontal {beingDragged ? 'dragging' : ''}"
-			on:mousedown|preventDefault={drag(true, true, false, true)}
-		/>
-		<div
-			class="dockable-resize BC horizontal {beingDragged ? 'dragging' : ''}"
-			on:mousedown|preventDefault={drag(false, false, false, true)}
-		/>
-		<div
-			class="dockable-resize LC vertical {beingDragged ? 'dragging' : ''}"
-			on:mousedown|preventDefault={drag(true, false, true, false)}
-		/>
-		<div
-			class="dockable-resize RC vertical {beingDragged ? 'dragging' : ''}"
-			on:mousedown|preventDefault={drag(false, false, true, false)}
+			class="dockable-resize RC vertical-grabber {beingDragged ? 'dragging' : ''}"
+			on:mousedown={drag(false, false, true, false)}
 		/>
 		<div
 			class="dockable-content"
@@ -222,7 +215,7 @@
 			background-color: rgba(255, 0, 0, 0.5);
 		}
 	}
-	.horizontal {
+	.horizontal-grabber {
 		height: 1.2rem;
 		width: 100%;
 		z-index: 9;
@@ -230,7 +223,7 @@
 			background-color: rgba(255, 255, 0, 0.5);
 		}
 	}
-	.vertical {
+	.vertical-grabber {
 		height: 100%;
 		width: 1.2rem;
 		z-index: 9;
