@@ -12,7 +12,6 @@
 	export let color: string;
 	let minwidth = 200;
 	let snapSensativity = 50;
-	let thisTarget = false;
 	let windowX = 0;
 	let windowY = 0;
 	let toolsHeight = 0;
@@ -27,6 +26,7 @@
 	let disableWidthChange = false;
 
 	let beingDragged = false;
+	let beingResized = false;
 	let localZIndex = $zIndex;
 
 	const disable = () => {
@@ -73,9 +73,6 @@
 					}
 				}
 			}
-
-			/* height = Math.max(height + movementY, 200);
-			width = Math.max(width + movementX, 200); */
 		}
 	}}
 	on:selectstart={event => {
@@ -84,11 +81,9 @@
 			event.preventDefault();
 		}
 	}}
-	on:mouseup={({ clientX, clientY }) => {
+	on:mouseup={({ clientX }) => {
 		beingDragged = false;
-		if (thisTarget) {
-			//special positions that perform special resizing actions with the mouse.
-			//check if the mouse is within 10 px of the edge
+		if (beingResized) {
 			console.log(x, windowX);
 			if (clientX <= snapSensativity) {
 				x = 0;
@@ -102,7 +97,7 @@
 				height = windowY - toolsHeight;
 				width = windowX / 2;
 			}
-			thisTarget = false;
+			beingResized = false;
 		}
 	}}
 	on:mousedown={event => {
@@ -126,7 +121,7 @@
 				y = offsetY;
 			},
 			onDragStart: () => {
-				thisTarget = true;
+				beingResized = true;
 				localZIndex = $zIndex += 1;
 			}
 		}}
@@ -220,7 +215,7 @@
 			}}
 		/>
 		<div
-			class="dockable-resize LC VERTICLE {beingDragged ? 'dragging' : ''}"
+			class="dockable-resize LC vertical {beingDragged ? 'dragging' : ''}"
 			on:mousedown|preventDefault={() => {
 				$zIndex++;
 				localZIndex = $zIndex;
@@ -232,7 +227,7 @@
 			}}
 		/>
 		<div
-			class="dockable-resize RC VERTICLE {beingDragged ? 'dragging' : ''}"
+			class="dockable-resize RC vertical {beingDragged ? 'dragging' : ''}"
 			on:mousedown|preventDefault={() => {
 				$zIndex++;
 				localZIndex = $zIndex;
@@ -282,7 +277,7 @@
 			background-color: rgba(255, 255, 0, 0.5);
 		}
 	}
-	.VERTICLE {
+	.vertical {
 		height: 100%;
 		width: 1.2rem;
 		z-index: 9;
@@ -301,7 +296,7 @@
 		//top right
 		top: 0;
 		right: 0;
-		cursor: sw-resize;
+		cursor: ne-resize;
 		transform: translate(0.5rem, -0.5rem);
 	}
 	.BL {
@@ -315,7 +310,7 @@
 		//top left
 		top: 0;
 		left: 0;
-		cursor: se-resize;
+		cursor: nw-resize;
 		transform: translate(-0.5rem, -0.5rem);
 	}
 	.TC {
@@ -327,14 +322,14 @@
 	.BC {
 		//bottom center
 		bottom: 0;
-		cursor: n-resize;
+		cursor: s-resize;
 		transform: translate(0rem, 0.5rem);
 	}
 	.LC {
 		//left center
 		left: 0;
 		top: 0;
-		cursor: e-resize;
+		cursor: w-resize;
 		transform: translate(-0.5rem, 0rem);
 	}
 	.RC {
