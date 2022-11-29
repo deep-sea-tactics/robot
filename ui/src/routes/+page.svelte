@@ -2,8 +2,6 @@
 	import CameraDisplay from '$lib/camera/CameraDisplay.svelte';
 	import ControllerCanvas from '$lib/controller/ControllerCanvas.svelte';
 	import { data } from '$lib/controller/controller';
-	import Icon from 'svelte-awesome';
-	import arrowUp from 'svelte-awesome/icons/arrowUp';
 	import { client } from '$lib/socket/socket';
 	import consola from 'consola';
 
@@ -11,47 +9,10 @@
 	import Taskbar from '$lib/windowing/Taskbar.svelte';
 	import { onDestroy } from 'svelte';
 	import { config } from '$lib/socket/webrtc';
-	import { processData } from '$lib/controller/parse';
 
 	let mediaStream: MediaStream;
 
-	let dataBuffer: DataView | undefined;
-	$: processedData = dataBuffer ? processData(dataBuffer) : null;
-	$: if (processedData) $data = processedData;
-
-	async function testController() {
-		let [device] = await navigator.hid.getDevices();
-		if (device.productId != 49685 || device.vendorId != 1133) {
-			return;
-		}
-
-		await device.open();
-		device.addEventListener('inputreport', ({ data }) => {
-			dataBuffer = data;
-		});
-		console.log(device);
-	}
-	testController();
-	async function openController() {
-		if (!navigator.hid) return;
-		const hid = navigator.hid;
-
-		const [device] = await hid.requestDevice({
-			filters: [
-				{
-					vendorId: 1133,
-					productId: 49685
-				}
-			]
-		});
-
-		await device.open();
-		device.addEventListener('inputreport', ({ data }) => {
-			dataBuffer = data;
-		});
-	}
-
-	$: if (processedData) client.emit(`controllerData`, processedData);
+	$: if ($data) client.emit(`controllerData`, $data);
 
 	let peerConnection: RTCPeerConnection;
 	let candidates: RTCIceCandidate[] = [];
@@ -112,7 +73,7 @@
 <svelte:window
 	on:keydown={event => {
 		if (event.key == 'ArrowUp') {
-			openController();
+			// do something
 		}
 	}}
 />
@@ -136,8 +97,8 @@
 		>
 			<div class="keybinds-wrap">
 				<div class="keybinds-holder">
-					<Icon data={arrowUp} />
-					<p>Enable Controller</p>
+					<!-- <Icon data={arrowUp} />
+					<p>Some action</p> -->
 				</div>
 			</div>
 		</WindowComponent>
@@ -170,9 +131,9 @@
 		text-align: left;
 		margin: 5px;
 	}
-	.keybinds-holder p {
+	/* .keybinds-holder p {
 		margin-left: 10px;
 		flex-grow: 1;
 		flex-shrink: 1;
-	}
+	} */
 </style>
