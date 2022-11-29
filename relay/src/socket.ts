@@ -2,7 +2,7 @@ import consola from 'consola';
 import equals from 'fast-deep-equal';
 import type { ClientToServerMap, ServerToClientsMap } from 'landstown-robotics-types';
 import { Server } from 'socket.io';
-import { controllerData, mixedControllerData } from './position.js';
+import { controllerData } from './position.js';
 
 const port = 3000;
 
@@ -19,8 +19,7 @@ export const start = (): void => {
 		// The client has connected
 		consola.info(`Client connected to web interface. (ID: ${socket.id})`);
 
-		socket.on('dataOverride', mixedControllerData);
-		socket.on('clientControllerData', data => {
+		socket.on('controllerData', data => {
 			if (equals(controllerData(), data)) return;
 			controllerData(data);
 		});

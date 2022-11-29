@@ -50,8 +50,7 @@ export interface ServerToClientsMap {
 }
 
 export interface ClientToServerMap {
-	dataOverride: (data: Partial<ControllerData>) => void;
-	clientControllerData: (data: ControllerData) => void;
+	controllerData: (data: ControllerData) => void;
 	/** A broadcaster is ready to broadcast */
 	broadcaster: () => void;
 	watcher: () => void;

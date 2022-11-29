@@ -43,7 +43,7 @@
 		shouldDisableWidthChange: boolean
 	) {
 		return (event: Event) => {
-			event.preventDefault()
+			event.preventDefault();
 			$zIndex++;
 			beingDragged = true;
 			localZIndex = $zIndex;
@@ -51,7 +51,7 @@
 			heightOffset = shouldTransformY;
 			disableHeightChange = shouldDisableHeightChange;
 			disableWidthChange = shouldDisableWidthChange;
-		}
+		};
 	}
 </script>
 
@@ -162,10 +162,10 @@
 				<Icon data={close} />
 			</div>
 		</div>
-		{#each ["BR", "TR", "BL", "TL"] as location}
+		{#each ['BR', 'TR', 'BL', 'TL'] as location}
 			<div
 				class="dockable-resize {location} corner {beingDragged ? 'dragging' : ''}"
-				on:mousedown={drag(location[1] == "L", location[0] == "T", false, false)}
+				on:mousedown={drag(location[1] == 'L', location[0] == 'T', false, false)}
 			/>
 		{/each}
 		<div

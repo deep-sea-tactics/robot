@@ -51,7 +51,7 @@
 		});
 	}
 
-	$: if (processedData) client.emit(`clientControllerData`, processedData);
+	$: if (processedData) client.emit(`controllerData`, processedData);
 
 	let peerConnection: RTCPeerConnection;
 	let candidates: RTCIceCandidate[] = [];
