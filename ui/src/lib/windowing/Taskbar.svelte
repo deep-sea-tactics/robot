@@ -11,6 +11,7 @@
 
 	export const zIndex = writable(0);
 	export const windows = writable<{ [key: string]: WindowInfo }>({});
+	let taskBarIconTransparency = 30;
 </script>
 
 <div class="taskbar">
@@ -18,7 +19,7 @@
 		{#each Object.entries($windows) as [name, data]}
 			{#if !data.enabled}
 				<span
-					style="--color: {data.color}"
+					style="--bgcolor: {data.color}{taskBarIconTransparency.toString(16)}; --color: {data.color}; cursor: pointer;"
 					on:click={() => ($windows[name] = { ...data, enabled: true })}
 					on:keydown={event => {
 						if (event.key == 'Enter') $windows[name] = { ...data, enabled: true };
@@ -27,7 +28,7 @@
 			{/if}
 		{/each}
 	{:else}
-		<span class="none">No windows yet</span>
+		<span class="none">No closed windows yet</span>
 	{/if}
 </div>
 
@@ -37,28 +38,27 @@
 
 <style>
 	.none {
-		color: rgb(60, 60, 60);
-		font-style: italic;
+		color: rgb(255, 255, 255);
 	}
 
 	.taskbar {
-		border: 2px solid black;
 		display: block;
 		flex-shrink: 1;
+		bottom: 0;
 		padding: 1rem;
-		margin: 2rem;
 		margin-bottom: 0;
-		border-radius: 1rem;
-		width: calc(100vw - 4rem);
+		width: 100vw;
 		font-size: 1.5rem;
-		background-color: #c2d0f3;
+		background-color: rgba(31, 31, 31, 100);
 		position: absolute;
+		z-index: 1000000000;
 	}
 
 	span {
-		background-color: var(--color);
+		background-color: var(--bgcolor);
+		color: var(--color);
 		padding: 0.5rem;
-		border-radius: 1rem;
+		border-radius: 5px;
 		margin-right: 1rem;
 	}
 

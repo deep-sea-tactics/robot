@@ -199,10 +199,10 @@
 		position: fixed;
 		display: inline-block;
 		flex-wrap: nowrap;
-		border-radius: 1rem;
-		background-color: #fff0f9;
+		border-radius: 5px;
+		background-color: #f1f1f1;
 		// We don't use border here because a border will leave a small gap
-		box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.2), 0 0 0 2px black;
+		box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.2); 
 		cursor: move;
 	}
 
@@ -307,18 +307,16 @@
 		justify-content: center;
 		align-items: center;
 		text-align: center;
-		border-radius: 100%;
-		background-color: #f3e5ed;
 	}
 
 	.dockable-icon:hover {
-		background-color: #f3e5ed;
+		color: rgba(255, 0, 0, 0.8);
 	}
 
 	.dockable-tools {
 		display: flex;
 		padding: 0.5rem;
-		border-radius: 1rem 1rem 0 0;
+		border-radius: 5px 5px 0 0;
 		object-fit: contain;
 		box-sizing: border-box;
 		background-clip: border-box;
