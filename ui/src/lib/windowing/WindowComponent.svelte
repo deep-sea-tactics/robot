@@ -168,22 +168,12 @@
 				on:mousedown={drag(location[1] == "L", location[0] == "T", false, false)}
 			/>
 		{/each}
-		<div
-			class="dockable-resize TC horizontal-grabber {beingDragged ? 'dragging' : ''}"
-			on:mousedown={drag(true, true, false, true)}
-		/>
-		<div
-			class="dockable-resize BC horizontal-grabber {beingDragged ? 'dragging' : ''}"
-			on:mousedown={drag(false, false, false, true)}
-		/>
-		<div
-			class="dockable-resize LC vertical-grabber {beingDragged ? 'dragging' : ''}"
-			on:mousedown={drag(true, false, true, false)}
-		/>
-		<div
-			class="dockable-resize RC vertical-grabber {beingDragged ? 'dragging' : ''}"
-			on:mousedown={drag(false, false, true, false)}
-		/>
+		{#each ["T", "B", "L", "R"] as location}
+			<div
+				class="dockable-resize {location + "C"} {["T", "B"].includes(location) ? "horizontal" : "vertical"}-grabber {beingDragged ? 'dragging' : ''}"
+				on:mousedown={drag(["T", "L"].includes(location), ["T", "R"].includes(location), ["L", "R"].includes(location), ["T", "B"].includes(location))}
+			/>
+		{/each}
 		<div
 			class="dockable-content"
 			style="height: {height}px; width: {width}px"
