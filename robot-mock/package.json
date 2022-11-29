@@ -4,6 +4,7 @@
 	"type": "module",
 	"scripts": {
 		"start": "xvfb-run -s \"-ac -screen 0 1280x1024x24\" ts-node --esm --swc src/index.ts",
+		"start-native": "ts-node --esm --swc src/index.ts",
 		"dev": "nodemon -x \"yarn start\" -e .ts,.json"
 	},
 	"dependencies": {

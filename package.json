@@ -8,7 +8,7 @@
 	},
 	"workspaces": [
 		"ui",
-		"server",
+		"relay",
 		"landstown-robotics-types",
 		"robot-mock"
 	],

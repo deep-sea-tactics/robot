@@ -8,9 +8,9 @@ To run, open VSCode (or gitpod, or github codespaces) and use `CTRL + SHIFT + B`
 
 ## Components
 
-### Server
+### Relay
 
-This is the main controller.
+This is the packet relay.
 
 It makes two `socket.io` hooks for the UI and the robot.
 
