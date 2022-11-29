@@ -86,7 +86,7 @@
 			width={400}
 			color="#E1CE7A"
 			x={300}
-			open={false}
+			open={true}
 		>
 			<CameraDisplay {mediaStream} />
 		</WindowComponent>
