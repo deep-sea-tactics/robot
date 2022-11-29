@@ -10,8 +10,8 @@
 	export let width = 200;
 	export let height = 200;
 	export let color: string;
-	let minwidth = 200;
-	let snapSensativity = 50;
+	let minWidth = 200;
+	let snapSensitivity = 50;
 	let windowX = 0;
 	let windowY = 0;
 	let toolsHeight = 0;
@@ -33,6 +33,23 @@
 		$windows[windowName] = { ...$windows[windowName], enabled: false };
 		$windows = $windows;
 	};
+
+	function drag(
+		toWidthOffset: boolean,
+		toHeightOffset: boolean,
+		shouldDisableHeightChange: boolean,
+		shouldDisableWidthChange: boolean
+	) {
+		return () => {
+			$zIndex++;
+			beingDragged = true;
+			localZIndex = $zIndex;
+			widthOffset = toWidthOffset;
+			heightOffset = toHeightOffset;
+			disableHeightChange = shouldDisableHeightChange;
+			disableWidthChange = shouldDisableWidthChange;
+		}
+	}
 </script>
 
 <svelte:window
@@ -45,12 +62,12 @@
 				if (!widthOffset) {
 					width = Math.max(
 						savedWindowDetails.x + (currentMousePos.x - originalMousePos.x),
-						minwidth
+						minWidth
 					);
 				} else {
 					width = Math.max(
 						savedWindowDetails.x - (currentMousePos.x - originalMousePos.x),
-						minwidth
+						minWidth
 					);
 					if (savedWindowDetails.x - (currentMousePos.x - originalMousePos.x) > 200) {
 						x = savedWindowPos.x + (currentMousePos.x - originalMousePos.x);
@@ -61,12 +78,12 @@
 				if (!heightOffset) {
 					height = Math.max(
 						savedWindowDetails.y + (currentMousePos.y - originalMousePos.y),
-						minwidth
+						minWidth
 					);
 				} else {
 					height = Math.max(
 						savedWindowDetails.y - (currentMousePos.y - originalMousePos.y),
-						minwidth
+						minWidth
 					);
 					if (savedWindowDetails.y - (currentMousePos.y - originalMousePos.y) > 200) {
 						y = savedWindowPos.y + (currentMousePos.y - originalMousePos.y);
@@ -85,13 +102,13 @@
 		beingDragged = false;
 		if (beingResized) {
 			console.log(x, windowX);
-			if (clientX <= snapSensativity) {
+			if (clientX <= snapSensitivity) {
 				x = 0;
 				y = 0;
 				height = windowY - toolsHeight;
 				width = windowX / 2;
 			}
-			if (clientX >= windowX - snapSensativity) {
+			if (clientX >= windowX - snapSensitivity) {
 				x = windowX - windowX / 2;
 				y = 0;
 				height = windowY - toolsHeight;
@@ -143,100 +160,36 @@
 			</div>
 		</div>
 		<div
-			class="dockable-resize BR CORNER {beingDragged ? 'dragging' : ''}"
-			on:mousedown|preventDefault={() => {
-				$zIndex++;
-				localZIndex = $zIndex;
-				beingDragged = true;
-				widthOffset = false;
-				heightOffset = false;
-				disableHeightChange = false;
-				disableWidthChange = false;
-			}}
+			class="dockable-resize BR corner {beingDragged ? 'dragging' : ''}"
+			on:mousedown|preventDefault={drag(false, false, false, false)}
 		/>
 		<div
-			class="dockable-resize TR CORNER {beingDragged ? 'dragging' : ''}"
-			on:mousedown|preventDefault={() => {
-				$zIndex++;
-				localZIndex = $zIndex;
-				beingDragged = true;
-				widthOffset = false;
-				heightOffset = true;
-				disableHeightChange = false;
-				disableWidthChange = false;
-			}}
+			class="dockable-resize TR corner {beingDragged ? 'dragging' : ''}"
+			on:mousedown|preventDefault={drag(false, true, false, false)}
 		/>
 		<div
-			class="dockable-resize BL CORNER {beingDragged ? 'dragging' : ''}"
-			on:mousedown|preventDefault={() => {
-				$zIndex++;
-				localZIndex = $zIndex;
-				beingDragged = true;
-				widthOffset = true;
-				heightOffset = false;
-				disableHeightChange = false;
-				disableWidthChange = false;
-			}}
+			class="dockable-resize BL corner {beingDragged ? 'dragging' : ''}"
+			on:mousedown|preventDefault={drag(true, false, false, false)}
 		/>
 		<div
-			class="dockable-resize TL CORNER {beingDragged ? 'dragging' : ''}"
-			on:mousedown|preventDefault={() => {
-				$zIndex++;
-				localZIndex = $zIndex;
-				beingDragged = true;
-				widthOffset = true;
-				heightOffset = true;
-				disableHeightChange = false;
-				disableWidthChange = false;
-			}}
+			class="dockable-resize TL corner {beingDragged ? 'dragging' : ''}"
+			on:mousedown|preventDefault={drag(true, true, false, false)}
 		/>
 		<div
-			class="dockable-resize TC HORIZONTAL {beingDragged ? 'dragging' : ''}"
-			on:mousedown|preventDefault={() => {
-				$zIndex++;
-				localZIndex = $zIndex;
-				beingDragged = true;
-				widthOffset = true;
-				heightOffset = true;
-				disableHeightChange = false;
-				disableWidthChange = true;
-			}}
+			class="dockable-resize TC horizontal {beingDragged ? 'dragging' : ''}"
+			on:mousedown|preventDefault={drag(true, true, false, true)}
 		/>
 		<div
-			class="dockable-resize BC HORIZONTAL {beingDragged ? 'dragging' : ''}"
-			on:mousedown|preventDefault={() => {
-				$zIndex++;
-				localZIndex = $zIndex;
-				beingDragged = true;
-				widthOffset = false;
-				heightOffset = false;
-				disableHeightChange = false;
-				disableWidthChange = true;
-			}}
+			class="dockable-resize BC horizontal {beingDragged ? 'dragging' : ''}"
+			on:mousedown|preventDefault={drag(false, false, false, true)}
 		/>
 		<div
 			class="dockable-resize LC vertical {beingDragged ? 'dragging' : ''}"
-			on:mousedown|preventDefault={() => {
-				$zIndex++;
-				localZIndex = $zIndex;
-				beingDragged = true;
-				widthOffset = true;
-				heightOffset = false;
-				disableHeightChange = true;
-				disableWidthChange = false;
-			}}
+			on:mousedown|preventDefault={drag(true, false, true, false)}
 		/>
 		<div
 			class="dockable-resize RC vertical {beingDragged ? 'dragging' : ''}"
-			on:mousedown|preventDefault={() => {
-				$zIndex++;
-				localZIndex = $zIndex;
-				beingDragged = true;
-				widthOffset = false;
-				heightOffset = false;
-				disableHeightChange = true;
-				disableWidthChange = false;
-			}}
+			on:mousedown|preventDefault={drag(false, false, true, false)}
 		/>
 		<div
 			class="dockable-content"
@@ -261,7 +214,7 @@
 	}
 
 	//just a bunch of utility classes for window resizing. A little messy but um, I have no intention of fixing that.
-	.CORNER {
+	.corner {
 		width: 1.2rem;
 		height: 1.2rem;
 		z-index: 10;
@@ -269,7 +222,7 @@
 			background-color: rgba(255, 0, 0, 0.5);
 		}
 	}
-	.HORIZONTAL {
+	.horizontal {
 		height: 1.2rem;
 		width: 100%;
 		z-index: 9;
