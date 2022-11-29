@@ -61,20 +61,24 @@ export function extractPixels(context: WebGLRenderingContext): RenderData {
 }
 
 export function output({ width, height, pixels }: RenderData) {
+	let frame = ""
+
 	// go through every 2 rows of pixels and output each 2 pixels as a single character
 	const trueWidth = width * 4;
 	for (let row = 0; row < height; row += 2) {
 		for (let i = 0; i < trueWidth; i += 4) {
-			process.stdout.write(
+			frame += 
 				chalk
 					.rgb(pixels[i + (row * trueWidth)], pixels[(i + 1) + (row * trueWidth)], pixels[(i + 2) + (row * trueWidth)])
 					.bgRgb(
 						pixels[i + ((row + 1) * trueWidth)],
 						pixels[(i + 1) + ((row + 1) * trueWidth)],
 						pixels[(i + 2) + ((row + 1) * trueWidth)],
-					)('▀'),
-			);
+					)('▀')
+			;
 		}
-		process.stdout.write('\n');
+		frame += ('\n');
 	}
+
+	console.log(frame)
 }

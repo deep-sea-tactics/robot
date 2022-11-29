@@ -1,6 +1,7 @@
 <script lang="ts">
 	import CameraDisplay from '$lib/camera/CameraDisplay.svelte';
 	import ControllerCanvas from '$lib/controller/ControllerCanvas.svelte';
+	import Notepad from '$lib/windowing/Notepad.svelte'
 	import { data } from '$lib/controller/controller';
 	import { client } from '$lib/socket/socket';
 	import consola from 'consola';
@@ -95,6 +96,7 @@
 			windowName="keybinds"
 			height={200}
 			width={200}
+			open={true}
 		>
 			<div class="keybinds-wrap">
 				<div class="keybinds-holder">
@@ -109,8 +111,19 @@
 			height={200}
 			width={200}
 			y={300}
+			open={true}
 		>
 			<ControllerCanvas />
+		</WindowComponent>
+		<WindowComponent
+			windowName="Notepad"
+			color="#B76EFA"
+			height={200}
+			width={200}
+			y={300}
+			open={false}
+		>
+			<Notepad />
 		</WindowComponent>
 	</Taskbar>
 </main>
