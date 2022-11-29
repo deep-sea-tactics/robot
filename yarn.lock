@@ -4253,9 +4253,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"server@workspace:server":
+"server@workspace:relay":
   version: 0.0.0-use.local
-  resolution: "server@workspace:server"
+  resolution: "server@workspace:relay"
   dependencies:
     "@swc/core": ^1.3.18
     "@swc/helpers": ^0.4.13
