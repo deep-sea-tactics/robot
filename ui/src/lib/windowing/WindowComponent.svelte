@@ -205,7 +205,7 @@
 		display: inline-block;
 		flex-wrap: nowrap;
 		border-radius: 5px;
-		background-color: #f1f1f1;
+		background-color: #FFFFFF;
 		// We don't use border here because a border will leave a small gap
 		box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.2); 
 		cursor: move;
