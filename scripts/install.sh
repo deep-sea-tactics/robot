@@ -7,6 +7,8 @@ if [[ "${TRACE-0}" == "1" ]]; then
     set -o xtrace
 fi
 
+npm i -g nodemon
+
 yarn
 
 (cd native-camera; poetry install)

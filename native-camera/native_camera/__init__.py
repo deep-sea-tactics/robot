@@ -1,21 +1,28 @@
 import socketio
 import aiortc
-sio = socketio.Client()
 from aiortc import RTCPeerConnection, RTCSessionDescription
 
-sio.connect('http://localhost:3000')
+sio = socketio.Client()
 
-@sio.on('connect')
-def connectedToServer():
+sio.connect('http://localhost:9000')
+print("attempting connection with server...")
+
+@sio.event
+def connect():
+	print("Connected to socket.io server! beginning broadcast...")
 	sio.emit('broadcaster')
+
+@sio.event
+def connect_error(data):
+  print("The connection failed!")
+
+@sio.event
+def disconnect():
+  print("broadcaster disconnected :(")
 
 rtcpc = RTCPeerConnection()
 
-@sio.event
-def candidate(id,message):
-	rtcpc.addIceCandidate(message)
-
-@sio.event
+@sio.on('offer')
 def offer(id,message):
     offer = RTCSessionDescription(sdp=params["sdp"], type=params["type"])
 
