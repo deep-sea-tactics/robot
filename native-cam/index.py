@@ -7,7 +7,7 @@ sio.connect('http://localhost:3000')
 
 @sio.on('connect')
 def connectedToServer():
-	sio.emit('broadcaster', {'foo': 'bar'})
+	sio.emit('broadcaster')
 
 rtcpc = RTCPeerConnection()
 
