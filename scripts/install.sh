@@ -9,6 +9,6 @@ fi
 
 yarn
 
-pip3 install -r .devcontainer/requirements.txt
+(cd native-camera; poetry install)
 
 (cd landstown-robotics-types; yarn build)
