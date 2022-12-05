@@ -28,7 +28,7 @@
 			}
 		},
 		{
-			"label": "Development",
+			"label": "Server-Side Development",
 			"dependsOn": ["UI", "Relay"],
 			"problemMatcher": [],
 			"group": {

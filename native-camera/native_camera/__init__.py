@@ -1,30 +1,32 @@
 import socketio
 import aiortc
+import sys
+from loguru import logger
+logger.remove()
+logger.add(sys.stderr, format="{level} <blue>{message}</blue>", level="INFO")
 from aiortc import RTCPeerConnection, RTCSessionDescription
 
 sio = socketio.Client()
-
 sio.connect('http://localhost:9000')
-print("attempting connection with server...")
+
+logger.info("attempting connection with server...")
 
 @sio.event
 def connect():
-	print("Connected to socket.io server! beginning broadcast...")
+	logger.info("Connected to socket.io server! beginning broadcast...")
 	sio.emit('broadcaster')
 
 @sio.event
 def connect_error(data):
-  print("The connection failed!")
+  logger.warn("The connection failed!")
 
 @sio.event
 def disconnect():
-  print("broadcaster disconnected :(")
-
-rtcpc = RTCPeerConnection()
+  logger.warn("broadcaster disconnected :(")
 
 @sio.on('offer')
 def offer(id,message):
-    offer = RTCSessionDescription(sdp=params["sdp"], type=params["type"])
+  offer = RTCSessionDescription(sdp=params["sdp"], type=params["type"])
 
     
 
