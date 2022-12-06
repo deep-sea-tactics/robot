@@ -15,6 +15,9 @@ npm i -g nodemon
 
 yarn
 
-(cd native-camera; poetry install)
+main() {
+  (cd native-camera; poetry install)
+	(cd landstown-robotics-types; yarn build)
+}
 
-(cd landstown-robotics-types; yarn build)
+main "$@"
