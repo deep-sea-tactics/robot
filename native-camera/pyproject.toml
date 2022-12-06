@@ -2,7 +2,7 @@
 name = "native-camera"
 version = "0.1.0"
 description = ""
-authors = ["Evelyn ?.", "Dylan S."]
+authors = ["Evelyn Name <some@email.com>", "Dylan Name <other@email.com>"]
 readme = "README.md"
 packages = [{include = "native_camera"}]
 
