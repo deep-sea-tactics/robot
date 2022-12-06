@@ -9,15 +9,12 @@ fi
 
 cd "$(dirname "$0")"
 
-curl -sSL https://install.python-poetry.org | python3 -
-
-npm i -g nodemon
-
-yarn
-
 main() {
-  (cd native-camera; poetry install)
-	(cd landstown-robotics-types; yarn build)
+	curl -sSL https://install.python-poetry.org | python3 - # install poetry
+	npm i -g nodemon # install nodemon
+	yarn # install yarn dependencies
+  (cd native-camera; poetry install) # install poetry dependencies in native-camera
+	(cd landstown-robotics-types; yarn build) # build typings
 }
 
 main "$@"
