@@ -12,7 +12,7 @@ import { each } from "svelte/internal";
 	//set a random number of streams to set resizability
 	window.setInterval(() => {
 		console.log('test')
-		let tempRandom = random(16)
+		let tempRandom = random(100)
 		streams = []
 		for(var i = 0; i <= tempRandom; i++) {
 			streams.push({id: random(89999) + 10000, color: randomColor()})

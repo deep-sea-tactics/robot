@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Icon from 'svelte-awesome';
 	import close from 'svelte-awesome/icons/close';
+	import caretDown from 'svelte-awesome/icons/caretDown';
 	import { draggable } from '@neodrag/svelte';
 	import { windows, zIndex } from './Taskbar.svelte';
 
@@ -25,7 +26,9 @@
 	let widthOffset = false;
 	let disableHeightChange = false;
 	let disableWidthChange = false;
-
+	let behind = () => {
+		localZIndex = 0;
+	}
 	let beingDragged = false;
 	let beingResized = false;
 	let localZIndex = $zIndex;
@@ -159,12 +162,21 @@
 			{windowName}
 			<div
 				class="dockable-icon"
-				on:click={disable}
+				
+			>
+			<div on:click={behind}
+			on:keydown={event => {
+				if (event.key == 'Enter') disable();
+			}}>
+				<Icon data={caretDown} />
+			</div>
+				<div on:click={disable}
 				on:keydown={event => {
 					if (event.key == 'Enter') disable();
-				}}
-			>
-				<Icon data={close} />
+				}}>
+					<Icon data={close} />
+				</div>
+
 			</div>
 		</div>
 		{#each ['BR', 'TR', 'BL', 'TL'] as location}
@@ -298,20 +310,21 @@
 	}
 
 	.dockable-icon {
-		/** circular X button -- its a character, so be careful with 50% border radius */
-		cursor: pointer;
-		padding: 0rem;
-		width: 25px;
-		height: 25px;
-		line-height: 25px;
 		display: flex;
 		flex-wrap: hide;
 		justify-content: center;
 		align-items: center;
 		text-align: center;
+		padding: 0rem;
+		line-height: 25px;
+		
 	}
-
-	.dockable-icon:hover {
+	.dockable-icon div {
+		cursor: pointer;
+		width: 25px;
+		height: 25px;
+	}
+	.dockable-icon div:hover {
 		color: rgba(255, 0, 0, 0.8);
 	}
 
