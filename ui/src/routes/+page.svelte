@@ -82,7 +82,7 @@
 <main>
 	<Taskbar>
 		<WindowComponent
-			windowName="video"
+			windowName="Video"
 			height={400}
 			width={400}
 			color="#E1CE7A"
@@ -92,8 +92,8 @@
 			<CameraDisplay {mediaStream} />
 		</WindowComponent>
 		<WindowComponent
-			color="#72E1D1"
-			windowName="keybinds"
+			color="#36EC85"
+			windowName="Keybinds"
 			height={200}
 			width={200}
 			open={true}
@@ -106,7 +106,7 @@
 			</div>
 		</WindowComponent>
 		<WindowComponent
-			windowName="visualizer"
+			windowName="Visualizer"
 			color="#E58F65"
 			height={200}
 			width={200}
@@ -122,6 +122,16 @@
 			width={200}
 			y={300}
 			open={false}
+		>
+			<Notepad />
+		</WindowComponent>
+		<WindowComponent
+			windowName="Cameras"
+			color="#369BEC"
+			height={200}
+			width={200}
+			x={500}
+			y={500}
 		>
 			<Notepad />
 		</WindowComponent>
