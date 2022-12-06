@@ -33,3 +33,5 @@ The project is made in TypeScript and it is encouraged to follow the IDE's recco
 ### Configuring python virtual enviornment
 
 Press F1, select interpeter, enter interpreter path, select the one with blue `Poetry` on the right, and select (enter).
+
+OR, if the interpeter doesn't show: `poetry show -v | grep virtualenv`
