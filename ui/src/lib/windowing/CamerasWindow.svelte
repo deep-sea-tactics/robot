@@ -17,9 +17,16 @@ import { each } from "svelte/internal";
 		for(var i = 0; i <= tempRandom; i++) {
 			streams.push({id: random(89999) + 10000, color: randomColor()})
 		}
-	}, 3000)
+	}, 3000) 
 
 	let streams: Stream[] = [
+		{id: "78686", color: randomColor()},
+		{id: "78686", color: randomColor()},
+		{id: "78686", color: randomColor()},
+		{id: "78686", color: randomColor()},
+		{id: "78686", color: randomColor()},
+		{id: "78686", color: randomColor()},
+		{id: "78686", color: randomColor()},
 		{id: "78686", color: randomColor()},
 	]
 	let schema: any;
@@ -38,20 +45,34 @@ import { each } from "svelte/internal";
 	console.log(streams)
 </script>
 
-<div class="container" style="--rows: {schema.rows}; --columns: {schema.columns}" bind:clientHeight={height} bind:clientWidth={width}>
+<div class="container" style="--rows: {schema.rows}; --columns: {schema.columns}; --width: {schema.width}px" bind:clientHeight={height} bind:clientWidth={width}>
 	{#each streams as camera}
-		<div style="background: #{camera.color}">{camera.id}</div>
+		<div style="background: #{camera.color}">
+			<div>
+				{camera.id}
+			</div>
+		</div>
 	{/each}
 </div>
 
 <style>
 	.container {
-		height: 100%;
+		text-align: center;
 		width: 100%;
-		display: inline-grid;
-		grid-template-rows: repeat(var(--rows), calc(100%/var(--rows)));
-		grid-template-columns: repeat(var(--columns), calc(100%/var(--columns)));
+		height: 100%;
+		overflow: wrap;
 	}
 	.container div {
+		display: inline-block;
+		margin: 0px;
+		width: calc(100%/var(--columns));
+		height: calc(100%/var(--rows));
+	}
+	.container div div {
+		height: 100%;
+		width: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
 	}
 </style>
