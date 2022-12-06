@@ -1,7 +1,7 @@
 <script lang="ts">
 	import CameraDisplay from '$lib/camera/CameraDisplay.svelte';
 	import ControllerCanvas from '$lib/controller/ControllerCanvas.svelte';
-	import Notepad from '$lib/windowing/Notepad.svelte'
+	import Notepad from '$lib/windowing/Notepad.svelte';
 	import { data } from '$lib/controller/controller';
 	import { client } from '$lib/socket/socket';
 	import consola from 'consola';

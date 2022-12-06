@@ -7,8 +7,10 @@ if [[ "${TRACE-0}" == "1" ]]; then
     set -o xtrace
 fi
 
+npm i -g nodemon
+
 yarn
 
-pip3 install -r .devcontainer/requirements.txt
+(cd native-camera; poetry install)
 
 (cd landstown-robotics-types; yarn build)

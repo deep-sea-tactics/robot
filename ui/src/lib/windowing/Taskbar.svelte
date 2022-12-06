@@ -19,7 +19,9 @@
 		{#each Object.entries($windows) as [name, data]}
 			{#if !data.enabled}
 				<span
-					style="--bgcolor: {data.color}{taskBarIconTransparency.toString(16)}; --color: {data.color}; cursor: pointer;"
+					style="--bgcolor: {data.color}{taskBarIconTransparency.toString(
+						16
+					)}; --color: {data.color}; cursor: pointer;"
 					on:click={() => ($windows[name] = { ...data, enabled: true })}
 					on:keydown={event => {
 						if (event.key == 'Enter') $windows[name] = { ...data, enabled: true };

@@ -27,6 +27,8 @@ export function start(): void {
 		robotClient.on('error', error => consola.warn(`An exception with the robot has occured: ${error.toString()}`));
 	});
 
+	robot.on('disconnect', () => consola.info('Robot disconnected :('));
+
 	// Handle any conenction errors
 	// NOTE engine needs typings
 	// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call

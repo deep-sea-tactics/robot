@@ -36,7 +36,7 @@
 	};
 
 	if (!open) {
-		disable()
+		disable();
 	}
 
 	function drag(
@@ -173,22 +173,19 @@
 				on:mousedown={drag(location[1] == 'L', location[0] == 'T', false, false)}
 			/>
 		{/each}
-		<div
-			class="dockable-resize TC horizontal-grabber {beingDragged ? 'dragging' : ''}"
-			on:mousedown={drag(true, true, false, true)}
-		/>
-		<div
-			class="dockable-resize BC horizontal-grabber {beingDragged ? 'dragging' : ''}"
-			on:mousedown={drag(false, false, false, true)}
-		/>
-		<div
-			class="dockable-resize LC vertical-grabber {beingDragged ? 'dragging' : ''}"
-			on:mousedown={drag(true, false, true, false)}
-		/>
-		<div
-			class="dockable-resize RC vertical-grabber {beingDragged ? 'dragging' : ''}"
-			on:mousedown={drag(false, false, true, false)}
-		/>
+		{#each ['T', 'B', 'L', 'R'] as location}
+			<div
+				class="dockable-resize {location + 'C'} {['T', 'B'].includes(location)
+					? 'horizontal'
+					: 'vertical'}-grabber {beingDragged ? 'dragging' : ''}"
+				on:mousedown={drag(
+					['T', 'L'].includes(location),
+					['T', 'R'].includes(location),
+					['L', 'R'].includes(location),
+					['T', 'B'].includes(location)
+				)}
+			/>
+		{/each}
 		<div
 			class="dockable-content"
 			style="height: {height}px; width: {width}px"
@@ -205,9 +202,9 @@
 		display: inline-block;
 		flex-wrap: nowrap;
 		border-radius: 5px;
-		background-color: #FFFFFF;
+		background-color: #ffffff;
 		// We don't use border here because a border will leave a small gap
-		box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.2); 
+		box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.2);
 		cursor: move;
 	}
 

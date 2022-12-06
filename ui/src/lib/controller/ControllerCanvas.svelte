@@ -42,7 +42,7 @@
 		);
 
 		// Base stroke style
-		const style = $controllerConnected ? "rgb(50, 168, 96)" : "rgb(212 82 12)"
+		const style = $controllerConnected ? 'rgb(50, 168, 96)' : 'rgb(212 82 12)';
 		context.strokeStyle = style;
 		context.fillStyle = style;
 
