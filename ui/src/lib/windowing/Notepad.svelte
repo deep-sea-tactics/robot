@@ -1,4 +1,8 @@
-<textarea class="notepad" rows="4" cols="50"></textarea>
+<textarea
+	class="notepad"
+	rows="4"
+	cols="50"
+/>
 
 <style>
 	textarea {

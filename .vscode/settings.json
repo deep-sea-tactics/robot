@@ -21,6 +21,6 @@
 		"**/.DS_Store": true,
 		"**/Thumbs.db": true,
 		"**/*.crswap": true,
-		"native-camera": true,
+		"native-camera": true
 	}
 }

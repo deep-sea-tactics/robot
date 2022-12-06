@@ -6,12 +6,12 @@ export const data = writable<ControllerData | undefined>(undefined);
 
 export const controllerConnected = writable<boolean>(false);
 
-window.addEventListener("gamepadconnected", (e) => {
-  if (e.gamepad.id.includes("Logitech Extreme 3D")) controllerConnected.set(true)
+window.addEventListener('gamepadconnected', (e) => {
+	if (e.gamepad.id.includes('Logitech Extreme 3D')) controllerConnected.set(true);
 });
 
-window.addEventListener("gamepaddisconnected", (e) => {
-  if (e.gamepad.id.includes("Logitech Extreme 3D")) controllerConnected.set(false)
+window.addEventListener('gamepaddisconnected', (e) => {
+	if (e.gamepad.id.includes('Logitech Extreme 3D')) controllerConnected.set(false);
 });
 
 function grabController() {
@@ -19,13 +19,13 @@ function grabController() {
 
 	for (const gamepad of gamepads) {
 		if (!gamepad) continue;
-		if (!gamepad.id.includes("Logitech Extreme 3D")) return;
-		const buttons = gamepad.buttons.map(button => button.pressed)
+		if (!gamepad.id.includes('Logitech Extreme 3D')) return;
+		const buttons = gamepad.buttons.map(button => button.pressed);
 		const axis = gamepad.axes;
 		data.set({
 			position: {
 				x: axis[0] * 50 + 50,
-				y: axis[1] * 50 + 50
+				y: axis[1] * 50 + 50,
 			},
 			yaw: 1,
 			view: 1,
@@ -39,19 +39,19 @@ function grabController() {
 					bottom_middle: buttons[8],
 					top_middle: buttons[9],
 					bottom_right: buttons[10],
-					top_right: buttons[11]
+					top_right: buttons[11],
 				},
 				controller_buttons: {
 					top_left: buttons[4],
 					bottom_left: buttons[2],
 					top_right: buttons[5],
-					bottom_right: buttons[3]
-				}
-			}
-		})
+					bottom_right: buttons[3],
+				},
+			},
+		});
 	}
 
-	requestAnimationFrame(grabController)
+	requestAnimationFrame(grabController);
 }
 
-requestAnimationFrame(grabController)
+requestAnimationFrame(grabController);

@@ -31,7 +31,8 @@
 		"**/.svelte-kit",
 		"**/.husky/_",
 		"**/.yarn",
-		"**/dist"
+		"**/dist",
+		"native-camera"
 	],
 	"plugins": [
 		"https://plugins.dprint.dev/typescript-0.77.0.wasm",
