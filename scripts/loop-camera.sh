@@ -12,7 +12,7 @@ fi
 cd "$(dirname "$0")"
 
 main() {
-    ffmpeg -stream_loop -1 -re -i ../videos/robert.mp4 -map 0:v -f v4l2 /dev/video0
+	sudo ffmpeg -stream_loop -1 -re -i ../videos/robert.mp4 -map 0:v -f v4l2 /dev/video0
 }
 
 main "$@"
