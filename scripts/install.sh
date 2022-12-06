@@ -7,6 +7,8 @@ if [[ "${TRACE-0}" == "1" ]]; then
     set -o xtrace
 fi
 
+pip install pycodestyle flake8-tabs
+
 npm i -g nodemon
 
 yarn
