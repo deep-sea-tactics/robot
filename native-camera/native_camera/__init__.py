@@ -1,13 +1,14 @@
 import socketio
 import sys
 from loguru import logger
-# from aiortc import RTCPeerConnection, RTCSessionDescription
+from aiortc import RTCPeerConnection, RTCSessionDescription
 logger.remove()
 logger.add(sys.stderr, format="{level} <blue>{message}</blue>", level="INFO")
 
 sio = socketio.Client()
 
 logger.info("attempting connection with server...")
+
 
 @sio.event
 def connect():
@@ -30,9 +31,13 @@ def offer(id, message):
     logger.info("Received offer")
     # offer = RTCSessionDescription(sdp=params["sdp"], type=params["type"])
 
+
 @sio.on('watcher')
-def watcher():
-    print("something")
+def watcher(id):
+    logger.info("Received watcher")
+
+
+
+
 
 sio.connect('http://localhost:3000')
-
