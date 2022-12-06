@@ -6,10 +6,8 @@ logger.remove()
 logger.add(sys.stderr, format="{level} <blue>{message}</blue>", level="INFO")
 
 sio = socketio.Client()
-sio.connect('http://localhost:9000')
 
 logger.info("attempting connection with server...")
-
 
 @sio.event
 def connect():
@@ -31,3 +29,10 @@ def disconnect():
 def offer(id, message):
     logger.info("Received offer")
     # offer = RTCSessionDescription(sdp=params["sdp"], type=params["type"])
+
+@sio.on('watcher')
+def watcher():
+    print("something")
+
+sio.connect('http://localhost:3000')
+
