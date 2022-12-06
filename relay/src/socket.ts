@@ -34,6 +34,7 @@ export const start = (): void => {
 			socket.broadcast.emit('broadcaster');
 		});
 		socket.on('watcher', () => {
+			consola.info("wahcraf")
 			socket.to(broadcaster).emit('watcher', socket.id);
 		});
 		socket.on('disconnect', () => {
