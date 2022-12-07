@@ -1,7 +1,6 @@
 tasks:
   - name: Install
     init: ./scripts/install.sh
-  - command: echo Done installing! Now press CTRL + SHIFT + B
 image:
   file: .gitpod.Dockerfile
 ports:
