@@ -7,7 +7,7 @@
 			"command": "cd ui && yarn dev",
 			"isBackground": true,
 			"presentation": {
-				"group": "test",
+				"group": "server",
 				"reveal": "always",
 				"panel": "new"
 			}
@@ -17,12 +17,23 @@
 			"type": "shell",
 			"command": "cd relay && yarn dev",
 			"isBackground": true,
+			"presentation": {
+				"group": "server",
+				"reveal": "always",
+				"panel": "new"
+			}
+		},
+		{
+			"label": "Native Broadcaster",
+			"type": "shell",
+			"command": "./scripts/run-broadcaster.sh",
+			"isBackground": true,
 			"group": {
 				"kind": "build",
 				"isDefault": true
 			},
 			"presentation": {
-				"group": "test",
+				"group": "robot",
 				"reveal": "always",
 				"panel": "new"
 			}
