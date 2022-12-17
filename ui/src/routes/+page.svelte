@@ -10,7 +10,7 @@
 	import Taskbar from '$lib/windowing/Taskbar.svelte';
 	import { onDestroy } from 'svelte';
 	import { config } from '$lib/socket/webrtc';
-    import CamerasWindow from '$lib/windowing/CamerasWindow.svelte';
+	import CamerasWindow from '$lib/windowing/CamerasWindow.svelte';
 
 	let mediaStream: MediaStream;
 
@@ -134,7 +134,7 @@
 			x={500}
 			y={500}
 		>
-			<CamerasWindow/>
+			<CamerasWindow />
 		</WindowComponent>
 	</Taskbar>
 </main>

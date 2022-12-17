@@ -28,7 +28,7 @@
 	let disableWidthChange = false;
 	let behind = () => {
 		localZIndex = 0;
-	}
+	};
 	let beingDragged = false;
 	let beingResized = false;
 	let localZIndex = $zIndex;
@@ -160,23 +160,23 @@
 			bind:clientHeight={toolsHeight}
 		>
 			{windowName}
-			<div
-				class="dockable-icon"
-				
-			>
-			<div on:click={behind}
-			on:keydown={event => {
-				if (event.key == 'Enter') disable();
-			}}>
-				<Icon data={caretDown} />
-			</div>
-				<div on:click={disable}
-				on:keydown={event => {
-					if (event.key == 'Enter') disable();
-				}}>
+			<div class="dockable-icon">
+				<div
+					on:click={behind}
+					on:keydown={event => {
+						if (event.key == 'Enter') disable();
+					}}
+				>
+					<Icon data={caretDown} />
+				</div>
+				<div
+					on:click={disable}
+					on:keydown={event => {
+						if (event.key == 'Enter') disable();
+					}}
+				>
 					<Icon data={close} />
 				</div>
-
 			</div>
 		</div>
 		{#each ['BR', 'TR', 'BL', 'TL'] as location}
@@ -317,7 +317,6 @@
 		text-align: center;
 		padding: 0rem;
 		line-height: 25px;
-		
 	}
 	.dockable-icon div {
 		cursor: pointer;
