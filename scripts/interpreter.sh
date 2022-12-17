@@ -12,7 +12,7 @@ fi
 cd "$(dirname "$0")"
 
 main() {
-	sudo ffmpeg -stream_loop -1 -re -i ../videos/robert.mp4 -map 0:v -f v4l2 /dev/video0
+    (cd ../native-camera; poetry show -v | grep virtualenv)
 }
 
 main "$@"

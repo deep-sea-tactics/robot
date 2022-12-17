@@ -1,43 +1,66 @@
 import socketio
-import sys
-from aiortc import RTCPeerConnection, RTCSessionDescription
+import asyncio
+from aiortc import RTCPeerConnection
+from aiortc.contrib.media import MediaPlayer, MediaRelay
 
-sio = socketio.Client()
+sio = socketio.AsyncClient()
+player = MediaPlayer('../videos/robert.mp4')
+relay = MediaRelay()
 
-print("attempting connection with server...")
+video = relay.subscribe(player.video)
 
+peerConnections = set()
 
 @sio.event
-def connect():
+async def connect():
     print("Connected to socket.io server! beginning broadcast...")
-    sio.emit('broadcaster')
+    await sio.emit('broadcaster')
 
 
 @sio.event
-def connect_error(data):
+async def connect_error(data):
     print("The connection failed!")
 
 
 @sio.event
-def disconnect():
+async def disconnect():
     print("broadcaster disconnected :(")
 
 
-@sio.on('broadcaster')
-def broadcaster():
-    print("Ready to broadcast!")
-
-
 @sio.event
-def offer(id, message):
-    print("Received offer")
+async def answer(id, message):
+    print("Received answer")
     # offer = RTCSessionDescription(sdp=params["sdp"], type=params["type"])
 
 
 @sio.on('watcher')
-def watcher(id):
-    print("Received watcher")
+async def watcher(id):
+    peerConnection = RTCPeerConnection()
+    peerConnections.add(peerConnection)
+    print("Received offer and created peer connection")
 
+    @peerConnection.on("connectionstatechange")
+    async def on_connectionstatechange():
+        print("Connection state is %s" % peerConnection.connectionState)
+        if peerConnection.connectionState == "failed":
+            await peerConnection.close()
+            peerConnections.discard(peerConnection)
+
+    peerConnection.addTrack(video)
+
+    offer = await peerConnection.createOffer()
+    await peerConnection.setLocalDescription(offer)
+
+    await sio.emit("offer", {
+        "sdp": peerConnection.localDescription.sdp,
+        "type": peerConnection.localDescription.type
+    })
+
+
+async def main():
+    print("attempting connection with server...")
+    await sio.connect('http://localhost:3000')
+    await sio.wait()
 
 if __name__ == "__main__":
-    sio.connect('http://localhost:3000')
+    asyncio.run(main())
