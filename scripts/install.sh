@@ -10,10 +10,9 @@ fi
 cd "$(dirname "$0")"
 
 main() {
-	curl -sSL https://install.python-poetry.org | python3 - # install poetry
 	sudo npm i -g nodemon # install nodemon
 	yarn # install yarn dependencies
-	(cd ../native-camera; poetry install) # install poetry dependencies in native-camera
+	(cd ../native-camera; pip install -r requirements.txt) # install poetry dependencies in native-camera
 	(cd ../landstown-robotics-types; yarn build) # build typings
 }
 
