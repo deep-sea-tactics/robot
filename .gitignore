@@ -18,3 +18,4 @@ __pycache__
 !.yarn/versions
 vite.config.ts.timestamp-*
 venv
+target
