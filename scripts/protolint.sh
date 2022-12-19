@@ -10,7 +10,7 @@ fi
 cd "$(dirname "$0")"
 
 main() {
-	protolint --fix ../protocol/main.proto
+	protolint --fix ../protocol/signalling.proto
 }
 
 main "$@"
