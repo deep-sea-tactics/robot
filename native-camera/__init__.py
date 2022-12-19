@@ -54,6 +54,24 @@ async def answer(id, message):
 
     await peerConnection.setRemoteDescription(answer)
 
+    if peerConnection.iceGatheringState == 'complete':
+        if peerConnection.sctp is None:
+            print("SCTP is not ready yet")
+            return
+
+        # candidates are ready
+        transport = peerConnection.sctp.transport.transport
+        iceCandidates = transport.iceGatherer.getLocalCandidates()
+        for iceCandidate in iceCandidates:
+            print(f"Sending ice candidate: {iceCandidate}")
+            candidate = {
+                "candidate": iceCandidate.candidate,
+                "sdpMid": iceCandidate.sdpMid,
+                "sdpMLineIndex": iceCandidate.sdpMLineIndex
+            }
+            print(f"Sending ice candidate: {candidate}")
+            await socketClient.emit("candidate", (id, candidate))
+
 
 @socketClient.on('watcher')
 async def watcher(id):
@@ -67,10 +85,10 @@ async def watcher(id):
     async def on_connectionstatechange():
         print("Connection state is %s" % peerConnection.connectionState)
         if peerConnection.connectionState == "failed":
-            if not peerConnections.has_key(peerConnection):
+            if id not in peerConnections:
                 return
             await peerConnection.close()
-            del peerConnections[peerConnection]
+            # del peerConnections[peerConnection]
         elif peerConnection.connectionState == "connected":
             print(peerConnection.sctp)
 
@@ -97,27 +115,6 @@ async def watcher(id):
         "sdp": peerConnection.localDescription.sdp,
         "type": peerConnection.localDescription.type
     }))
-
-    @peerConnection.on('icegatheringstatechange')
-    async def on_icegatheringstatechange():
-        print(f'iceGatheringState changed: {peerConnection.iceGatheringState}')
-        if peerConnection.iceGatheringState == 'complete':
-            if peerConnection.sctp is None:
-                print("SCTP is not ready yet")
-                return
-
-            # candidates are ready
-            transport = peerConnection.sctp.transport.transport
-            iceCandidates = transport.iceGatherer.getLocalCandidates()
-            for iceCandidate in iceCandidates:
-                print(f"Sending ice candidate: {iceCandidate}")
-                candidate = {
-                    "candidate": iceCandidate.candidate,
-                    "sdpMid": iceCandidate.sdpMid,
-                    "sdpMLineIndex": iceCandidate.sdpMLineIndex
-                }
-                print(f"Sending ice candidate: {candidate}")
-                await socketClient.emit("candidate", (id, candidate))
 
 
 async def main():
