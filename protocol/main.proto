@@ -1,5 +1,5 @@
 syntax = "proto3";
-package signalling;
+package main;
 
 service Greeter {
   // Our SayHello rpc accepts HelloRequests and returns HelloReplies
