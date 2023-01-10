@@ -97,7 +97,7 @@
 			windowName="Keybinds"
 			height={200}
 			width={200}
-			open={true}
+			open={false}
 		>
 			<div class="keybinds-wrap">
 				<div class="keybinds-holder">

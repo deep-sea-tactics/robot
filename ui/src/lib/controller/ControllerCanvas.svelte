@@ -1,12 +1,6 @@
 <script lang="ts">
-	import { Canvas, Layer } from 'svelte-canvas';
+	import { Canvas, Layer, type Render } from 'svelte-canvas';
 	import { data, controllerConnected } from './controller';
-
-	interface RenderInterface {
-		context: CanvasRenderingContext2D;
-		width: number;
-		height: number;
-	}
 
 	const mouseRadius = 10;
 
@@ -14,8 +8,10 @@
 	let height = 0;
 	$: minDimension = Math.min(width, height);
 
-	$: render = ({ context, width, height }: RenderInterface) => {
+	let render: Render;
+	$: render = ({ context, width, height }) => {
 		if (!$data) {
+			context.textAlign = 'center';
 			context.fillText('Input needed', width / 2, height / 2);
 
 			return;

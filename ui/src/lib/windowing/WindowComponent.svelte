@@ -26,20 +26,12 @@
 	let widthOffset = false;
 	let disableHeightChange = false;
 	let disableWidthChange = false;
-	let behind = () => {
-		localZIndex = 0;
-	};
 	let beingDragged = false;
 	let beingResized = false;
 	let localZIndex = $zIndex;
 
-	let disable = () => {
+	$: if (!open) {
 		$windows[windowName] = { ...$windows[windowName], enabled: false };
-		$windows = $windows;
-	};
-
-	if (!open) {
-		disable();
 	}
 
 	function drag(
@@ -112,7 +104,6 @@
 	on:mouseup={({ clientX }) => {
 		beingDragged = false;
 		if (beingResized) {
-			console.log(x, windowX);
 			if (clientX <= snapSensitivity) {
 				x = 0;
 				y = 0;
@@ -131,7 +122,6 @@
 	on:mousedown={event => {
 		savedWindowDetails = { x: width, y: height };
 		savedWindowPos = { x, y };
-		console.log(event.target);
 		originalMousePos = { ...currentMousePos };
 	}}
 />
@@ -162,20 +152,12 @@
 			{windowName}
 			<div class="dockable-icon">
 				<div
-					on:click={behind}
+					on:click={() => open = false}
 					on:keydown={event => {
-						if (event.key == 'Enter') disable();
+						if (event.key == 'Enter') open = false;
 					}}
 				>
 					<Icon data={caretDown} />
-				</div>
-				<div
-					on:click={disable}
-					on:keydown={event => {
-						if (event.key == 'Enter') disable();
-					}}
-				>
-					<Icon data={close} />
 				</div>
 			</div>
 		</div>

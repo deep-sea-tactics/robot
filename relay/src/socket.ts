@@ -13,7 +13,7 @@ const io = new Server<ClientToServerMap, ServerToClientsMap>(port);
  */
 export const start = (): void => {
 	let broadcaster: string;
-	consola.debug('Attempting to start socket server.');
+	consola.debug('Starting socket server...');
 
 	io.on('connection', socket => {
 		// The client has connected
