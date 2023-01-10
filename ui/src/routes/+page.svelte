@@ -19,7 +19,7 @@
 	let peerConnection: RTCPeerConnection;
 	let candidates: RTCIceCandidate[] = [];
 	let answered = false;
-	
+
 	client.on('offer', (id, description) => {
 		consola.info(`offered by ${id}:`, description);
 		answered = true;
@@ -134,7 +134,7 @@
 			x={500}
 			y={500}
 		>
-		<CameraDisplay {mediaStream} />
+			<CameraDisplay {mediaStream} />
 		</WindowComponent>
 	</Taskbar>
 </main>
