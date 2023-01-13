@@ -30,6 +30,7 @@ main() {
 	fi
 
 	wget $RELEASE -O ../webrtc-streamer/release.tar.gz
+	tar -xvzf ../webrtc-streamer/release.tar.gz --directory ../webrtc-streamer
 }
 
 main "$@"
