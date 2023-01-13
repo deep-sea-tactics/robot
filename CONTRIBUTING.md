@@ -1,4 +1,4 @@
-## Contributing
+# Contributing
 
 Run `./scripts/install.sh` to install various project dependencies
 
