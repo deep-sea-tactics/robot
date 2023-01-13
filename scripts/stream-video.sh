@@ -10,7 +10,11 @@ fi
 cd "$(dirname "$0")"
 
 main() {
-	../webrtc-streamer/webrtc-streamer -v file://workspaces/Landstown-Robotics-Challenge/videos/robert.mp4
+	if test "${CODESPACES+x}"; then
+		../webrtc-streamer/webrtc-streamer -v file://workspaces/Landstown-Robotics-Challenge/videos/robert.mp4
+	else
+		echo "No-internet broadcasting not implemented yet"
+	fi
 }
 
 main "$@"
