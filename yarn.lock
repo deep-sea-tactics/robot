@@ -1175,13 +1175,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/w3c-web-hid@npm:^1.0.3":
-  version: 1.0.3
-  resolution: "@types/w3c-web-hid@npm:1.0.3"
-  checksum: 90ee1eeb2acf5d5ddf0b7acefd4f8aaa7d0175d991c3606a9ad62bdfa7a8de93665f5f6218dc4ecb34ea1d2f3e357813b315f46c1ea6b8aa1693e217e436c9b2
-  languageName: node
-  linkType: hard
-
 "@types/webxr@npm:*":
   version: 0.5.0
   resolution: "@types/webxr@npm:0.5.0"
@@ -4797,15 +4790,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"svelte-writable-derived@npm:^2.1.6":
-  version: 2.1.6
-  resolution: "svelte-writable-derived@npm:2.1.6"
-  peerDependencies:
-    svelte: ^3.2.1
-  checksum: 27fdf1d89d77feb7d3d869e0732fc9985599b97eab98cfb1fadd07a3bc62161654de852d500b5a0ec67e78aba59afe3eb48aa3bc8bb97c0a1f6b70c3a285c064
-  languageName: node
-  linkType: hard
-
 "svelte@npm:^3.53.1":
   version: 3.53.1
   resolution: "svelte@npm:3.53.1"
@@ -5086,7 +5070,6 @@ __metadata:
     "@sveltejs/adapter-auto": next
     "@sveltejs/kit": 1.0.0-next.589
     "@types/downloadjs": ^1.4.3
-    "@types/w3c-web-hid": ^1.0.3
     autoprefixer: ^10.4.13
     downloadjs: ^1.4.7
     jimp: ^0.16.2
@@ -5103,7 +5086,6 @@ __metadata:
     svelte-loading-spinners: ^0.3.4
     svelte-persistent: ^0.0.1
     svelte-preprocess: ^5.0.0
-    svelte-writable-derived: ^2.1.6
     tslib: ^2.4.1
     typescript: ^4.9.4
     vite: ^4.0.4
