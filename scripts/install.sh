@@ -14,6 +14,7 @@ main() {
 	yarn # install yarn dependencies
 	(cd ../native-camera; pip install -r requirements.txt) # install poetry dependencies in native-camera
 	(cd ../landstown-robotics-types; yarn build) # build typings
+	./install-streamer.sh # installs webrtc-streamer
 }
 
 main "$@"
