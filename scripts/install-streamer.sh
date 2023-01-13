@@ -26,7 +26,7 @@ main() {
         RELEASE=$RELEASE_X86
     elif echo "$ARCHITECTURE" | grep -q 'aarch64\|arm64'; then # arm64
 		RELEASE=$RELEASE_ARM64
-	elif echo "$ARCHITECTURE" | greo -q 'armv7\|armhf'; then # armv7
+	elif echo "$ARCHITECTURE" | grep -q 'armv7\|armhf'; then # armv7
 		RELEASE=$RELEASE_ARM7
 	fi
 
