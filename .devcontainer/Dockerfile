@@ -1,3 +1,3 @@
 FROM mcr.microsoft.com/devcontainers/typescript-node:18
 
-RUN apt-get update && apt-get install -y coturn kmod libgl1-mesa-dev ffmpeg xvfb python3 python3-pip
+RUN apt-get update && apt-get install -y coturn kmod libgl1-mesa-dev ffmpeg xvfb python3 python3-pip libxcomposite-dev libxtst6
