@@ -16,7 +16,7 @@ main() {
 	local RELEASE_ARM7=https://github.com/mpromonet/webrtc-streamer/releases/download/v0.7.0/webrtc-streamer-v0.7.0-Linux-armv7l-Release.tar.gz
 	# local RELEASE_ARM6=https://github.com/mpromonet/webrtc-streamer/releases/download/v0.7.0/webrtc-streamer-v0.7.0-Linux-armv6l-Release.tar.gz
 
-	mkdir ../webrtc-streamer
+	mkdir -p ../webrtc-streamer
 	local ARCHITECTURE=
 	ARCHITECTURE=$(uname -m)
 	local RELEASE=
@@ -29,7 +29,7 @@ main() {
 		RELEASE=$RELEASE_ARM7
 	fi
 
-	wget $RELEASE -o ../webrtc-streamer/release.tar.gz
+	wget $RELEASE -O ../webrtc-streamer/release.tar.gz
 }
 
 main "$@"
