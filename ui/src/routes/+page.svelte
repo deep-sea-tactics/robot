@@ -93,20 +93,6 @@
 			<CameraDisplay {mediaStream} />
 		</WindowComponent>
 		<WindowComponent
-			color="#36EC85"
-			windowName="Keybinds"
-			height={200}
-			width={200}
-			open={false}
-		>
-			<div class="keybinds-wrap">
-				<div class="keybinds-holder">
-					<!-- <Icon data={arrowUp} />
-					<p>Some action</p> -->
-				</div>
-			</div>
-		</WindowComponent>
-		<WindowComponent
 			windowName="Visualizer"
 			color="#E58F65"
 			height={200}
@@ -147,18 +133,4 @@
 		height: 100vh;
 		background-color: white;
 	}
-
-	.keybinds-holder {
-		flex-wrap: nowrap;
-		display: flex;
-		justify-content: left;
-		align-items: center;
-		text-align: left;
-		margin: 5px;
-	}
-	/* .keybinds-holder p {
-		margin-left: 10px;
-		flex-grow: 1;
-		flex-shrink: 1;
-	} */
 </style>
