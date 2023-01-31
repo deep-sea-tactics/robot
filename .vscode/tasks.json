@@ -24,21 +24,6 @@
 			}
 		},
 		{
-			"label": "Native Broadcaster",
-			"type": "shell",
-			"command": "./scripts/run-broadcaster.sh",
-			"isBackground": true,
-			"group": {
-				"kind": "build",
-				"isDefault": true
-			},
-			"presentation": {
-				"group": "robot",
-				"reveal": "always",
-				"panel": "new"
-			}
-		},
-		{
 			"label": "Server-Side Development",
 			"dependsOn": ["UI", "Relay"],
 			"problemMatcher": [],
