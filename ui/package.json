@@ -34,5 +34,8 @@
 		"typescript": "^4.9.4",
 		"vite": "^4.0.4"
 	},
-	"type": "module"
+	"type": "module",
+	"dependencies": {
+		"webrtc-streamer": "^0.7.1-11-g19d02e0"
+	}
 }
