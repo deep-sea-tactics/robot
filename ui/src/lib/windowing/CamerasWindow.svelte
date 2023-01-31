@@ -12,7 +12,7 @@
 		let tempRandom = random(100);
 		streams = [];
 		for (let i = 0; i <= tempRandom; i++) {
-			streams.push({ id: random(89999) + 10000, color: randomColor() });
+			streams.push({ id: random(89999).toString() + 10000, color: randomColor() });
 		}
 	}, 3000);
 

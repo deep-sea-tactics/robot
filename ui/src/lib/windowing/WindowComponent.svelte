@@ -1,3 +1,7 @@
+<!--
+	Look, it works. Don't touch it.
+-->
+
 <script lang="ts">
 	import Icon from 'svelte-awesome';
 	import close from 'svelte-awesome/icons/close';
@@ -29,10 +33,15 @@
 	let beingDragged = false;
 	let beingResized = false;
 	let localZIndex = $zIndex;
+	let newBeingDragged: boolean;
+	let allowDrag: boolean;
 
 	$: if (!open) {
 		$windows[windowName] = { ...$windows[windowName], enabled: false };
 	}
+
+	//ungodly variable names to control the dragging status for resizing
+	$: newBeingDragged = !(beingDragged || allowDrag); 
 
 	function drag(
 		/** If, when dragging, should the X position be translated (X modified) instead of just changing width */
@@ -61,7 +70,9 @@
 	on:mousemove={({ clientX, clientY }) => {
 		currentMousePos = { x: clientX, y: clientY };
 		if (beingDragged) {
+			allowDrag = true;
 			if (!disableWidthChange) {
+				console.log(widthOffset)
 				if (!widthOffset) {
 					width = Math.max(
 						savedWindowDetails.x + (currentMousePos.x - originalMousePos.x),
@@ -102,6 +113,7 @@
 		}
 	}}
 	on:mouseup={({ clientX }) => {
+		allowDrag = false;
 		beingDragged = false;
 		if (beingResized) {
 			if (clientX <= snapSensitivity) {
@@ -133,7 +145,7 @@
 			bounds: '.container',
 			defaultPosition: { x, y },
 			position: { x, y },
-			disabled: beingDragged,
+			disabled: newBeingDragged,
 			onDrag: ({ offsetX, offsetY }) => {
 				x = offsetX;
 				y = offsetY;
