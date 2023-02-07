@@ -8,12 +8,13 @@ if [[ "${TRACE-0}" == "1" ]]; then
 fi
 
 cd "$(dirname "$0")"
+cd ../webrtc-streamer
 
 main() {
 	if test "${CODESPACES+x}"; then
-		../webrtc-streamer/webrtc-streamer -v file://workspaces/Landstown-Robotics-Challenge/videos/robert.mp4
+		./webrtc-streamer -v file://workspaces/Landstown-Robotics-Challenge/videos/robert.mp4
 	else
-		echo "No-internet broadcasting not implemented yet"
+		./webrtc-streamer -v v4l2:///dev/video0
 	fi
 }
 
