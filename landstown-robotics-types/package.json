@@ -7,7 +7,7 @@
 	"author": "",
 	"license": "MIT",
 	"scripts": {
-		"build": "tsc"
+		"build": "tsc --incremental"
 	},
 	"devDependencies": {
 		"@types/node": "^18.11.9",

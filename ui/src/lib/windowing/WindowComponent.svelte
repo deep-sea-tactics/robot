@@ -33,15 +33,10 @@
 	let beingDragged = false;
 	let beingResized = false;
 	let localZIndex = $zIndex;
-	let newBeingDragged: boolean;
-	let allowDrag: boolean;
 
 	$: if (!open) {
 		$windows[windowName] = { ...$windows[windowName], enabled: false };
 	}
-
-	//ungodly variable names to control the dragging status for resizing
-	$: newBeingDragged = !(beingDragged || allowDrag); 
 
 	function drag(
 		/** If, when dragging, should the X position be translated (X modified) instead of just changing width */
@@ -70,7 +65,6 @@
 	on:mousemove={({ clientX, clientY }) => {
 		currentMousePos = { x: clientX, y: clientY };
 		if (beingDragged) {
-			allowDrag = true;
 			if (!disableWidthChange) {
 				console.log(widthOffset)
 				if (!widthOffset) {
@@ -106,14 +100,7 @@
 			}
 		}
 	}}
-	on:selectstart={event => {
-		// prevent silly text selection
-		if (beingDragged) {
-			event.preventDefault();
-		}
-	}}
 	on:mouseup={({ clientX }) => {
-		allowDrag = false;
 		beingDragged = false;
 		if (beingResized) {
 			if (clientX <= snapSensitivity) {
@@ -145,7 +132,8 @@
 			bounds: '.container',
 			defaultPosition: { x, y },
 			position: { x, y },
-			disabled: newBeingDragged,
+			cancel: ".dockable-resize",
+			applyUserSelectHack: true,
 			onDrag: ({ offsetX, offsetY }) => {
 				x = offsetX;
 				y = offsetY;
