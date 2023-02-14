@@ -1,7 +1,3 @@
-<!--
-	Look, it works. Don't touch it.
--->
-
 <script lang="ts">
 	import Icon from 'svelte-awesome';
 	import close from 'svelte-awesome/icons/close';
@@ -152,7 +148,7 @@
 			{windowName}
 			<div class="dockable-icon">
 				<div
-					on:click={() => (open = false)}
+					on:click={() => open = false}
 					on:keydown={event => {
 						if (event.key == 'Enter') open = false;
 					}}
