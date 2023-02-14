@@ -152,12 +152,20 @@
 			{windowName}
 			<div class="dockable-icon">
 				<div
-					on:click={() => (open = false)}
+					on:click={() => (localZIndex = 0)}
 					on:keydown={event => {
-						if (event.key == 'Enter') open = false;
+						if (event.key == 'Enter') localZIndex = 0;
 					}}
 				>
 					<Icon data={caretDown} />
+				</div>
+				<div
+					on:click={() => ($windows[windowName].enabled = false)}
+					on:keydown={event => {
+						if (event.key == 'Enter') $windows[windowName].enabled = false;
+					}}
+				>
+					<Icon data={close} />
 				</div>
 			</div>
 		</div>
