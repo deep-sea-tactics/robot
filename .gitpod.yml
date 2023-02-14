@@ -1,8 +1,7 @@
 tasks:
   - name: Install
     init: ./scripts/install.sh
-image:
-  file: .gitpod.Dockerfile
+
 ports:
   - port: 4000
     onOpen: notify
