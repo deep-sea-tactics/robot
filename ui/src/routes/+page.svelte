@@ -1,75 +1,14 @@
 <script lang="ts">
-	import CameraDisplay from '$lib/camera/CameraDisplay.svelte';
+	import Streamer from '$lib/camera/Streamer.svelte';
 	import ControllerCanvas from '$lib/controller/ControllerCanvas.svelte';
 	import Notepad from '$lib/windowing/Notepad.svelte';
 	import { data } from '$lib/controller/controller';
 	import { client } from '$lib/socket/socket';
-	import consola from 'consola';
 
 	import WindowComponent from '$lib/windowing/WindowComponent.svelte';
 	import Taskbar from '$lib/windowing/Taskbar.svelte';
-	import { onDestroy } from 'svelte';
-	import { config } from '$lib/socket/webrtc';
-	import CamerasWindow from '$lib/windowing/CamerasWindow.svelte';
-
-	let mediaStream: MediaStream;
 
 	$: if ($data) client.emit(`controllerData`, $data);
-
-	let peerConnection: RTCPeerConnection;
-	let candidates: RTCIceCandidate[] = [];
-	let answered = false;
-
-	client.on('offer', (id, description) => {
-		consola.info(`offered by ${id}:`, description);
-		answered = true;
-		peerConnection = new RTCPeerConnection(config);
-		peerConnection
-			.setRemoteDescription(description)
-			.then(() => peerConnection.createAnswer())
-			.then(sdp => peerConnection.setLocalDescription(sdp))
-			.then(() => {
-				consola.info(`Sending answer to peer ${id}`);
-				client.emit('answer', id, peerConnection.localDescription!);
-			});
-
-		peerConnection.addEventListener('icecandidate', event => {
-			if (event.candidate) {
-				client.emit('candidate', id, event.candidate);
-			}
-		});
-
-		peerConnection.addEventListener('track', event => {
-			consola.info('Found Track: ', event.streams[0]);
-			mediaStream = event.streams[0];
-		});
-
-		for (const candidate of candidates) {
-			consola.info('Adding stored candidate', candidate);
-			peerConnection.addIceCandidate(candidate);
-		}
-	});
-	client.on('candidate', (id, candidate) => {
-		consola.info(`Received candidate from ${id}`, candidate);
-		if (answered) {
-			peerConnection.addIceCandidate(new RTCIceCandidate(candidate));
-		} else {
-			candidates.push(new RTCIceCandidate(candidate));
-		}
-	});
-
-	client.on('connect', () => {
-		client.emit('watcher');
-	});
-
-	client.on('broadcaster', () => {
-		client.emit('watcher');
-	});
-
-	onDestroy(() => {
-		client.close();
-		peerConnection.close();
-	});
 </script>
 
 <svelte:window
@@ -107,7 +46,7 @@
 			x={300}
 			open={true}
 		>
-			<CameraDisplay {mediaStream} />
+			<Streamer/>
 		</WindowComponent>
 		<WindowComponent
 			windowName="Visualizer"
@@ -128,16 +67,6 @@
 			open={false}
 		>
 			<Notepad />
-		</WindowComponent>
-		<WindowComponent
-			windowName="Cameras"
-			color="#369BEC"
-			height={200}
-			width={200}
-			x={500}
-			y={500}
-		>
-			<CameraDisplay {mediaStream} />
 		</WindowComponent>
 	</Taskbar>
 </main>

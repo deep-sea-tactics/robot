@@ -1,7 +1,3 @@
-<!--
-	Look, it works. Don't touch it.
--->
-
 <script lang="ts">
 	import Icon from 'svelte-awesome';
 	import close from 'svelte-awesome/icons/close';
