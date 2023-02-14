@@ -31,7 +31,7 @@
 	let localZIndex = $zIndex;
 
 	$: if (!open) {
-		$windows[windowName] = { ...$windows[windowName], enabled: false };
+		$windows[windowName].enabled = false;
 	}
 
 	function drag(
