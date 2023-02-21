@@ -12,7 +12,7 @@ cd ../webrtc-streamer
 
 main() {
 	if test "${DEV+x}"; then
-		./webrtc-streamer -v file://workspaces/Landstown-Robotics-Challenge/videos/robert.mp4
+		./webrtc-streamer -v file://workspaces/Landstown-Robotics-Challenge/videos/robert.mov
 	else
 		./webrtc-streamer -v v4l2:///dev/video0
 	fi
