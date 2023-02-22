@@ -36,7 +36,6 @@
 					<p>Some action</p> -->
 				</div>
 			</div>
-			
 		</WindowComponent>
 		<WindowComponent
 			windowName="Video"
@@ -46,7 +45,7 @@
 			x={300}
 			open={true}
 		>
-			<Streamer/>
+			<Streamer />
 		</WindowComponent>
 		<WindowComponent
 			windowName="Visualizer"
@@ -77,7 +76,6 @@
 		flex-direction: column;
 		width: 100vw;
 		height: 100vh;
-		background-color: white;
 	}
 	.keybinds-holder {
 		flex-wrap: nowrap;
@@ -87,9 +85,4 @@
 		text-align: left;
 		margin: 5px;
 	}
-	/* .keybinds-holder p {
-		margin-left: 10px;
-		flex-grow: 1;
-		flex-shrink: 1;
-	} */
 </style>

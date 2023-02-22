@@ -1,7 +1,7 @@
 <script lang="ts">
-	import CameraDisplay from "./CameraDisplay.svelte";
+	import CameraDisplay from './CameraDisplay.svelte';
 
 	let mediaStream: MediaStream;
 </script>
 
-<CameraDisplay {mediaStream}></CameraDisplay>
+<CameraDisplay {mediaStream} />

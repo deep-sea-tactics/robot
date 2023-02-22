@@ -8,7 +8,7 @@
 	"forwardPorts": [4000],
 
 	"postCreateCommand": "bash ./scripts/install.sh",
-	
+
 	"customizations": {
 		"vscode": {
 			"extensions": [
