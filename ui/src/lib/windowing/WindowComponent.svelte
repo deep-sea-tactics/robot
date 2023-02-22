@@ -148,7 +148,10 @@
 			{windowName}
 			<div class="dockable-icon">
 				<div
-					on:click={() => (localZIndex = 0)}
+					on:click={() => { 
+						/* make the height of the window here 0 here */
+						localZIndex = 0;
+					 }}
 					on:keydown={event => {
 						if (event.key == 'Enter') localZIndex = 0;
 					}}
