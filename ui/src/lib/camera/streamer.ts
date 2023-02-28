@@ -1,26 +1,8 @@
-html, body {
-	margin: 0;
-	padding: 0;
-	height: 100%;
-	overflow: hidden;
-}
-#video {
-	width: 100%;
-	height: 100%;
-	background: black;
-}
-</style>
-</head>
-<body>
-
-<video id="video" muted controls autoplay playsinline></video>
-
-<script>
-
 const restartPause = 2000;
 
-class Receiver {
-	constructor() {
+export class Receiver {
+	constructor(streamerCallback) {
+		this.streamerCallback = streamerCallback
 		this.terminated = false;
 		this.ws = null;
 		this.pc = null;
@@ -31,7 +13,7 @@ class Receiver {
 	start() {
 		console.log("connecting");
 
-        this.ws = new WebSocket(window.location.href.replace(/^http/, "ws") + 'ws');
+        this.ws = new WebSocket('ws://192.168.0.3:8889/read/ws');
 
         this.ws.onerror = () => {
             console.log("ws error");
@@ -80,7 +62,7 @@ class Receiver {
 
         this.pc.ontrack = (evt) => {
             console.log("new track " + evt.track.kind);
-            document.getElementById("video").srcObject = evt.streams[0];
+            this.streamerCallback(evt.streams[0]);
         };
 
         const direction = "sendrecv";
