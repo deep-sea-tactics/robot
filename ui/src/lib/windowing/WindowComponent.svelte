@@ -62,7 +62,7 @@
 		currentMousePos = { x: clientX, y: clientY };
 		if (beingDragged) {
 			if (!disableWidthChange) {
-				console.log(widthOffset)
+				console.log(widthOffset);
 				if (!widthOffset) {
 					width = Math.max(
 						savedWindowDetails.x + (currentMousePos.x - originalMousePos.x),
@@ -128,7 +128,7 @@
 			bounds: '.container',
 			defaultPosition: { x, y },
 			position: { x, y },
-			cancel: ".dockable-resize",
+			cancel: '.dockable-resize',
 			applyUserSelectHack: true,
 			onDrag: ({ offsetX, offsetY }) => {
 				x = offsetX;

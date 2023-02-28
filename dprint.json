@@ -30,7 +30,8 @@
 		"**/*-lock.json",
 		"**/.svelte-kit",
 		"**/.yarn",
-		"**/dist"
+		"**/dist",
+		"webrtc-streamer/**/*"
 	],
 	"plugins": [
 		"https://plugins.dprint.dev/typescript-0.77.0.wasm",
