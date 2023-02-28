@@ -25,7 +25,7 @@ export class WebRtcStreamer {
 		this.earlyCandidates = [];
 	}
 	
-	_handleHttpErrors(response) {
+	_handleHttpErrors(response: Response) {
 		if (!response.ok) {
 			throw Error(response.statusText);
 		}

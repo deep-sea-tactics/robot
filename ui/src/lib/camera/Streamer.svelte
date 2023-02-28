@@ -32,8 +32,6 @@
 
 		streamer.connect(usbDevice)
 	})
-
-	$: alert(mediaStream)
 </script>
 
 <CameraDisplay {mediaStream} />
