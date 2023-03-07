@@ -150,7 +150,7 @@
 			<div class="dockable-icon">
 				<!-- svelte-ignore a11y-click-events-have-key-events -->
 				<div
-					on:click={() => (minimized = !minimized)}
+					on:click={() => (minimized = !minimized)} style="{minimized ? "transform: rotate(180deg);" : ""}"
 				>
 					<Icon data={caretDown} />
 				</div>
@@ -186,7 +186,7 @@
 
 		<div
 			class="dockable-content fun"
-			style="height: {minimized ? 0 : height}px; width: {width}px"
+			style="height: {minimized ? 0 : height}px; width: {width}px; {!beingDragged ? "transition: height 0.25s ease-in-out;" : "transition: none"}"
 		>
 			<slot />
 		
@@ -326,7 +326,4 @@
 		background-color: var(--color);
 	}
 
-	.fun {
-		transition: height 10s ease;
-	}
 </style>
