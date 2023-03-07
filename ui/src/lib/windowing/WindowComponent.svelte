@@ -12,6 +12,7 @@
 	export let height = 200;
 	export let color: string;
 	export let open = true;
+	let minimized = false;
 	let minWidth = 200;
 	let snapSensitivity = 50;
 	let windowX = 0;
@@ -147,11 +148,9 @@
 		>
 			{windowName}
 			<div class="dockable-icon">
+				<!-- svelte-ignore a11y-click-events-have-key-events -->
 				<div
-					on:click={() => (localZIndex = 0)}
-					on:keydown={event => {
-						if (event.key == 'Enter') localZIndex = 0;
-					}}
+					on:click={() => (minimized = !minimized)}
 				>
 					<Icon data={caretDown} />
 				</div>
@@ -184,11 +183,13 @@
 				)}
 			/>
 		{/each}
+
 		<div
-			class="dockable-content"
-			style="height: {height}px; width: {width}px"
+			class="dockable-content fun"
+			style="height: {minimized ? 0 : height}px; width: {width}px"
 		>
 			<slot />
+		
 		</div>
 	</div>
 {/if}
@@ -323,5 +324,9 @@
 		justify-content: space-between;
 		flex-wrap: hide;
 		background-color: var(--color);
+	}
+
+	.fun {
+		transition: height 10s ease;
 	}
 </style>
