@@ -305,7 +305,13 @@
 		padding: 0rem;
 		line-height: 25px;
 	}
+	.dockable-icon div svg {
+		height: 100%;
+	}
 	.dockable-icon div {
+		display: flex;
+		justify-content: center;
+		align-items: center;
 		cursor: pointer;
 		width: 25px;
 		height: 25px;
@@ -316,6 +322,7 @@
 
 	.dockable-tools {
 		display: flex;
+		height: 100%;
 		padding: 0.5rem;
 		border-radius: 5px 5px 0 0;
 		object-fit: contain;
