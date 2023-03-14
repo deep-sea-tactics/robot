@@ -185,7 +185,8 @@
 				)}
 			/>
 		{/each}
-
+		
+		{#if !minimized}
 		<div
 			class="dockable-content fun"
 			style="height: {minimized ? 0 : height}px; width: {width}px; {!beingDragged ? "transition: height 0.25s ease-in-out;" : "transition: none"}"
@@ -193,6 +194,7 @@
 			<slot />
 		
 		</div>
+		{/if}
 	</div>
 {/if}
 
