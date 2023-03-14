@@ -167,6 +167,7 @@
 		{#each ['BR', 'TR', 'BL', 'TL'] as location}
 			<div
 				class="dockable-resize {location} corner {beingDragged ? 'dragging' : ''}"
+				style="{minimized ? 'display: none' : 'display: block'}"
 				on:mousedown={drag(location[1] == 'L', location[0] == 'T', false, false)}
 			/>
 		{/each}
@@ -175,6 +176,7 @@
 				class="dockable-resize {location + 'C'} {['T', 'B'].includes(location)
 					? 'horizontal'
 					: 'vertical'}-grabber {beingDragged ? 'dragging' : ''}"
+				style="{minimized ? 'display: none' : 'display: block'}"
 				on:mousedown={drag(
 					['T', 'L'].includes(location),
 					['T', 'R'].includes(location),
