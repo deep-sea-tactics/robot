@@ -15,6 +15,7 @@
 </script>
 
 <div class="taskbar">
+	<img src="/fake_logo.png" alt="logo">
 	{#if Object.values($windows).some(data => !data.enabled)}
 		{#each Object.entries($windows) as [name, data]}
 			{#if !data.enabled}
@@ -29,7 +30,7 @@
 				>
 			{/if}
 		{/each}
-	{:else}
+{:else}								
 		<span class="none">No closed windows yet</span>
 	{/if}
 </div>
