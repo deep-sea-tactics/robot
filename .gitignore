@@ -19,3 +19,4 @@ __pycache__
 vite.config.ts.timestamp-*
 venv
 webrtc-streamer
+!webrtc-streamer/rtsp-simple-server.yml
