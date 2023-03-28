@@ -21,3 +21,7 @@ A user-friendly UI for managing the robot and receiving data from the controller
 ### Robot (robot-py)
 
 This is the robot controller. It hooks into the server and sends the processed data to its servos and other mechanisms, as well as sending processed monitoring data such as cameras and sensors back to the server.
+
+### Configuration
+
+Copy the `turnserver.config` to /etc/turnserver.conf` (or whatever the file is called)
