@@ -110,3 +110,9 @@
 	class={classes}
 	bind:this={canvas}
 />
+
+<style>
+	canvas {
+		width: 100%;
+	}
+</style>
