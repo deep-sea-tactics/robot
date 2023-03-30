@@ -7,7 +7,7 @@ currentLimit = 20
 
 def calcLimit(x):
     # equation derived from https://docs.google.com/spreadsheets/d/1rIfVPKC-plG1GTZuCKPb0hEpbHQJ4Zlnyg2ltgLpQZw/edit?usp=sharing
-    return (3.44*10**-3)+(2.64*10**-2)*x+(1.8*10**-3)*x**2+(3.31*10**-5)*x**3+(-1.15*10**-6)*x**4+(1.2*10**-8)*x**5+(-4.23*10**-11)*x**6
+    return (3.44*10**-3) + (2.64*10**-2)*(x) + (1.8*10**-3)*(x**2) + (3.31*10**-5)*(x**3) + (-1.15*10**-6)*(x**4) + (1.2*10**-8)*(x**5) + (-4.23*10**-11)*(x**6)
 
 
 def powerRequests(powerRequestArray, debug=False):
@@ -17,7 +17,7 @@ def powerRequests(powerRequestArray, debug=False):
     requestAdjusted = calcLimit(rqArr)
     fullPowerAdjusted = calcLimit(100)  # when rqArr in requestAdjusted = 100
     powerAmpsOut = np.around(
-        (((requestAdjusted)**2)*currentLimit)/(sum(requestAdjusted)*(fullPowerAdjusted)), 6)
+        ((requestAdjusted**2) * currentLimit) / (sum(requestAdjusted) * fullPowerAdjusted), 6)
     if debug == True:
         print(requestAdjusted)
         print(fullPowerAdjusted)
