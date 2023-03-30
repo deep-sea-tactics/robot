@@ -1,23 +1,30 @@
 import numpy as np
 
+# all used data sets are derived from:
+# https://docs.google.com/spreadsheets/d/1rIfVPKC-plG1GTZuCKPb0hEpbHQJ4Zlnyg2ltgLpQZw/edit?usp=sharing
+
 powerRequestArray = [1, 1, 0.5, 0.5, 0, 0]  # debug
 # marqArr current (fuse) minus current for electronics (cameras,pi,arm)
 currentLimit = 20
 
-
-def calcLimit(x):
-    # equation derived from https://docs.google.com/spreadsheets/d/1rIfVPKC-plG1GTZuCKPb0hEpbHQJ4Zlnyg2ltgLpQZw/edit?usp=sharing
-    return (3.44*10**-3) + (2.64*10**-2)*(x) + (1.8*10**-3)*(x**2) + (3.31*10**-5)*(x**3) + (-1.15*10**-6)*(x**4) + (1.2*10**-8)*(x**5) + (-4.23*10**-11)*(x**6)
+# defines the polynomial (derived from dataset above) that converts a percentage of power to an amps current. This allows us to use an arbitrary input range (0-1) and convert it to a current value,
+# to be used in the powerRequests function.
+def percentageToCurrent(x):
+	return 3.44E-03 + 2.64*x + 18*x**2 + 33.1*x**3 + -115*x**4 + 120*x**5 + -42.3*x**6
 
 
 def powerRequests(powerRequestArray, debug=False):
     # simplifies equation entry: make sure that incoming values are decimal out of 1
-    rqArr = np.array(powerRequestArray)*100
-    # polynomial in terms of rqArr: THIS CURVE CALCULATED FOR BLUEROBOTICS T200 out of 100
-    requestAdjusted = calcLimit(rqArr)
-    fullPowerAdjusted = calcLimit(100)  # when rqArr in requestAdjusted = 100
+    rqArr = np.array(powerRequestArray)
+
+    requestAdjusted = percentageToCurrent(rqArr)
+    fullPowerAdjusted = percentageToCurrent(1)
+
     powerAmpsOut = np.around(
-        ((requestAdjusted**2) * currentLimit) / (sum(requestAdjusted) * fullPowerAdjusted), 6)
+        ((requestAdjusted**2) * currentLimit) / (sum(requestAdjusted) * fullPowerAdjusted),
+		6
+	)
+
     if debug == True:
         print(requestAdjusted)
         print(fullPowerAdjusted)
@@ -26,6 +33,7 @@ def powerRequests(powerRequestArray, debug=False):
     return (powerAmpsOut)
 
 
+# Converts an amps current array to a PWM array. This is a polynomial fit of the data from the spreadsheet mentioned above.
 def ampsToPWMEQ(amps, orders):
     for (amps, orders) in zip(amps, orders):
         if orders < 0:
