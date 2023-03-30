@@ -22,11 +22,11 @@ def powerRequests(powerRequestArray,debug=False):
 def ampsToPWMEQ(amps,orders):
 	for (amps,orders) in zip(amps,orders):
 		if orders < 0:
-			return (1449)+(-100)*amps+(29.1)*amps**2+(-5.27)*amps**3+(0.504)*amps**4+(-0.0238)*amps**5+((4.38*10**-4))*amps**6
+			return (1449) + (-100)*(amps) + (29.1) * (amps**2) + (-5.27)*(amps**3) + (0.504)*(amps**4) + (-0.0238)*(amps**5) + (4.38*10**-4)*(amps**6)
 		elif orders == 0:
 			return 0
 		else:
-			return (1552)+(96.9)*amps +(-27.8)*amps**2+(5.02)*amps**3+(-0.481)*amps**4+(0.0228)*amps**5+(-4.2*10**-4)amps**6
+			return (1552) + (96.9)*(amps) + (-27.8)*(amps**2) + (5.02)*(amps**3) + (-0.481)*(amps**4) + (0.0228)*(amps**5) + (-4.2*10**-4)*(amps**6)
 
 
 
