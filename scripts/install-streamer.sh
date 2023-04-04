@@ -12,7 +12,7 @@ cd "$(dirname "$0")"
 # https://stackoverflow.com/questions/45125516/possible-values-for-uname-m/45125525#45125525
 main() {
 	local RELEASE_X86=https://github.com/mpromonet/webrtc-streamer/releases/download/v0.7.0/webrtc-streamer-v0.7.0-Linux-x86_64-Release.tar.gz
-	local RELEASE_ARM64=https://github.com/aler9/rtsp-simple-server/releases/download/v0.21.5/rtsp-simple-server_v0.21.5_linux_arm64v8.tar.gz
+	local RELEASE_ARM64=https://github.com/aler9/mediamtx/releases/download/v0.22.0/mediamtx_v0.22.0_linux_arm64v8.tar.gz
 	local RELEASE_ARM7=https://github.com/aler9/rtsp-simple-server/releases/download/v0.21.5/rtsp-simple-server_v0.21.5_linux_armv7.tar.gz
 	# local RELEASE_ARM6=https://github.com/mpromonet/webrtc-streamer/releases/download/v0.7.0/webrtc-streamer-v0.7.0-Linux-armv6l-Release.tar.gz
 
@@ -31,7 +31,7 @@ main() {
 	fi
 
 	wget $RELEASE -O ../webrtc-streamer/release.tar.gz
-	tar -xvzf ../webrtc-streamer/release.tar.gz  --strip-components=1 --directory ../webrtc-streamer
+	tar -xvf ../webrtc-streamer/release.tar.gz --directory ../webrtc-streamer
 }
 
 main "$@"
