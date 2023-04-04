@@ -11,6 +11,6 @@ cd "$(dirname "$0")"
 cd ../webrtc-streamer
 
 main() {
-	./rtsp-simple-server
+	./mediamtx
 }
 main "$@"
