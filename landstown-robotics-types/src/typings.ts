@@ -39,6 +39,13 @@ export interface ControllerData {
 	};
 }
 
+export interface robotInputs {
+	thrusterPins: Array<number>;
+	thrusterPWM: Array<number>;
+	servoPins: Array<number>;
+	servoPositions: Array<number>;
+}
+
 export interface ServerToClientsMap {
 	broadcaster: () => void;
 	watcher: (id: string) => void;
