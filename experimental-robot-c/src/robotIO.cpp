@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include "pigpio.h"
+#include <sys/inotify.h>
 
 /* data format in
 	thrusterPins: Array<number>;
@@ -12,7 +13,7 @@
 
 std::vector<int> thrusterpins;
 std::vector<int> servopins;
-std::vector<int> thrusterpwm;
+std::vector<float> thrusterpwm;
 
 int pwmdutycycle(int pwm) {
 	return pwm/2500*1000000;
@@ -31,11 +32,15 @@ int pinSetInputs(std::vector<int> thrusterpins, std::vector<int> servopins) {
 	}
 }
 
-int thrusterPWMScan(std::vector<int> thrusterpins,std::vector<int> thrusterpwm) {
+int thrusterPWMScan(std::vector<int> thrusterpins,std::vector<float> thrusterpwm) {
 	for (int i = 0; i < thrusterpins.size(); ++i)
 	{
 		gpioHardwarePWM(thrusterpins[i], 400, pwmdutycycle(thrusterpwm[i]));
 	}
+}
+
+int changeDetector() {
+	
 }
 
 int main() {
