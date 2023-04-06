@@ -13,7 +13,7 @@ export class Receiver {
 	start() {
 		console.log('connecting');
 
-		this.ws = new WebSocket('ws://192.168.0.3:8889/cam/ws');
+		this.ws = new WebSocket('ws://192.168.0.2:8889/cam/ws');
 
 		this.ws.onerror = () => {
 			console.log('ws error');
