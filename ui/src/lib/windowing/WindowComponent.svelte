@@ -63,7 +63,6 @@
 		currentMousePos = { x: clientX, y: clientY };
 		if (beingDragged) {
 			if (!disableWidthChange) {
-				console.log(widthOffset);
 				if (!widthOffset) {
 					width = Math.max(
 						savedWindowDetails.x + (currentMousePos.x - originalMousePos.x),
