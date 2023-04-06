@@ -1,9 +1,7 @@
 {
 	"name": "Landstown Robotics",
 
-	"build": {
-		"dockerfile": "Dockerfile"
-	},
+	"image": "mcr.microsoft.com/devcontainers/typescript-node:18",
 
 	"forwardPorts": [4000],
 
