@@ -9,26 +9,23 @@
 	let width = 0;
 	let height = 0;
 
-	function srcObject(node: HTMLVideoElement, stream: MediaStream) {
-		consola.info('webrtc: Initially shovelling in stream:', stream);
-		if (stream) {
-			onMount(() => {
-				node.srcObject = stream;
-				width = node.width;
-				height = node.height;
-			})
+	$: {
+		if (video && mediaStream) {
+			consola.info('webrtc: Shovelling in stream:', mediaStream);
+			video.srcObject = mediaStream;
+			width = video.width;
+			height = video.height;
 		}
-		return {
-			update(newStream: MediaStream) {
-				if (node.srcObject != newStream) {
-					consola.info('webrtc: Shovelling in new stream:', newStream);
-					node.srcObject = newStream;
-					width = node.width;
-					height = node.height;
-				}
-			}
-		};
 	}
+
+	onMount(() => {
+		if (video && mediaStream) {
+			consola.info('webrtc: Shovelling in mount stream:', mediaStream);
+			video.srcObject = mediaStream;
+			width = video.width;
+			height = video.height;
+		}
+	});
 </script>
 
 {#if mediaStream}
@@ -36,7 +33,6 @@
 		bind:this={video}
 		bind:clientWidth={width}
 		bind:clientHeight={height}
-		use:srcObject={mediaStream}
 		on:play={() => {
 			width = video.width;
 			height = video.height;
