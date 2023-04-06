@@ -7,6 +7,7 @@
 	thrusterPins: Array<number>;
 	thrusterPWM: Array<number>;
 	servoPins: Array<number>;
+	relativeServoPositions: bool;
 	servoPositions: Array<number>;
 	inputPins: Array<number>;
 */
@@ -14,6 +15,7 @@
 std::vector<int> thrusterpins;
 std::vector<int> servopins;
 std::vector<float> thrusterpwm;
+bool relativeServoPositions;
 
 int pwmdutycycle(int pwm) {
 	return pwm/2500*1000000;
@@ -40,6 +42,7 @@ int thrusterPWMScan(std::vector<int> thrusterpins,std::vector<float> thrusterpwm
 }
 
 int changeDetector() {
+	wd = inotify_add_watch(inotify_init(),"./iodata.json*",IN_MODIFY);
 	
 }
 
