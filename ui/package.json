@@ -10,21 +10,21 @@
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
 	},
 	"devDependencies": {
-		"@neodrag/svelte": "^2.0.1",
+		"@neodrag/svelte": "^2.0.3",
 		"@sveltejs/adapter-static": "^2.0.1",
-		"@sveltejs/kit": "1.15.1",
+		"@sveltejs/kit": "1.15.2",
 		"landstown-robotics-types": "workspace:*",
-		"sass": "^1.57.1",
+		"sass": "^1.60.0",
 		"socket.io-client": "^4.6.1",
-		"svelte": "^3.55.1",
-		"svelte-awesome": "^3.0.1",
-		"svelte-canvas": "^0.8.1",
+		"svelte": "^3.58.0",
+		"svelte-awesome": "^3.2.0",
+		"svelte-canvas": "^0.9.3",
 		"svelte-check": "^3.2.0",
 		"svelte-persistent": "^0.0.1",
 		"svelte-preprocess": "^5.0.3",
-		"tslib": "^2.4.1",
-		"typescript": "^4.9.4",
-		"vite": "^4.0.4"
+		"tslib": "^2.5.0",
+		"typescript": "^5.0.3",
+		"vite": "^4.2.1"
 	},
 	"type": "module"
 }

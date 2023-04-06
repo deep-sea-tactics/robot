@@ -22,6 +22,12 @@ A user-friendly UI for managing the robot and receiving data from the controller
 
 This is the robot controller. It hooks into the server and sends the processed data to its servos and other mechanisms, as well as sending processed monitoring data such as cameras and sensors back to the server.
 
-### Configuration
+## Configuration
 
-Copy the `turnserver.config` to /etc/turnserver.conf` (or whatever the file is called)
+Copy the `turnserver.config` to /etc/turnserver.conf`
+
+Copy `config.yml` to the proper config in `webrtc-streamer` after running `scripts/install-streamer.sh`
+
+## Health
+
+Run `yarn outdated` to check for unhealthy dependencies.
