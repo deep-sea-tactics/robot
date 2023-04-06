@@ -12,6 +12,8 @@
 		consola.info('webrtc: Initially shovelling in stream:', stream);
 		if (stream) {
 			node.srcObject = stream;
+			width = node.width;
+			height = node.height;
 		}
 		return {
 			update(newStream: MediaStream) {
@@ -19,7 +21,7 @@
 					consola.info('webrtc: Shovelling in new stream:', newStream);
 					node.srcObject = newStream;
 					width = node.width;
-					height = node.width;
+					height = node.height;
 				}
 			}
 		};
