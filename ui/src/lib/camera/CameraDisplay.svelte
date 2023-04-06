@@ -1,5 +1,6 @@
 <script lang="ts">
 	import consola from 'consola';
+    import { onMount } from 'svelte';
 
 	let video: HTMLVideoElement;
 
@@ -11,9 +12,11 @@
 	function srcObject(node: HTMLVideoElement, stream: MediaStream) {
 		consola.info('webrtc: Initially shovelling in stream:', stream);
 		if (stream) {
-			node.srcObject = stream;
-			width = node.width;
-			height = node.height;
+			onMount(() => {
+				node.srcObject = stream;
+				width = node.width;
+				height = node.height;
+			})
 		}
 		return {
 			update(newStream: MediaStream) {
