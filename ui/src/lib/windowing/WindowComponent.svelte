@@ -12,6 +12,7 @@
 	export let height = 200;
 	export let color: string;
 	export let open = true;
+	let minimized = false;
 	let minWidth = 200;
 	let snapSensitivity = 50;
 	let windowX = 0;
@@ -147,11 +148,9 @@
 		>
 			{windowName}
 			<div class="dockable-icon">
+				<!-- svelte-ignore a11y-click-events-have-key-events -->
 				<div
-					on:click={() => (localZIndex = 0)}
-					on:keydown={event => {
-						if (event.key == 'Enter') localZIndex = 0;
-					}}
+					on:click={() => (minimized = !minimized)} style="{minimized ? "transform: rotate(180deg);" : ""}"
 				>
 					<Icon data={caretDown} />
 				</div>
@@ -168,6 +167,7 @@
 		{#each ['BR', 'TR', 'BL', 'TL'] as location}
 			<div
 				class="dockable-resize {location} corner {beingDragged ? 'dragging' : ''}"
+				style="{minimized ? 'display: none' : 'display: block'}"
 				on:mousedown={drag(location[1] == 'L', location[0] == 'T', false, false)}
 			/>
 		{/each}
@@ -176,6 +176,7 @@
 				class="dockable-resize {location + 'C'} {['T', 'B'].includes(location)
 					? 'horizontal'
 					: 'vertical'}-grabber {beingDragged ? 'dragging' : ''}"
+				style="{minimized ? 'display: none' : 'display: block'}"
 				on:mousedown={drag(
 					['T', 'L'].includes(location),
 					['T', 'R'].includes(location),
@@ -184,12 +185,16 @@
 				)}
 			/>
 		{/each}
+		
+		{#if !minimized}
 		<div
-			class="dockable-content"
-			style="height: {height}px; width: {width}px"
+			class="dockable-content fun"
+			style="height: {minimized ? 0 : height}px; width: {width}px; {!beingDragged ? "transition: height 0.25s ease-in-out;" : "transition: none"}"
 		>
 			<slot />
+		
 		</div>
+		{/if}
 	</div>
 {/if}
 
@@ -304,7 +309,13 @@
 		padding: 0rem;
 		line-height: 25px;
 	}
+	.dockable-icon div svg {
+		height: 100%;
+	}
 	.dockable-icon div {
+		display: flex;
+		justify-content: center;
+		align-items: center;
 		cursor: pointer;
 		width: 25px;
 		height: 25px;
@@ -315,6 +326,7 @@
 
 	.dockable-tools {
 		display: flex;
+		height: 100%;
 		padding: 0.5rem;
 		border-radius: 5px 5px 0 0;
 		object-fit: contain;
@@ -324,4 +336,5 @@
 		flex-wrap: hide;
 		background-color: var(--color);
 	}
+
 </style>
