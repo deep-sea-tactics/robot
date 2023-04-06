@@ -29,7 +29,7 @@
 				>
 			{/if}
 		{/each}
-{:else}								
+	{:else}
 		<span class="none">No closed windows yet</span>
 	{/if}
 </div>
