@@ -1,7 +1,13 @@
 const restartPause = 2000;
 
 export class Receiver {
-	constructor(streamerCallback) {
+	ws: WebSocket | null;
+	pc: RTCPeerConnection | null;
+	restartTimeout: number | null;
+	terminated: boolean;
+	streamerCallback: (stream: MediaStream) => void;
+
+	constructor(streamerCallback: (stream: MediaStream) => void) {
 		this.streamerCallback = streamerCallback;
 		this.terminated = false;
 		this.ws = null;
@@ -33,12 +39,12 @@ export class Receiver {
 		this.ws.onmessage = (msg) => this.onIceServers(msg);
 	}
 
-	onIceServers(msg) {
+	onIceServers(msg: MessageEvent) {
 		if (this.ws === null) {
 			return;
 		}
 
-		const iceServers = JSON.parse(msg.data);
+		const iceServers = JSON.parse(msg.data) as RTCIceServer[];
 
 		this.pc = new RTCPeerConnection({
 			iceServers,
@@ -91,7 +97,7 @@ export class Receiver {
 		this.ws.onmessage = (msg) => this.onRemoteCandidate(msg);
 	}
 
-	onIceCandidate(evt) {
+	onIceCandidate(evt: RTCPeerConnectionIceEvent) {
 		if (this.ws === null) {
 			return;
 		}
@@ -103,7 +109,7 @@ export class Receiver {
 		}
 	}
 
-	onRemoteCandidate(msg) {
+	onRemoteCandidate(msg: MessageEvent) {
 		if (this.pc === null) {
 			return;
 		}
