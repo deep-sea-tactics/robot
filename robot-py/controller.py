@@ -20,20 +20,10 @@ def connect_error(data):
 def disconnect():
     print("Robot disconnected.")
 
-
-
 sio.connect("http://192.168.0.3:9000")
 
 @sio.on('controllerData')
 def on_message(data):
-    print(data)
-    global UpDownM
-    global oldThrottle
-    global camSwitch
-    global oldTime
-    global amount
-    camera = 0
-    updown = 0
     parsed_data = json.loads(data)
     newY=((parsed_data["position"]["y"]) - 50) * -1.9
     newX=((parsed_data["position"]["x"]) - 50) * 1.9
@@ -55,4 +45,3 @@ def on_message(data):
     Ptop_middle = parsed_data["buttons"]["side_panel"]["top_middle"]
     Pbottom_right = parsed_data["buttons"]["side_panel"]["bottom_right"]
     Ptop_right = parsed_data["buttons"]["side_panel"]["top_right"]
-
