@@ -17,7 +17,7 @@ export interface Position {
 export interface ControllerData {
 	position: Position;
 	yaw: number;
-	view: number;
+	view: Position;
 	throttle: number;
 	buttons: {
 		trigger: boolean;

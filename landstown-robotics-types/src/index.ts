@@ -7,7 +7,10 @@ export const defaultControllerData: ControllerData = Object.freeze({
 		y: 50,
 	},
 	yaw: 0,
-	view: 0,
+	view: {
+		x: 0,
+		y: 0,
+	},
 	throttle: 0,
 	buttons: {
 		trigger: false,
