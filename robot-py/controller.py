@@ -1,35 +1,35 @@
 #!/usr/bin/env python3
 
 import socketio
-import os
-import time
 import json
-from datetime import datetime
 from typing import TypedDict
+
+class ControllerButtons(TypedDict):
+	bottom_left: bool
+	bottom_right: bool
+	top_left: bool
+	top_right: bool
+
+class SidePanel(TypedDict):
+	bottom_left: bool
+	top_left: bool
+	bottom_middle: bool
+	top_middle: bool
+	bottom_right: bool
+	top_right: bool
 
 class Buttons(TypedDict):
     trigger: bool
     side_grip: bool
-    controller_buttons: TypedDict("ControllerButtons", {
-        "bottom_left": bool,
-        "bottom_right": bool,
-        "top_left": bool,
-        "top_right": bool,
-    })
-    side_panel: TypedDict("SidePanel", {
-        "bottom_left": bool,
-        "top_left": bool,
-        "bottom_middle": bool,
-        "top_middle": bool,
-        "bottom_right": bool,
-        "top_right": bool,
-    })
+    controller_buttons: ControllerButtons
+    side_panel: SidePanel
+
+class Position(TypedDict):
+	x: float
+	y: float
 
 class ControllerData(TypedDict):
-    position: TypedDict("Position", {
-        "x": float,
-        "y": float,
-    })
+    position: Position
     yaw: float
     view: float
     throttle: float
