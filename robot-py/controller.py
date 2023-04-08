@@ -57,27 +57,25 @@ def disconnect():
 @sio.on('controllerData')
 def on_message(data):
     parsed_data: ControllerData = json.loads(data)
-    print(parsed_data)
+    #print(parsed_data)
+
     newX=(parsed_data["position"]["x"] - 50) * 1.9
     newY=(parsed_data["position"]["y"] - 50) * 1.9 * -1
 
-    throttle = parsed_data["throttle"]
-    trigger=parsed_data["buttons"]["trigger"]
-
-    if (trigger):
-        trig = 1
+    if (parsed_data["buttons"]["trigger"]):
         forward_left = newY + newX
         forward_right = newY - newX
-
         #side_front = newY
         #side_back = newY
+
+
     else:
         forward_left = 0
         forward_right = 0
         side_front = 0
         side_back = 0
 
-    vertical = (throttle * 50)
+    vertical = (parsed_data["throttle"] * 50)
 
     if (vertical > 50): vertical = 50
     elif (vertical < -50): vertical = -50
