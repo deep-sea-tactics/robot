@@ -3,6 +3,7 @@
 import socketio
 import json
 from typing import TypedDict
+import signal
 
 class ControllerButtons(TypedDict):
 	bottom_left: bool
@@ -50,6 +51,13 @@ def disconnect():
     print("Robot disconnected.")
 
 sio.connect("http://192.168.0.3:9000")
+
+def signal_handler(sig, frame):
+	print('Exiting...')
+	sio.disconnect()
+	exit(0)
+
+signal.signal(signal.SIGINT, signal_handler)
 
 @sio.on('controllerData')
 def on_message(data):
