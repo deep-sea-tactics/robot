@@ -1,81 +1,96 @@
-import os     #importing os library so as to communicate with the system
-import time   #importing time library to make Rpi wait because its too impatient 
-#os.system ("sudo pigpiod") #Launching GPIO library
-#time.sleep(1) # As i said it is too impatient and so if this delay is removed you will get an error
 import pigpio #importing GPIO library
 
 # -----------------------------------------
 # Constant values
 # -----------------------------------------
 # Gpio pins
-MOTOR_1=16  # Right motor
-MOTOR_2=19  # Left motor
-MOTOR_3=13  # Right-Up motor
-MOTOR_4=12   # Left-Up motor
-MOTOR_5=6
-MOTOR_6=5
+MOTOR_forward_right=13  # Forward Right Motor
+MOTOR_forward_left=5  # Forward Left Motor
+MOTOR_vertical_left=19  # Vertical Left Motor
+MOTOR_vertical_right=16  # Vertical Right Motor
+MOTOR_side_front=12   # Sideways Front Motor
+MOTOR_side_back=6   # Sideways Back Motor
 
 # PWM values for the gio pins
 MAX_VALUE = 1900 # ESC's max value
 ZERO_VALUE = 1500  #ESC's zero value
 MIN_VALUE = 1100  #ESC's min value
 
+FORWARD_INCREMENT  = (MAX_VALUE - ZERO_VALUE) / 100
+BACKWARD_INCREMENT = (ZERO_VALUE - MIN_VALUE) / 100
+
 # -----------------------------------------
 # Initialization
 # -----------------------------------------
-pi = pigpio.pi();
+pi = pigpio.pi()
 
-pi.set_servo_pulsewidth(MOTOR_1, 0) 
-pi.set_servo_pulsewidth(MOTOR_2, 0) 
-pi.set_servo_pulsewidth(MOTOR_3, 0) 
-pi.set_servo_pulsewidth(MOTOR_4, 0) 
-pi.set_servo_pulsewidth(MOTOR_5, 0) 
-pi.set_servo_pulsewidth(MOTOR_6, 0) 
-time.sleep(1)
+pi.set_servo_pulsewidth(MOTOR_forward_right, 0)
+pi.set_servo_pulsewidth(MOTOR_forward_left, 0)
+pi.set_servo_pulsewidth(MOTOR_vertical_left, 0)
+pi.set_servo_pulsewidth(MOTOR_vertical_right, 0)
+pi.set_servo_pulsewidth(MOTOR_side_front, 0)
+pi.set_servo_pulsewidth(MOTOR_side_back, 0)
+
 # 1500 sets the motor speeds off
-pi.set_servo_pulsewidth(MOTOR_1, ZERO_VALUE) 
-pi.set_servo_pulsewidth(MOTOR_2, ZERO_VALUE) 
-pi.set_servo_pulsewidth(MOTOR_3, ZERO_VALUE) 
-pi.set_servo_pulsewidth(MOTOR_4, ZERO_VALUE) 
-pi.set_servo_pulsewidth(MOTOR_5, ZERO_VALUE) 
-pi.set_servo_pulsewidth(MOTOR_6, ZERO_VALUE) 
+pi.set_servo_pulsewidth(MOTOR_forward_right, ZERO_VALUE)
+pi.set_servo_pulsewidth(MOTOR_forward_left, ZERO_VALUE)
+pi.set_servo_pulsewidth(MOTOR_vertical_left, ZERO_VALUE)
+pi.set_servo_pulsewidth(MOTOR_vertical_right, ZERO_VALUE)
+pi.set_servo_pulsewidth(MOTOR_side_front, ZERO_VALUE)
+pi.set_servo_pulsewidth(MOTOR_side_back, ZERO_VALUE)
 
 print ('ESCs ready to control')
-print ('MOTOR_1: gpio-'+str(MOTOR_1)+', MOTOR_2: gpio-'+str(MOTOR_2)+', MOTOR_3: gpio-'+str(MOTOR_3)+', MOTOR_4: gpio-'+str(MOTOR_4) +', MOTOR_3: gpio-'+str(MOTOR_5)+', MOTOR_3: gpio-'+str(MOTOR_6))
+#print ('MOTOR_1: gpio-'+str(MOTOR_1)+', MOTOR_2: gpio-'+str(MOTOR_2)+', MOTOR_3: gpio-'+str(MOTOR_3)+', MOTOR_4: gpio-'+str(MOTOR_4) +', MOTOR_3: gpio-'+str(MOTOR_5)+', MOTOR_3: gpio-'+str(MOTOR_6))
 
 # -----------------------------------------
 # Method Definitions
 # -----------------------------------------
 
-def motor1_go(inp): #You will use this function to program your ESC if required
+# Converts value for motor (-100 to 100) to PWM value
+def convertMotorValue(value):
+    motorValue = ZERO_VALUE
+    if value > 0:
+        motorValue = ZERO_VALUE + FORWARD_INCREMENT * value
+    else:
+        motorValue = ZERO_VALUE + BACKWARD_INCREMENT * value
+    return motorValue
+
+
+def go_forward_right(inp): #You will use this function to program your ESC if required
 	# print "Motor-1 speed to " + str(inp)
-	pi.set_servo_pulsewidth(MOTOR_1,inp)
+	pi.set_servo_pulsewidth(MOTOR_forward_right,convertMotorValue(inp))
 
-def motor2_go(inp): #You will use this function to program your ESC if required
+def go_forward_left(inp): #You will use this function to program your ESC if required
 	# print "Motor-2 speed to " + str(inp)
-	pi.set_servo_pulsewidth(MOTOR_2,inp)
+	pi.set_servo_pulsewidth(MOTOR_forward_left,convertMotorValue(inp))
 
-def motor3_go(inp): #You will use this function to program your ESC if required
+def go_vertical_left(inp): #You will use this function to program your ESC if required
 	# print "Motor-3 speed to " + str(inp)
-	pi.set_servo_pulsewidth(MOTOR_3,inp)
+	pi.set_servo_pulsewidth(MOTOR_vertical_left,convertMotorValue(inp))
 
-def motor4_go(inp): #You will use this function to program your ESC if required
+def go_vertical_right(inp): #You will use this function to program your ESC if required
 	# print "Motor-4 speed to " + str(inp)
-	pi.set_servo_pulsewidth(MOTOR_4,inp)
+	pi.set_servo_pulsewidth(MOTOR_vertical_right,convertMotorValue(inp))
 
-def motor5_go(inp): #You will use this function to program your ESC if required
+def go_side_front(inp): #You will use this function to program your ESC if required
 	# print "Motor-5 speed to " + str(inp)
-	pi.set_servo_pulsewidth(MOTOR_5,inp)
+	pi.set_servo_pulsewidth(MOTOR_side_front,convertMotorValue(inp))
 
-def motor6_go(inp): #You will use this function to program your ESC if required
+def go_side_back(inp): #You will use this function to program your ESC if required
 	# print "Motor-6 speed to " + str(inp)
-	pi.set_servo_pulsewidth(MOTOR_6,inp)
+	pi.set_servo_pulsewidth(MOTOR_side_back,convertMotorValue(inp))
 
-def stop_all(): 
-	pi.set_servo_pulsewidth(MOTOR_1, 0)
-	pi.set_servo_pulsewidth(MOTOR_2, 0)
-	pi.set_servo_pulsewidth(MOTOR_3, 0)
-	pi.set_servo_pulsewidth(MOTOR_4, 0)
-	pi.set_servo_pulsewidth(MOTOR_5, 0)
-	pi.set_servo_pulsewidth(MOTOR_6, 0)
+def stop_all():
+	pi.set_servo_pulsewidth(MOTOR_forward_right, ZERO_VALUE)
+	pi.set_servo_pulsewidth(MOTOR_forward_left, ZERO_VALUE)
+	pi.set_servo_pulsewidth(MOTOR_vertical_left, ZERO_VALUE)
+	pi.set_servo_pulsewidth(MOTOR_vertical_right, ZERO_VALUE)
+	pi.set_servo_pulsewidth(MOTOR_side_front, ZERO_VALUE)
+	pi.set_servo_pulsewidth(MOTOR_side_back, ZERO_VALUE)
+	pi.set_servo_pulsewidth(MOTOR_forward_right, 0)
+	pi.set_servo_pulsewidth(MOTOR_forward_left, 0)
+	pi.set_servo_pulsewidth(MOTOR_vertical_left, 0)
+	pi.set_servo_pulsewidth(MOTOR_vertical_right, 0)
+	pi.set_servo_pulsewidth(MOTOR_side_front, 0)
+	pi.set_servo_pulsewidth(MOTOR_side_back, 0)
 	pi.stop()
