@@ -80,7 +80,7 @@ def on_message(data):
     if (vertical > 50): vertical = 50
     elif (vertical < -50): vertical = -50
 
-    print(f'{newX} {newY}')
+    print(f'{newX} {newY} {vertical}')
 
 
     esc.go_forward_right(forward_right)
