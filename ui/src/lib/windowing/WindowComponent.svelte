@@ -210,6 +210,7 @@
 		// We don't use border here because a border will leave a small gap
 		box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.2);
 		cursor: move;
+		overflow: hide;
 	}
 
 	//just a bunch of utility classes for window resizing. A little messy but um, I have no intention of fixing that.
