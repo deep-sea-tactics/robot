@@ -10,7 +10,7 @@
 		"build": "tsc --incremental"
 	},
 	"devDependencies": {
-		"@types/node": "^18.15.11",
-		"typescript": "^5.0.3"
+		"@types/node": "^18.11.9",
+		"typescript": "^4.9.3"
 	}
 }
