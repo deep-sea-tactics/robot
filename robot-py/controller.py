@@ -5,35 +5,6 @@ import os
 import time
 import json
 from datetime import datetime
-from typing import TypedDict
-
-class Buttons(TypedDict):
-    trigger: bool
-    side_grip: bool
-    controller_buttons: TypedDict("ControllerButtons", {
-        "bottom_left": bool,
-        "bottom_right": bool,
-        "top_left": bool,
-        "top_right": bool,
-    })
-    side_panel: TypedDict("SidePanel", {
-        "bottom_left": bool,
-        "top_left": bool,
-        "bottom_middle": bool,
-        "top_middle": bool,
-        "bottom_right": bool,
-        "top_right": bool,
-    })
-
-class ControllerData(TypedDict):
-    position: TypedDict("Position", {
-        "x": float,
-        "y": float,
-    })
-    yaw: float
-    view: float
-    throttle: float
-    buttons: Buttons
 
 sio = socketio.Client()
 
@@ -53,6 +24,24 @@ sio.connect("http://192.168.0.3:9000")
 
 @sio.on('controllerData')
 def on_message(data):
-    parsed_data: ControllerData = json.loads(data)
-    newX=((parsed_data.position.x) - 50) * 1.9
-    newY=((parsed_data.position.y) - 50) * 1.9 * -1
+    parsed_data = json.loads(data)
+    newY=((parsed_data["position"]["y"]) - 50) * -1.9
+    newX=((parsed_data["position"]["x"]) - 50) * 1.9
+
+    yaw=parsed_data["yaw"]
+    view=parsed_data["view"]
+    throttle=parsed_data["throttle"]
+    trigger=parsed_data["buttons"]["trigger"]
+    side_grip=parsed_data["buttons"]["side_grip"]
+
+    Cbottom_left=parsed_data["buttons"]["controller_buttons"]["bottom_left"]
+    Cbottom_right=parsed_data["buttons"]["controller_buttons"]["bottom_right"]
+    Ctop_left=parsed_data["buttons"]["controller_buttons"]["top_left"]
+    Ctop_right=parsed_data["buttons"]["controller_buttons"]["top_right"]
+
+    Pbottom_left = parsed_data["buttons"]["side_panel"]["bottom_left"]
+    Ptop_left = parsed_data["buttons"]["side_panel"]["top_left"]
+    Pbottom_middle = parsed_data["buttons"]["side_panel"]["bottom_middle"]
+    Ptop_middle = parsed_data["buttons"]["side_panel"]["top_middle"]
+    Pbottom_right = parsed_data["buttons"]["side_panel"]["bottom_right"]
+    Ptop_right = parsed_data["buttons"]["side_panel"]["top_right"]
