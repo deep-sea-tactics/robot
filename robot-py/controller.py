@@ -49,10 +49,10 @@ def on_message(data):
     Ctop_left=parsed_data["buttons"]["controller_buttons"]["top_left"]
     Ctop_right=parsed_data["buttons"]["controller_buttons"]["top_right"]
 
-    Pbottom_left = parsed_data["buttons"]["side_panel"]["bottom_left"]
-    Ptop_left = parsed_data["buttons"]["side_panel"]["top_left"]
-    Pbottom_middle = parsed_data["buttons"]["side_panel"]["bottom_middle"]
-    Ptop_middle = parsed_data["buttons"]["side_panel"]["top_middle"]
-    Pbottom_right = parsed_data["buttons"]["side_panel"]["bottom_right"]
-    Ptop_right = parsed_data["buttons"]["side_panel"]["top_right"]
+	Pbottom_left = parsed_data["buttons"]["side_panel"]["bottom_left"]
+	Ptop_left = parsed_data["buttons"]["side_panel"]["top_left"]
+	Pbottom_middle = parsed_data["buttons"]["side_panel"]["bottom_middle"]
+	Ptop_middle = parsed_data["buttons"]["side_panel"]["top_middle"]
+	Pbottom_right = parsed_data["buttons"]["side_panel"]["bottom_right"]
+	Ptop_right = parsed_data["buttons"]["side_panel"]["top_right"]
 
