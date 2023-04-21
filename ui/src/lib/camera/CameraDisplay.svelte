@@ -39,6 +39,13 @@
 				const frame = context.getImageData(0, 0, width, height);
 				const l = frame.data.length / 4;
 
+				for (let i = 0; i < l; i++) {
+					const grey = (frame.data[i * 4 + 0] + frame.data[i * 4 + 1] + frame.data[i * 4 + 2]) / 3;
+
+					frame.data[i * 4 + 0] = grey;
+					frame.data[i * 4 + 1] = grey;
+					frame.data[i * 4 + 2] = grey;
+				}
 				context.putImageData(frame, 0, 0);
 			} catch (e) {
 				console.warn('Could not retrieve frame: ', e);
