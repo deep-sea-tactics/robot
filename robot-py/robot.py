@@ -77,7 +77,7 @@ def on_message(data):
     newX=((parsed_data["position"]["x"]) - 50) * 1.9
 
     yaw=parsed_data["yaw"]
-    view=parsed_data["view"] # DANIEL. THIS IS NOW A POSITION (["x"], ["y"]) INSTEAD OF A NUMBER.
+    view=parsed_data["view"]
     throttle=parsed_data["throttle"]
     trigger=parsed_data["buttons"]["trigger"]
     side_grip=parsed_data["buttons"]["side_grip"]

@@ -33,7 +33,7 @@ class Position(TypedDict):
 class ControllerData(TypedDict):
     position: Position
     yaw: float
-    view: Position
+    view: float
     throttle: float
     buttons: Buttons
 
