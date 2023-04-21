@@ -52,14 +52,14 @@ def connect_error(data):
 def disconnect():
     esc.stop_all()
     print("Robot disconnected.")
-    exit(0)
+
 
 @sio.on('controllerData')
 def on_message(data):
     parsed_data: ControllerData = json.loads(data)
-    print(parsed_data)
-    newX=(parsed_data["position"]["x"] - 50) * 1.9
-    newY=(parsed_data["position"]["y"] - 50) * 1.9 * -1
+    #print(parsed_data)
+    newX=((parsed_data["position"]["x"]) - 50) * 1.9
+    newY=((parsed_data["position"]["y"]) - 50) * 1.9 * -1
 
     throttle = parsed_data["throttle"]
     trigger=parsed_data["buttons"]["trigger"]
@@ -76,8 +76,9 @@ def on_message(data):
         forward_right = 0
         side_front = 0
         side_back = 0
+    vertical = 0
 
-    vertical = (throttle * 50)
+    #vertical = (throttle / 2.55) - 50
 
     if (vertical > 50): vertical = 50
     elif (vertical < -50): vertical = -50

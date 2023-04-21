@@ -1,5 +1,4 @@
 import pigpio #importing GPIO library
-import time
 
 # -----------------------------------------
 # Constant values
@@ -31,8 +30,6 @@ pi.set_servo_pulsewidth(MOTOR_vertical_left, 0)
 pi.set_servo_pulsewidth(MOTOR_vertical_right, 0)
 pi.set_servo_pulsewidth(MOTOR_side_front, 0)
 pi.set_servo_pulsewidth(MOTOR_side_back, 0)
-
-time.sleep(3)
 
 # 1500 sets the motor speeds off
 pi.set_servo_pulsewidth(MOTOR_forward_right, ZERO_VALUE)
