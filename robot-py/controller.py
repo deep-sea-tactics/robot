@@ -54,5 +54,5 @@ sio.connect("http://192.168.0.3:9000")
 @sio.on('controllerData')
 def on_message(data):
     parsed_data: ControllerData = json.loads(data)
-    newX=((parsed_data["position"]["x"]) - 50) * 1.9
-    newY=((parsed_data["position"]["y"]) - 50) * 1.9 * -1
+    newX=((parsed_data.position.x) - 50) * 1.9
+    newY=((parsed_data.position.y) - 50) * 1.9 * -1
