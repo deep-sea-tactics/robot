@@ -37,6 +37,7 @@
 				width = video.videoWidth;
 				height = video.videoHeight;
 				const frame = context.getImageData(0, 0, width, height);
+				const l = frame.data.length / 4;
 
 				context.putImageData(frame, 0, 0);
 			} catch (e) {
