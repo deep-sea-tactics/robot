@@ -13,7 +13,7 @@ export class Receiver {
 		this.ws = null;
 		this.pc = null;
 		this.restartTimeout = null;
-		setTimeout(() => this.start(), 0);
+		this.start();
 	}
 
 	start() {
