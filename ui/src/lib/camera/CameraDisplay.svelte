@@ -1,6 +1,6 @@
 <script lang="ts">
 	import consola from 'consola';
-	import { onMount } from 'svelte';
+    import { onMount } from 'svelte';
 
 	let video: HTMLVideoElement;
 
