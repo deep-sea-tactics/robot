@@ -3,7 +3,7 @@ import type { UserConfig } from 'vite';
 
 export default <UserConfig> {
 	plugins: [sveltekit()],
-	// clearing the screen can mess with the stdout
+	// when using ./run.sh, clearing the screen can mess with the stdout
 	clearScreen: false,
 	server: {
 		// avoid wacky connection bugs and throw a runtime error early if the client is already running
@@ -12,11 +12,6 @@ export default <UserConfig> {
 		host: '0.0.0.0',
 		// not gitpod AND not codespaces
 		hmr: !process.env.GITPOD_WORKSPACE_ID && !process.env.CODESPACES,
-		port: 4000,
-	},
-	preview: {
-		strictPort: true,
-		host: '0.0.0.0',
 		port: 4000,
 	},
 	build: {

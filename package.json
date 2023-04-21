@@ -4,7 +4,7 @@
 		"lint": "yarn format && eslint .",
 		"check": "dprint check && eslint .",
 		"format": "dprint fmt",
-		"dev": "bash ./scripts/dev.sh"
+		"dev": "bash ./run.sh"
 	},
 	"workspaces": [
 		"ui",
