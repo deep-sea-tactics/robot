@@ -35,7 +35,7 @@ readBufferCount: 512
 externalAuthenticationURL:
 
 # Enable the HTTP API.
-api: no
+api: yes
 # Address of the API listener.
 apiAddress: 192.168.0.2:9997
 
@@ -120,7 +120,7 @@ rtmpServerCert: server.crt
 # HLS parameters
 
 # Disable support for the HLS protocol.
-hlsDisable: yes
+hlsDisable: no
 # Address of the HLS listener.
 hlsAddress: :8888
 # Enable TLS/HTTPS on the HLS server.
@@ -223,4 +223,5 @@ webrtcICETCPMuxAddress:
 # another entry.
 paths:
   cam:
-    source: rpiCamera
+    runOnInit: ffmpeg -f v4l2 -i /dev/video0 -pix_fmt yuv420p -preset ultrafast -b:v 600k -f rtsp rtsp://localhost:$RTSP_PORT/$RTSP_PATH
+    runOnInitRestart: yes
