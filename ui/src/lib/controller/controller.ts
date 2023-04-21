@@ -27,12 +27,12 @@ function grabController() {
 				x: axis[0] * 50 + 50,
 				y: axis[1] * 50 + 50,
 			},
-			yaw: axis[2],
+			yaw: 1,
 			view: {
 				x: axis[4],
-				y: axis[5],
+				y: axis[5]
 			},
-			throttle: axis[3],
+			throttle: axis[3] * -255 / 2 + 255 / 2,
 			buttons: {
 				trigger: buttons[0],
 				side_grip: buttons[1],
