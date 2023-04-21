@@ -61,7 +61,7 @@ runOnConnectRestart: no
 # RTSP parameters
 
 # Disable support for the RTSP protocol.
-rtspDisable: yes
+rtspDisable: no
 # List of enabled RTSP transport protocols.
 # UDP is the most performant, but doesn't work when there's a NAT/firewall between
 # server and clients, and doesn't support encryption.
