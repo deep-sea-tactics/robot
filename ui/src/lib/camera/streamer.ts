@@ -2,7 +2,7 @@ const restartPause = 2000;
 
 export class Receiver {
 	constructor(streamerCallback) {
-		this.streamerCallback = streamerCallback;
+		this.streamerCallback = streamerCallback
 		this.terminated = false;
 		this.ws = null;
 		this.pc = null;
@@ -11,76 +11,76 @@ export class Receiver {
 	}
 
 	start() {
-		console.log('connecting');
+		console.log("connecting");
 
-		this.ws = new WebSocket('ws://192.168.0.3:8889/cam/ws');
+        this.ws = new WebSocket('ws://192.168.0.3:8889/cam/ws');
 
-		this.ws.onerror = () => {
-			console.log('ws error');
-			if (this.ws === null) {
-				return;
-			}
-			this.ws.close();
-			this.ws = null;
-		};
+        this.ws.onerror = () => {
+            console.log("ws error");
+            if (this.ws === null) {
+                return;
+            }
+            this.ws.close();
+            this.ws = null;
+        };
 
-		this.ws.onclose = () => {
-			console.log('ws closed');
-			this.ws = null;
-			this.scheduleRestart();
-		};
+        this.ws.onclose = () => {
+            console.log("ws closed");
+            this.ws = null;
+            this.scheduleRestart();
+        };
 
-		this.ws.onmessage = (msg) => this.onIceServers(msg);
+        this.ws.onmessage = (msg) => this.onIceServers(msg);
 	}
 
-	onIceServers(msg) {
-		if (this.ws === null) {
-			return;
-		}
+    onIceServers(msg) {
+        if (this.ws === null) {
+            return;
+        }
 
-		const iceServers = JSON.parse(msg.data);
+        const iceServers = JSON.parse(msg.data);
 
-		this.pc = new RTCPeerConnection({
-			iceServers,
-		});
+        this.pc = new RTCPeerConnection({
+            iceServers,
+        });
 
-		this.ws.onmessage = (msg) => this.onRemoteDescription(msg);
-		this.pc.onicecandidate = (evt) => this.onIceCandidate(evt);
+        this.ws.onmessage = (msg) => this.onRemoteDescription(msg);
+        this.pc.onicecandidate = (evt) => this.onIceCandidate(evt);
 
-		this.pc.oniceconnectionstatechange = () => {
-			if (this.pc === null) {
-				return;
-			}
+        this.pc.oniceconnectionstatechange = () => {
+            if (this.pc === null) {
+                return;
+            }
 
-			console.log('peer connection state:', this.pc.iceConnectionState);
+            console.log("peer connection state:", this.pc.iceConnectionState);
 
-			switch (this.pc.iceConnectionState) {
-				case 'disconnected':
-					this.scheduleRestart();
-			}
-		};
+            switch (this.pc.iceConnectionState) {
+            case "disconnected":
+                this.scheduleRestart();
+            }
+        };
 
-		this.pc.ontrack = (evt) => {
-			console.log('new track ' + evt.track.kind);
-			this.streamerCallback(evt.streams[0]);
-		};
+        this.pc.ontrack = (evt) => {
+            console.log("new track " + evt.track.kind);
+            this.streamerCallback(evt.streams[0]);
+        };
 
-		const direction = 'sendrecv';
-		this.pc.addTransceiver('video', { direction });
-		this.pc.addTransceiver('audio', { direction });
+        const direction = "sendrecv";
+        this.pc.addTransceiver("video", { direction });
+        this.pc.addTransceiver("audio", { direction });
 
-		this.pc.createOffer()
-			.then((desc) => {
-				if (this.pc === null || this.ws === null) {
-					return;
-				}
+        this.pc.createOffer()
+            .then((desc) => {
+                if (this.pc === null || this.ws === null) {
+                    return;
+                }
 
-				this.pc.setLocalDescription(desc);
+                this.pc.setLocalDescription(desc);
 
-				console.log('sending offer');
-				this.ws.send(JSON.stringify(desc));
-			});
-	}
+                console.log("sending offer");
+                this.ws.send(JSON.stringify(desc));
+            });
+    }
 
 	onRemoteDescription(msg) {
 		if (this.pc === null || this.ws === null) {
@@ -91,17 +91,17 @@ export class Receiver {
 		this.ws.onmessage = (msg) => this.onRemoteCandidate(msg);
 	}
 
-	onIceCandidate(evt) {
-		if (this.ws === null) {
-			return;
-		}
+    onIceCandidate(evt) {
+        if (this.ws === null) {
+            return;
+        }
 
-		if (evt.candidate !== null) {
-			if (evt.candidate.candidate !== '') {
-				this.ws.send(JSON.stringify(evt.candidate));
-			}
-		}
-	}
+        if (evt.candidate !== null) {
+            if (evt.candidate.candidate !== "") {
+                this.ws.send(JSON.stringify(evt.candidate));
+            }
+        }
+    }
 
 	onRemoteCandidate(msg) {
 		if (this.pc === null) {
@@ -111,24 +111,24 @@ export class Receiver {
 		this.pc.addIceCandidate(JSON.parse(msg.data));
 	}
 
-	scheduleRestart() {
-		if (this.terminated) {
-			return;
-		}
+    scheduleRestart() {
+        if (this.terminated) {
+            return;
+        }
 
-		if (this.ws !== null) {
-			this.ws.close();
-			this.ws = null;
-		}
+        if (this.ws !== null) {
+            this.ws.close();
+            this.ws = null;
+        }
 
-		if (this.pc !== null) {
-			this.pc.close();
-			this.pc = null;
-		}
+        if (this.pc !== null) {
+            this.pc.close();
+            this.pc = null;
+        }
 
-		this.restartTimeout = window.setTimeout(() => {
-			this.restartTimeout = null;
-			this.start();
-		}, restartPause);
-	}
+        this.restartTimeout = window.setTimeout(() => {
+            this.restartTimeout = null;
+            this.start();
+        }, restartPause);
+    }
 }

@@ -10,16 +10,16 @@ To run, open VSCode (or gitpod, or github codespaces) and use `CTRL + SHIFT + B`
 
 There are a few lifetime scripts:
 
-| Script                        | Description                                                                   |
-| ----------------------------- | ----------------------------------------------------------------------------- |
-| `./scripts/install.sh`        | Installs all dependencies for the project.                                    |
-| `./scripts/dev.sh`            | Runs the development servers.                                                 |
-| `./scripts/build.sh`          | Builds the UI and the server.                                                 |
-| `./scripts/run.sh`            | Runs the server (requires build).                                             |
+| Script | Description |
+| --- | --- |
+| `./scripts/install.sh` | Installs all dependencies for the project. |
+| `./scripts/dev.sh` | Runs the development servers. |
+| `./scripts/build.sh` | Builds the UI and the server. |
+| `./scripts/run.sh` | Runs the server (requires build). |
 | `./scripts/stream-install.sh` | Installs the webrtc streamer ([mediamtx](https://github.com/aler9/mediamtx)). |
-| `./scripts/stream-run.sh`     | Runs mediamtx.                                                                |
-| `./scripts/robot.sh`          | Runs the robot controller (intended to be run on PI).                         |
-| `./scripts/kill.sh`           | Kills all running servers (ui, relay).                                        |
+| `./scripts/stream-run.sh` | Runs mediamtx. |
+| `./scripts/robot.sh` | Runs the robot controller (intended to be run on PI). |
+| `./scripts/kill.sh` | Kills all running servers (ui, relay). |
 
 Streamer scripts and the robot script are intended to be run on the PI.
 

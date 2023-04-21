@@ -6,7 +6,7 @@
 	let mediaStream: MediaStream;
 
 	onMount(async () => {
-		new Receiver(stream => (mediaStream = stream));
+		new Receiver(stream => mediaStream = stream)
 	});
 </script>
 
