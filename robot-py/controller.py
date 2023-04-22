@@ -77,18 +77,17 @@ def on_message(data):
         side_front = 0
         side_back = 0
 
-    vertical = (parsed_data["throttle"] * 100)
-    
-    
-	motorOrders = [forward_left,forward_right,side_front,side_back,vertical,vertical]
-	motorAmps = dynamicpoweralloc.powerRequests(np.absolute(motorOrders))
+    vertical = (parsed_data["throttle"] * 100) 
+
+    motorOrders = [forward_left,forward_right,side_front,side_back,vertical,vertical]
+    motorAmps = dynamicpoweralloc.powerRequests(np.absolute(motorOrders))
     allocatedPWM = dynamicpoweralloc.ampsToPWMEQ(motorAmps,motorOrders)
     
     pwm_forward_left = allocatedPWM[1]
-	pwm_forward_right = allocatedPWM[2]
-	pwm_side_front = allocatedPWM[3]
-	pwm_side_back = allocatedPWM[4]
-	pwm_vertical_left = allocatedPWM[5]
+    pwm_forward_right = allocatedPWM[2]
+    pwm_side_front = allocatedPWM[3]
+    pwm_side_back = allocatedPWM[4]
+    pwm_vertical_left = allocatedPWM[5]
     pwm_vertical_right = allocatedPWM[6]
 
     #if (vertical > 50): vertical = 50
