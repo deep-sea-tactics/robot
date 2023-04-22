@@ -3,7 +3,7 @@ import numpy as np
 # all used data sets are derived from:
 # https://docs.google.com/spreadsheets/d/1rIfVPKC-plG1GTZuCKPb0hEpbHQJ4Zlnyg2ltgLpQZw/edit?usp=sharing
 
-powerRequestArray = [1, 1, 0.5, 0.5, 0, 0]  # debug
+#powerRequestArray = [1, 1, 0.5, 0.5, 0, 0]  # debug
 # marqArr current (fuse) minus current for electronics (cameras,pi,arm)
 currentLimit = 20
 
