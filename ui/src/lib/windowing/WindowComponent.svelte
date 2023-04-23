@@ -63,7 +63,6 @@
 		currentMousePos = { x: clientX, y: clientY };
 		if (beingDragged) {
 			if (!disableWidthChange) {
-				console.log(widthOffset);
 				if (!widthOffset) {
 					width = Math.max(
 						savedWindowDetails.x + (currentMousePos.x - originalMousePos.x),
@@ -150,7 +149,8 @@
 			<div class="dockable-icon">
 				<!-- svelte-ignore a11y-click-events-have-key-events -->
 				<div
-					on:click={() => (minimized = !minimized)} style="{minimized ? "transform: rotate(180deg);" : ""}"
+					on:click={() => (minimized = !minimized)}
+					style={minimized ? 'transform: rotate(180deg);' : ''}
 				>
 					<Icon data={caretDown} />
 				</div>
@@ -167,7 +167,7 @@
 		{#each ['BR', 'TR', 'BL', 'TL'] as location}
 			<div
 				class="dockable-resize {location} corner {beingDragged ? 'dragging' : ''}"
-				style="{minimized ? 'display: none' : 'display: block'}"
+				style={minimized ? 'display: none' : 'display: block'}
 				on:mousedown={drag(location[1] == 'L', location[0] == 'T', false, false)}
 			/>
 		{/each}
@@ -176,7 +176,7 @@
 				class="dockable-resize {location + 'C'} {['T', 'B'].includes(location)
 					? 'horizontal'
 					: 'vertical'}-grabber {beingDragged ? 'dragging' : ''}"
-				style="{minimized ? 'display: none' : 'display: block'}"
+				style={minimized ? 'display: none' : 'display: block'}
 				on:mousedown={drag(
 					['T', 'L'].includes(location),
 					['T', 'R'].includes(location),
@@ -185,15 +185,16 @@
 				)}
 			/>
 		{/each}
-		
+
 		{#if !minimized}
-		<div
-			class="dockable-content fun"
-			style="height: {minimized ? 0 : height}px; width: {width}px; {!beingDragged ? "transition: height 0.25s ease-in-out;" : "transition: none"}"
-		>
-			<slot />
-		
-		</div>
+			<div
+				class="dockable-content fun"
+				style="height: {minimized ? 0 : height}px; width: {width}px; {!beingDragged
+					? 'transition: height 0.25s ease-in-out;'
+					: 'transition: none'}"
+			>
+				<slot />
+			</div>
 		{/if}
 	</div>
 {/if}
@@ -209,6 +210,7 @@
 		// We don't use border here because a border will leave a small gap
 		box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.2);
 		cursor: move;
+		overflow: hide;
 	}
 
 	//just a bunch of utility classes for window resizing. A little messy but um, I have no intention of fixing that.
@@ -336,5 +338,4 @@
 		flex-wrap: hide;
 		background-color: var(--color);
 	}
-
 </style>

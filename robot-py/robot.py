@@ -60,7 +60,7 @@ def disconnect():
 
 
 
-sio.connect("http://192.168.1.202:9000")
+sio.connect("http://192.168.0.3:9000")
 
 @sio.on('controllerData')
 def on_message(data):
@@ -71,13 +71,13 @@ def on_message(data):
     global amount
     camera = 0
     updown = 0
-    #print(data)
+    print(data)
     parsed_data = json.loads(data)
     newY=((parsed_data["position"]["y"]) - 50) * -1.9
     newX=((parsed_data["position"]["x"]) - 50) * 1.9
 
     yaw=parsed_data["yaw"]
-    view=parsed_data["view"]
+    view=parsed_data["view"] # DANIEL. THIS IS NOW A POSITION (["x"], ["y"]) INSTEAD OF A NUMBER.
     throttle=parsed_data["throttle"]
     trigger=parsed_data["buttons"]["trigger"]
     side_grip=parsed_data["buttons"]["side_grip"]

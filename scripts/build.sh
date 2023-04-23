@@ -10,7 +10,13 @@ fi
 cd "$(dirname "$0")"
 
 main() {
-	../webrtc-streamer/webrtc-streamer -v file://workspaces/Landstown-Robotics-Challenge/videos/robert.mp4
+	echo "Building Typings..."
+	(cd ../landstown-robotics-types; yarn build)
+	echo "Finished building typings!"
+
+	(cd ../ui; yarn build)
+
+	echo "Done!"
 }
 
 main "$@"

@@ -37,7 +37,7 @@ externalAuthenticationURL:
 # Enable the HTTP API.
 api: no
 # Address of the API listener.
-apiAddress: 127.0.0.1:9997
+apiAddress: 192.168.0.2:9997
 
 # Enable Prometheus-compatible metrics.
 metrics: no
@@ -61,7 +61,7 @@ runOnConnectRestart: no
 # RTSP parameters
 
 # Disable support for the RTSP protocol.
-rtspDisable: no
+rtspDisable: yes
 # List of enabled RTSP transport protocols.
 # UDP is the most performant, but doesn't work when there's a NAT/firewall between
 # server and clients, and doesn't support encryption.
@@ -120,7 +120,7 @@ rtmpServerCert: server.crt
 # HLS parameters
 
 # Disable support for the HLS protocol.
-hlsDisable: no
+hlsDisable: yes
 # Address of the HLS listener.
 hlsAddress: :8888
 # Enable TLS/HTTPS on the HLS server.
@@ -197,10 +197,10 @@ webrtcTrustedProxies: []
 # TURN/TURNS servers are used as relay when a direct connection between server and clients is not possible.
 # if user is "AUTH_SECRET", then authentication is secret based.
 # the secret must be inserted into the pass field.
-webrtcICEServers: [stun:stun.l.google.com:19302]
+webrtcICEServers: [stun:192.168.0.2:3470, turn:lhs:2023:192.168.0.2:3470]
 # List of public IP addresses that are to be used as a host.
 # This is used typically for servers that are behind 1:1 D-NAT.
-webrtcICEHostNAT1To1IPs: [192.168.0.3]
+webrtcICEHostNAT1To1IPs: [192.168.0.2]
 # Address of a ICE UDP listener in format host:port.
 # If filled, ICE traffic will come through a single UDP port,
 # allowing the deployment of the server inside a container or behind a NAT.
@@ -222,9 +222,5 @@ webrtcICETCPMuxAddress:
 # The settings under the path "all" are applied to all paths that do not match
 # another entry.
 paths:
-  all:
   cam:
-    runOnInit: ffmpeg -f v4l2 -i /dev/video0 -pix_fmt yuv420p -preset ultrafast -b:v 600k -f rtsp rtsp://localhost:$RTSP_PORT/$RTSP_PATH
-    runOnInitRestart: yes
-    runOnReady: ffmpeg -i rtsp://localhost:$RTSP_PORT/$RTSP_PATH -pix_fmt yuv420p -c:v libx264 -preset ultrafast -b:v 600k -max_muxing_queue_size 1024 -f rtsp rtsp://localhost:$RTSP_PORT/read
-    runOnReadyRestart: yes
+    source: rpiCamera

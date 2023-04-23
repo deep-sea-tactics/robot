@@ -1,9 +1,7 @@
 {
 	"name": "Landstown Robotics",
 
-	"build": {
-		"dockerfile": "Dockerfile"
-	},
+	"image": "mcr.microsoft.com/devcontainers/typescript-node:18",
 
 	"forwardPorts": [4000],
 
@@ -15,7 +13,6 @@
 				"svelte.svelte-vscode",
 				"dbaeumer.vscode-eslint",
 				"esbenp.prettier-vscode",
-				"csstools.postcss",
 				"ms-azuretools.vscode-docker"
 			]
 		}
