@@ -50,3 +50,5 @@ Copy `config.yml` to the proper config in `webrtc-streamer` after running `scrip
 ## Health
 
 Run `yarn outdated` to check for unhealthy dependencies.
+
+https://discord.gg/HxaB6CK8Kv
