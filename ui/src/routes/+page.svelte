@@ -45,7 +45,9 @@
 			x={300}
 			open={true}
 		>
-			<Streamer />
+			
+
+			<Streamer /> 
 		</WindowComponent>
 		<WindowComponent
 			windowName="Visualizer"
