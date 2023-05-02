@@ -6,8 +6,8 @@
 	let maxWidth = 0;
 	let trueHeight = 0;
 	let trueWidth = 0;
-	$: trueHeight = Math.min(maxHeight, maxWidth * (9/16));
-	$: trueWidth = trueHeight * 16 / 9;
+	$: trueHeight = Math.min(maxHeight, maxWidth * (9 / 16));
+	$: trueWidth = (trueHeight * 16) / 9;
 
 	let video: HTMLVideoElement;
 
@@ -35,8 +35,15 @@
 	});
 </script>
 
-<div class="wrap" bind:clientHeight={maxHeight} bind:clientWidth={maxWidth}> 
-	<div class="subtest" style="height: {trueHeight}px; width: {trueWidth}px;">
+<div
+	class="wrap"
+	bind:clientHeight={maxHeight}
+	bind:clientWidth={maxWidth}
+>
+	<div
+		class="subtest"
+		style="height: {trueHeight}px; width: {trueWidth}px;"
+	>
 		{#if mediaStream}
 			<video
 				bind:this={video}
