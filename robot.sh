@@ -13,8 +13,8 @@ main() {
 	# kill all subshells and processes on exit
 	trap "kill 0" SIGINT
 	# start commands in subshells so all their spawn DIE when we exit
-	( sh stream-run.sh  ) &
-	( cd ../robot-py; python controller.py ) &
+	( scripts/stream-run.sh ) &
+	( cd robot-py; python controller.py ) &
 	wait
 }
 

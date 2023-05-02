@@ -4,6 +4,7 @@ import socketio
 import json
 from typing import TypedDict
 import RoverESC as esc
+import RoverServo
 import math
 
 class ControllerButtons(TypedDict):
@@ -57,7 +58,7 @@ def disconnect():
 @sio.on('controllerData')
 def on_message(data):
     parsed_data: ControllerData = json.loads(data)
-    #print(parsed_data)
+    print(parsed_data)
 
     newX=(parsed_data["position"]["x"] - 50) * 2
     newY=(parsed_data["position"]["y"] - 50) * 2 * -1
@@ -68,21 +69,23 @@ def on_message(data):
         forward_right = max(min(newY - yaw, 100), -100)
         side_front    = max(min(newX + yaw, 100), -100)
         side_back     = max(min(newX - yaw, 100), -100)
-
-
     else:
         forward_left = 0
         forward_right = 0
         side_front = 0
         side_back = 0
 
-    vertical = (parsed_data["throttle"] * 50)
+    vertical = parsed_data["throttle"] * 50
 
-    if (vertical > 50): vertical = 50
-    elif (vertical < -50): vertical = -50
+    if parsed_data["view"]["y"] == 1:
+        RoverServo.decreaseCamera()
+    elif parsed_data["view"]["y"] == -1:
+        RoverServo.increaseCamera()
+
+
+    vertical = min(max(vertical, -50), 50)
 
     print(f'{newX} {newY} {vertical} {yaw}')
-
 
     esc.go_forward_right(forward_right)
     esc.go_forward_left(forward_left)
