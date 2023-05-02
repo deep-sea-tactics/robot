@@ -47,3 +47,10 @@
 		<track kind="captions" />
 	</video>
 {/if}
+
+<style>
+	video {
+		transform: scaleY(-1);
+	}
+</style>
+
