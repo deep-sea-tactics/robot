@@ -32,8 +32,7 @@
 		>
 			<div class="keybinds-wrap">
 				<div class="keybinds-holder">
-					<!-- <Icon data={arrowUp} />
-					<p>Some action</p> -->
+					<p><b>C</b> - Keybind?</p>
 				</div>
 			</div>
 		</WindowComponent>
@@ -80,8 +79,7 @@
 	.keybinds-holder {
 		flex-wrap: nowrap;
 		display: flex;
-		justify-content: left;
-		align-items: center;
+		flex-direction: column;
 		text-align: left;
 		margin: 5px;
 	}
