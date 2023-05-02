@@ -6,7 +6,8 @@ from typing import TypedDict
 import RoverESC as esc
 import fn-dynamicpoweralloc as dynamicpoweralloc
 import numpy as np
-
+import RoverServo
+import math
 
 class ControllerButtons(TypedDict):
 	bottom_left: bool
@@ -59,25 +60,34 @@ def disconnect():
 @sio.on('controllerData')
 def on_message(data):
     parsed_data: ControllerData = json.loads(data)
-    #print(parsed_data)
+    print(parsed_data)
 
     newX=(parsed_data["position"]["x"] - 50) * 2
     newY=(parsed_data["position"]["y"] - 50) * 2 * -1
-    yaw=(parsed_data["yaw"]*100)
-
+    linearYaw=(parsed_data["yaw"]) * 100 # ["yaw"] ranges from -1 to 1
+    yaw = (linearYaw ** 2) / 100 * math.copysign(1, linearYaw)
     if (parsed_data["buttons"]["trigger"]):
-        forward_left = newY
-        forward_right = newY
-        side_front = newX + yaw
-        side_back = newX - yaw
-
+        forward_left  = max(min(newY + yaw, 100), -100)
+        forward_right = max(min(newY - yaw, 100), -100)
+        side_front    = max(min(newX + yaw, 100), -100)
+        side_back     = max(min(newX - yaw, 100), -100)
     else:
         forward_left = 0
         forward_right = 0
         side_front = 0
         side_back = 0
 
-    vertical = (parsed_data["throttle"] * 100) 
+	vertical = parsed_data["throttle"] * 50
+
+    if parsed_data["view"]["y"] == 1:
+        RoverServo.decreaseCamera()
+    elif parsed_data["view"]["y"] == -1:
+        RoverServo.increaseCamera()
+
+    vertical = min(max(vertical, -50), 50)
+
+	#if (vertical > 50): vertical = 50
+    #elif (vertical < -50): vertical = -50
 
     motorOrders = [forward_left,forward_right,side_front,side_back,vertical,vertical]
     motorAmps = dynamicpoweralloc.powerRequests(np.absolute(motorOrders))
@@ -89,7 +99,7 @@ def on_message(data):
     pwm_side_back = allocatedPWM[4]
     pwm_vertical_left = allocatedPWM[5]
     pwm_vertical_right = allocatedPWM[6]
-
+    
     #if (vertical > 50): vertical = 50
     #elif (vertical < -50): vertical = -50
 

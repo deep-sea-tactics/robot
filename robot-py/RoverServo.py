@@ -1,43 +1,30 @@
+import pigpio
 import time
-from adafruit_servokit import ServoKit
- 
-# Set channels to the number of servo channels on your kit.
-# 8 for FeatherWing, 16 for Shield/HAT/Bonnet.
-kit = ServoKit(channels=16)
 
-CLAW = 4
-CAMERA = 2
-SPIN = 1
-UPDOWN = 3
+pi = pigpio.pi()
 
+camera = 17
+claw = 0
+spin = 0
 
 ClawMV = 90
 ClawLV = 0
+currentClawLevel = (ClawMV + ClawLV) / 2
+
 SpinMV = 180
 SpinLV = 0
-UpdownMV = 170
-UpdownLV = 100
-CameraMV = 60
-CameraLV = 0
-MID_VALUE = 130
-currentClawLevel = 45
-currentSpinLevel = 90
-currentCameraLevel = 30
-currentUpdownLevel = 130
+currentSpinLevel = (ClawMV + ClawLV) / 2
 
-def increase(servo, amount):
-	kit.servo[servo].angle = amount
-	return amount + 1
-def decrease(servo, amount):
-	kit.servo[servo].angle = amount
-	return amount - 1
+CameraMV = 960
+CameraLV = 650
+currentCameraLevel = (CameraMV + CameraLV) / 2
+
 
 def increaseClaw():
 	global currentClawLevel
 	inp = currentClawLevel + 1
 	if inp > ClawMV:
 		inp = ClawMV
-	kit.servo[CLAW].angle = inp
 	currentClawLevel = inp
 
 def decreaseClaw():
@@ -45,7 +32,6 @@ def decreaseClaw():
 	inp = currentClawLevel - 1
 	if inp < ClawLV:
 		inp = ClawLV
-	kit.servo[CLAW].angle = inp
 	currentClawLevel = inp
 
 
@@ -54,46 +40,31 @@ def increaseSpin():
 	inp = currentSpinLevel + 1
 	if inp > SpinMV:
 		inp = SpinMV
-	kit.servo[SPIN].angle = inp
 	currentSpinLevel = inp
 def decreaseSpin():
 	global currentSpinLevel
 	inp = currentSpinLevel - 1
 	if inp < SpinLV:
 		inp = SpinLV
-	kit.servo[SPIN].angle = inp
 	currentSpinLevel = inp
-	
-	
+
 def increaseCamera():
         global currentCameraLevel
-        inp = currentCameraLevel + 1
-        if inp > CameraMV:
-                inp = CameraMV
-        kit.servo[CAMERA].angle = inp
-        currentCameraLevel = inp
+        currentCameraLevel = currentCameraLevel + 10
+        if currentCameraLevel > CameraMV:
+                currentCameraLevel = CameraMV
+        pi.set_servo_pulsewidth(camera, currentCameraLevel)
 
 def decreaseCamera():
         global currentCameraLevel
-        inp = currentCameraLevel - 1
-        if inp < CameraLV:
-                inp = CameraLV
-        kit.servo[CAMERA].angle = inp
-        currentCameraLevel = inp
+        currentCameraLevel = currentCameraLevel - 10
+        if currentCameraLevel < CameraLV:
+                currentCameraLevel = CameraLV
+        pi.set_servo_pulsewidth(camera, currentCameraLevel)
 
-
-
-def increaseUpdown():
-        global currentUpdownLevel
-        currentUpdownLevel = currentUpdownLevel + 1
-        if currentUpdownLevel > UpdownMV:
-                currentUpdownLevel = UpdownMV
-        kit.servo[UPDOWN].angle = currentUpdownLevel
-
-def decreaseUpdown():
-        global currentUpdownLevel
-        currentUpdownLevel = currentUpdownLevel - 1
-        if currentUpdownLevel < UpdownLV:
-                currentUpdownLevel = UpdownLV
-        kit.servo[UPDOWN].angle = currentUpdownLevel
+if __name__  == "__main__":
+#       increaseCamera()
+        pi.set_servo_pulsewidth(camera, 1900)
+#        time.sleep(1)
+#        decreaseCamera(inp=3)
 
