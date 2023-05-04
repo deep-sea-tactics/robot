@@ -4,6 +4,8 @@ import socketio
 import json
 from typing import TypedDict
 import RoverESC as esc
+import fn-dynamicpoweralloc as dynamicpoweralloc
+import numpy as np
 import RoverServo
 import math
 
@@ -82,17 +84,34 @@ def on_message(data):
     elif parsed_data["view"]["y"] == -1:
         RoverServo.increaseCamera()
 
-
     vertical = min(max(vertical, -50), 50)
 
-    print(f'{newX} {newY} {vertical} {yaw}')
+	#if (vertical > 50): vertical = 50
+    #elif (vertical < -50): vertical = -50
 
-    esc.go_forward_right(forward_right)
-    esc.go_forward_left(forward_left)
-    esc.go_vertical_left(vertical)
-    esc.go_vertical_right(vertical)
-    esc.go_side_front(side_front)
-    esc.go_side_back(side_back)
+    motorOrders = [forward_left,forward_right,side_front,side_back,vertical,vertical]
+    motorAmps = dynamicpoweralloc.powerRequests(np.absolute(motorOrders))
+    allocatedPWM = dynamicpoweralloc.ampsToPWMEQ(motorAmps,motorOrders)
+    
+    pwm_forward_left = allocatedPWM[1]
+    pwm_forward_right = allocatedPWM[2]
+    pwm_side_front = allocatedPWM[3]
+    pwm_side_back = allocatedPWM[4]
+    pwm_vertical_left = allocatedPWM[5]
+    pwm_vertical_right = allocatedPWM[6]
+    
+    #if (vertical > 50): vertical = 50
+    #elif (vertical < -50): vertical = -50
+
+    print(f'{newX} {newY}')
+
+
+    esc.go_forward_right(pwm_forward_right)
+    esc.go_forward_left(pwm_forward_left)
+    esc.go_vertical_left(pwm_vertical_left)
+    esc.go_vertical_right(pwm_vertical_right)
+    esc.go_side_front(pwm_side_front)
+    esc.go_side_back(pwm_side_back)
 
 if __name__ == "__main__":
     sio.connect("http://192.168.0.3:9000")
