@@ -58,7 +58,7 @@ def disconnect():
 @sio.on('controllerData')
 def on_message(data):
     parsed_data: ControllerData = json.loads(data)
-    print(parsed_data)
+#    print(parsed_data)
 
     newX=(parsed_data["position"]["x"] - 50) * 2
     newY=(parsed_data["position"]["y"] - 50) * 2 * -1
@@ -82,6 +82,15 @@ def on_message(data):
     elif parsed_data["view"]["y"] == -1:
         RoverServo.increaseCamera()
 
+    if parsed_data["buttons"]["controller_buttons"]["top_left"]:
+        RoverServo.spinRight()
+    elif parsed_data["buttons"]["controller_buttons"]["bottom_left"]:
+        RoverServo.spinLeft()
+
+    if parsed_data["buttons"]["controller_buttons"]["top_right"]:
+        RoverServo.closeClaw()
+    elif parsed_data["buttons"]["controller_buttons"]["bottom_right"]:
+        RoverServo.openClaw()
 
     vertical = min(max(vertical, -50), 50)
 
