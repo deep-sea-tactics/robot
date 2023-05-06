@@ -80,4 +80,7 @@
 		width: 100%;
 		aspect-ratio: 16/9;
 	}
+	video {
+		transform: scaleY(-1);
+	}
 </style>
