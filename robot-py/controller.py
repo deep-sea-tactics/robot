@@ -65,10 +65,10 @@ def on_message(data):
     linearYaw=(parsed_data["yaw"]) * 100 # ["yaw"] ranges from -1 to 1
     yaw = (linearYaw ** 2) / 100 * math.copysign(1, linearYaw)
     if (parsed_data["buttons"]["trigger"]):
-        forward_left  = max(min(newY + yaw, 100), -100)
-        forward_right = max(min(newY - yaw, 100), -100)
-        side_front    = max(min(newX + yaw, 100), -100)
-        side_back     = max(min(newX - yaw, 100), -100)
+        forward_left  = max(min(newY + yaw, 100), -100) * -1
+        forward_right = max(min(newY - yaw, 100), -100) * -1
+        side_front    = max(min(newX + yaw, 100), -100) * -1
+        side_back     = max(min(newX - yaw, 100), -100) * -1
     else:
         forward_left = 0
         forward_right = 0
