@@ -47,8 +47,8 @@
 		{#if mediaStream}
 			<video
 				bind:this={video}
-				bind:clientWidth={width}
-				bind:clientHeight={height}
+				clientWidth={trueWidth}
+				clientHeight={trueHeight}
 				on:play={() => {
 					width = video.width;
 					height = video.height;
