@@ -7,7 +7,7 @@ if [[ "${TRACE-0}" == "1" ]]; then
     set -o xtrace
 fi
 
-cd "$(dirname "$0")"
+cd "$(dirname "$(readlink -f "$0")")"
 
 main() {
 	echo "Building Typings..."

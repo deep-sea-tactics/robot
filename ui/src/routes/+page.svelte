@@ -28,7 +28,7 @@
 			color="#36EC85"
 			x={0}
 			y={0}
-			open={true}
+			open={false}
 		>
 			<div class="keybinds-wrap">
 				<div class="keybinds-holder">

@@ -7,7 +7,7 @@ if [[ "${TRACE-0}" == "1" ]]; then
     set -o xtrace
 fi
 
-cd "$(dirname "$0")"
+cd "$(dirname "$(readlink -f "$0")")"
 
 # https://stackoverflow.com/questions/45125516/possible-values-for-uname-m/45125525#45125525
 main() {
