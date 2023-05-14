@@ -27,6 +27,7 @@
 			y: $data.position.y * (height / 100)
 		};
 
+		// change the color of the dot based on whether or not the controller is connected
 		context.fillStyle = $controllerConnected ? `rgba(0, 200, 0, 0.2)` : `rgba(200, 0, 0, 0.2)`;
 
 		// Add throttle

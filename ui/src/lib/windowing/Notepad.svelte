@@ -12,6 +12,8 @@
 		resize: none;
 		padding: 10px;
 		box-sizing: border-box;
+		outline: none;
+		border: 0px;
 	}
 	textarea:focus {
 		outline: none;

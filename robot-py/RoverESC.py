@@ -59,27 +59,27 @@ def convertMotorValue(value):
     return motorValue
 
 
-def go_forward_right(inp): #You will use this function to program your ESC if required
+def go_forward_right(inp):
 	# print "Motor-1 speed to " + str(inp)
 	pi.set_servo_pulsewidth(MOTOR_forward_right,convertMotorValue(inp))
 
-def go_forward_left(inp): #You will use this function to program your ESC if required
+def go_forward_left(inp):
 	# print "Motor-2 speed to " + str(inp)
 	pi.set_servo_pulsewidth(MOTOR_forward_left,convertMotorValue(inp))
 
-def go_vertical_left(inp): #You will use this function to program your ESC if required
+def go_vertical_left(inp):
 	# print "Motor-3 speed to " + str(inp)
 	pi.set_servo_pulsewidth(MOTOR_vertical_left,convertMotorValue(inp))
 
-def go_vertical_right(inp): #You will use this function to program your ESC if required
+def go_vertical_right(inp):
 	# print "Motor-4 speed to " + str(inp)
 	pi.set_servo_pulsewidth(MOTOR_vertical_right,convertMotorValue(inp))
 
-def go_side_front(inp): #You will use this function to program your ESC if required
+def go_side_front(inp):
 	# print "Motor-5 speed to " + str(inp)
 	pi.set_servo_pulsewidth(MOTOR_side_front,convertMotorValue(inp))
 
-def go_side_back(inp): #You will use this function to program your ESC if required
+def go_side_back(inp):
 	# print "Motor-6 speed to " + str(inp)
 	pi.set_servo_pulsewidth(MOTOR_side_back,convertMotorValue(inp))
 

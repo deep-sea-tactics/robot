@@ -1,4 +1,4 @@
-# Landstown Underwater Robotics Challenge
+# Deep Sea Tactics Source
 
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://github.com/LeoDog896/Landstown-Robotics-Challenge)
 
@@ -8,18 +8,18 @@ To run, open VSCode (or gitpod, or github codespaces) and use `CTRL + SHIFT + B`
 
 ## Running
 
-There are a few lifetime scripts:
+There are a few utility scripts for proejct maitnence:
 
-| Script                        | Description                                                                   |
-| ----------------------------- | ----------------------------------------------------------------------------- |
-| `./scripts/install.sh`        | Installs all dependencies for the project.                                    |
-| `./scripts/dev.sh`            | Runs the development servers.                                                 |
-| `./scripts/build.sh`          | Builds the UI and the server.                                                 |
-| `./scripts/run.sh`            | Runs the server (requires build).                                             |
-| `./scripts/stream-install.sh` | Installs the webrtc streamer ([mediamtx](https://github.com/aler9/mediamtx)). |
-| `./scripts/stream-run.sh`     | Runs mediamtx.                                                                |
-| `./scripts/robot.sh`          | Runs the robot controller (intended to be run on PI).                         |
-| `./scripts/kill.sh`           | Kills all running servers (ui, relay).                                        |
+| Script                        | Description                                                        |
+| ----------------------------- | ------------------------------------------------------------------ |
+| `./scripts/install.sh`        | Installs all dependencies for the project.                         |
+| `./scripts/dev.sh`            | Runs the development server.                                       |
+| `./scripts/build.sh`          | Builds the UI.                                                     |
+| `./scripts/run.sh`            | Runs the server (requires build).                                  |
+| `./scripts/stream-install.sh` | Installs the [mediamtx](https://github.com/aler9/mediamtx) server. |
+| `./scripts/stream-run.sh`     | Runs mediamtx.                                                     |
+| `./scripts/robot.sh`          | Runs the robot controller (intended to be run on PI).              |
+| `./scripts/kill.sh`           | Kills the running UI server.                                       |
 
 Streamer scripts and the robot script are intended to be run on the PI.
 
@@ -51,6 +51,6 @@ Copy `config.yml` to the proper config in `webrtc-streamer` after running `scrip
 
 Run `yarn outdated` to check for unhealthy dependencies.
 
-## Keep this repository private
+## Discord Server
 
 https://discord.gg/HxaB6CK8Kv
