@@ -3,7 +3,7 @@
 	import ControllerCanvas from '$lib/controller/ControllerCanvas.svelte';
 	import Notepad from '$lib/windowing/Notepad.svelte';
 	import { data } from '$lib/controller/controller';
-	import { client } from '$lib/socket/socket';
+	import { client } from '$lib/socket';
 
 	import WindowComponent from '$lib/windowing/WindowComponent.svelte';
 	import Taskbar from '$lib/windowing/Taskbar.svelte';

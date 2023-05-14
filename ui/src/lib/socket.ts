@@ -8,10 +8,6 @@ export const client: Socket<ServerToClientsMap, ClientToServerMap> = io(
 
 export const connected = writable(false);
 
-client.on('connect', () => {
-	connected.set(true);
-});
+client.on('connect', () => connected.set(true));
 
-client.on('disconnect', () => {
-	connected.set(false);
-});
+client.on('disconnect', () => connected.set(false));
