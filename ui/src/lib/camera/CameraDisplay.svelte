@@ -42,7 +42,7 @@
 			if (!mediaStream) {
 				console.error('Triggered screenshot, but no media stream found');
 				return;
-			};
+			}
 
 			const videoTrack = mediaStream.getVideoTracks()[0];
 			if (!videoTrack) {
@@ -56,13 +56,11 @@
 			canvas.width = width ?? 0;
 			canvas.height = height ?? 0;
 
-
 			const ctx = canvas.getContext('2d');
 			if (!ctx) return;
 			ctx.translate(canvas.width, canvas.height);
 			ctx.scale(-1, -1);
 			ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-
 
 			// save the screenshot
 			const link = document.createElement('a');
@@ -72,7 +70,6 @@
 
 			// free the canvas
 			canvas.remove();
-
 		}
 	}}
 />
