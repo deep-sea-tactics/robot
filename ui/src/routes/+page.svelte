@@ -11,14 +11,6 @@
 	$: if ($data) client.emit(`controllerData`, $data);
 </script>
 
-<svelte:window
-	on:keydown={event => {
-		if (event.key == 'ArrowUp') {
-			// do something
-		}
-	}}
-/>
-
 <main>
 	<Taskbar>
 		<WindowComponent
@@ -32,7 +24,7 @@
 		>
 			<div class="keybinds-wrap">
 				<div class="keybinds-holder">
-					<p><b>C</b> - Keybind?</p>
+					<p><b>k</b> - Screenshot</p>
 				</div>
 			</div>
 		</WindowComponent>

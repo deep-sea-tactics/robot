@@ -35,6 +35,34 @@
 	});
 </script>
 
+<svelte:window
+	on:keydown={event => {
+		if (event.key == 'k') {
+			// take a screenshot
+			if (!mediaStream) return;
+			const canvas = document.createElement('canvas');
+			canvas.width = mediaStream.getVideoTracks()[0].getSettings().width ?? 0;
+			canvas.height = mediaStream.getVideoTracks()[0].getSettings().height ?? 0;
+			const ctx = canvas.getContext('2d');
+			if (!ctx) return;
+			ctx.translate(canvas.width, canvas.height);
+			ctx.scale(-1, -1);
+			ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+
+			// save the screenshot
+			const link = document.createElement('a');
+			link.download = 'screenshot.png';
+			link.href = canvas.toDataURL();
+			link.click();
+
+			// free the canvas
+			canvas.remove();
+
+		}
+	}}
+/>
+
 <div
 	class="wrap"
 	bind:clientHeight={maxHeight}
@@ -47,8 +75,8 @@
 		{#if mediaStream}
 			<video
 				bind:this={video}
-				clientWidth={trueWidth}
-				clientHeight={trueHeight}
+				width={trueWidth}
+				height={trueHeight}
 				on:play={() => {
 					width = video.width;
 					height = video.height;
