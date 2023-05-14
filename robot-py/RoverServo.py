@@ -1,5 +1,4 @@
 import pigpio
-import time
 from math import *
 
 pi = pigpio.pi()

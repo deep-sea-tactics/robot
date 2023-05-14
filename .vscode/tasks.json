@@ -13,19 +13,8 @@
 			}
 		},
 		{
-			"label": "Relay",
-			"type": "shell",
-			"command": "cd relay && yarn dev",
-			"isBackground": true,
-			"presentation": {
-				"group": "server",
-				"reveal": "always",
-				"panel": "new"
-			}
-		},
-		{
 			"label": "Server-Side Development",
-			"dependsOn": ["UI", "Relay"],
+			"dependsOn": ["UI"],
 			"problemMatcher": [],
 			"group": {
 				"kind": "build",

@@ -39,10 +39,24 @@
 	on:keydown={event => {
 		if (event.key == 'k') {
 			// take a screenshot
-			if (!mediaStream) return;
+			if (!mediaStream) {
+				console.error('Triggered screenshot, but no media stream found');
+				return;
+			};
+
+			const videoTrack = mediaStream.getVideoTracks()[0];
+			if (!videoTrack) {
+				console.error('Triggered screenshot, but no video track found');
+				return;
+			}
+
+			const { width, height } = videoTrack.getSettings();
+
 			const canvas = document.createElement('canvas');
-			canvas.width = mediaStream.getVideoTracks()[0].getSettings().width ?? 0;
-			canvas.height = mediaStream.getVideoTracks()[0].getSettings().height ?? 0;
+			canvas.width = width ?? 0;
+			canvas.height = height ?? 0;
+
+
 			const ctx = canvas.getContext('2d');
 			if (!ctx) return;
 			ctx.translate(canvas.width, canvas.height);
@@ -99,7 +113,7 @@
 		height: 100%;
 		width: 100%;
 		max-height: 100%;
-		aspect-ratio: 16/9;
+		aspect-ratio: 16 / 9;
 		display: flex;
 		justify-content: center;
 		align-items: center;
@@ -107,7 +121,7 @@
 	}
 	.subtest {
 		width: 100%;
-		aspect-ratio: 16/9;
+		aspect-ratio: 16 / 9;
 	}
 	video {
 		transform: scaleY(-1) scaleX(-1);

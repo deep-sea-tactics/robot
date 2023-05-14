@@ -88,8 +88,13 @@ export class Receiver {
 			});
 	}
 
-	onRemoteDescription(msg) {
+	onRemoteDescription(msg: MessageEvent<unknown>) {
 		if (this.pc === null || this.ws === null) {
+			return;
+		}
+
+		if (typeof msg.data !== 'string') {
+			console.log(`unexpected message type ${typeof msg.data}: ${msg.data}`);
 			return;
 		}
 

@@ -38,23 +38,3 @@ export interface ControllerData {
 		};
 	};
 }
-
-export interface ServerToClientsMap {
-	broadcaster: () => void;
-	watcher: (id: string) => void;
-	/** A peer has disconnected -- disconnect from them */
-	disconnectPeer: (id: string) => void;
-	offer: (id: string, message: RTCSessionDescription) => void;
-	answer: (id: string, message: RTCSessionDescriptionInit) => void;
-	candidate: (id: string, message: RTCIceCandidateInit) => void;
-}
-
-export interface ClientToServerMap {
-	controllerData: (data: ControllerData) => void;
-	/** A broadcaster is ready to broadcast */
-	broadcaster: () => void;
-	watcher: () => void;
-	offer: (id: string, message: RTCSessionDescription) => void;
-	answer: (id: string, message: RTCSessionDescription) => void;
-	candidate: (id: string, message: RTCIceCandidateInit) => void;
-}
