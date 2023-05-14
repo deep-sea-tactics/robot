@@ -7,10 +7,7 @@
 		"dev": "bash ./scripts/dev.sh"
 	},
 	"workspaces": [
-		"ui",
-		"relay",
-		"landstown-robotics-types",
-		"robot-mock"
+		"ui"
 	],
 	"packageManager": "yarn@3.5.0",
 	"devDependencies": {

@@ -11,7 +11,6 @@ cd "$(dirname "$(readlink -f "$0")")"
 
 main() {
 	yarn # install yarn dependencies
-	(cd ../landstown-robotics-types; yarn build) # build typings
 }
 
 main "$@"

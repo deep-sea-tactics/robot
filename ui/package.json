@@ -13,7 +13,6 @@
 		"@neodrag/svelte": "^2.0.3",
 		"@sveltejs/adapter-static": "^2.0.1",
 		"@sveltejs/kit": "1.15.2",
-		"landstown-robotics-types": "workspace:*",
 		"sass": "^1.60.0",
 		"socket.io-client": "^4.6.1",
 		"svelte": "^3.58.0",
