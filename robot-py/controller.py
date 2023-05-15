@@ -60,17 +60,17 @@ def disconnect():
 @sio.on('controllerData')
 def on_message(data):
     parsed_data: ControllerData = json.loads(data)
-    print(parsed_data)
+#    print(parsed_data)
 
     newX=(parsed_data["position"]["x"] - 50) * 2
     newY=(parsed_data["position"]["y"] - 50) * 2 * -1
     linearYaw=(parsed_data["yaw"]) * 100 # ["yaw"] ranges from -1 to 1
     yaw = (linearYaw ** 2) / 100 * math.copysign(1, linearYaw)
     if (parsed_data["buttons"]["trigger"]):
-        forward_left  = max(min(newY + yaw, 100), -100)
-        forward_right = max(min(newY - yaw, 100), -100)
-        side_front    = max(min(newX + yaw, 100), -100)
-        side_back     = max(min(newX - yaw, 100), -100)
+        forward_left  = max(min(newY + yaw, 100), -100) * -1
+        forward_right = max(min(newY - yaw, 100), -100) * -1
+        side_front    = max(min(newX + yaw, 100), -100) * -1
+        side_back     = max(min(newX - yaw, 100), -100) * -1
     else:
         forward_left = 0
         forward_right = 0
@@ -83,6 +83,16 @@ def on_message(data):
         RoverServo.decreaseCamera()
     elif parsed_data["view"]["y"] == -1:
         RoverServo.increaseCamera()
+
+    if parsed_data["buttons"]["controller_buttons"]["top_left"]:
+        RoverServo.spinRight()
+    elif parsed_data["buttons"]["controller_buttons"]["bottom_left"]:
+        RoverServo.spinLeft()
+
+    if parsed_data["buttons"]["controller_buttons"]["top_right"]:
+        RoverServo.closeClaw()
+    elif parsed_data["buttons"]["controller_buttons"]["bottom_right"]:
+        RoverServo.openClaw()
 
     vertical = min(max(vertical, -50), 50)
 

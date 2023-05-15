@@ -1,70 +1,57 @@
 import pigpio
 import time
+from math import *
 
 pi = pigpio.pi()
 
 camera = 17
-claw = 0
-spin = 0
+claw = 23
+spin = 18
 
-ClawMV = 90
-ClawLV = 0
+ClawMV = 2500
+ClawLV = 1725
 currentClawLevel = (ClawMV + ClawLV) / 2
 
-SpinMV = 180
-SpinLV = 0
-currentSpinLevel = (ClawMV + ClawLV) / 2
+SpinMV = 2500
+SpinLV = 500
+currentSpinLevel = (SpinMV + SpinLV) / 2
 
 CameraMV = 960
 CameraLV = 650
 currentCameraLevel = (CameraMV + CameraLV) / 2
 
 
-def increaseClaw():
-	global currentClawLevel
-	inp = currentClawLevel + 1
-	if inp > ClawMV:
-		inp = ClawMV
-	currentClawLevel = inp
+def openClaw():
+        global currentClawLevel
+        currentClawLevel = min(ClawMV, currentClawLevel + 50)
+        pi.set_servo_pulsewidth(claw, currentClawLevel)
+def closeClaw():
+        global currentClawLevel
+        currentClawLevel = max(ClawLV, currentClawLevel - 50)
+        pi.set_servo_pulsewidth(claw, currentClawLevel)
 
-def decreaseClaw():
-	global currentClawLevel
-	inp = currentClawLevel - 1
-	if inp < ClawLV:
-		inp = ClawLV
-	currentClawLevel = inp
-
-
-def increaseSpin():
-	global currentSpinLevel
-	inp = currentSpinLevel + 1
-	if inp > SpinMV:
-		inp = SpinMV
-	currentSpinLevel = inp
-def decreaseSpin():
-	global currentSpinLevel
-	inp = currentSpinLevel - 1
-	if inp < SpinLV:
-		inp = SpinLV
-	currentSpinLevel = inp
+def spinLeft():
+        global currentSpinLevel
+        currentSpinLevel = min(SpinMV, currentSpinLevel + 50)
+        pi.set_servo_pulsewidth(spin, currentSpinLevel)
+def spinRight():
+        global currentSpinLevel
+        currentSpinLevel = max(SpinLV, currentSpinLevel - 50)
+        pi.set_servo_pulsewidth(spin, currentSpinLevel)
 
 def increaseCamera():
         global currentCameraLevel
-        currentCameraLevel = currentCameraLevel + 10
-        if currentCameraLevel > CameraMV:
-                currentCameraLevel = CameraMV
+        currentCameraLevel = min(CameraMV, currentCameraLevel + 10)
         pi.set_servo_pulsewidth(camera, currentCameraLevel)
 
 def decreaseCamera():
         global currentCameraLevel
-        currentCameraLevel = currentCameraLevel - 10
-        if currentCameraLevel < CameraLV:
-                currentCameraLevel = CameraLV
+        currentCameraLevel = max(CameraLV, currentCameraLevel - 10)
         pi.set_servo_pulsewidth(camera, currentCameraLevel)
 
 if __name__  == "__main__":
-#       increaseCamera()
-        pi.set_servo_pulsewidth(camera, 1900)
+        openClaw()
+#        pi.set_servo_pulsewidth(claw, 1725)
 #        time.sleep(1)
 #        decreaseCamera(inp=3)
 

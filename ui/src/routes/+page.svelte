@@ -3,21 +3,13 @@
 	import ControllerCanvas from '$lib/controller/ControllerCanvas.svelte';
 	import Notepad from '$lib/windowing/Notepad.svelte';
 	import { data } from '$lib/controller/controller';
-	import { client } from '$lib/socket/socket';
+	import { client } from '$lib/socket';
 
 	import WindowComponent from '$lib/windowing/WindowComponent.svelte';
 	import Taskbar from '$lib/windowing/Taskbar.svelte';
 
 	$: if ($data) client.emit(`controllerData`, $data);
 </script>
-
-<svelte:window
-	on:keydown={event => {
-		if (event.key == 'ArrowUp') {
-			// do something
-		}
-	}}
-/>
 
 <main>
 	<Taskbar>
@@ -28,11 +20,11 @@
 			color="#36EC85"
 			x={0}
 			y={0}
-			open={true}
+			open={false}
 		>
 			<div class="keybinds-wrap">
 				<div class="keybinds-holder">
-					<p><b>C</b> - Keybind?</p>
+					<p><b>k</b> - Screenshot</p>
 				</div>
 			</div>
 		</WindowComponent>

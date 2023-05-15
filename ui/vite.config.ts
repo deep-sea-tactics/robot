@@ -13,6 +13,7 @@ export default <UserConfig> {
 		// not gitpod AND not codespaces
 		hmr: !process.env.GITPOD_WORKSPACE_ID && !process.env.CODESPACES,
 		port: 4000,
+		open: !process.env.GITPOD_WORKSPACE_ID && !process.env.CODESPACES,
 	},
 	preview: {
 		strictPort: true,

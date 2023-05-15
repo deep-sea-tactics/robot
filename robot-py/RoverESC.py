@@ -25,30 +25,30 @@ BACKWARD_INCREMENT = (ZERO_VALUE - MIN_VALUE) / 100
 # -----------------------------------------
 pi = pigpio.pi()
 
-pi.set_servo_pulsewidth(MOTOR_forward_right, 0)
-pi.set_servo_pulsewidth(MOTOR_forward_left, 0)
-pi.set_servo_pulsewidth(MOTOR_vertical_left, 0)
-pi.set_servo_pulsewidth(MOTOR_vertical_right, 0)
-pi.set_servo_pulsewidth(MOTOR_side_front, 0)
-pi.set_servo_pulsewidth(MOTOR_side_back, 0)
+def initialize():
+    pi.set_servo_pulsewidth(MOTOR_forward_right, 0)
+    pi.set_servo_pulsewidth(MOTOR_forward_left, 0)
+    pi.set_servo_pulsewidth(MOTOR_vertical_left, 0)
+    pi.set_servo_pulsewidth(MOTOR_vertical_right, 0)
+    pi.set_servo_pulsewidth(MOTOR_side_front, 0)
+    pi.set_servo_pulsewidth(MOTOR_side_back, 0)
 
-time.sleep(3)
+    time.sleep(3)
 
 # 1500 sets the motor speeds off
-pi.set_servo_pulsewidth(MOTOR_forward_right, ZERO_VALUE)
-pi.set_servo_pulsewidth(MOTOR_forward_left, ZERO_VALUE)
-pi.set_servo_pulsewidth(MOTOR_vertical_left, ZERO_VALUE)
-pi.set_servo_pulsewidth(MOTOR_vertical_right, ZERO_VALUE)
-pi.set_servo_pulsewidth(MOTOR_side_front, ZERO_VALUE)
-pi.set_servo_pulsewidth(MOTOR_side_back, ZERO_VALUE)
+    pi.set_servo_pulsewidth(MOTOR_forward_right, ZERO_VALUE)
+    pi.set_servo_pulsewidth(MOTOR_forward_left, ZERO_VALUE)
+    pi.set_servo_pulsewidth(MOTOR_vertical_left, ZERO_VALUE)
+    pi.set_servo_pulsewidth(MOTOR_vertical_right, ZERO_VALUE)
+    pi.set_servo_pulsewidth(MOTOR_side_front, ZERO_VALUE)
+    pi.set_servo_pulsewidth(MOTOR_side_back, ZERO_VALUE)
 
-print ('ESCs ready to control')
-#print ('MOTOR_1: gpio-'+str(MOTOR_1)+', MOTOR_2: gpio-'+str(MOTOR_2)+', MOTOR_3: gpio-'+str(MOTOR_3)+', MOTOR_4: gpio-'+str(MOTOR_4) +', MOTOR_3: gpio-'+str(MOTOR_5)+', MOTOR_3: gpio-'+str(MOTOR_6))
+    print ('ESCs ready to control')
 
 # -----------------------------------------
 # Method Definitions
 # -----------------------------------------
-
+initialize()
 # Converts value for motor (-100 to 100) to PWM value
 def convertMotorValue(value):
     motorValue = ZERO_VALUE
