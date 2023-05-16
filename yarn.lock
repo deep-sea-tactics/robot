@@ -398,6 +398,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/node@npm:^20.1.5":
+  version: 20.1.5
+  resolution: "@types/node@npm:20.1.5"
+  checksum: 0d073ed7b9cc51e2354dcf3a8ccca84d08c7d513fa8fac9462cabc164435b30f2ad296e9f2f911e6ce72da837b704f1075379be84a93bb24f76d328a2d9e8561
+  languageName: node
+  linkType: hard
+
 "@types/pug@npm:^2.0.6":
   version: 2.0.6
   resolution: "@types/pug@npm:2.0.6"
@@ -2867,6 +2874,7 @@ __metadata:
     "@neodrag/svelte": ^2.0.3
     "@sveltejs/adapter-static": ^2.0.1
     "@sveltejs/kit": 1.15.2
+    "@types/node": ^20.1.5
     consola: ^3.1.0
     sass: ^1.60.0
     socket.io-client: ^4.6.1
