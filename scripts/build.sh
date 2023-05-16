@@ -10,11 +10,8 @@ fi
 cd "$(dirname "$(readlink -f "$0")")"
 
 main() {
-	echo "Building Typings..."
-	(cd ../landstown-robotics-types; yarn build)
-	echo "Finished building typings!"
-
-	(cd ../ui; yarn build)
+	cd ../ui
+	yarn build
 
 	echo "Done!"
 }

@@ -40,7 +40,7 @@
 
 <style>
 	.none {
-		color: rgb(255, 255, 255);
+		color: white;
 	}
 
 	.taskbar {
@@ -49,7 +49,7 @@
 		bottom: 0;
 		padding: 1rem;
 		margin-bottom: 0;
-		width: 100vw;
+		width: calc(100vw - 2rem);
 		font-size: 1.5rem;
 		background-color: rgba(31, 31, 31, 100);
 		position: absolute;

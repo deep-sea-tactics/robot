@@ -11,7 +11,7 @@
 	$: if ($data) client.emit(`controllerData`, $data);
 </script>
 
-<main>
+<div>
 	<Taskbar>
 		<WindowComponent
 			windowName="Keybinds"
@@ -59,10 +59,10 @@
 			<Notepad />
 		</WindowComponent>
 	</Taskbar>
-</main>
+</div>
 
 <style>
-	main {
+	div {
 		display: flex;
 		flex-direction: column;
 		width: 100vw;

@@ -21,8 +21,8 @@ export class Receiver {
 
 		this.ws = new WebSocket('ws://192.168.0.2:8889/cam/ws');
 
-		this.ws.onerror = () => {
-			console.log('ws error');
+		this.ws.onerror = error => {
+			console.log(`WebSocket error: ${error}`);
 			if (this.ws === null) {
 				return;
 			}
@@ -88,8 +88,13 @@ export class Receiver {
 			});
 	}
 
-	onRemoteDescription(msg) {
+	onRemoteDescription(msg: MessageEvent<unknown>) {
 		if (this.pc === null || this.ws === null) {
+			return;
+		}
+
+		if (typeof msg.data !== 'string') {
+			console.log(`unexpected message type ${typeof msg.data}: ${msg.data}`);
 			return;
 		}
 

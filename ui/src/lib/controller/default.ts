@@ -1,5 +1,4 @@
-import { ControllerData } from './typings.js';
-export * from './typings.js';
+import type { ControllerData } from './typings';
 
 export const defaultControllerData: ControllerData = Object.freeze({
 	position: {
