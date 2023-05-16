@@ -2,13 +2,13 @@
 
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://github.com/LeoDog896/Landstown-Robotics-Challenge)
 
-This is the repository for the LHS robotics challenge.
+This is the repository for the LHS Robotics Challenge.
 
-To run, open VSCode (or gitpod, or github codespaces) and use `CTRL + SHIFT + B` -- select the `Development` build task.
+To run, open VSCode (or Gitpod, or GitHub Codespaces) and use `CTRL + SHIFT + B` -- select the `Development` build task.
 
 ## Running
 
-There are a few utility scripts for proejct maitnence:
+There are a few utility scripts for project maintenance:
 
 | Script                        | Description                                                        |
 | ----------------------------- | ------------------------------------------------------------------ |
