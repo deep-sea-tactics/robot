@@ -53,6 +53,8 @@ cp config.yml webrtc-streamer/config.yml
 
 Run `pnpm outdated` to check for unhealthy dependencies.
 
+`pnpm up --latest` updates all dependencies, but may break things.
+
 ## Discord Server
 
 https://discord.gg/HxaB6CK8Kv
