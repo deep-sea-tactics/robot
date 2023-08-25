@@ -6,7 +6,7 @@ export interface ClientToServerMap {
 	controllerData: (data: ControllerData) => void;
 }
 
-export const client: Socket<{ }, ClientToServerMap> = io(
+export const client: Socket<{}, ClientToServerMap> = io(
 	'raspberrypi.local:9000',
 	{ transports: ['websocket'] }, // fixes any cross-domain issues
 );

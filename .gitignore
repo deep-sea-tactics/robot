@@ -12,4 +12,4 @@ __pycache__
 .pnpm-store
 vite.config.ts.timestamp-*
 venv
-webrtc-streamer
+mediamtx

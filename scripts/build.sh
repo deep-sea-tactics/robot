@@ -10,7 +10,7 @@ fi
 cd "$(dirname "$(readlink -f "$0")")"
 
 main() {
-	cd ../ui
+	cd ../
 	pnpm run build
 
 	echo "Done!"

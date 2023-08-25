@@ -38,6 +38,7 @@ This is the robot controller. It hooks into the server and sends the processed d
 ## Configuration
 
 Prerequisites:
+
 - [coturn](https://github.com/coturn/coturn) - install via your package manager
 
 ```sh
@@ -46,7 +47,7 @@ cp turnserver.config /etc/turnserver.conf
 # install mediamtx
 ./scripts/stream-install.sh
 # configure mediamtx
-cp config.yml webrtc-streamer/config.yml
+cp config.yml mediamtx/config.yml
 ```
 
 ## Health

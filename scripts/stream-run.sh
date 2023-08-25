@@ -9,7 +9,7 @@ fi
 
 cd "$(dirname "$(readlink -f "$0")")"
 
-cd ../webrtc-streamer
+cd ../mediamtx
 
 main() {
 	./mediamtx
