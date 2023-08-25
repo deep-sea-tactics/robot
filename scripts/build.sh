@@ -11,7 +11,7 @@ cd "$(dirname "$(readlink -f "$0")")"
 
 main() {
 	cd ../ui
-	yarn build
+	pnpm run build
 
 	echo "Done!"
 }

@@ -27,12 +27,6 @@ All other scripts are intended to be run on the UI machine.
 
 ## Components
 
-### Relay
-
-This is the packet relay.
-
-It makes two `socket.io` hooks for the UI and the robot.
-
 ### UI
 
 A user-friendly UI for managing the robot and receiving data from the controller.
@@ -43,13 +37,21 @@ This is the robot controller. It hooks into the server and sends the processed d
 
 ## Configuration
 
-Copy the `turnserver.config` to /etc/turnserver.conf`
+Prerequisites:
+- [coturn](https://github.com/coturn/coturn) - install via your package manager
 
-Copy `config.yml` to the proper config in `webrtc-streamer` after running `scripts/install-streamer.sh`
+```sh
+# configure coturn
+cp turnserver.config /etc/turnserver.conf
+# install mediamtx
+./scripts/stream-install.sh
+# configure mediamtx
+cp config.yml webrtc-streamer/config.yml
+```
 
 ## Health
 
-Run `yarn outdated` to check for unhealthy dependencies.
+Run `pnpm outdated` to check for unhealthy dependencies.
 
 ## Discord Server
 

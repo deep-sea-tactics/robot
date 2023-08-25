@@ -11,7 +11,7 @@ cd "$(dirname "$(readlink -f "$0")")"
 
 main() {
 	cd ../ui
-	yarn dev
+	pnpm run dev
 }
 
 main "$@"

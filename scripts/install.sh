@@ -10,7 +10,7 @@ fi
 cd "$(dirname "$(readlink -f "$0")")"
 
 main() {
-	yarn # install yarn dependencies
+	pnpm install # install dependencies
 }
 
 main "$@"
