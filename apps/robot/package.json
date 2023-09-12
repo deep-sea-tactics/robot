@@ -1,0 +1,11 @@
+{
+    "name": "robot",
+    "private": true,
+    "version": "0.0.0",
+    "scripts": {
+        "dev": "tsx ./src/index.ts"
+    },
+    "devDependencies": {
+        "tsx": "^3.12.9"
+    }
+}
