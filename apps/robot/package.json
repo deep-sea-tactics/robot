@@ -6,6 +6,8 @@
         "dev": "tsx ./src/index.ts"
     },
     "devDependencies": {
-        "tsx": "^3.12.9"
+        "@trpc/server": "^10.38.2",
+        "tsx": "^3.12.9",
+        "zod": "^3.22.2"
     }
 }
