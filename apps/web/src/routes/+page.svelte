@@ -1,3 +1,9 @@
-<h1>Deep Sea Tactics</h1>
+<script>
 
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+</script>
+
+<div class="wrap">
+    <div>
+        
+    </div>
+</div>
