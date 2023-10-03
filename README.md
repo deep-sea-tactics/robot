@@ -1,3 +1,3 @@
-# deep-sea-tactics
+# robot
 
-We make ROVs for the MATE competition.
+robot source code.
