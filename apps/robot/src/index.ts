@@ -1,13 +1,9 @@
-import { initTRPC } from '@trpc/server';
-import { ControllerDataSchema } from './controller';
-
-const t = initTRPC.create();
-
-const router = t.router({
-  controller_data: t.procedure.input(ControllerDataSchema).query(({ input }) => {
-    console.log(input);
-    return input;
-  })
+import { createHTTPServer } from '@trpc/server/adapters/standalone';
+import { router } from './server';
+ 
+const server = createHTTPServer({
+  router,
 });
 
-export type RobotRouter = typeof router;
+console.log('Listening on http://localhost:9000');
+server.listen(9000);

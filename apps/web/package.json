@@ -12,7 +12,7 @@
     "format": "prettier --write --ignore-path=../../.prettierignore ."
   },
   "devDependencies": {
-    "@sveltejs/adapter-static": "^2.0.3",
+    "@sveltejs/adapter-node": "^1.3.1",
     "@sveltejs/kit": "latest",
     "eslint-config-custom": "workspace:*",
     "svelte": "^3.44.0",

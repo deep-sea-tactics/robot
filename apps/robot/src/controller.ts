@@ -26,20 +26,6 @@ export const ControllerDataSchema = z.object({
   buttons: z.object({
     trigger: z.boolean(),
     side_grip: z.boolean(),
-    side_panel: z.object({
-      bottom_left: z.boolean(),
-      top_left: z.boolean(),
-      bottom_middle: z.boolean(),
-      top_middle: z.boolean(),
-      bottom_right: z.boolean(),
-      top_right: z.boolean()
-    }),
-    controller_buttons: z.object({
-      top_left: z.boolean(),
-      top_right: z.boolean(),
-      bottom_left: z.boolean(),
-      bottom_right: z.boolean()
-    })
   })
 });
 

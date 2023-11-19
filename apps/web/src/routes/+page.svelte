@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 
 </script>
 
@@ -9,8 +9,6 @@
     <div class="bottomBar">
     </div>
 </div>
-
-
 
 <style>
     .grid {

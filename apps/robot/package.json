@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "dev": "tsx ./src/index.ts"
+    "dev": "tsx watch --clear-screen=false ./src/index.ts"
   },
   "devDependencies": {
     "@trpc/server": "^10.38.2",
