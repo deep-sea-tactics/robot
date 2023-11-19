@@ -1,14 +1,11 @@
-<script>
+<script lang="ts">
   import { T, useFrame } from '@threlte/core'
-  import { interactivity } from '@threlte/extras'
+  import { OrbitControls, interactivity } from '@threlte/extras'
   import { spring } from 'svelte/motion'
 
   interactivity()
   const scale = spring(1)
   let rotation = 0
-  useFrame((state, delta) => {
-    rotation += delta
-  })
 </script>
 
 <T.PerspectiveCamera
@@ -17,7 +14,9 @@
   on:create={({ ref }) => {
     ref.lookAt(0, 1, 0)
   }}
-/>
+>
+  <OrbitControls enableDamping />
+</T.PerspectiveCamera>
 
 <T.DirectionalLight position={[0, 10, 10]} castShadow />
 
@@ -34,6 +33,6 @@
 </T.Mesh>
 
 <T.Mesh rotation.x={-Math.PI/2} receiveShadow>
-  <T.CircleGeometry args={[4, 40]}/>
+  <T.BoxGeometry args={[8, 20, .1]} />
   <T.MeshStandardMaterial color="white" />
 </T.Mesh>
