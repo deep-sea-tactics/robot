@@ -1,8 +1,8 @@
 import { createHTTPServer } from '@trpc/server/adapters/standalone';
 import { router } from './server';
- 
+
 const server = createHTTPServer({
-  router,
+  router
 });
 
 console.log('Listening on http://localhost:9000');

@@ -25,7 +25,7 @@ export const ControllerDataSchema = z.object({
   throttle: z.number(),
   buttons: z.object({
     trigger: z.boolean(),
-    side_grip: z.boolean(),
+    side_grip: z.boolean()
   })
 });
 
