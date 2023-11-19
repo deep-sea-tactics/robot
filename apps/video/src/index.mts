@@ -1,55 +1,41 @@
-// get the current OS (node)
 import { platform } from 'os';
-import { mkdir, writeFile, readFile } from 'fs/promises';
-import download from "download"
+import { spawn } from 'child_process';
+import { downloadMediaMTX } from './download.mts';
+import { makeConfig } from './config.mts';
 
-let link: string;
+await downloadMediaMTX();
 
-// get the link for the current OS and chip architecture
+console.log("Attempting to run mediamtx...")
+
+// run mediamtx
+let childName: string;
 switch (platform()) {
     case 'win32':
-        link = 'https://github.com/bluenviron/mediamtx/releases/download/v1.3.0/mediamtx_v1.3.0_windows_amd64.zip';
+        childName = 'mediamtx.exe';
         break;
     case 'darwin':
-        switch (process.arch) {
-            case 'arm64':
-                link = 'https://github.com/bluenviron/mediamtx/releases/download/v1.3.0/mediamtx_v1.3.0_darwin_arm64.tar.gz'
-                break;
-            case 'x64':
-                link = 'https://github.com/bluenviron/mediamtx/releases/download/v1.3.0/mediamtx_v1.3.0_darwin_amd64.tar.gz'
-                break;
-            default:
-                throw new Error(`Unsupported chip architecture: ${process.arch}`);
-        }
-        break;
     case 'linux':
-        switch (process.arch) {
-            case 'arm':
-                link = 'https://github.com/bluenviron/mediamtx/releases/download/v1.3.0/mediamtx_v1.3.0_linux_arm64v8.tar.gz'
-                break;
-            case 'arm64':
-                link = 'https://github.com/bluenviron/mediamtx/releases/download/v1.3.0/mediamtx_v1.3.0_linux_arm64v8.tar.gz'
-                break;
-            case 'x64':
-                link = 'https://github.com/bluenviron/mediamtx/releases/download/v1.3.0/mediamtx_v1.3.0_linux_amd64.tar.gz'
-                break;
-            default:
-                throw new Error(`Unsupported chip architecture: ${process.arch}`);
-        }
+        childName = 'mediamtx';
         break;
     default:
         throw new Error(`Unsupported OS: ${platform()}`);
 }
 
-await mkdir('resources', { recursive: true });
+await makeConfig();
 
-if (await readFile('resources/link.txt', 'utf-8') === link) {
-    console.log(`Already downloaded ${link}!`);
-} else {
-    console.log(`Downloading ${link}...`);
-    await download(link, 'resources', { extract: true });
-    console.log('Done! Writing link to resources/link.txt...');
-    await writeFile('resources/link.txt', link);
-}
+const child = spawn(childName, ["../config/mediamtx.yml"], { cwd: 'resources' });
 
+child.stdout.on('data', (data) => {
+    console.log(`stdout: ${data}`);
+});
 
+child.stderr.on('data', (data) => {
+    console.error(`stderr: ${data}`);
+});
+
+child.on('error', (error) => {
+    console.error(`error: ${error.message}`);
+    process.exit(1);
+});
+
+child.on('close', (code) => process.exit(code ?? 0));
