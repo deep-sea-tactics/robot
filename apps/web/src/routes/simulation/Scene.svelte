@@ -1,16 +1,17 @@
 <script lang="ts">
-  import { T, useFrame } from '@threlte/core'
-  import { OrbitControls, interactivity } from '@threlte/extras'
-  import { spring } from 'svelte/motion'
+  import { T } from '@threlte/core'
+  import { OrbitControls } from '@threlte/extras'
 
-  interactivity()
-  const scale = spring(1)
-  let rotation = 0
+  const waterHeight = 5;
+  const width = 50;
+  const length = 80;
+
+  const plateThickness = 0.3;
 </script>
 
 <T.PerspectiveCamera
   makeDefault
-  position={[10, 10, 10]}
+  position={[40, 40, 40]}
   on:create={({ ref }) => {
     ref.lookAt(0, 1, 0)
   }}
@@ -22,11 +23,8 @@
 <T.AmbientLight intensity={0.5} />
 
 <T.Mesh
-  rotation.y={rotation}
   position.y={1}
-  scale={$scale}
-  on:pointerenter={() => scale.set(1.5)}
-  on:pointerleave={() => scale.set(1)}
+  position.z={-20}
   castShadow
 >
   <T.BoxGeometry args={[1, 2, 1]} />
@@ -34,6 +32,31 @@
 </T.Mesh>
 
 <T.Mesh rotation.x={-Math.PI/2} receiveShadow>
-  <T.BoxGeometry args={[50, 80, .1]} />
+  <T.BoxGeometry args={[width, length, plateThickness]} />
+  <T.MeshStandardMaterial color="white" />
+</T.Mesh>
+
+<T.Mesh rotation.x={-Math.PI/2} position={[0, (plateThickness + waterHeight) / 2, 0]} receiveShadow>
+  <T.BoxGeometry args={[width, length, waterHeight]} />
+  <T.MeshStandardMaterial color="lightblue" transparent opacity={0.5} />
+</T.Mesh>
+
+<T.Mesh position={[(width + plateThickness) / 2, (plateThickness + waterHeight) / 2, 0]} receiveShadow>
+  <T.BoxGeometry args={[plateThickness, waterHeight + plateThickness * 2, length]} />
+  <T.MeshStandardMaterial color="white" />
+</T.Mesh>
+
+<T.Mesh position={[-(width + plateThickness) / 2, (plateThickness + waterHeight) / 2, 0]} receiveShadow>
+  <T.BoxGeometry args={[plateThickness, waterHeight + plateThickness * 2, length]} />
+  <T.MeshStandardMaterial color="white" />
+</T.Mesh>
+
+<T.Mesh position={[0, (plateThickness + waterHeight) / 2, (length + plateThickness) / 2]} receiveShadow>
+  <T.BoxGeometry args={[width, waterHeight + plateThickness * 2, plateThickness]} />
+  <T.MeshStandardMaterial color="white" />
+</T.Mesh>
+
+<T.Mesh position={[0, (plateThickness + waterHeight) / 2, -(length + plateThickness) / 2]} receiveShadow>
+  <T.BoxGeometry args={[width, waterHeight + plateThickness * 2, plateThickness]} />
   <T.MeshStandardMaterial color="white" />
 </T.Mesh>
