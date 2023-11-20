@@ -18,7 +18,8 @@
   <OrbitControls enableDamping />
 </T.PerspectiveCamera>
 
-<T.DirectionalLight position={[0, 10, 10]} castShadow />
+<T.DirectionalLight position={[0, 10, 0]} castShadow />
+<T.AmbientLight intensity={0.5} />
 
 <T.Mesh
   rotation.y={rotation}
@@ -33,6 +34,6 @@
 </T.Mesh>
 
 <T.Mesh rotation.x={-Math.PI/2} receiveShadow>
-  <T.BoxGeometry args={[8, 20, .1]} />
+  <T.BoxGeometry args={[50, 80, .1]} />
   <T.MeshStandardMaterial color="white" />
 </T.Mesh>

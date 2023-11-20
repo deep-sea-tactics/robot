@@ -3,7 +3,7 @@ import { stringify } from 'json-to-pretty-yaml';
 
 const isMock = process.env.MOCK === 'true';
 
-function spreadIf(cond: boolean, obj: object) {
+function iff(cond: boolean, obj: object) {
   return cond ? obj : {};
 }
 
@@ -12,13 +12,10 @@ function spreadIf(cond: boolean, obj: object) {
 const config = {
   paths: {
     cam: {
-      ...spreadIf(!isMock, {
+      ...iff(!isMock, {
         source: 'rpiCamera'
       }),
-      ...spreadIf(isMock, {
-        runOnInit: `ffmpeg -f dshow -i video="USB 2.0 Camera" -pix_fmt yuv420p -c:v libx264 -preset ultrafast -b:v 600k -f rtsp rtsp://localhost:$RTSP_PORT/$MTX_PATH`,
-        runOnInitRestart: true
-      })
+      ...iff(isMock, {})
     }
   },
   webrtc: true

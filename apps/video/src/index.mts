@@ -26,11 +26,11 @@ await makeConfig();
 const child = spawn(childName, ['../config/mediamtx.yml'], { cwd: 'resources' });
 
 child.stdout.on('data', (data) => {
-  console.log(`stdout: ${data}`);
+  console.log(`${data}`);
 });
 
 child.stderr.on('data', (data) => {
-  console.error(`stderr: ${data}`);
+  console.error(`${data}`);
 });
 
 child.on('error', (error) => {
