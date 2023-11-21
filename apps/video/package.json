@@ -3,8 +3,8 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "dev": "cross-env MOCK=true tsx watch --clear-screen=false ./src/index.mts",
-    "pi": "tsx ./src/index.mts"
+    "robot:mock": "cross-env MOCK=true tsx watch --clear-screen=false ./src/index.mts",
+    "robot": "tsx ./src/index.mts"
   },
   "devDependencies": {
     "@types/download": "^8.0.5",

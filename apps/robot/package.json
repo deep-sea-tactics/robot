@@ -3,7 +3,8 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "dev": "tsx watch --clear-screen=false ./src/index.ts"
+    "robot:mock": "tsx watch --clear-screen=false ./src/index.ts",
+    "robot": "tsx ./src/index.ts"
   },
   "devDependencies": {
     "@trpc/server": "^10.38.2",
