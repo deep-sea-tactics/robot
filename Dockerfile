@@ -1,8 +1,7 @@
-# TODO: can we use a lighter image here?
-FROM node:latest
+FROM node:21-alpine3.17
 
 # install ffmpeg, coturn
-RUN apt-get update && apt-get install -y ffmpeg coturn
+RUN apk add --no-cache ffmpeg coturn
 
 # install dependencies
 RUN npm install -g pnpm
