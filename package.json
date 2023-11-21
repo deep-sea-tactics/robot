@@ -4,6 +4,8 @@
     "build": "turbo run build",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
+    "robot": "turbo run robot",
+    "robot:mock": "turbo run robot:mock",
     "format": "prettier --write ."
   },
   "devDependencies": {

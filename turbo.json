@@ -9,6 +9,14 @@
     "dev": {
       "cache": false,
       "persistent": true
+    },
+    "robot": {
+      "cache": false,
+      "persistent": true
+    },
+    "robot:mock": {
+      "cache": false,
+      "persistent": true
     }
   }
 }

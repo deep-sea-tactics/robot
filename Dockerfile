@@ -1,3 +1,4 @@
+# TODO: can we use a lighter image here?
 FROM node:latest
 
 # install ffmpeg, coturn

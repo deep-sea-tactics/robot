@@ -4,7 +4,13 @@ Source for the main Deep Sea Tactics ROV.
 
 This is a PNPM & Turbo monorepo.
 
+## Mocking
+
+Run `docker-compose up` to begin the robot emulation. If you are working on the docker container itself and are having cache issues, do `docker compose rm`.
+
 ## Task Pipelines
+
+> Note: To run any of these tasks, do `pnpm run <task>`.
 
 There are 2 different task categories:
 
