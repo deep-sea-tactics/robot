@@ -15,7 +15,7 @@ switch (platform()) {
     break;
   case 'darwin':
   case 'linux':
-    childName = 'mediamtx';
+    childName = './mediamtx';
     break;
   default:
     throw new Error(`Unsupported OS: ${platform()}`);
@@ -23,7 +23,7 @@ switch (platform()) {
 
 await makeConfig();
 
-const child = spawn(childName, ['../config/mediamtx.yml'], { cwd: 'resources' });
+const child = spawn(childName, ['../config/mediamtx.yml'], { cwd: 'resources', shell: true });
 
 child.stdout.on('data', (data) => {
   console.log(`${data}`);

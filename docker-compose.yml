@@ -1,0 +1,14 @@
+services:
+  web:
+    build: .
+    container_name: dst-robot-web
+    volumes:
+      - ./:/app
+      - /app/node_modules/
+      - /app/.pnpm-store
+      - /app/apps/video/resources
+      - /app/apps/video/config
+    ports:
+      - "3000:3000"
+    working_dir: /app
+    command: sh -c "pnpm install && pnpm run dev"
