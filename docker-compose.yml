@@ -11,6 +11,8 @@ services:
       - /app/apps/video/config
     ports:
       - 9000:9000
+      - 8889:8889
+      - 8189:8189
     working_dir: /app
     command: sh -c "pnpm install && pnpm run robot:mock"
   web:
@@ -18,7 +20,7 @@ services:
     container_name: dst-robot-web
     volumes:
       - ./:/app
-      - /app/**/node_modules/
+      - /app/web/.svelte-kit
       - /app/.pnpm-store
       - /app/apps/video/resources
       - /app/apps/video/config
