@@ -1,3 +1,7 @@
+<svelte:head>
+  <title>Controller Debugging</title>
+</svelte:head>
+
 <script lang="ts">
   import { onMount } from "svelte";
   import type { ControllerData } from "robot/dist/controller";

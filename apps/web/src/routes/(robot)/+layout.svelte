@@ -1,3 +1,7 @@
+<svelte:head>
+    <title>Robot</title>
+</svelte:head>
+
 <slot/>
 
 <style>

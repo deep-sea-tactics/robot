@@ -8,10 +8,10 @@
     z: number
   }
 
+  // world-building variables
   const waterHeight = 5;
   const width = 50;
   const length = 80;
-
   const plateThickness = 0.3;
 
   let rovPosition: Vector3 = { x: 0, y: 1, z: 0 }

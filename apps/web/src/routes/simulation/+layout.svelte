@@ -1,3 +1,7 @@
+<svelte:head>
+    <title>Simulation</title>
+</svelte:head>
+
 <slot />
 
 <style>
