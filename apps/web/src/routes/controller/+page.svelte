@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { json } from "@sveltejs/kit";
   import { onMount } from "svelte";
   let gamepad: Gamepad | null;
 
@@ -37,11 +36,6 @@
     console.log(output)
     requestAnimationFrame(getInput)
   }
-
-  //"button0" {
-  //  "pressed":   
-  //}
-
 </script>
 
 <h1>bleh</h1>

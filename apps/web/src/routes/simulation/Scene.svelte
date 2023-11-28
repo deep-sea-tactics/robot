@@ -14,7 +14,7 @@
 
   const plateThickness = 0.3;
 
-  let rovPosition : Vector3 = {x:0,y:1,z:0}
+  let rovPosition: Vector3 = { x: 0, y: 1, z: 0 }
 
   useFrame((state,delta) => {
     //You observe the well-crafted comment. Who could have built this, you ponder...
@@ -40,10 +40,10 @@ The mesh below represents the ROV, and is a work in progress. Interactivity is l
 A navigation node system will be added at some point; adding nodes for the ROV to follow and etc. is a work in progress.
 -->
 
-<T.Mesh
-  position.x = {rovPosition.x}
-  postion.y = {rovPosition.y}
-  position.z = {rovPosition.z}
+<T.Mesh 
+  position.x={rovPosition.x}
+  position.y={rovPosition.y}
+  position.z={rovPosition.z}
 >
   <T.BoxGeometry args={[1,1,1]}/>
   <T.MeshBasicMaterial color="hotpink"/>
