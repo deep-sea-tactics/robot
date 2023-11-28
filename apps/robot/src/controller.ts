@@ -21,11 +21,26 @@ export type Position = z.infer<typeof PositionSchema>;
 export const ControllerDataSchema = z.object({
   position: PositionSchema,
   yaw: z.number(),
-  view: PositionSchema,
+  // TODO: transform into position
+  view: z.number(),
   throttle: z.number(),
   buttons: z.object({
     trigger: z.boolean(),
-    side_grip: z.boolean()
+    side_grip: z.boolean(),
+    joystick: z.object({
+      lowerLeft: z.boolean(),
+      lowerRight: z.boolean(),
+      upperLeft: z.boolean(),
+      upperRight: z.boolean()
+    }),
+    grid: z.object({
+      topLeft: z.boolean(),
+      topRight: z.boolean(),
+      middleLeft: z.boolean(),
+      middleRight: z.boolean(),
+      bottomLeft: z.boolean(),
+      bottomRight: z.boolean()
+    })
   })
 });
 

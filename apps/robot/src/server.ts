@@ -1,5 +1,5 @@
 import { initTRPC } from '@trpc/server';
-import { ControllerDataSchema } from './controller';
+import { ControllerDataSchema } from './controller.js';
 
 const t = initTRPC.create();
 
