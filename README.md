@@ -25,7 +25,7 @@ These tasks do not depend on `build`
 
 Some of these tasks may depend on `build`:
 
-- `build`: builds *everything*, and is used when the robot is being moved to real production
+- `build`: builds _everything_, and is used when the robot is being moved to real production
 - `start`: runs all frontend (land computer) tasks
 - `robot`: runs all non-mocked robot tasks (for raspberry PI)
 
@@ -44,7 +44,8 @@ Some of these tasks may depend on `build`:
 ### Mocking
 
 Same components as above, but:
+
 - instead of a PI, this all runs in `docker-compose`.
 - Web has a `/simulation` subroute, where:
-    - The `video` feed comes from here.
-    - `robot` communicates with a tRPC server hosted on `/simulation` that drives the "motors"
+  - The `video` feed comes from here.
+  - `robot` communicates with a tRPC server hosted on `/simulation` that drives the "motors"

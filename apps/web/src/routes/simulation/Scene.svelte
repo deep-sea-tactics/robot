@@ -2,7 +2,11 @@
   import { T, useFrame } from '@threlte/core'
   import { OrbitControls } from '@threlte/extras'
 
-  type vector3 = {x : number, y : number, z : number} // Container for vector math values
+  type Vector3 = {
+    x: number,
+    y: number,
+    z: number
+  }
 
   const waterHeight = 5;
   const width = 50;
@@ -10,9 +14,7 @@
 
   const plateThickness = 0.3;
 
-  var x_test  = 0;
-
-  var current_rov_position : vector3 = {x:0,y:1,z:0}
+  let rovPosition : Vector3 = {x:0,y:1,z:0}
 
   useFrame((state,delta) => {
     //You observe the well-crafted comment. Who could have built this, you ponder...
@@ -39,11 +41,9 @@ A navigation node system will be added at some point; adding nodes for the ROV t
 -->
 
 <T.Mesh
-  position.x = {current_rov_position.x}
-  postion.y = {current_rov_position.y}
-  position.z = {current_rov_position.z}
-
-
+  position.x = {rovPosition.x}
+  postion.y = {rovPosition.y}
+  position.z = {rovPosition.z}
 >
   <T.BoxGeometry args={[1,1,1]}/>
   <T.MeshBasicMaterial color="hotpink"/>
