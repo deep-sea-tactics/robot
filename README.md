@@ -12,13 +12,13 @@ Run `docker-compose up` to begin the robot emulation. If you are working on the 
 
 > Note: To run any of these tasks, do `pnpm run <task>`.
 
-There are 2 different task categories:
+There are different task categories:
 
 ### Development
 
 These tasks do not depend on `build`
 
-- `robot:mock`: mocking version of the robot code to be run on docker/podman
+- `robot:mock`: mocking version of the robot code to be run on docker.
 - `dev`: runs all frontend (land computer) tasks in development mode.
 
 ### Production
@@ -43,9 +43,12 @@ Some of these tasks may depend on `build`:
 
 ### Mocking
 
-Same components as above, but:
+Same as above, with the following changes:
 
-- instead of a PI, this all runs in `docker-compose`.
-- Web has a `/simulation` subroute, where:
-  - The `video` feed comes from here.
-  - `robot` communicates with a tRPC server hosted on `/simulation` that drives the "motors"
+- instead of a PI, this all runs in `docker-compose`
+- `/apps/web` is disregarded
+- `/apps/delta` serves as the playground
+  - The robot connects to this to send motor code
+  - `/apps/video` uses a stream from here instead of the raspberry PI camera
+- `/apps/e2e` orchestrates tests
+
