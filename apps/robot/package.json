@@ -2,19 +2,27 @@
   "name": "robot",
   "private": true,
   "version": "0.0.0",
-  "files": ["dist/**", "src/**"],
+  "files": [
+    "dist/**",
+    "src/**"
+  ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "type": "module",
   "scripts": {
-    "robot:mock": "tsx watch --clear-screen=false ./src/index.ts",
+    "robot:mock": "cross-env MOCK=true tsx watch --clear-screen=false ./src/index.ts",
     "robot": "tsx ./src/index.ts",
     "build": "tsc"
   },
   "devDependencies": {
     "@trpc/server": "^10.44.1",
+    "cross-env": "^7.0.3",
     "tsx": "^4.6.0",
     "typescript": "^5.3.2",
     "zod": "^3.22.4"
+  },
+  "dependencies": {
+    "debounce": "^2.0.0",
+    "tiny-typed-emitter": "^2.1.0"
   }
 }

@@ -3,9 +3,6 @@
     "lib": ["ESNext"],
     "module": "node16",
     "target": "es2022",
-    "types": [
-      "vitest/importMeta",
-    ],
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,

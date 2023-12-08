@@ -10,7 +10,7 @@
   "types": "dist/index.d.ts",
   "type": "module",
   "scripts": {
-    "test": "vitest",
+    "test": "vitest run",
     "build": "tsc"
   },
   "devDependencies": {

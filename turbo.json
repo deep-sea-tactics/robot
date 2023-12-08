@@ -18,6 +18,9 @@
     "robot:mock": {
       "cache": false,
       "persistent": true
+    },
+    "test": {
+      "dependsOn": ["^build"]
     }
   }
 }

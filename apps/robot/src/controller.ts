@@ -3,14 +3,14 @@ import { z } from 'zod';
 /**
  * General X and Y position interface.
  *
- * X and Y are between 0-100. 50 is in the middle.
+ * X and Y are between -1 and 1. 0 is in the middle.
  *
- * 0y means backwards, 100y means forwards
- * 0x means left, 100x means right
+ * -1y means backwards, 1y means forwards
+ * -1x means left, 1x means right
  */
 export const PositionSchema = z.object({
-  x: z.number().min(0).max(100),
-  y: z.number().min(0).max(100)
+  x: z.number().min(-1).max(1),
+  y: z.number().min(-1).max(1)
 });
 
 export type Position = z.infer<typeof PositionSchema>;
