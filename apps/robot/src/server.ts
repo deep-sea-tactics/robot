@@ -4,7 +4,7 @@ import debounce from 'debounce';
 import { observable } from '@trpc/server/observable';
 import { TypedEmitter } from 'tiny-typed-emitter';
 
-enum Motor {
+export enum Motor {
   /** Motor on the left that moves the robot side to side */
   SideLeft,
   /** Motor on the right that moves the robot side to side */
@@ -19,7 +19,7 @@ enum Motor {
   TopRight
 }
 
-interface MotorEvent {
+export interface MotorEvent {
   /** The motor to move */
   motor: Motor;
   /** The speed to move the motor at, between -1 and 1 */
