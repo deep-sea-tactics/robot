@@ -3,7 +3,7 @@
 </svelte:head>
 
 <script lang="ts">
-    import Controller from "$lib/components/Controller.svelte";
+    import Controller from "$lib/components/handlers/Controller.svelte";
     import Keyboard from "$lib/components/Keyboard.svelte";
     import type { ControllerData } from "robot/dist/controller";
 

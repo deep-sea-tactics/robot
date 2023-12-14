@@ -1,5 +1,5 @@
 <script lang="ts">
-
+  import ControllerHandler from "$lib/components/ControllerHandler.svelte";
 </script>
 
 <div class="wrap">
@@ -7,6 +7,7 @@
 
     </div>
     <div class="bottomBar">
+      <ControllerHandler />
     </div>
 </div>
 
