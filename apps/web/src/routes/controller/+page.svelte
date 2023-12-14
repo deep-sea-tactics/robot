@@ -4,11 +4,28 @@
 
 <script lang="ts">
     import Controller from "$lib/components/Controller.svelte";
+    import Keyboard from "$lib/components/Keyboard.svelte";
     import type { ControllerData } from "robot/dist/controller";
 
     let output: ControllerData;
+    let keyboardOutput: ControllerData;
 </script>
 
 <Controller bind:output />
+<Keyboard bind:output={keyboardOutput} />
 
-<pre>{JSON.stringify(output,null,2)}</pre>
+<main>
+  <pre>{JSON.stringify(output,null,2)}</pre>
+  <pre>{JSON.stringify(keyboardOutput,null,2)}</pre>
+</main>
+
+<style>
+  main {
+    margin: 1rem;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: calc(100% - 2rem);
+    height: calc(100% - 2rem);
+  }
+</style>
