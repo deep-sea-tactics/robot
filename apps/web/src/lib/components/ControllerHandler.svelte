@@ -4,12 +4,12 @@
   import Keyboard from './handlers/Keyboard.svelte';
   import type { ControllerData } from 'robot/dist/controller';
 
-  let controller: Gamepad;
+  let gamepad: Gamepad;
 
-  let controllerOutput: ControllerData;
+  let gamepadOutput: ControllerData;
   let keyboardOutput: ControllerData
 
-  $: output = controller ? controllerOutput : keyboardOutput;
+  $: output = gamepad ? gamepadOutput : keyboardOutput;
 
   const render: Render = ({ context, width, height }) => {
     if (!output) return;
@@ -22,7 +22,7 @@
   };
 </script>
 
-<Controller bind:controller bind:output={controllerOutput} />
+<Controller bind:gamepad bind:output={gamepadOutput} />
 <Keyboard bind:output={keyboardOutput} />
 
 <Canvas autoplay>
