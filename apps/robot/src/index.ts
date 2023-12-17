@@ -1,8 +1,8 @@
 import { applyWSSHandler } from '@trpc/server/adapters/ws';
-import ws from 'ws';
+import { WebSocketServer } from 'ws';
 import { router } from './server.js';
 
-const wss = new ws.Server({
+const wss = new WebSocketServer({
   port: 9000
 })
 

@@ -3,6 +3,7 @@
   import Controller from './handlers/Controller.svelte';
   import Keyboard from './handlers/Keyboard.svelte';
   import type { ControllerData } from 'robot/dist/controller';
+  import { client } from '$lib/connections/robot';
 
   let gamepad: Gamepad;
 
@@ -10,6 +11,7 @@
   let keyboardOutput: ControllerData
 
   $: output = gamepad ? gamepadOutput : keyboardOutput;
+  $: if (output) client?.controllerData.mutate(output);
 
   const render: Render = ({ context, width, height }) => {
     if (!output) return;

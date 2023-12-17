@@ -42,8 +42,6 @@ function updateControllerData(data: ControllerData) {
 }
 
 emitter.on('controllerData', (data) => {
-  if (isMock) return;
-
   emitter.emit('motorData', {
     motor: Motor.SideLeft,
     speed: data.position.x
@@ -70,7 +68,7 @@ emitter.on('controllerData', (data) => {
 });
 
 export const router = t.router({
-  controllerData: t.procedure.input(ControllerDataSchema).query(({ input }) => {
+  controllerData: t.procedure.input(ControllerDataSchema).mutation(({ input }) => {
     debounce(updateControllerData, 50)(input);
     return input;
   }),
