@@ -3,28 +3,7 @@ import { ControllerData, ControllerDataSchema } from './controller.js';
 import debounce from 'debounce';
 import { observable } from '@trpc/server/observable';
 import { TypedEmitter } from 'tiny-typed-emitter';
-
-export enum Motor {
-	/** Motor on the left that moves the robot side to side */
-	SideLeft,
-	/** Motor on the right that moves the robot side to side */
-	SideRight,
-	/** Motor on the left that moves the robot forward and backward */
-	FrontLeft,
-	/** Motor on the right that moves the robot forward and backward */
-	FrontRight,
-	/** Motor on the left that moves the robot up and down */
-	TopLeft,
-	/** Motor on the right that moves the robot up and down */
-	TopRight
-}
-
-export interface MotorEvent {
-	/** The motor to move */
-	motor: Motor;
-	/** The speed to move the motor at, between -1 and 1 */
-	speed: number;
-}
+import { Motor, MotorEvent } from './motor.js';
 
 type Events = {
 	controllerData: (data: ControllerData) => void;
@@ -43,12 +22,12 @@ function updateControllerData(data: ControllerData) {
 
 emitter.on('controllerData', (data) => {
 	emitter.emit('motorData', {
-		motor: Motor.SideLeft,
+		motor: Motor.SideFront,
 		speed: data.position.x
 	});
 
 	emitter.emit('motorData', {
-		motor: Motor.SideRight,
+		motor: Motor.SideBack,
 		speed: data.position.x
 	});
 

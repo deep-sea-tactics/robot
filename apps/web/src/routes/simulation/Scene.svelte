@@ -2,6 +2,9 @@
 	import { T, useFrame } from '@threlte/core';
 	import { AutoColliders, Collider, RigidBody } from '@threlte/rapier';
 	import { OrbitControls } from '@threlte/extras';
+	import { client } from '$lib/connections/robot';
+	import { onMount } from 'svelte';
+	import { Motor } from 'robot/src/motor';
 
 	type Vector3 = {
 		x: number;
@@ -16,7 +19,7 @@
 	const plateThickness = 0.3;
 
 	// Simulation math
-	const waterVolume = width * length * waterHeight;
+	$: waterVolume = width * length * waterHeight;
 	const waterDensity = 1; //Looks silly, but I don't actually know if the water density will vary where we test :)
 	const gravity = 9.81; //Earth's gravity. I don't know why you'd want to... uh... simulate an ROV on the moon, but you can? UNIT: M/s
 
@@ -24,7 +27,38 @@
 		return -1 * waterDensity * gravity * waterVolume;
 	}
 
-	let rovPosition: Vector3 = { x: 0, y: 100, z: 0 };
+	let rovPosition: Vector3 = { x: 0, y: 10, z: 0 };
+
+	onMount(() => {
+		if (!client) throw new Error('No client found!');
+
+		client.motorEvent.subscribe(undefined, {
+			onData(value) {
+				switch (value.motor) {
+					case Motor.FrontLeft:
+						rovPosition.x += value.speed;
+						break;
+					case Motor.FrontRight:
+						rovPosition.x += value.speed;
+						break;
+					case Motor.SideFront:
+						rovPosition.z += value.speed;
+						break;
+					case Motor.SideBack:
+						rovPosition.z += value.speed;
+						break;
+					case Motor.TopLeft:	
+						rovPosition.y += value.speed;
+						break;
+					case Motor.TopRight:	
+						rovPosition.y += value.speed;
+						break;
+				}
+
+				rovPosition = rovPosition;
+			},
+		});
+	});
 
 	useFrame((state, delta) => {
 		//You observe the well-crafted comment. Who could have built this, you ponder...
