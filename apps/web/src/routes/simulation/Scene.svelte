@@ -19,8 +19,6 @@
 	$: waterVolume = width * length * waterHeight;
 
 	const waterDensity = 1;
-	const dragCoefficient = 0.47;
-	$: drag = waterDensity * dragCoefficient;
 
 	// Earth's gravity. I don't know why you'd want to... uh... simulate an ROV on the moon, but you can? UNIT: M/s
 	const gravity = 9.81;
@@ -82,7 +80,7 @@ A navigation node system will be added at some point; adding nodes for the ROV t
 -->
 
 <T.Group position.y={waterHeight / 2}>
-	<RigidBody type={'dynamic'} on:create={({ ref }) => (rovBody = ref)} linearDamping={drag}>
+	<RigidBody type={'dynamic'} on:create={({ ref }) => (rovBody = ref)} linearDamping={0.1}>
 		<T.Mesh>
 			<T.BoxGeometry args={[1, 1, 1]} />
 			<T.MeshBasicMaterial color="hotpink" />
