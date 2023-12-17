@@ -4,7 +4,7 @@ import { router } from './server.js';
 
 const wss = new WebSocketServer({
   port: 9000
-})
+});
 
 const server = applyWSSHandler({
   wss,

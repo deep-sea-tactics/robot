@@ -9,12 +9,6 @@
     z: number;
   };
 
-  type Euler = {
-    x: number;
-    y: number;
-    z: number;
-  };
-
   // world-building variables
   const waterHeight = 5;
   const width = 50;
@@ -22,7 +16,6 @@
   const plateThickness = 0.3;
 
   // Simulation math
-
   const waterVolume = width*length*waterHeight
   const waterDensity = 1; //Looks silly, but I don't actually know if the water density will vary where we test :)
   const gravity = 9.81; //Earth's gravity. I don't know why you'd want to... uh... simulate an ROV on the moon, but you can? UNIT: M/s
