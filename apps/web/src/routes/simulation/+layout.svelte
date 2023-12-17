@@ -1,14 +1,14 @@
 <svelte:head>
-    <title>Simulation</title>
+	<title>Simulation</title>
 </svelte:head>
 
 <slot />
 
 <style>
-    :global(html, body) {
-        width: 100%;
-        height: 100%;
-        margin: 0;
-        padding: 0;
-    }
+	:global(html, body) {
+		width: 100%;
+		height: 100%;
+		margin: 0;
+		padding: 0;
+	}
 </style>

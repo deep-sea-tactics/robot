@@ -10,15 +10,15 @@ console.log('Attempting to run mediamtx...');
 // run mediamtx
 let childName: string;
 switch (platform()) {
-  case 'win32':
-    childName = 'mediamtx.exe';
-    break;
-  case 'darwin':
-  case 'linux':
-    childName = './mediamtx';
-    break;
-  default:
-    throw new Error(`Unsupported OS: ${platform()}`);
+	case 'win32':
+		childName = 'mediamtx.exe';
+		break;
+	case 'darwin':
+	case 'linux':
+		childName = './mediamtx';
+		break;
+	default:
+		throw new Error(`Unsupported OS: ${platform()}`);
 }
 
 await makeConfig();
@@ -26,16 +26,16 @@ await makeConfig();
 const child = spawn(childName, ['../config/mediamtx.yml'], { cwd: 'resources', shell: true });
 
 child.stdout.on('data', (data) => {
-  console.log(`${data}`);
+	console.log(`${data}`);
 });
 
 child.stderr.on('data', (data) => {
-  console.error(`${data}`);
+	console.error(`${data}`);
 });
 
 child.on('error', (error) => {
-  console.error(`error: ${error.message}`);
-  process.exit(1);
+	console.error(`error: ${error.message}`);
+	process.exit(1);
 });
 
 child.on('close', (code) => process.exit(code ?? 0));

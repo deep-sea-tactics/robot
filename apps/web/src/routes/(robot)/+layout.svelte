@@ -1,20 +1,19 @@
 <svelte:head>
-    <title>Robot</title>
+	<title>Robot</title>
 </svelte:head>
 
-<slot/>
+<slot />
 
 <style>
-    :global(body) {
-        margin: 0px;
-        padding: 0px;
-        background: #403D39;
+	:global(body) {
+		margin: 0px;
+		padding: 0px;
+		background: #403d39;
 
-
-        --bg: #403D39;
-        --bgDark: #252422;
-        --accent: #2C3289;
-        --light: #CCC5B9;
-        --text: #FFFCF2;
-    }
+		--bg: #403d39;
+		--bgDark: #252422;
+		--accent: #2c3289;
+		--light: #ccc5b9;
+		--text: #fffcf2;
+	}
 </style>

@@ -1,20 +1,20 @@
 {
-  "private": true,
-  "scripts": {
-    "build": "turbo run build",
-    "dev": "turbo run dev",
-    "lint": "turbo run lint",
-    "robot": "turbo run robot",
-    "robot:mock": "turbo run robot:mock",
-    "format": "prettier --plugin-search-dir . --write .",
-    "test": "turbo run test"
-  },
-  "devDependencies": {
-    "eslint": "^8.0.0",
-    "eslint-config-custom": "workspace:*",
-    "prettier": "^2.7.1",
-    "prettier-plugin-svelte": "^2.10.0",
-    "turbo": "latest"
-  },
-  "packageManager": "pnpm@8.6.10"
+	"private": true,
+	"scripts": {
+		"build": "turbo run build",
+		"dev": "turbo run dev",
+		"lint": "turbo run lint",
+		"robot": "turbo run robot",
+		"robot:mock": "turbo run robot:mock",
+		"format": "prettier --plugin-search-dir . --write .",
+		"test": "turbo run test"
+	},
+	"devDependencies": {
+		"eslint": "^8.0.0",
+		"eslint-config-custom": "workspace:*",
+		"prettier": "^2.7.1",
+		"prettier-plugin-svelte": "^2.10.0",
+		"turbo": "latest"
+	},
+	"packageManager": "pnpm@8.6.10"
 }

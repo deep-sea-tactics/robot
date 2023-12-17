@@ -4,13 +4,13 @@ import { browser } from '$app/environment';
 
 // TODO: transform this into a component
 export const client = browser
-  ? createTRPCProxyClient<RobotRouter>({
-      links: [
-        wsLink({
-          client: createWSClient({
-            url: `ws://localhost:9000`
-          })
-        })
-      ]
-    })
-  : null;
+	? createTRPCProxyClient<RobotRouter>({
+			links: [
+				wsLink({
+					client: createWSClient({
+						url: `ws://localhost:9000`
+					})
+				})
+			]
+	  })
+	: null;
