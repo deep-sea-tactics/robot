@@ -20,6 +20,7 @@ function updateControllerData(data: ControllerData) {
 	emitter.emit('controllerData', data);
 }
 
+// TODO: on sigint, stop all motors
 emitter.on('controllerData', (data) => {
 	emitter.emit('motorData', {
 		motor: Motor.SideFront,

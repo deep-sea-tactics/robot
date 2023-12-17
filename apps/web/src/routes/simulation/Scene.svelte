@@ -1,67 +1,64 @@
 <script lang="ts">
-	import { T, useFrame } from '@threlte/core';
-	import { AutoColliders, Collider, RigidBody } from '@threlte/rapier';
+	import { T, useTask } from '@threlte/core';
+	import { AutoColliders, RigidBody, Collider } from '@threlte/rapier';
 	import { OrbitControls } from '@threlte/extras';
 	import { client } from '$lib/connections/robot';
 	import { onMount } from 'svelte';
 	import { Motor } from 'robot/src/motor';
-
-	type Vector3 = {
-		x: number;
-		y: number;
-		z: number;
-	};
+	import { Gizmo } from '@threlte/extras';
+	import type { ThrelteRigidBody } from '@threlte/rapier/dist/types/types';
+	import { Vector3 } from 'three';
 
 	// world-building variables
-	const waterHeight = 5;
+	const waterHeight = 7;
 	const width = 50;
 	const length = 80;
 	const plateThickness = 0.3;
 
 	// Simulation math
 	$: waterVolume = width * length * waterHeight;
-	const waterDensity = 1; //Looks silly, but I don't actually know if the water density will vary where we test :)
-	const gravity = 9.81; //Earth's gravity. I don't know why you'd want to... uh... simulate an ROV on the moon, but you can? UNIT: M/s
+
+	const waterDensity = 1;
+	const dragCoefficient = 0.47;
+	$: drag = waterDensity * dragCoefficient;
+
+	// Earth's gravity. I don't know why you'd want to... uh... simulate an ROV on the moon, but you can? UNIT: M/s
+	const gravity = 9.81;
 
 	function buoyancy() {
 		return -1 * waterDensity * gravity * waterVolume;
 	}
 
-	let rovPosition: Vector3 = { x: 0, y: 10, z: 0 };
+	let rovBody: ThrelteRigidBody | null = null;
+
+	// TODO: generate this from the motor enum
+	let motorRegistry: Record<Motor, number> = {
+		[Motor.FrontLeft]: 0,
+		[Motor.FrontRight]: 0,
+		[Motor.SideFront]: 0,
+		[Motor.SideBack]: 0,
+		[Motor.TopLeft]: 0,
+		[Motor.TopRight]: 0
+	};
 
 	onMount(() => {
 		if (!client) throw new Error('No client found!');
 
 		client.motorEvent.subscribe(undefined, {
 			onData(value) {
-				switch (value.motor) {
-					case Motor.FrontLeft:
-						rovPosition.x += value.speed;
-						break;
-					case Motor.FrontRight:
-						rovPosition.x += value.speed;
-						break;
-					case Motor.SideFront:
-						rovPosition.z += value.speed;
-						break;
-					case Motor.SideBack:
-						rovPosition.z += value.speed;
-						break;
-					case Motor.TopLeft:	
-						rovPosition.y += value.speed;
-						break;
-					case Motor.TopRight:	
-						rovPosition.y += value.speed;
-						break;
-				}
-
-				rovPosition = rovPosition;
-			},
+				motorRegistry[value.motor] = value.speed;
+			}
 		});
 	});
 
-	useFrame((state, delta) => {
-		//You observe the well-crafted comment. Who could have built this, you ponder...
+	useTask(delta => {
+		const force = new Vector3(
+			motorRegistry[Motor.FrontLeft] + motorRegistry[Motor.FrontRight],
+			motorRegistry[Motor.TopLeft] + motorRegistry[Motor.TopRight],
+			motorRegistry[Motor.SideFront] + motorRegistry[Motor.SideBack]
+		).multiplyScalar(delta * 100);
+
+		rovBody?.addForce(force, true);
 	});
 </script>
 
@@ -84,8 +81,8 @@ The mesh below represents the ROV, and is a work in progress. Interactivity is l
 A navigation node system will be added at some point; adding nodes for the ROV to follow and etc. is a work in progress.
 -->
 
-<T.Group position.x={rovPosition.x} position.y={rovPosition.y} position.z={rovPosition.z}>
-	<RigidBody type={'dynamic'}>
+<T.Group position.y={waterHeight / 2}>
+	<RigidBody type={'dynamic'} on:create={({ ref }) => (rovBody = ref)} linearDamping={drag}>
 		<T.Mesh>
 			<T.BoxGeometry args={[1, 1, 1]} />
 			<T.MeshBasicMaterial color="hotpink" />
@@ -95,56 +92,54 @@ A navigation node system will be added at some point; adding nodes for the ROV t
 	</RigidBody>
 </T.Group>
 
-<T.Group rotation.x={-Math.PI / 2}>
-	<AutoColliders>
-		<T.Mesh receiveShadow>
-			<T.BoxGeometry args={[width, length, plateThickness]} />
-			<T.MeshStandardMaterial color="white" />
-		</T.Mesh>
-	</AutoColliders>
-</T.Group>
-
-<!--
-
 <T.Mesh
   rotation.x={-Math.PI / 2}
   position={[0, (plateThickness + waterHeight) / 2, 0]}
   receiveShadow
 >
   <T.BoxGeometry args={[width, length, waterHeight]} />
-  <T.MeshStandardMaterial color="lightblue" transparent opacity={0.5} />
+  <T.MeshStandardMaterial color="lightblue" transparent opacity={0.2} />
 </T.Mesh>
 
--->
+<AutoColliders>
+	<T.Group rotation.x={-Math.PI / 2}>
+		<T.Mesh receiveShadow>
+			<T.BoxGeometry args={[width, length, plateThickness]} />
+			<T.MeshStandardMaterial color="white" />
+		</T.Mesh>
+	</T.Group>
 
-<T.Mesh
-	position={[(width + plateThickness) / 2, (plateThickness + waterHeight) / 2, 0]}
-	receiveShadow
->
-	<T.BoxGeometry args={[plateThickness, waterHeight + plateThickness * 2, length]} />
-	<T.MeshStandardMaterial color="white" />
-</T.Mesh>
+	<T.Mesh
+		position={[(width + plateThickness) / 2, (plateThickness + waterHeight) / 2, 0]}
+		receiveShadow
+	>
+		<T.BoxGeometry args={[plateThickness, waterHeight + plateThickness * 2, length]} />
+		<T.MeshStandardMaterial color="white" />
+	</T.Mesh>
 
-<T.Mesh
-	position={[-(width + plateThickness) / 2, (plateThickness + waterHeight) / 2, 0]}
-	receiveShadow
->
-	<T.BoxGeometry args={[plateThickness, waterHeight + plateThickness * 2, length]} />
-	<T.MeshStandardMaterial color="white" />
-</T.Mesh>
+	<T.Mesh
+		position={[-(width + plateThickness) / 2, (plateThickness + waterHeight) / 2, 0]}
+		receiveShadow
+	>
+		<T.BoxGeometry args={[plateThickness, waterHeight + plateThickness * 2, length]} />
+		<T.MeshStandardMaterial color="white" />
+	</T.Mesh>
 
-<T.Mesh
-	position={[0, (plateThickness + waterHeight) / 2, (length + plateThickness) / 2]}
-	receiveShadow
->
-	<T.BoxGeometry args={[width, waterHeight + plateThickness * 2, plateThickness]} />
-	<T.MeshStandardMaterial color="white" />
-</T.Mesh>
+	<T.Mesh
+		position={[0, (plateThickness + waterHeight) / 2, (length + plateThickness) / 2]}
+		receiveShadow
+	>
+		<T.BoxGeometry args={[width, waterHeight + plateThickness * 2, plateThickness]} />
+		<T.MeshStandardMaterial color="white" />
+	</T.Mesh>
 
-<T.Mesh
-	position={[0, (plateThickness + waterHeight) / 2, -(length + plateThickness) / 2]}
-	receiveShadow
->
-	<T.BoxGeometry args={[width, waterHeight + plateThickness * 2, plateThickness]} />
-	<T.MeshStandardMaterial color="white" />
-</T.Mesh>
+	<T.Mesh
+		position={[0, (plateThickness + waterHeight) / 2, -(length + plateThickness) / 2]}
+		receiveShadow
+	>
+		<T.BoxGeometry args={[width, waterHeight + plateThickness * 2, plateThickness]} />
+		<T.MeshStandardMaterial color="white" />
+	</T.Mesh>
+</AutoColliders>
+
+<Gizmo />

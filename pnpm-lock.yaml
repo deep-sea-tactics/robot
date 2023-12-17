@@ -114,16 +114,19 @@ importers:
         version: 3.0.1(svelte@4.2.8)(vite@5.0.10)
       '@threlte/core':
         specifier: ^7.0.12
-        version: 7.0.12(svelte@4.2.8)(three@0.158.0)
+        version: 7.0.12(svelte@4.2.8)(three@0.159.0)
       '@threlte/extras':
         specifier: ^8.0.10
-        version: 8.0.10(svelte@4.2.8)(three@0.158.0)
+        version: 8.0.10(svelte@4.2.8)(three@0.159.0)
       '@threlte/rapier':
         specifier: ^1.1.4
-        version: 1.1.4(@dimforge/rapier3d-compat@0.11.2)(svelte@4.2.8)(three@0.158.0)
+        version: 1.1.4(@dimforge/rapier3d-compat@0.11.2)(svelte@4.2.8)(three@0.159.0)
       '@trpc/client':
         specifier: ^10.44.1
         version: 10.44.1(@trpc/server@10.44.1)
+      '@types/three':
+        specifier: ^0.159.0
+        version: 0.159.0
       eslint-config-custom:
         specifier: workspace:*
         version: link:../../packages/eslint-config-custom
@@ -142,6 +145,9 @@ importers:
       svelte-preprocess:
         specifier: ^5.1.2
         version: 5.1.2(svelte@4.2.8)(typescript@5.3.3)
+      three:
+        specifier: ^0.159.0
+        version: 0.159.0
       tslib:
         specifier: ^2.6.2
         version: 2.6.2
@@ -1099,7 +1105,7 @@ packages:
       - supports-color
     dev: true
 
-  /@threlte/core@7.0.12(svelte@4.2.8)(three@0.158.0):
+  /@threlte/core@7.0.12(svelte@4.2.8)(three@0.159.0):
     resolution: {integrity: sha512-+I4+mVsxAfn4Og9it48x5+oQSDr3kg4O1qpCxUdVVPAzu69MpVd+2iYU9lnBlS1ZCSlNlTXU2UUFlw895HJ9ZA==}
     peerDependencies:
       svelte: '>=4'
@@ -1107,21 +1113,21 @@ packages:
     dependencies:
       mitt: 3.0.1
       svelte: 4.2.8
-      three: 0.158.0
+      three: 0.159.0
     dev: true
 
-  /@threlte/extras@8.0.10(svelte@4.2.8)(three@0.158.0):
+  /@threlte/extras@8.0.10(svelte@4.2.8)(three@0.159.0):
     resolution: {integrity: sha512-w22/wl+E63Mm1JWT3iwRQhYpX4kAN5oJff3xaU7I1VNRp81TWn3Wqpubfn0T91QNVnwwexH4gqSJOpL2SAzMMg==}
     peerDependencies:
       svelte: '>=4'
       three: '>=0.133'
     dependencies:
       svelte: 4.2.8
-      three: 0.158.0
-      troika-three-text: 0.47.2(three@0.158.0)
+      three: 0.159.0
+      troika-three-text: 0.47.2(three@0.159.0)
     dev: true
 
-  /@threlte/rapier@1.1.4(@dimforge/rapier3d-compat@0.11.2)(svelte@4.2.8)(three@0.158.0):
+  /@threlte/rapier@1.1.4(@dimforge/rapier3d-compat@0.11.2)(svelte@4.2.8)(three@0.159.0):
     resolution: {integrity: sha512-O9GWlmiL7nngf6JBPKp1d79/emm4mWd44tWSeerjq8XtD4RRFY0qyQ0pls19vidq/EsyzVeZ82V9t7bpaHfVJQ==}
     peerDependencies:
       '@dimforge/rapier3d-compat': '>=0.11'
@@ -1130,7 +1136,7 @@ packages:
     dependencies:
       '@dimforge/rapier3d-compat': 0.11.2
       svelte: 4.2.8
-      three: 0.158.0
+      three: 0.159.0
     dev: true
 
   /@trpc/client@10.44.1(@trpc/server@10.44.1):
@@ -1213,8 +1219,25 @@ packages:
     resolution: {integrity: sha512-dn1l8LaMea/IjDoHNd9J52uBbInB796CDffS6VdIxvqYCPSG0V0DzHp76GpaWnlhg88uYyPbXCDIowa86ybd5A==}
     dev: false
 
+  /@types/stats.js@0.17.3:
+    resolution: {integrity: sha512-pXNfAD3KHOdif9EQXZ9deK82HVNaXP5ZIF5RP2QG6OQFNTaY2YIetfrE9t528vEreGQvEPRDDc8muaoYeK0SxQ==}
+    dev: true
+
+  /@types/three@0.159.0:
+    resolution: {integrity: sha512-2gybdh7HtX+rGUgslzK7QEJfzD2I0qrbUGzKk+dK0FDx49UHkNX0rqZVRzIgeFjBd1HzzhNNgwNoMacm3Wyc7w==}
+    dependencies:
+      '@types/stats.js': 0.17.3
+      '@types/webxr': 0.5.10
+      fflate: 0.6.10
+      meshoptimizer: 0.18.1
+    dev: true
+
   /@types/tough-cookie@4.0.5:
     resolution: {integrity: sha512-/Ad8+nIOV7Rl++6f1BdKxFSMgmoqEoYbHRpPcx3JEfv8VRsQe9Z4mCXeJBzxs7mbHY/XOZZuXlRNfhpVPbs6ZA==}
+    dev: true
+
+  /@types/webxr@0.5.10:
+    resolution: {integrity: sha512-n3u5sqXQJhf1CS68mw3Wf16FQ4cRPNBBwdYLFzq3UddiADOim1Pn3Y6PBdDilz1vOJF3ybLxJ8ZEDlLIzrOQZg==}
     dev: true
 
   /@types/ws@8.5.10:
@@ -2133,6 +2156,10 @@ packages:
       pend: 1.2.0
     dev: false
 
+  /fflate@0.6.10:
+    resolution: {integrity: sha512-IQrh3lEPM93wVCEczc9SaAOvkmcoQn/G8Bo1e8ZPlY3X3bnAxWaBdvTdvM1hP62iZp0BXWDy4vTAy4fF0+Dlpg==}
+    dev: true
+
   /file-entry-cache@6.0.1:
     resolution: {integrity: sha512-7Gps/XWymbLk2QLYK4NzpMOrYjMhdIxXuIvy2QBsLE6ljuodKvdkWs/cpyJJ3CVIVpH0Oi1Hvg1ovbMzLdFBBg==}
     engines: {node: ^10.12.0 || >=12.0.0}
@@ -2664,6 +2691,10 @@ packages:
   /merge2@1.4.1:
     resolution: {integrity: sha512-8q7VEgMJW4J8tcfVPy8g09NcQwZdbwFEqhe/WZkoIzjn/3TGDwtOCYtXGxA3O8tPzpczCCDgv+P2P5y00ZJOOg==}
     engines: {node: '>= 8'}
+
+  /meshoptimizer@0.18.1:
+    resolution: {integrity: sha512-ZhoIoL7TNV4s5B6+rx5mC//fw8/POGyNxS/DZyCJeiZ12ScLfVwRE/GfsxwiTkMYYD5DmK2/JXnEVXqL4rF+Sw==}
+    dev: true
 
   /micromatch@4.0.5:
     resolution: {integrity: sha512-DMy+ERcEW2q8Z2Po+WNXuw3c5YaUSFjAO5GsJqfEl7UjvtIuFKO6ZrKvcItdy98dwFI2N1tg3zNIdKaQT+aNdA==}
@@ -3471,8 +3502,8 @@ packages:
   /text-table@0.2.0:
     resolution: {integrity: sha512-N+8UisAXDGk8PFXP4HAzVR9nbfmVJ3zYLAWiTIoqC5v5isinhr+r5uaO8+7r3BMfuNIufIsA7RdpVgacC2cSpw==}
 
-  /three@0.158.0:
-    resolution: {integrity: sha512-TALj4EOpdDPF1henk2Q+s17K61uEAAWQ7TJB68nr7FKxqwyDr3msOt5IWdbGm4TaWKjrtWS8DJJWe9JnvsWOhQ==}
+  /three@0.159.0:
+    resolution: {integrity: sha512-eCmhlLGbBgucuo4VEA9IO3Qpc7dh8Bd4VKzr7WfW4+8hMcIfoAVi1ev0pJYN9PTTsCslbcKgBwr2wNZ1EvLInA==}
     dev: true
 
   /through@2.3.8:
@@ -3531,24 +3562,24 @@ packages:
       escape-string-regexp: 1.0.5
     dev: false
 
-  /troika-three-text@0.47.2(three@0.158.0):
+  /troika-three-text@0.47.2(three@0.159.0):
     resolution: {integrity: sha512-qylT0F+U7xGs+/PEf3ujBdJMYWbn0Qci0kLqI5BJG2kW1wdg4T1XSxneypnF05DxFqJhEzuaOR9S2SjiyknMng==}
     peerDependencies:
       three: '>=0.125.0'
     dependencies:
       bidi-js: 1.0.3
-      three: 0.158.0
-      troika-three-utils: 0.47.2(three@0.158.0)
+      three: 0.159.0
+      troika-three-utils: 0.47.2(three@0.159.0)
       troika-worker-utils: 0.47.2
       webgl-sdf-generator: 1.1.1
     dev: true
 
-  /troika-three-utils@0.47.2(three@0.158.0):
+  /troika-three-utils@0.47.2(three@0.159.0):
     resolution: {integrity: sha512-/28plhCxfKtH7MSxEGx8e3b/OXU5A0xlwl+Sbdp0H8FXUHKZDoksduEKmjQayXYtxAyuUiCRunYIv/8Vi7aiyg==}
     peerDependencies:
       three: '>=0.125.0'
     dependencies:
-      three: 0.158.0
+      three: 0.159.0
     dev: true
 
   /troika-worker-utils@0.47.2:
