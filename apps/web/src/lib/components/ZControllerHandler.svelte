@@ -19,7 +19,7 @@
 		context.textAlign = 'center';
 		context.textBaseline = 'middle';
 		context.fillStyle = 'tomato';
-		context.fillText(`${output.hatSwitch}`, width / 2, height / 2);
+		context.fillText(`${output.view}`, width / 2, height / 2);
 		
 		
 				

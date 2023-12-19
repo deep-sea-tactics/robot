@@ -8,7 +8,7 @@
 		},
 		yaw: 0,
 		throttle: 50,
-		hatSwitch: 0,
+		view: 0,
 		buttons: {
 			trigger: false,
 			side_grip: false,
