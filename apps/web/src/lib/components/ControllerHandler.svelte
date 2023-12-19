@@ -15,12 +15,17 @@
 
 	const render: Render = ({ context, width, height }) => {
 		if (!output) return;
-
 		context.font = `${width / 10}px sans-serif`;
 		context.textAlign = 'center';
 		context.textBaseline = 'middle';
 		context.fillStyle = 'tomato';
-		context.fillText(output.position.x.toString(), width / 2, height / 2);
+		context.fillText(`${output.position.x}, ${output.position.y}`, width / 2, height / 2);
+		context.fillRect(
+			(width / 2) * (output.position.x + 1) - 5,
+			(height / 2) * (output.position.y + 1) - 5,
+			10,
+			10
+		);
 	};
 </script>
 

@@ -16,12 +16,6 @@
 		<div class="item">
 			<ControllerHandler />
 		</div>
-		<div class="item">
-			<p>test</p>
-		</div>
-		<div class="item">
-			<p>test</p>
-		</div>
 	</div>
 </div>
 
