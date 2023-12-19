@@ -52,7 +52,7 @@
 			},
 			yaw: gamepad.axes[5],
 			throttle: gamepad.axes[6],
-			view: gamepad.axes[9]
+			hatSwitch: gamepad.axes[9]
 		};
 
 		requestAnimationFrame(getInput);
