@@ -1,5 +1,5 @@
 <script lang="ts">
-	import ControllerHandler from '$lib/components/ControllerHandler.svelte';
+	import ControllerHandler from '$lib/components/XYControllerHandler.svelte';
 </script>
 
 <div class="wrap">
