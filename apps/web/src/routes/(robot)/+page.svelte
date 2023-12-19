@@ -27,9 +27,7 @@
 
 <style>
 	.item {
-		/* the border color may be moved to just the bottomBar; camera is visually distinctive */
 		flex: 1;
-		border: 1px solid var(--accent);
 	}
 
 	.wrap {
