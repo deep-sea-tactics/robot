@@ -21,7 +21,8 @@
 
 <style>
 	.flexContainer > * {
-		border: 1px solid var(--light);
+		/* the border color may be moved to just the bottomBar; camera is visually distinctive */
+		border: 1px solid var(--bgDark);
 		flex: 1;
 	}
 
