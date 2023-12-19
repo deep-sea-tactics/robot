@@ -16,4 +16,8 @@
 		--light: #bfb6a6;
 		--text: #fffcf2;
 	}
+
+	:global(*) {
+		box-sizing: border-box;
+	}
 </style>
