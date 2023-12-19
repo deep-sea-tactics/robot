@@ -3,27 +3,33 @@
 </script>
 
 <div class="wrap">
-	<div class="grid flexContainer">
+	<div class="grid">
 		<div class="item">
 			<p>test</p>
 		</div>
 		<div class="item">
 			<p>test</p>
 		</div>
-		<div class="item">
-			<p>test</p>
-		</div>
+		
 	</div>
-	<div class="bottomBar flexContainer">
-		<ControllerHandler />
+	<div class="bottomBar">
+		<div class="item">
+			<ControllerHandler />
+		</div>
+		<div class="item">
+			<p>test</p>
+		</div>
+		<div class="item">
+			<p>test</p>
+		</div>
 	</div>
 </div>
 
 <style>
-	.flexContainer > * {
+	.item {
 		/* the border color may be moved to just the bottomBar; camera is visually distinctive */
-		border: 1px solid var(--bgDark);
 		flex: 1;
+		border: 1px solid var(--accent);
 	}
 
 	.wrap {
@@ -31,15 +37,15 @@
 	}
 
 	.grid {
+		display: flex;
 		min-height: 10vh;
 		height: 80vh;
 		display: flex;
-		flex-direction: row;
 	}
 	.bottomBar {
+		display: flex;
 		height: 20vh;
 		min-height: 10vh;
 		background: var(--bgDark);
-		flex-direction: row;
 	}
 </style>
