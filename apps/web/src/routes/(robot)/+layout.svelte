@@ -12,8 +12,8 @@
 
 		--bg: #403d39;
 		--bgDark: #252422;
-		--accent: #2c3289;
-		--light: #ccc5b9;
+		--accent: #ccc9c0;
+		--light: #bfb6a6;
 		--text: #fffcf2;
 	}
 </style>
