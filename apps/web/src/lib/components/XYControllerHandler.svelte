@@ -15,22 +15,26 @@
 
 	const render: Render = ({ context, width, height }) => {
 		if (!output) return;
+
+		const x = output.position.x;
+		const y = output.position.y;
+
 		context.font = `${width / 30}px sans-serif`;
 		context.textAlign = 'center';
 		context.textBaseline = 'middle';
 		context.fillStyle = 'tomato';
-		context.fillText(`${output.position.x.toFixed(3)}, ${output.position.y.toFixed(3)}`, width / 2, height / 2);
+		context.fillText(`${x.toFixed(3)}, ${y.toFixed(3)}`, width / 2, height / 2);
 		/* in case you wanna use a square instead 
 		context.fillRect(
-			(width / 2) * (output.position.x + 1) - 5,
-			(height / 2) * (output.position.y + 1) - 5,
+			(width / 2) * (x + 1) - 5,
+			(height / 2) * (y + 1) - 5,
 			10,
 			10
 		);*/
 		context.beginPath();
 		context.arc(
-			(width / 2) * (output.position.x + 1),
-			(height / 2) * (output.position.y + 1),
+			(width / 2) * (x + 1),
+			(height / 2) * (-y + 1),
 			5,
 			0,
 			2 * Math.PI
@@ -39,7 +43,7 @@
 		context.strokeStyle = 'tomato';
 		context.beginPath();
 		context.moveTo(width / 2, height / 2);
-		context.lineTo((width / 2) * (output.position.x + 1), (height / 2) * (output.position.y + 1));
+		context.lineTo((width / 2) * (x + 1), (height / 2) * (-y + 1));
 		context.stroke();
 				
 	};
