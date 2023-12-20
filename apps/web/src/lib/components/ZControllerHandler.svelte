@@ -15,7 +15,7 @@
 
 	const render: Render = ({ context, width, height }) => {
 		if (!output) return;
-		context.font = `${width / 30}px sans-serif`;
+		context.font = `1rem sans-serif`;
 		context.textAlign = 'center';
 		context.textBaseline = 'middle';
 		context.fillStyle = 'tomato';
