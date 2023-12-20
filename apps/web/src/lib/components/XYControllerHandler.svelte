@@ -19,7 +19,7 @@
 		const x = output.position.x;
 		const y = output.position.y;
 
-		context.font = `${width / 30}px sans-serif`;
+		context.font = `1rem sans-serif`;
 		context.textAlign = 'center';
 		context.textBaseline = 'middle';
 		context.fillStyle = 'tomato';
