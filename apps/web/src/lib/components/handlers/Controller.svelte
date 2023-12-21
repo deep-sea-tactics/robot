@@ -41,7 +41,6 @@
 			},
 		};
 		console.log(output);
-
 		requestAnimationFrame(getInput);
 	}
 </script>

@@ -1,33 +1,9 @@
 <script lang="ts">
 	import type { ControllerData } from 'robot/dist/controller';
 
-	const defaultData: ControllerData = {
-		position: {
-			x: 0,
-			y: 0
-		},
-		yaw: 0,
-		throttle: 50,
-		view: 0,
-		buttons: {
-			trigger: false,
-			side_grip: false,
-			joystick: {
-				lowerLeft: false,
-				lowerRight: false,
-				upperLeft: false,
-				upperRight: false
-			},
-			grid: {
-				topLeft: false,
-				topRight: false,
-				middleLeft: false,
-				middleRight: false,
-				bottomLeft: false,
-				bottomRight: false
-			}
-		}
-	};
+	const defaultData = {
+
+	}
 
 	export let output: ControllerData = structuredClone(defaultData);
 

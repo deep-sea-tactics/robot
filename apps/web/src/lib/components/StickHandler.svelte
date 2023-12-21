@@ -10,7 +10,6 @@
 
 	let gamepadOutput: ControllerData;
 	let keyboardOutput: ControllerData;
-
 	$: output = gamepad ? gamepadOutput : keyboardOutput;
 	$: if (output) client?.controllerData.mutate(output);
 
@@ -19,6 +18,7 @@
 		const x = output.axes[stick].x;
 		const y = output.axes[stick].y;
 
+		console.log(x);
 		context.font = `1rem sans-serif`;
 		context.textAlign = 'center';
 		context.textBaseline = 'middle';
