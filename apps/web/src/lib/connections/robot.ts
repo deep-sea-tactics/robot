@@ -2,13 +2,14 @@ import { createTRPCProxyClient, createWSClient, wsLink } from '@trpc/client';
 import type { RobotRouter } from 'robot/src/server';
 import { browser } from '$app/environment';
 
+// TODO: make protocol either "http" or "ws"
 function transform(port: number, protocol = "https"): string {
-  if (process.env.GITPOD_WORKSPACE_ID) {
-    const url = process.env.GITPOD_WORKSPACE_URL?.substring("https://".length);
+  if (browser) {
+    const url = location.origin.substring("https://xxxx".length);
 
     if (!url) throw Error("GITPOD_WORKSPACE_URL not defined")
 
-    const transformedURL = `${protocol}://${port}-${url}`;
+    const transformedURL = `${protocol}://${port}${url}`;
 
     return transformedURL;
   }
