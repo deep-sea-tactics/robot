@@ -1,5 +1,6 @@
 <script lang="ts">
-	import ControllerHandler from '$lib/components/ControllerHandler.svelte';
+	import XYControllerHandler from '$lib/components/XYControllerHandler.svelte';
+	import ZControllerHandler from '$lib/components/ZControllerHandler.svelte';
 </script>
 
 <div class="wrap">
@@ -14,8 +15,13 @@
 	</div>
 	<div class="bottomBar">
 		<div class="item">
-			<ControllerHandler />
+			<XYControllerHandler />
 		</div>
+		<div class="item">
+			<ZControllerHandler />	
+		</div>
+		<div class="item">test</div>
+		<div class="item">test</div>
 	</div>
 </div>
 

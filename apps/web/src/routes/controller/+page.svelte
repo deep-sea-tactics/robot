@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Controller from '$lib/components/handlers/Controller.svelte';
-	import Keyboard from '$lib/components/Keyboard.svelte';
+	import Keyboard from '$lib/components/handlers/Keyboard.svelte';
 	import type { ControllerData } from 'robot/dist/controller';
 
 	let output: ControllerData;
