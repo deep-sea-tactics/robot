@@ -21,6 +21,7 @@ function updateControllerData(data: ControllerData) {
 }
 
 // TODO: on sigint, stop all motors
+/*
 emitter.on('controllerData', (data) => {
 	emitter.emit('motorData', {
 		motor: Motor.SideFront,
@@ -46,7 +47,7 @@ emitter.on('controllerData', (data) => {
 	// TODO: yaw (rotation)
 	// TODO: camera position (throttle)
 });
-
+*/
 export const router = t.router({
 	controllerData: t.procedure.input(ControllerDataSchema).mutation(({ input }) => {
 		debounce(updateControllerData, 50)(input);

@@ -2,23 +2,23 @@
 	import { Canvas, Layer, type Render } from 'svelte-canvas';
 	import Controller from './handlers/Controller.svelte';
 	import Keyboard from './handlers/Keyboard.svelte';
-	import type { ControllerData } from 'robot/dist/controller';
+	import type { ControllerData  } from 'robot/dist/controller';
 	import { client } from '$lib/connections/robot';
 
+	export let stick: string;
 	let gamepad: Gamepad;
 
 	let gamepadOutput: ControllerData;
 	let keyboardOutput: ControllerData;
-
 	$: output = gamepad ? gamepadOutput : keyboardOutput;
 	$: if (output) client?.controllerData.mutate(output);
 
 	const render: Render = ({ context, width, height }) => {
 		if (!output) return;
+		const x = output.axes[stick].x;
+		const y = output.axes[stick].y;
 
-		const x = output.position.x;
-		const y = output.position.y;
-
+		console.log(x);
 		context.font = `1rem sans-serif`;
 		context.textAlign = 'center';
 		context.textBaseline = 'middle';

@@ -1,6 +1,5 @@
 <script lang="ts">
-	import XYControllerHandler from '$lib/components/XYControllerHandler.svelte';
-	import ZControllerHandler from '$lib/components/ZControllerHandler.svelte';
+	import StickHandler from '$lib/components/StickHandler.svelte';
 </script>
 
 <div class="wrap">
@@ -15,10 +14,10 @@
 	</div>
 	<div class="bottomBar">
 		<div class="item">
-			<XYControllerHandler />
+			<StickHandler stick="leftStick" />
 		</div>
 		<div class="item">
-			<ZControllerHandler />	
+			<StickHandler stick="rightStick" />
 		</div>
 		<div class="item">test</div>
 		<div class="item">test</div>

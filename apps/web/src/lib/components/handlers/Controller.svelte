@@ -28,33 +28,19 @@
 		gamepad = navigator.getGamepads()[0];
 		if (!gamepad) return;
 		output = {
-			buttons: {
-				trigger: gamepad.buttons[0].pressed,
-				side_grip: gamepad.buttons[1].pressed,
-				joystick: {
-					lowerLeft: gamepad.buttons[2].pressed,
-					lowerRight: gamepad.buttons[3].pressed,
-					upperLeft: gamepad.buttons[4].pressed,
-					upperRight: gamepad.buttons[5].pressed
+			connected: gamepad.connected,
+			axes: {
+				leftStick: {
+					x: gamepad.axes[0],
+					y: gamepad.axes[1]
 				},
-				grid: {
-					topLeft: gamepad.buttons[6].pressed,
-					topRight: gamepad.buttons[7].pressed,
-					middleLeft: gamepad.buttons[8].pressed,
-					middleRight: gamepad.buttons[9].pressed,
-					bottomLeft: gamepad.buttons[10].pressed,
-					bottomRight: gamepad.buttons[11].pressed
+				rightStick: {
+					x: gamepad.axes[3],
+					y: gamepad.axes[4]
 				}
 			},
-			position: {
-				x: gamepad.axes[0],
-				y: gamepad.axes[1]
-			},
-			yaw: gamepad.axes[5],
-			throttle: gamepad.axes[6],
-			view: gamepad.axes[9]
 		};
-
+		console.log(output);
 		requestAnimationFrame(getInput);
 	}
 </script>

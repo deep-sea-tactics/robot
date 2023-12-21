@@ -19,27 +19,15 @@ export type Position = z.infer<typeof PositionSchema>;
  * All data sent from the controller
  */
 export const ControllerDataSchema = z.object({
-	position: PositionSchema,
-	yaw: z.number(),
-	// TODO: transform into position
-	view: z.number(),
-	throttle: z.number(),
-	buttons: z.object({
-		trigger: z.boolean(),
-		side_grip: z.boolean(),
-		joystick: z.object({
-			lowerLeft: z.boolean(),
-			lowerRight: z.boolean(),
-			upperLeft: z.boolean(),
-			upperRight: z.boolean()
+	connected: z.boolean(),
+	axes: z.object({
+		leftStick: z.object({
+			x: z.number(),
+			y: z.number()
 		}),
-		grid: z.object({
-			topLeft: z.boolean(),
-			topRight: z.boolean(),
-			middleLeft: z.boolean(),
-			middleRight: z.boolean(),
-			bottomLeft: z.boolean(),
-			bottomRight: z.boolean()
+		rightStick: z.object({
+			x: z.number(),
+			y: z.number()
 		})
 	})
 });
