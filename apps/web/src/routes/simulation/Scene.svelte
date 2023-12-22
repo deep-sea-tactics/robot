@@ -50,13 +50,13 @@
 	});
 
 	useTask((delta) => {
-		const force = new Vector3(
+		const impulse = new Vector3(
 			motorRegistry[Motor.FrontLeft] + motorRegistry[Motor.FrontRight],
 			motorRegistry[Motor.TopLeft] + motorRegistry[Motor.TopRight],
 			motorRegistry[Motor.SideFront] + motorRegistry[Motor.SideBack]
-		).multiplyScalar(delta * 100);
+		).multiplyScalar(delta * 5);
 
-		rovBody?.addForce(force, true);
+		rovBody?.applyImpulse(impulse, true);
 	});
 </script>
 
