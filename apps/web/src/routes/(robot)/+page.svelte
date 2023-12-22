@@ -11,7 +11,7 @@
 	$: output = gamepadOutput ?? keyboardOutput;
 	$: if (output) client?.controllerData.mutate(output);
 
-
+	// TODO move these bad biddies to library
 	const renderStick: (stick: "leftStick" | "rightStick") => Render = (stick) => ({ context, width, height }) => {
 		if (!output) return;
 		const x = output.axes[stick].x;

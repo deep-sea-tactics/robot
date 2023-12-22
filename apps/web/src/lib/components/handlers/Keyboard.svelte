@@ -12,7 +12,24 @@
 				x: 0,
 				y: 0
 			}
-		}
+		},
+		dPad: {
+			up: false,
+			down: false,
+			left: false,
+			right: false
+		},
+		bumbers: {
+			left: false,
+			right: false
+		},
+		shapeButtons: {
+			up: false,
+			down: false,
+			left: false,
+			right: false
+		},
+		rightThree: false
 	}
 
 	export let output: ControllerData = structuredClone(defaultData);

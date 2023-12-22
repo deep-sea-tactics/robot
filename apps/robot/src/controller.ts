@@ -29,7 +29,22 @@ export const ControllerDataSchema = z.object({
 			x: z.number(),
 			y: z.number()
 		})
-	})
+	}),
+	dPad: z.object({
+		up: z.boolean(),
+		down: z.boolean()
+	}),
+	bumbers: z.object({
+		left: z.boolean(),
+		right: z.boolean(),
+	}),
+	shapeButtons: z.object({
+		up: z.boolean(),
+		down: z.boolean(),
+		right: z.boolean(),
+		left: z.boolean()
+	}),
+	rightThree: z.boolean()
 });
 
 export type ControllerData = z.infer<typeof ControllerDataSchema>;
