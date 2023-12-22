@@ -30,7 +30,7 @@ emitter.on('controllerData', (data) => {
 
 	emitter.emit('motorData', {
 		motor: Motor.SideBack,
-		speed: data.axes.leftStick.y
+		speed: data.axes.leftStick.x
 	});
 
 	emitter.emit('motorData', {
