@@ -5,7 +5,7 @@
 	import type { ControllerData  } from 'robot/dist/controller';
 	import { client } from '$lib/connections/robot';
 
-	export let stick: string;
+	export let stick: "leftStick" | "rightStick" = "leftStick";
 	let gamepad: Gamepad;
 
 	let gamepadOutput: ControllerData;
@@ -14,11 +14,12 @@
 	$: if (output) client?.controllerData.mutate(output);
 
 	const render: Render = ({ context, width, height }) => {
-		if (!output) return;
-		const x = output.axes[stick].x;
-		const y = output.axes[stick].y;
 
-		console.log(x);
+		if (!output) return;
+		const x = output.axes.leftStick.x;
+		const y = output.axes.leftStick.y;
+		console.log(x, y);
+
 		context.font = `1rem sans-serif`;
 		context.textAlign = 'center';
 		context.textBaseline = 'middle';

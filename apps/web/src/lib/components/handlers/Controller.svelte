@@ -35,12 +35,11 @@
 					y: gamepad.axes[1]
 				},
 				rightStick: {
-					x: gamepad.axes[3],
-					y: gamepad.axes[4]
+					x: gamepad.axes[2],
+					y: gamepad.axes[3]
 				}
 			},
 		};
-		console.log(output);
 		requestAnimationFrame(getInput);
 	}
 </script>
