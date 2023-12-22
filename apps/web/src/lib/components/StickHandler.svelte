@@ -14,8 +14,8 @@
 
 	const render: Render = ({ context, width, height }) => {
 		if (!output) return;
-		const x = output.axes.leftStick.x;
-		const y = output.axes.leftStick.y;
+		const x = output.axes[stick].x;
+		const y = output.axes[stick].y;
 
 		context.font = `1rem sans-serif`;
 		context.textAlign = 'center';

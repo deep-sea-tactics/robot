@@ -32,11 +32,11 @@
 			axes: {
 				leftStick: {
 					x: gamepad.axes[0],
-					y: gamepad.axes[1]
+					y: gamepad.axes[1] * -1 // invert y axis (up is positive)
 				},
 				rightStick: {
 					x: gamepad.axes[2],
-					y: gamepad.axes[3]
+					y: gamepad.axes[3] * -1 // invert y axis (up is positive)
 				}
 			},
 		};
