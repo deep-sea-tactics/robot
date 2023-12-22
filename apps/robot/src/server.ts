@@ -21,33 +21,33 @@ function updateControllerData(data: ControllerData) {
 }
 
 // TODO: on sigint, stop all motors
-/*
+
 emitter.on('controllerData', (data) => {
 	emitter.emit('motorData', {
 		motor: Motor.SideFront,
-		speed: data.position.x
+		speed: data.axes.leftStick.x
 	});
 
 	emitter.emit('motorData', {
 		motor: Motor.SideBack,
-		speed: data.position.x
+		speed: data.axes.leftStick.y
 	});
 
 	emitter.emit('motorData', {
 		motor: Motor.FrontLeft,
-		speed: data.position.y
+		speed: data.axes.leftStick.y
 	});
 
 	emitter.emit('motorData', {
 		motor: Motor.FrontRight,
-		speed: data.position.y
+		speed: data.axes.leftStick.y
 	});
 
 	// TODO: up and down - need to figure out view
 	// TODO: yaw (rotation)
 	// TODO: camera position (throttle)
 });
-*/
+
 export const router = t.router({
 	controllerData: t.procedure.input(ControllerDataSchema).mutation(({ input }) => {
 		debounce(updateControllerData, 50)(input);
