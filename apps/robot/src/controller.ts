@@ -36,7 +36,7 @@ export const ControllerDataSchema = z.object({
 	}),
 	bumbers: z.object({
 		left: z.boolean(),
-		right: z.boolean(),
+		right: z.boolean()
 	}),
 	shapeButtons: z.object({
 		up: z.boolean(),

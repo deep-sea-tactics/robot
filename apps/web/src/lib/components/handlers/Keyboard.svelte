@@ -30,7 +30,7 @@
 			right: false
 		},
 		rightThree: false
-	}
+	};
 
 	export let output: ControllerData = structuredClone(defaultData);
 

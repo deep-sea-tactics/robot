@@ -2,19 +2,26 @@ import { createTRPCProxyClient, createWSClient, wsLink } from '@trpc/client';
 import type { RobotRouter } from 'robot/src/server';
 import { browser } from '$app/environment';
 
-// TODO: make protocol either "http" or "ws"
-function transform(port: number, protocol = "https"): string {
-  if (browser) {
-    const url = location.origin.substring("https://xxxx".length);
+type Protocol = 'http' | 'ws';
 
-    if (!url) throw Error("GITPOD_WORKSPACE_URL not defined")
+function transform(port: number, protocol: Protocol = 'http'): string {
+	const resolvedProtocol = (location.protocol === 'https:' ? (protocol === 'http' ? 'https' : 'wss') : protocol);
 
-    const transformedURL = `${protocol}://${port}${url}`;
+	if (browser) {
+		if (location.origin.includes('gitpod.io')) {
+			const url = location.origin.substring('https://xxxx'.length);
 
-    return transformedURL;
-  }
+			if (!url) throw Error('workspace url not defined');
 
-  return `${protocol}://localhost:${port}`;
+			const transformedURL = `${resolvedProtocol}://${port}${url}`;
+
+			return transformedURL;
+		}
+
+		// TODO: codespace support
+	}
+
+	return `${resolvedProtocol}://localhost:${port}`;
 }
 
 // TODO: transform this into a component
@@ -23,7 +30,7 @@ export const client = browser
 			links: [
 				wsLink({
 					client: createWSClient({
-						url: transform(9000, "ws")
+						url: transform(9000, 'ws')
 					})
 				})
 			]

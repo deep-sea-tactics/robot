@@ -49,7 +49,7 @@
 		});
 	});
 
-	useTask(delta => {
+	useTask((delta) => {
 		const force = new Vector3(
 			motorRegistry[Motor.FrontLeft] + motorRegistry[Motor.FrontRight],
 			motorRegistry[Motor.TopLeft] + motorRegistry[Motor.TopRight],
@@ -91,12 +91,12 @@ A navigation node system will be added at some point; adding nodes for the ROV t
 </T.Group>
 
 <T.Mesh
-  rotation.x={-Math.PI / 2}
-  position={[0, (plateThickness + waterHeight) / 2, 0]}
-  receiveShadow
+	rotation.x={-Math.PI / 2}
+	position={[0, (plateThickness + waterHeight) / 2, 0]}
+	receiveShadow
 >
-  <T.BoxGeometry args={[width, length, waterHeight]} />
-  <T.MeshStandardMaterial color="lightblue" transparent opacity={0.2} />
+	<T.BoxGeometry args={[width, length, waterHeight]} />
+	<T.MeshStandardMaterial color="lightblue" transparent opacity={0.2} />
 </T.Mesh>
 
 <AutoColliders>
