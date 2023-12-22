@@ -54,10 +54,17 @@
 			motorRegistry[Motor.FrontLeft] + motorRegistry[Motor.FrontRight],
 			motorRegistry[Motor.TopLeft] + motorRegistry[Motor.TopRight],
 			motorRegistry[Motor.SideFront] + motorRegistry[Motor.SideBack]
-		).multiplyScalar(delta * 5);
+		).multiplyScalar(delta * 50);
 
 		rovBody?.applyImpulse(impulse, true);
 	});
+
+	// TODO: file a threlte/core issue to add this to the core library instead of having to cast
+	function cast<T extends any>(value: unknown): T {
+		return value as T;
+	}
+
+	const castThrelteRigidBody = (value: unknown): ThrelteRigidBody => cast<ThrelteRigidBody>(value);
 </script>
 
 <T.PerspectiveCamera
@@ -80,7 +87,11 @@ A navigation node system will be added at some point; adding nodes for the ROV t
 -->
 
 <T.Group position.y={waterHeight / 2}>
-	<RigidBody type={'dynamic'} on:create={({ ref }) => (rovBody = ref)} linearDamping={0.1}>
+	<RigidBody type={'dynamic'} on:create={({ ref: refUncasted }) => {
+		const ref = castThrelteRigidBody(refUncasted);
+		ref.setAdditionalMass(15, true);
+		rovBody = ref
+	}} linearDamping={0.1}>
 		<T.Mesh>
 			<T.BoxGeometry args={[1, 1, 1]} />
 			<T.MeshBasicMaterial color="hotpink" />
