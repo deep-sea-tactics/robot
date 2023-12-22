@@ -40,6 +40,7 @@
 				}
 			},
 		};
+
 		requestAnimationFrame(getInput);
 	}
 </script>

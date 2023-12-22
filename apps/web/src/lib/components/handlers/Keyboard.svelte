@@ -2,7 +2,17 @@
 	import type { ControllerData } from 'robot/dist/controller';
 
 	const defaultData = {
-
+		connected: true,
+		axes: {
+			leftStick: {
+				x: 0,
+				y: 0
+			},
+			rightStick: {
+				x: 0,
+				y: 0
+			}
+		}
 	}
 
 	export let output: ControllerData = structuredClone(defaultData);
@@ -10,10 +20,10 @@
 	let pressedKeys: Set<string> = new Set();
 
 	const mapping: Record<string, () => void> = {
-		w: () => (output.position.y = 1),
-		s: () => (output.position.y = -1),
-		a: () => (output.position.x = -1),
-		d: () => (output.position.x = 1)
+		w: () => (output.axes.leftStick.y = 1),
+		s: () => (output.axes.leftStick.y = -1),
+		a: () => (output.axes.leftStick.x = -1),
+		d: () => (output.axes.leftStick.x = 1)
 	};
 
 	function update() {

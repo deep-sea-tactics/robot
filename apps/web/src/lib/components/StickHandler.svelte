@@ -7,18 +7,15 @@
 
 	export let stick: "leftStick" | "rightStick" = "leftStick";
 	let gamepad: Gamepad;
-
 	let gamepadOutput: ControllerData;
 	let keyboardOutput: ControllerData;
-	$: output = gamepad ? gamepadOutput : keyboardOutput;
+	$: output = gamepadOutput ?? keyboardOutput;
 	$: if (output) client?.controllerData.mutate(output);
 
 	const render: Render = ({ context, width, height }) => {
-
 		if (!output) return;
 		const x = output.axes.leftStick.x;
 		const y = output.axes.leftStick.y;
-		console.log(x, y);
 
 		context.font = `1rem sans-serif`;
 		context.textAlign = 'center';
