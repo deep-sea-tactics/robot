@@ -23,7 +23,11 @@
 		w: () => (output.axes.leftStick.y = 1),
 		s: () => (output.axes.leftStick.y = -1),
 		a: () => (output.axes.leftStick.x = -1),
-		d: () => (output.axes.leftStick.x = 1)
+		d: () => (output.axes.leftStick.x = 1),
+		i: () => (output.axes.rightStick.y = 1),
+		k: () => (output.axes.rightStick.y = -1),
+		j: () => (output.axes.rightStick.x = -1),
+		l: () => (output.axes.rightStick.x = 1)
 	};
 
 	function update() {
