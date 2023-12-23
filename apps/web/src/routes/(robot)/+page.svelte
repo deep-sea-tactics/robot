@@ -48,8 +48,9 @@
 <div class="wrap">
 	<div class="grid">
 		<div class="item">
-			<iframe src="/simulation" title="simulation" style="width: 100%; height: 100%;"/>
+			<iframe src="/simulation" title="simulation" style="width: 100%; height: 100%; border: 0;"/>
 		</div>
+		
 	</div>
 	<div class="bottomBar">
 		<div class="item">
