@@ -44,6 +44,17 @@ emitter.on('controllerData', (data) => {
 	});
 
 	// TODO: up and down - need to figure out view
+	let verticalSpeed = 0;
+	if (data.stickButtons.leftStick) {
+		verticalSpeed = 1;
+	} else if (data.stickButtons.rightStick) {
+		verticalSpeed = -1;
+	}
+	emitter.emit('motorData', {
+		motor: Motor.TopLeft,
+		speed: verticalSpeed
+	})
+
 	// TODO: yaw (rotation)
 	// TODO: camera position (throttle)
 });
