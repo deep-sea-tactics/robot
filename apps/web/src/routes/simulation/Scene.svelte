@@ -54,7 +54,7 @@
 			motorRegistry[Motor.FrontLeft] + motorRegistry[Motor.FrontRight],
 			motorRegistry[Motor.TopLeft] + motorRegistry[Motor.TopRight],
 			motorRegistry[Motor.SideFront] + motorRegistry[Motor.SideBack]
-		).multiplyScalar(delta * 50);
+		).multiplyScalar(delta * 100);
 
 		rovBody?.applyImpulse(impulse, true);
 	});
