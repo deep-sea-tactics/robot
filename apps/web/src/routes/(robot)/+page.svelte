@@ -16,8 +16,8 @@
 		(stick) =>
 		({ context, width, height }) => {
 			if (!output) return;
-			const x = output.axes[stick].x;
-			const y = output.axes[stick].y;
+			const x = output.stickAxes[stick].x;
+			const y = output.stickAxes[stick].y;
 
 			context.font = `1rem sans-serif`;
 			context.textAlign = 'center';
@@ -48,10 +48,7 @@
 <div class="wrap">
 	<div class="grid">
 		<div class="item">
-			<p>test</p>
-		</div>
-		<div class="item">
-			<p>test</p>
+			<iframe src="/simulation" title="simulation" style="width: 100%; height: 100%;"/>
 		</div>
 	</div>
 	<div class="bottomBar">

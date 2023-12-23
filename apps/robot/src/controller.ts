@@ -20,19 +20,18 @@ export type Position = z.infer<typeof PositionSchema>;
  */
 export const ControllerDataSchema = z.object({
 	connected: z.boolean(),
-	axes: z.object({
-		leftStick: z.object({
-			x: z.number(),
-			y: z.number()
-		}),
-		rightStick: z.object({
-			x: z.number(),
-			y: z.number()
-		})
+	stickAxes: z.object({
+		leftStick: PositionSchema,
+		rightStick: PositionSchema
 	}),
-	dPad: z.object({
-		up: z.boolean(),
-		down: z.boolean()
+	stickButtons: z.object({
+		leftStick: z.boolean(),
+		rightStick: z.boolean()
+	}),
+	// NOTE: triggers can be axes but we are using them a buttons, hence boolean (button#pressed)
+	triggers: z.object({
+		left: z.boolean(),
+		right: z.boolean()
 	}),
 	bumbers: z.object({
 		left: z.boolean(),
@@ -44,7 +43,6 @@ export const ControllerDataSchema = z.object({
 		right: z.boolean(),
 		left: z.boolean()
 	}),
-	rightThree: z.boolean()
 });
 
 export type ControllerData = z.infer<typeof ControllerDataSchema>;

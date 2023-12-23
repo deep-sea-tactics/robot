@@ -25,22 +25,22 @@ function updateControllerData(data: ControllerData) {
 emitter.on('controllerData', (data) => {
 	emitter.emit('motorData', {
 		motor: Motor.SideFront,
-		speed: data.axes.leftStick.x
+		speed: data.stickAxes.leftStick.x
 	});
 
 	emitter.emit('motorData', {
 		motor: Motor.SideBack,
-		speed: data.axes.leftStick.x
+		speed: data.stickAxes.leftStick.x
 	});
 
 	emitter.emit('motorData', {
 		motor: Motor.FrontLeft,
-		speed: data.axes.leftStick.y
+		speed: data.stickAxes.leftStick.y
 	});
 
 	emitter.emit('motorData', {
 		motor: Motor.FrontRight,
-		speed: data.axes.leftStick.y
+		speed: data.stickAxes.leftStick.y
 	});
 
 	// TODO: up and down - need to figure out view

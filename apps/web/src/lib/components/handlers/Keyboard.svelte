@@ -3,7 +3,7 @@
 
 	const defaultData = {
 		connected: true,
-		axes: {
+		stickAxes: {
 			leftStick: {
 				x: 0,
 				y: 0
@@ -13,13 +13,15 @@
 				y: 0
 			}
 		},
-		dPad: {
-			up: false,
-			down: false,
+		stickButtons: {
+			leftStick: false,
+			rightStick: false
+		},
+		bumbers: {
 			left: false,
 			right: false
 		},
-		bumbers: {
+		triggers: {
 			left: false,
 			right: false
 		},
@@ -28,23 +30,22 @@
 			down: false,
 			left: false,
 			right: false
-		},
-		rightThree: false
-	};
+		}
+	}
 
 	export let output: ControllerData = structuredClone(defaultData);
 
 	let pressedKeys: Set<string> = new Set();
 
 	const mapping: Record<string, () => void> = {
-		w: () => (output.axes.leftStick.y = 1),
-		s: () => (output.axes.leftStick.y = -1),
-		a: () => (output.axes.leftStick.x = -1),
-		d: () => (output.axes.leftStick.x = 1),
-		i: () => (output.axes.rightStick.y = 1),
-		k: () => (output.axes.rightStick.y = -1),
-		j: () => (output.axes.rightStick.x = -1),
-		l: () => (output.axes.rightStick.x = 1)
+		w: () => (output.stickAxes.leftStick.y = 1),
+		s: () => (output.stickAxes.leftStick.y = -1),
+		d: () => (output.stickAxes.leftStick.x = 1),
+		a: () => (output.stickAxes.leftStick.x = -1),
+		i: () => (output.stickAxes.rightStick.y = 1),
+		k: () => (output.stickAxes.rightStick.y = -1),
+		j: () => (output.stickAxes.rightStick.x = -1),
+		l: () => (output.stickAxes.rightStick.x = 1)
 	};
 
 	function update() {
