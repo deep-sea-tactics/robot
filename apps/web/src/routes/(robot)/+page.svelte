@@ -4,6 +4,7 @@
 	import Keyboard from '$lib/components/handlers/Keyboard.svelte';
 	import type { ControllerData } from 'robot/dist/controller';
 	import { client } from '$lib/connections/robot';
+	import Simulation from '$lib/components/simulation/Simulation.svelte';
 
 	let gamepad: Gamepad;
 	let gamepadOutput: ControllerData;
@@ -48,7 +49,10 @@
 <div class="wrap">
 	<div class="grid">
 		<div class="item">
-			<iframe src="/simulation" title="simulation" style="width: 100%; height: 100%; border: 0;"/>
+			<Simulation />
+		</div>
+		<div class="item">
+			<iframe src="https://gamepad.e7d.io/?triggers=opacity&type=ds4&color=white" title="simulation" style="width: 100%; height: 100%; border: 0;"/>
 		</div>
 		
 	</div>
