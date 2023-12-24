@@ -51,9 +51,7 @@
 		<div class="item">
 			<Simulation />
 		</div>
-		<div class="item">
-			<iframe src="https://gamepad.e7d.io/?triggers=opacity&type=ds4&color=white" title="simulation" style="width: 100%; height: 100%; border: 0;"/>
-		</div>
+		
 		
 	</div>
 	<div class="bottomBar">
