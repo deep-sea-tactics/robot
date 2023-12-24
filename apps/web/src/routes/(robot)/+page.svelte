@@ -76,6 +76,7 @@
 
 	.wrap {
 		color: var(--text);
+		overflow-y: hidden;
 	}
 
 	.grid {
@@ -87,7 +88,6 @@
 	.bottomBar {
 		display: flex;
 		height: 20vh;
-		min-height: 10vh;
 		background: var(--bgDark);
 	}
 </style>
