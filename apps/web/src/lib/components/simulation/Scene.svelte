@@ -18,14 +18,14 @@
 	// Simulation math
 	$: waterVolume = width * length * waterHeight;
 
-	const waterDensity = 1;
+	// in kg/m^3
+	const waterDensity = 994;
 
-	// Earth's gravity. I don't know why you'd want to... uh... simulate an ROV on the moon, but you can? UNIT: M/s
+	let water: THREE.Mesh | null = null;
+	let rov: THREE.Mesh | null = null;
+
+	// in m/s^2
 	const gravity = 9.81;
-
-	function buoyancy() {
-		return -1 * waterDensity * gravity * waterVolume;
-	}
 
 	let rovBody: ThrelteRigidBody | null = null;
 
@@ -57,6 +57,15 @@
 		).multiplyScalar(delta * 100);
 
 		rovBody?.applyImpulse(impulse, true);
+
+		// if rov is in water
+		if ((rov?.getWorldPosition(new Vector3(0, 0, 0))?.y ?? 0) < waterHeight) {
+			rovBody?.applyImpulse(new Vector3(
+				0,
+				waterDensity * gravity * delta,
+				0
+			), true);
+		}
 	});
 
 	// TODO: file a threlte/core issue to add this to the core library instead of having to cast
@@ -89,10 +98,15 @@ A navigation node system will be added at some point; adding nodes for the ROV t
 <T.Group position.y={waterHeight / 2}>
 	<RigidBody type={'dynamic'} on:create={({ ref: refUncasted }) => {
 		const ref = castThrelteRigidBody(refUncasted);
+		ref.setGravityScale(gravity, true);
 		ref.setAdditionalMass(15, true);
 		rovBody = ref
 	}} linearDamping={0.1}>
-		<T.Mesh>
+		<T.Mesh
+			on:create={({ ref }) => {
+				rov = ref;
+			}}
+		>
 			<T.BoxGeometry args={[1, 1, 1]} />
 			<T.MeshBasicMaterial color="hotpink" />
 		</T.Mesh>
@@ -102,6 +116,9 @@ A navigation node system will be added at some point; adding nodes for the ROV t
 </T.Group>
 
 <T.Mesh
+	on:create={({ ref }) => {
+		water = ref;
+	}}
 	rotation.x={-Math.PI / 2}
 	position={[0, (plateThickness + waterHeight) / 2, 0]}
 	receiveShadow
