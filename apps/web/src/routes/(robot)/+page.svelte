@@ -24,15 +24,17 @@
 		
 	</div>
 	<div class="bottomBar">
-		<div class="item">
+		<div class="item controllers">
 			{#if output?.id.includes("0ce6")}
-				<p>ps5 controller</p>
+				<img src="/controller_ps5.png" alt="ps5 controller" />
 			{:else if output?.id.includes("09cc") || output?.id.includes("05c4")}
-				<p>ps4 controller</p>
+				<img src="/controller_ps4.png" alt="ps4 controller" />
 			{:else if output?.id === "keyboard"}
-				<p>keyboard</p>
+				<img src="/connect_controller.gif" alt="connect controller" />
+				<p></p>
 			{:else}
 				<p>unknown controller ({output?.id})</p>
+				<img src="/controller_generic.png" alt="ps4 controller" />
 			{/if}
 		</div>
 		
@@ -61,4 +63,15 @@
 		height: 20vh;
 		background: var(--bgDark);
 	}
+
+	.controllers {
+		display: flex;
+		justify-content: center;
+	}
+
+	.controllers img {
+		height: 100%;
+		padding: 1.5rem;
+		width: auto;
+}
 </style>
