@@ -9,6 +9,8 @@
 	import type { ThrelteRigidBody } from '@threlte/rapier/dist/types/types';
 	import { Vector3 } from 'three';
 
+	const inchesToMeters = (inches: number) => inches * 0.0254;
+
 	// world-building variables
 	const waterHeight = 7;
 	const width = 50;
@@ -18,16 +20,18 @@
 	// Simulation math
 	$: waterVolume = width * length * waterHeight;
 
-	const waterDensity = 1;
+	// in kg/m^3
+	const waterDensity = 994;
 
-	// Earth's gravity. I don't know why you'd want to... uh... simulate an ROV on the moon, but you can? UNIT: M/s
-	const gravity = 9.81;
+	let water: THREE.Mesh | null = null;
+	let rov: THREE.Mesh | null = null;
 
-	function buoyancy() {
-		return -1 * waterDensity * gravity * waterVolume;
-	}
+	// in m/s^2
+	const gravity = 9.807;
 
 	let rovBody: ThrelteRigidBody | null = null;
+
+	const rovDimensions = [inchesToMeters(15), inchesToMeters(16.5), inchesToMeters(11)];
 
 	// TODO: generate this from the motor enum
 	let motorRegistry: Record<Motor, number> = {
@@ -50,13 +54,29 @@
 	});
 
 	useTask((delta) => {
-		const impulse = new Vector3(
+		// We want full control over the forces applied to the ROV, so we reset them every frame
+		rovBody?.resetForces(true);
+
+		const force = new Vector3(
 			motorRegistry[Motor.FrontLeft] + motorRegistry[Motor.FrontRight],
 			motorRegistry[Motor.TopLeft] + motorRegistry[Motor.TopRight],
 			motorRegistry[Motor.SideFront] + motorRegistry[Motor.SideBack]
 		).multiplyScalar(delta * 100);
 
-		rovBody?.applyImpulse(impulse, true);
+		rovBody?.addForce(force, true);
+
+		const volume = rovDimensions.reduce((acc, cur) => acc * cur, 1);
+
+		// if rov is in water
+		// TODO: check based on if they're in the water collider
+		if ((rov?.getWorldPosition(new Vector3(0, 0, 0))?.y ?? 0) < waterHeight) {
+			rovBody?.addForce(new Vector3(
+				0,
+				// TODO: figure out how to calculate the buoyancy force
+				waterDensity * gravity * volume * 3,
+				0
+			), true);
+		}
 	});
 
 	// TODO: file a threlte/core issue to add this to the core library instead of having to cast
@@ -86,22 +106,30 @@ The mesh below represents the ROV, and is a work in progress. Interactivity is l
 A navigation node system will be added at some point; adding nodes for the ROV to follow and etc. is a work in progress.
 -->
 
-<T.Group position.y={waterHeight / 2}>
+<T.Group position.y={waterHeight}>
 	<RigidBody type={'dynamic'} on:create={({ ref: refUncasted }) => {
 		const ref = castThrelteRigidBody(refUncasted);
-		ref.setAdditionalMass(15, true);
+		ref.setGravityScale(gravity, true);
+		ref.setAdditionalMass(12, true);
 		rovBody = ref
 	}} linearDamping={0.1}>
-		<T.Mesh>
-			<T.BoxGeometry args={[1, 1, 1]} />
+		<T.Mesh
+			on:create={({ ref }) => {
+				rov = ref;
+			}}
+		>
+			<T.BoxGeometry args={rovDimensions} />
 			<T.MeshBasicMaterial color="hotpink" />
 		</T.Mesh>
 
-		<Collider shape={'cuboid'} args={[0.5, 0.5, 0.5]} />
+		<Collider shape={'cuboid'} args={rovDimensions} />
 	</RigidBody>
 </T.Group>
 
 <T.Mesh
+	on:create={({ ref }) => {
+		water = ref;
+	}}
 	rotation.x={-Math.PI / 2}
 	position={[0, (plateThickness + waterHeight) / 2, 0]}
 	receiveShadow
