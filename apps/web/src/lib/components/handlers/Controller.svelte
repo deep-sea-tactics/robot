@@ -4,8 +4,6 @@
 
 	export let gamepad: Gamepad | null = null;
 	export let output: ControllerData;
-	const UA = navigator.userAgent;
-
 	onMount(() => {
 		function onGamepadConnected(e: GamepadEvent) {
 			gamepad = navigator.getGamepads()[e.gamepad.index];
@@ -27,6 +25,7 @@
 
 	function getInput() {
 		gamepad = navigator.getGamepads()[0];
+		const UA = navigator.userAgent;
 		if (!gamepad) return;
 		if (UA.includes("Linux")) {
 		output = {
