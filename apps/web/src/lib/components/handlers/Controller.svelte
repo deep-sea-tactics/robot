@@ -31,6 +31,7 @@
 		if (UA.includes("Linux")) {
 		output = {
 			connected: gamepad.connected,
+			id: gamepad.id,
 			stickAxes: {
 				leftStick: {
 					x: gamepad.axes[0],
@@ -62,6 +63,7 @@
 		};
 	} else if (UA.includes("Windows")) {
 		output = {
+			id: gamepad.id,
 			connected: gamepad.connected,
 			stickAxes: {
 				leftStick: {

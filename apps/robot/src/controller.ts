@@ -19,6 +19,7 @@ export type Position = z.infer<typeof PositionSchema>;
  * All data sent from the controller
  */
 export const ControllerDataSchema = z.object({
+	id: z.string(),
 	connected: z.boolean(),
 	stickAxes: z.object({
 		leftStick: PositionSchema,

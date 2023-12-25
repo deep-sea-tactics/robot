@@ -3,6 +3,7 @@
 
 	const defaultData = {
 		connected: true,
+		id: "keyboard",
 		stickAxes: {
 			leftStick: {
 				x: 0,
