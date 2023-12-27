@@ -12,9 +12,9 @@
 	const inchesToMeters = (inches: number) => inches * 0.0254;
 
 	// world-building variables
-	const waterHeight = 7;
-	const width = 50;
-	const length = 80;
+	const waterHeight = 3;
+	const width = 25;
+	const length = 25;
 	const plateThickness = 0.3;
 
 	// Simulation math
@@ -89,7 +89,7 @@
 
 <T.PerspectiveCamera
 	makeDefault
-	position={[40, 40, 40]}
+	position={[15, 15, 15]}
 	on:create={({ ref }) => {
 		ref.lookAt(0, 1, 0);
 	}}
