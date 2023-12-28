@@ -41,14 +41,8 @@ const installAndRunUstreamer = async () => {
   } else {
 	console.log("uStreamer is not already installed. Attempting install...");
     // Install uStreamer using apt-get
-    
-    /* Not needed; start process as root
-     let password = "password";
-     const installCommand = `echo "${password}" | sudo -S apt-get install -y ustreamer`;
-    */
-
-    // Execute the install command
     const installCommand = "sudo apt-get install -y ustreamer";
+    // Execute the command
     const installProcess = exec(installCommand);
 
     // Handle install process events
