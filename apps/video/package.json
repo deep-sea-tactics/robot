@@ -3,18 +3,12 @@
 	"private": true,
 	"version": "0.0.0",
 	"scripts": {
-		"robot:mock": "cross-env MOCK=true tsx watch --clear-screen=false ./src/index.mts",
+		"robot:mock": "cross-env MOCK=true tsx watch --clear-screen=false ./src/index.ts",
 		"robot": "tsx ./src/index.mts"
 	},
 	"devDependencies": {
-		"@types/download": "^8.0.5",
-		"@types/json-to-pretty-yaml": "^1.2.1",
 		"@types/node": "^20.9.2",
 		"cross-env": "^7.0.3",
 		"tsx": "^4.6.0"
-	},
-	"dependencies": {
-		"download": "^8.0.0",
-		"json-to-pretty-yaml": "^1.2.2"
 	}
 }

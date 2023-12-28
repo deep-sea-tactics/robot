@@ -36,10 +36,10 @@ Some of these tasks may depend on `build`:
 ### Non-mocking:
 
 - `/apps/robot`: robot code (for driving moters), runs on PI
-- `/apps/video`: isolated app for running mediamtx, runs on PI
+- `/apps/video`: isolated app for running ustreamer, runs on PI
 - `/apps/web`: UI (web server), runs on land laptop
 
-`robot` hosts a TRPC server that `web` connects to for bi-directional communication. `video` runs mediamtx, and depends on a `coturn` server for TURN and STUN signaling servers.
+`robot` hosts a TRPC server that `web` connects to for bi-directional communication. `video` runs ustreamer, and depends on a `coturn` server for TURN and STUN signaling servers.
 
 ### Mocking
 
