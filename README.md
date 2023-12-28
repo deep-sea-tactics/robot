@@ -4,10 +4,6 @@ Source for the main Deep Sea Tactics ROV.
 
 This is a PNPM & Turbo monorepo.
 
-## Mocking
-
-Run `docker-compose up` to begin the robot emulation. Do `docker compose rm` if you are working on the docker container and have cache issues.
-
 ## Task Pipelines
 
 > Note: To run any of these tasks, do `pnpm run <task>`.
@@ -45,7 +41,4 @@ Some of these tasks may depend on `build`:
 
 Same components as above, but:
 
-- instead of a PI, this all runs in `docker-compose`.
-- Web has a `/simulation` subroute, where:
-  - The `video` feed comes from here.
-  - `robot` communicates with a [tRPC](https://trpc.io/) server hosted on `/simulation` that drives the "motors"
+- `robot` communicates with a [tRPC](https://trpc.io/) on the client that now hosts a *simulation* that drives the "motors"
