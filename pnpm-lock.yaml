@@ -81,6 +81,9 @@ importers:
       json-to-pretty-yaml:
         specifier: ^1.2.2
         version: 1.2.2
+      readline-sync:
+        specifier: ^1.4.10
+        version: 1.4.10
     devDependencies:
       '@types/download':
         specifier: ^8.0.5
@@ -3085,6 +3088,11 @@ packages:
     dependencies:
       picomatch: 2.3.1
     dev: true
+
+  /readline-sync@1.4.10:
+    resolution: {integrity: sha512-gNva8/6UAe8QYepIQH/jQ2qn91Qj0B9sYjMBBs3QOB8F2CXcKgLxQaJRP76sWVRQt+QU+8fAkCbCvjjMFu7Ycw==}
+    engines: {node: '>= 0.8.0'}
+    dev: false
 
   /remedial@1.0.8:
     resolution: {integrity: sha512-/62tYiOe6DzS5BqVsNpH/nkGlX45C/Sp6V+NtiN6JQNS1Viay7cWkazmRkrQrdFj2eshDe96SIQNIoMxqhzBOg==}

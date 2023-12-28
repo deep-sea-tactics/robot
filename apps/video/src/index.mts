@@ -1,41 +1,87 @@
-import { platform } from 'os';
-import { spawn } from 'child_process';
-import { downloadMediaMTX } from './download.mts';
-import { makeConfig } from './config.mts';
+// Import child_process module
+import { exec } from 'child_process';
 
-await downloadMediaMTX();
+// TODO get password from env
+let password = "will";
 
-console.log('Attempting to run mediamtx...');
+// Function to check if uStreamer is installed
+const isUstreamerInstalled = () => {
+  const checkCommand = 'ustreamer --version';
+  const checkProcess = exec(checkCommand);
 
-// run mediamtx
-let childName: string;
-switch (platform()) {
-	case 'win32':
-		childName = 'mediamtx.exe';
-		break;
-	case 'darwin':
-	case 'linux':
-		childName = './mediamtx';
-		break;
-	default:
-		throw new Error(`Unsupported OS: ${platform()}`);
-}
+  return new Promise((resolve) => {
+    checkProcess.on('close', (code) => {
+      resolve(code === 0);
+    });
+  });
+};
 
-await makeConfig();
+// Function to install uStreamer and run it
+const installAndRunUstreamer = async () => {
+  // Check if uStreamer is already installed
+  const isInstalled = await isUstreamerInstalled();
 
-const child = spawn(childName, ['../config/mediamtx.yml'], { cwd: 'resources', shell: true });
+  if (isInstalled) {
+    console.log('uStreamer is already installed. Skipping installation.');
+    // Run uStreamer with a basic example (replace this command with your specific use case)
+    const runCommand = 'ustreamer -b 8 -r 800x600 -f 10 -d /dev/video0';
 
-child.stdout.on('data', (data) => {
-	console.log(`${data}`);
-});
+    const runProcess = exec(runCommand);
 
-child.stderr.on('data', (data) => {
-	console.error(`${data}`);
-});
+    // Handle run process events
+    runProcess.stdout?.on('data', (data) => {
+      console.log(`[RUN] ${data}`);
+    });
 
-child.on('error', (error) => {
-	console.error(`error: ${error.message}`);
-	process.exit(1);
-});
+    runProcess.stderr?.on('data', (data) => {
+      console.error(`[RUN ERROR] ${data}`);
+    });
 
-child.on('close', (code) => process.exit(code ?? 0));
+    runProcess.on('close', (code) => {
+      console.log(`uStreamer process exited with code ${code}`);
+    });
+  } else {
+	console.log("uStreamer is not already installed. Attempting install...");
+    // Install uStreamer using apt-get
+    const installCommand = `echo "${password}" | sudo -S apt-get install -y ustreamer`;
+
+    // Execute the install command
+    const installProcess = exec(installCommand);
+
+    // Handle install process events
+    installProcess.stdout?.on('data', (data) => {
+      console.log(`[INSTALL] ${data}`);
+    });
+
+    installProcess.stderr?.on('data', (data) => {
+      console.error(`[INSTALL ERROR] ${data}`);
+    });
+
+    installProcess.on('close', (code) => {
+      if (code === 0) {
+        // If installation is successful, execute the run command
+        const runCommand = 'ustreamer -b 8 -r 800x600 -f 10 -d /dev/video0';
+
+        const runProcess = exec(runCommand);
+
+        // Handle run process events
+        runProcess.stdout?.on('data', (data) => {
+          console.log(`[RUN] ${data}`);
+        });
+
+        runProcess.stderr?.on('data', (data) => {
+          console.error(`[RUN ERROR] ${data}`);
+        });
+
+        runProcess.on('close', (code) => {
+          console.log(`uStreamer process exited with code ${code}`);
+        });
+      } else {
+        console.error('uStreamer installation failed.');
+      }
+    });
+  }
+};
+
+// Call the function to install and run uStreamer
+installAndRunUstreamer();
