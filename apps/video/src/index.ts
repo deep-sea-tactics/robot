@@ -1,6 +1,6 @@
 // Import child_process module
 import { exec } from 'child_process';
-
+const runCommand = 'ustreamer';
 
 // Function to check if uStreamer is installed
 const isUstreamerInstalled = () => {
@@ -21,8 +21,6 @@ const installAndRunUstreamer = async () => {
 
   if (isInstalled) {
     console.log('uStreamer is already installed. Skipping installation.');
-    const runCommand = 'ustreamer';
-
     const runProcess = exec(runCommand);
 
     // Handle run process events
@@ -56,8 +54,6 @@ const installAndRunUstreamer = async () => {
     installProcess.on('close', (code) => {
       if (code === 0) {
         // If installation is successful, execute the run command
-        const runCommand = 'ustreamer -b 8 -r 800x600 -f 10 -d /dev/video0';
-
         const runProcess = exec(runCommand);
 
         // Handle run process events
