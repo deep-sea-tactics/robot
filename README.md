@@ -6,7 +6,7 @@ This is a PNPM & Turbo monorepo.
 
 ## Task Pipelines
 
-> Note: To run any of these tasks, do `pnpm run <task>`. The `robot` and `robot:mock` tasks must be run as root if [µStreamer](https://github.com/pikvm/ustreamer) is not installed.
+> Note: To run any of these tasks, do `pnpm run <task>`. The `robot` task must be run as root if [µStreamer](https://github.com/pikvm/ustreamer) is not installed.
 
 There are two different task categories:
 
