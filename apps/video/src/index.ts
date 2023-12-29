@@ -21,8 +21,7 @@ const installAndRunUstreamer = async () => {
 
   if (isInstalled) {
     console.log('uStreamer is already installed. Skipping installation.');
-    // Run uStreamer with a basic example (replace this command with your specific use case)
-    const runCommand = 'ustreamer -b 8 -r 800x600 -f 10 -d /dev/video0';
+    const runCommand = 'ustreamer';
 
     const runProcess = exec(runCommand);
 
