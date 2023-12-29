@@ -3,7 +3,6 @@
 	"private": true,
 	"version": "0.0.0",
 	"scripts": {
-		"robot:mock": "cross-env MOCK=true tsx watch --clear-screen=false ./src/index.ts",
 		"robot": "tsx ./src/index.mts"
 	},
 	"devDependencies": {
