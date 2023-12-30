@@ -44,7 +44,14 @@
 			{/if}
 		</div>
 
-		<div class="item">test</div>
+		<div class="item">
+			<div class="commandCenter">
+				<h2>Status</h2>
+				<p>Controller: <span class={output?.connected ? "green" : "red"}>{output?.connected ? "connected" : "disconnected"}</span></p>
+				<p>Input Device: {output?.id}</p>
+				<p>Mode: <span class={isMock ? "green" : "blue"}>{isMock ? "live" : "mock"}</span></p>
+			</div>
+		</div>
 	</div>
 </div>
 
@@ -87,5 +94,21 @@
 	.videoStream {
 		width: auto;
 		height: 100%;
+	}
+
+	.green {
+		color: green;
+	}
+
+	.red {
+		color: red;
+	}
+
+	.blue {
+		color: skyblue;
+	}
+
+	.commandCenter {
+		margin: 0 10px;
 	}
 </style>

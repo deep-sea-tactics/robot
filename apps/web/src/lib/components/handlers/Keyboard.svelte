@@ -2,7 +2,7 @@
 	import type { ControllerData } from 'robot/dist/controller';
 
 	const defaultData = {
-		connected: true,
+		connected: false,
 		id: 'keyboard',
 		stickAxes: {
 			leftStick: {
