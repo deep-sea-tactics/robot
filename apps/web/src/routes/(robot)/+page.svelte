@@ -23,7 +23,8 @@
 			{#if isMock}
 				<Simulation />
 			{:else}
-				<img src="http://127.0.0.1:8080/stream" />
+				<!-- NOTE: we cannot use img:enhanced here -->
+				<img src="http://127.0.0.1:8080/stream" alt="Robot camera video stream" class="videoStream" />
 			{/if}
 		</div>
 	</div>
@@ -50,22 +51,25 @@
 <style>
 	.item {
 		flex: 1;
+		display: flex;
+		justify-content: space-evenly;
 	}
-
 	.wrap {
 		color: var(--text);
 		overflow-y: hidden;
+		display: flex;
 	}
 
 	.grid {
 		display: flex;
-		min-height: 10vh;
-		height: 80vh;
-		display: flex;
+		min-width: 10vw;
+		width: 80vw;
 	}
 	.bottomBar {
 		display: flex;
-		height: 20vh;
+		flex-direction: column;
+		height: 100vh;
+		width: 20vw;
 		background: var(--bgDark);
 	}
 
@@ -75,8 +79,13 @@
 	}
 
 	.controllers img {
-		height: 100%;
+		max-width: 100%;
 		padding: 1.5rem;
+		height: fit-content;
+	}
+
+	.videoStream {
 		width: auto;
+		height: 100%;
 	}
 </style>
