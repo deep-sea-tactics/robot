@@ -29,6 +29,14 @@
 		</div>
 	</div>
 	<div class="bottomBar">
+		<div class="item">
+			<div class="commandCenter">
+				<h2>Status</h2>
+				<p>Controller: <span class={output?.connected ? "green" : "red"}>{output?.connected ? "connected" : "disconnected"}</span></p>
+				<p>Input Device: {output?.id}</p>
+				<p>Mode: <span class={isMock ? "blue" : "green"}>{isMock ? "mock" : "live"}</span></p>
+			</div>
+		</div>
 		<div class="item controllers">
 			<!-- TODO add xbox controller -->
 			{#if output?.id.includes('0ce6')}
@@ -42,15 +50,6 @@
 				<p>unknown controller ({output?.id})</p>
 				<img src="/controller_generic.png" alt="ps4 controller" />
 			{/if}
-		</div>
-
-		<div class="item">
-			<div class="commandCenter">
-				<h2>Status</h2>
-				<p>Controller: <span class={output?.connected ? "green" : "red"}>{output?.connected ? "connected" : "disconnected"}</span></p>
-				<p>Input Device: {output?.id}</p>
-				<p>Mode: <span class={isMock ? "blue" : "green"}>{isMock ? "mock" : "live"}</span></p>
-			</div>
 		</div>
 	</div>
 </div>
