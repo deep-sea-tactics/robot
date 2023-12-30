@@ -86,7 +86,7 @@
 	}
 
 	.controllers img {
-		max-width: 100%;
+		width: 100%;
 		padding: 1.5rem;
 		height: fit-content;
 	}
@@ -110,5 +110,6 @@
 
 	.commandCenter {
 		margin: 0 10px;
+		width: 100%;
 	}
 </style>
