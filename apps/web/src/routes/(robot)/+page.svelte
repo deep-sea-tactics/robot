@@ -5,6 +5,7 @@
 	import { client } from '$lib/connections/robot';
 	import Simulation from '$lib/components/simulation/Simulation.svelte';
 
+	const isMock = process.env.MOCK === 'true';
 	let gamepad: Gamepad;
 	let gamepadOutput: ControllerData;
 	let keyboardOutput: ControllerData;
@@ -18,7 +19,12 @@
 <div class="wrap">
 	<div class="grid">
 		<div class="item">
-			<Simulation />
+			{#if isMock}
+				<Simulation />
+			{:else}
+				<!-- todo add video feed -->
+				<p>video goes here</p>
+			{/if}
 		</div>
 		
 		

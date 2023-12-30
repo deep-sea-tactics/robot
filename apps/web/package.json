@@ -3,6 +3,7 @@
 	"version": "0.0.0",
 	"scripts": {
 		"dev": "vite dev --port 3000 --host",
+		"dev:mock": "cross-env MOCK=true vite dev --port 3000 --host",
 		"build": "vite build",
 		"package": "vite package",
 		"start": "vite preview",
@@ -20,6 +21,7 @@
 		"@threlte/rapier": "^1.1.4",
 		"@trpc/client": "^10.44.1",
 		"@types/three": "^0.159.0",
+		"cross-env": "^7.0.3",
 		"eslint-config-custom": "workspace:*",
 		"robot": "workspace:*",
 		"svelte": "^4.2.8",

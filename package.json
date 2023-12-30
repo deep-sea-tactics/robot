@@ -3,6 +3,7 @@
 	"scripts": {
 		"build": "turbo run build",
 		"dev": "turbo run dev",
+		"dev:mock": "turbo run dev:mock",
 		"lint": "turbo run lint",
 		"robot": "turbo run robot",
 		"robot:mock": "turbo run robot:mock",

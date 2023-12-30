@@ -11,6 +11,11 @@
 			"persistent": true,
 			"dependsOn": ["^build"]
 		},
+		"dev:mock": {
+			"cache": false,
+			"persistent": true,
+			"dependsOn": ["^build"]
+		},
 		"robot": {
 			"cache": false,
 			"persistent": true

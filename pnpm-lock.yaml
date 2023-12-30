@@ -114,6 +114,9 @@ importers:
       '@types/three':
         specifier: ^0.159.0
         version: 0.159.0
+      cross-env:
+        specifier: ^7.0.3
+        version: 7.0.3
       eslint-config-custom:
         specifier: workspace:*
         version: link:../../packages/eslint-config-custom
