@@ -23,8 +23,7 @@
 			{#if isMock}
 				<Simulation />
 			{:else}
-				<!-- todo add video feed -->
-				<p>video goes here</p>
+				<img src="http://127.0.0.1:8080/stream" />
 			{/if}
 		</div>
 	</div>
