@@ -25,6 +25,7 @@
 	</div>
 	<div class="bottomBar">
 		<div class="item controllers">
+			<!-- TODO add xbox controller -->
 			{#if output?.id.includes("0ce6")}
 				<img src="/controller_ps5.png" alt="ps5 controller" />
 			{:else if output?.id.includes("09cc") || output?.id.includes("05c4")}
