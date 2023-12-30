@@ -3,7 +3,7 @@
 	"version": "0.0.0",
 	"scripts": {
 		"dev": "vite dev --port 3000 --host",
-		"dev:mock": "cross-env MOCK=true vite dev --port 3000 --host",
+		"dev:mock": "cross-env PUBLIC_MOCK=true vite dev --port 3000 --host",
 		"build": "vite build",
 		"package": "vite package",
 		"start": "vite preview",

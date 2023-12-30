@@ -4,8 +4,9 @@
 	import type { ControllerData } from 'robot/dist/controller';
 	import { client } from '$lib/connections/robot';
 	import Simulation from '$lib/components/simulation/Simulation.svelte';
+	import { env } from '$env/dynamic/public';
 
-	const isMock = process.env.MOCK === 'true';
+	const isMock = env.PUBLIC_MOCK === 'true';
 	let gamepad: Gamepad;
 	let gamepadOutput: ControllerData;
 	let keyboardOutput: ControllerData;
