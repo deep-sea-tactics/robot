@@ -24,7 +24,7 @@
 				<Simulation />
 			{:else}
 				<!-- NOTE: we cannot use img:enhanced here -->
-				<img src="http://127.0.0.1:8080/stream" alt="Robot camera video stream" class="videoStream" />
+				<img src="http://127.0.0.1:8080/stream" alt="Video stream cannot be rendered. Perhaps no signal?" class="videoStream" />
 			{/if}
 		</div>
 	</div>
