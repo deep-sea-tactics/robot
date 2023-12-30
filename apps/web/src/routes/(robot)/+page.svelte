@@ -49,7 +49,7 @@
 				<h2>Status</h2>
 				<p>Controller: <span class={output?.connected ? "green" : "red"}>{output?.connected ? "connected" : "disconnected"}</span></p>
 				<p>Input Device: {output?.id}</p>
-				<p>Mode: <span class={isMock ? "green" : "blue"}>{isMock ? "live" : "mock"}</span></p>
+				<p>Mode: <span class={isMock ? "blue" : "green"}>{isMock ? "mock" : "live"}</span></p>
 			</div>
 		</div>
 	</div>
