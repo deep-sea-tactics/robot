@@ -1,10 +1,10 @@
+<script lang="ts">
+	import Simulation from '$lib/components/simulation/Simulation.svelte';
+</script>
+
 <svelte:head>
 	<title>Simulation</title>
 </svelte:head>
-
-<script lang="ts">
-	import Simulation from "$lib/components/simulation/Simulation.svelte";
-</script>
 
 <Simulation />
 

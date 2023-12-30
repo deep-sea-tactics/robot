@@ -3,7 +3,7 @@
 
 	const defaultData = {
 		connected: true,
-		id: "keyboard",
+		id: 'keyboard',
 		stickAxes: {
 			leftStick: {
 				x: 0,
@@ -32,7 +32,7 @@
 			left: false,
 			right: false
 		}
-	}
+	};
 
 	export let output: ControllerData = structuredClone(defaultData);
 

@@ -53,7 +53,7 @@ emitter.on('controllerData', (data) => {
 	emitter.emit('motorData', {
 		motor: Motor.TopLeft,
 		speed: verticalSpeed
-	})
+	});
 
 	// TODO: yaw (rotation)
 	// TODO: camera position (throttle)

@@ -70,12 +70,15 @@
 		// if rov is in water
 		// TODO: check based on if they're in the water collider
 		if ((rov?.getWorldPosition(new Vector3(0, 0, 0))?.y ?? 0) < waterHeight) {
-			rovBody?.addForce(new Vector3(
-				0,
-				// TODO: figure out how to calculate the buoyancy force
-				waterDensity * gravity * volume * 3,
-				0
-			), true);
+			rovBody?.addForce(
+				new Vector3(
+					0,
+					// TODO: figure out how to calculate the buoyancy force
+					waterDensity * gravity * volume * 3,
+					0
+				),
+				true
+			);
 		}
 	});
 
@@ -107,12 +110,16 @@ A navigation node system will be added at some point; adding nodes for the ROV t
 -->
 
 <T.Group position.y={waterHeight}>
-	<RigidBody type={'dynamic'} on:create={({ ref: refUncasted }) => {
-		const ref = castThrelteRigidBody(refUncasted);
-		ref.setGravityScale(gravity, true);
-		ref.setAdditionalMass(12, true);
-		rovBody = ref
-	}} linearDamping={0.1}>
+	<RigidBody
+		type={'dynamic'}
+		on:create={({ ref: refUncasted }) => {
+			const ref = castThrelteRigidBody(refUncasted);
+			ref.setGravityScale(gravity, true);
+			ref.setAdditionalMass(12, true);
+			rovBody = ref;
+		}}
+		linearDamping={0.1}
+	>
 		<T.Mesh
 			on:create={({ ref }) => {
 				rov = ref;

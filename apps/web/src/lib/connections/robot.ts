@@ -5,7 +5,8 @@ import { browser } from '$app/environment';
 type Protocol = 'http' | 'ws';
 
 function transform(port: number, protocol: Protocol = 'http'): string {
-	const resolvedProtocol = (location.protocol === 'https:' ? (protocol === 'http' ? 'https' : 'wss') : protocol);
+	const resolvedProtocol =
+		location.protocol === 'https:' ? (protocol === 'http' ? 'https' : 'wss') : protocol;
 
 	if (browser) {
 		if (location.origin.includes('gitpod.io')) {

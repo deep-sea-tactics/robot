@@ -27,25 +27,23 @@
 				<p>video goes here</p>
 			{/if}
 		</div>
-		
-		
 	</div>
 	<div class="bottomBar">
 		<div class="item controllers">
 			<!-- TODO add xbox controller -->
-			{#if output?.id.includes("0ce6")}
+			{#if output?.id.includes('0ce6')}
 				<img src="/controller_ps5.png" alt="ps5 controller" />
-			{:else if output?.id.includes("09cc") || output?.id.includes("05c4")}
+			{:else if output?.id.includes('09cc') || output?.id.includes('05c4')}
 				<img src="/controller_ps4.png" alt="ps4 controller" />
-			{:else if output?.id === "keyboard"}
+			{:else if output?.id === 'keyboard'}
 				<img src="/connect_controller.gif" alt="connect controller" />
-				<p></p>
+				<p />
 			{:else}
 				<p>unknown controller ({output?.id})</p>
 				<img src="/controller_generic.png" alt="ps4 controller" />
 			{/if}
 		</div>
-		
+
 		<div class="item">test</div>
 	</div>
 </div>
@@ -81,5 +79,5 @@
 		height: 100%;
 		padding: 1.5rem;
 		width: auto;
-}
+	}
 </style>

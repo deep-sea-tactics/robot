@@ -1,6 +1,7 @@
 <slot />
+
 <style>
-    * {
-        font-family: sans-serif;
-    }
+	* {
+		font-family: sans-serif;
+	}
 </style>

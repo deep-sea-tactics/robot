@@ -43,7 +43,7 @@ export const ControllerDataSchema = z.object({
 		down: z.boolean(),
 		right: z.boolean(),
 		left: z.boolean()
-	}),
+	})
 });
 
 export type ControllerData = z.infer<typeof ControllerDataSchema>;

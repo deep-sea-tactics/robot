@@ -41,4 +41,4 @@ Some of these tasks may depend on `build`:
 
 Same components as above, but:
 
-- `robot` communicates with a [tRPC](https://trpc.io/) on the client that now hosts a *simulation* that drives the "motors"
+- `robot` communicates with a [tRPC](https://trpc.io/) on the client that now hosts a _simulation_ that drives the "motors"
