@@ -6,6 +6,7 @@
 	import { onMount } from 'svelte';
 	import { Motor } from 'robot/src/motor';
 	import { Gizmo } from '@threlte/extras';
+	import { Debug } from '@threlte/rapier'
 	import type { ThrelteRigidBody } from '@threlte/rapier/dist/types/types';
 	import { Vector3 } from 'three';
 
@@ -13,12 +14,16 @@
 
 	// world-building variables
 	const waterHeight = 3;
-	const width = 25;
-	const length = 25;
+	const width = 25; //Used as the Z variable for the water collider
+	const length = 25; //Used as the X variable for the water collider
 	const plateThickness = 0.3;
 
 	// Simulation math
 	$: waterVolume = width * length * waterHeight;
+	let forceActingOnRov = new Vector3(0, 0, 0)
+
+	//Simulation logic
+	export let isRovInCollider: boolean = false
 
 	// in kg/m^3
 	const waterDensity = 994;
@@ -54,6 +59,7 @@
 	});
 
 	useTask((delta) => {
+		
 		// We want full control over the forces applied to the ROV, so we reset them every frame
 		rovBody?.resetForces(true);
 
@@ -68,18 +74,23 @@
 		const volume = rovDimensions.reduce((acc, cur) => acc * cur, 1);
 
 		// if rov is in water
-		// TODO: check based on if they're in the water collider
-		if ((rov?.getWorldPosition(new Vector3(0, 0, 0))?.y ?? 0) < waterHeight) {
+		// TODO: check based on if they're in the water collider (Being worked on as we speak)
+		
+
+
+		//if ((rov?.getWorldPosition(new Vector3(0, 0, 0))?.y ?? 0) < waterHeight) {
+		if (isRovInCollider) {
 			rovBody?.addForce(
 				new Vector3(
-					0,
-					// TODO: figure out how to calculate the buoyancy force
-					waterDensity * gravity * volume * 3,
-					0
+					forceActingOnRov.x,
+					// TODO: Replace this calculation with a calculation for the ROV in MPS. The buoyancy formula outputs newtons.
+					forceActingOnRov.y + waterDensity * gravity * volume * 3,
+					forceActingOnRov.z
 				),
 				true
 			);
 		}
+		//}
 	});
 
 	// TODO: file a threlte/core issue to add this to the core library instead of having to cast
@@ -89,6 +100,11 @@
 
 	const castThrelteRigidBody = (value: unknown): ThrelteRigidBody => cast<ThrelteRigidBody>(value);
 </script>
+
+<Debug
+  depthTest={false}
+  depthWrite={false}
+/>
 
 <T.PerspectiveCamera
 	makeDefault
@@ -104,9 +120,7 @@
 <T.AmbientLight intensity={0.5} />
 
 <!-- 
-The mesh below represents the ROV, and is a work in progress. Interactivity is limited and just for testing.
-
-A navigation node system will be added at some point; adding nodes for the ROV to follow and etc. is a work in progress.
+The mesh below represents the ROV, and is a work in progress. Interactivity is limited and being improved upon
 -->
 
 <T.Group position.y={waterHeight}>
@@ -129,8 +143,23 @@ A navigation node system will be added at some point; adding nodes for the ROV t
 			<T.MeshBasicMaterial color="hotpink" />
 		</T.Mesh>
 
-		<Collider shape={'cuboid'} args={rovDimensions} />
+		<Collider shape={'cuboid'} args={[rovDimensions[0]/2,rovDimensions[1]/2,rovDimensions[2]/2]} />
 	</RigidBody>
+</T.Group>
+
+<!-- Sensor for the water; tells if the rov should actively try to escape the cold grasp of the big blue. (Definitely not stolen from threlte documentation)
+
+The position of the water collider is where the water is, this may need to change at some point.
+
+-->
+<T.Group position={[0, (plateThickness + waterHeight) / 2, 0]}> 
+	<Collider
+	  on:sensorenter={() => (isRovInCollider = true)}
+	  on:sensorexit={() => (isRovInCollider = false)}
+	  sensor
+	  shape={'cuboid'}
+	  args={[width/2, waterHeight/2, length/2]}
+	/>
 </T.Group>
 
 <T.Mesh
@@ -187,3 +216,4 @@ A navigation node system will be added at some point; adding nodes for the ROV t
 </AutoColliders>
 
 <Gizmo />
+
