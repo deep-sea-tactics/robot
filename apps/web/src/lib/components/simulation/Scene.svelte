@@ -22,11 +22,13 @@
 	$: waterVolume = width * length * waterHeight;
 	let forceActingOnRov = new Vector3(0, 0, 0)
 
+	let rovMass = 3 //in kg
+
 	//Simulation logic
 	export let isRovInCollider: boolean = false
 
 	// in kg/m^3
-	const waterDensity = 994;
+	const waterDensity = 998;
 
 	let water: THREE.Mesh | null = null;
 	let rov: THREE.Mesh | null = null;
@@ -71,12 +73,9 @@
 
 		rovBody?.addForce(force, true);
 
-		const volume = rovDimensions.reduce((acc, cur) => acc * cur, 1);
+		const volume = rovDimensions.reduce((acc, cur) => acc * cur, 1); //The Three module imported in this file has a useful '.intersect' function that can be used with the ThreeBSP type
 
-		// if rov is in water
-		// TODO: check based on if they're in the water collider (Being worked on as we speak)
 		
-
 
 		//if ((rov?.getWorldPosition(new Vector3(0, 0, 0))?.y ?? 0) < waterHeight) {
 		if (isRovInCollider) {
@@ -84,7 +83,7 @@
 				new Vector3(
 					forceActingOnRov.x,
 					// TODO: Replace this calculation with a calculation for the ROV in MPS. The buoyancy formula outputs newtons.
-					forceActingOnRov.y + waterDensity * gravity * volume * 3,
+					forceActingOnRov.y + (waterDensity * gravity * volume)/rovMass,
 					forceActingOnRov.z
 				),
 				true
@@ -128,7 +127,7 @@ The mesh below represents the ROV, and is a work in progress. Interactivity is l
 		type={'dynamic'}
 		on:create={({ ref: refUncasted }) => {
 			const ref = castThrelteRigidBody(refUncasted);
-			ref.setGravityScale(gravity, true);
+			
 			ref.setAdditionalMass(12, true);
 			rovBody = ref;
 		}}
