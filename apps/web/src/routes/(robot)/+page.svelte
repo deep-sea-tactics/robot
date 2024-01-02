@@ -47,7 +47,6 @@
 				<img src="/connect_controller.gif" alt="connect controller" />
 				<p />
 			{:else}
-				<p>unknown controller ({output?.id})</p>
 				<img src="/controller_generic.png" alt="ps4 controller" />
 			{/if}
 		</div>
