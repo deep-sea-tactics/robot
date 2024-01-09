@@ -11,7 +11,7 @@
 		<Scene bind:isRovInCollider />
 	</World>
 </Canvas>
-
+<!--
 <p>{isRovInCollider}</p>
 <style>
 	p{
@@ -19,4 +19,4 @@
 		top: 0;
 		left: 0;
 	}
-</style>
+</style>-->
