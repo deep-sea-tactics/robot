@@ -114,6 +114,9 @@ importers:
       '@types/three':
         specifier: ^0.159.0
         version: 0.159.0
+      cloud-url-resolver:
+        specifier: ^1.0.0
+        version: 1.0.0
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
@@ -1520,6 +1523,10 @@ packages:
       readdirp: 3.6.0
     optionalDependencies:
       fsevents: 2.3.3
+    dev: true
+
+  /cloud-url-resolver@1.0.0:
+    resolution: {integrity: sha512-JmomO/PiV9xpZ+Gp/zItrDZGUtDcM3yRGnVj/t3Jrro+eAeMrtUlMBEV2B3++dEQ0oLli+2aRPWmNeHR83wadA==}
     dev: true
 
   /code-red@1.0.4:

@@ -21,6 +21,7 @@
 		"@threlte/rapier": "^1.1.4",
 		"@trpc/client": "^10.44.1",
 		"@types/three": "^0.159.0",
+		"cloud-url-resolver": "^1.0.0",
 		"cross-env": "^7.0.3",
 		"eslint-config-custom": "workspace:*",
 		"robot": "workspace:*",
