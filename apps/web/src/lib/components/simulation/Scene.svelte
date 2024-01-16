@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { T, useTask } from '@threlte/core';
-	import { AutoColliders, RigidBody, Collider } from '@threlte/rapier';
+	import { SceneGraphObject, T, useTask } from '@threlte/core';
+	import { AutoColliders, RigidBody, Collider, World } from '@threlte/rapier';
 	import { OrbitControls } from '@threlte/extras';
 	import { client } from '$lib/connections/robot';
 	import { onMount } from 'svelte';
@@ -8,7 +8,9 @@
 	import { Gizmo } from '@threlte/extras';
 	import { Debug } from '@threlte/rapier'
 	import type { ThrelteRigidBody } from '@threlte/rapier/dist/types/types';
-	import { Vector3 } from 'three';
+	import { Box3, Box3Helper, Mesh, Scene, Vector3 } from 'three';
+	
+	import Simulation from './Simulation.svelte';
 
 	const inchesToMeters = (inches: number) => inches * 0.0254;
 
@@ -30,13 +32,29 @@
 	// in kg/m^3
 	const waterDensity = 998;
 
-	let water: THREE.Mesh | null = null;
-	let rov: THREE.Mesh | null = null;
-
 	// in m/s^2
 	const gravity = 9.807;
 
+	let rovBox: Box3 = new Box3();
+	let waterBox: Box3 = new Box3();
+
+	let waterRovIntersection = new Box3(new Vector3(10, 50, 10), new Vector3(-10, -10, -10));
+
+	//debug
+	let rovBoxHelper = new Box3Helper(rovBox, "#ff0000");
+	let waterBoxHelper = new Box3Helper(waterBox, "#0000ff");
+
+	let intersectionHelper = new Box3Helper(waterRovIntersection, "#00ff00");
+	//
+
+	let water: THREE.Mesh | null = null;
+	let rov: THREE.Mesh | null = null;
 	let rovBody: ThrelteRigidBody | null = null;
+
+	let rovBoundsSuccessfullyComputed: boolean = false;
+	let waterBoundsSuccessfullyComputed: boolean = false;
+
+	let intersectionSuccessfullyComputed: boolean = false;
 
 	const rovDimensions = [inchesToMeters(15), inchesToMeters(16.5), inchesToMeters(11)];
 
@@ -65,6 +83,37 @@
 		// We want full control over the forces applied to the ROV, so we reset them every frame
 		rovBody?.resetForces(true);
 
+		rovBoundsSuccessfullyComputed = false;
+		waterBoundsSuccessfullyComputed = false;
+		intersectionSuccessfullyComputed = false;
+		
+		if (rov != null && rov != undefined) 
+		{
+			rov.geometry.computeBoundingBox();
+
+			if (rov.geometry.boundingBox != null)
+			{
+				rovBox.copy(rov.geometry.boundingBox).applyMatrix4(rov.matrixWorld);
+				rovBoundsSuccessfullyComputed = true;
+			}
+		}
+
+		if (water != null && water != undefined)
+		{
+			water.geometry.computeBoundingBox();
+
+			if (water.geometry.boundingBox != null)
+			{
+				waterBox.copy(water.geometry.boundingBox).applyMatrix4(water.matrixWorld)
+				waterBoundsSuccessfullyComputed = true;
+			}
+		}
+		if (rovBoundsSuccessfullyComputed && waterBoundsSuccessfullyComputed)
+		{
+			waterRovIntersection = waterBox.intersect(rovBox);
+			intersectionSuccessfullyComputed = true;
+		}
+
 		const force = new Vector3(
 			motorRegistry[Motor.FrontLeft] + motorRegistry[Motor.FrontRight],
 			motorRegistry[Motor.TopLeft] + motorRegistry[Motor.TopRight],
@@ -73,16 +122,20 @@
 
 		rovBody?.addForce(force, true);
 
-		const volume = rovDimensions.reduce((acc, cur) => acc * cur, 1); //The Three module imported in this file has a useful '.intersect' function that can be used with the ThreeBSP type
-
+		let volume = rovDimensions.reduce((acc, cur) => acc * cur, 1);
 		
+		if (intersectionSuccessfullyComputed)
+		{
+			let intersectionWHL = waterRovIntersection.max.sub(waterRovIntersection.min);
+
+			volume = intersectionWHL.x * intersectionWHL.y * intersectionWHL.z;
+		}
 
 		//if ((rov?.getWorldPosition(new Vector3(0, 0, 0))?.y ?? 0) < waterHeight) {
 		if (isRovInCollider) {
 			rovBody?.addForce(
 				new Vector3(
 					forceActingOnRov.x,
-					// TODO: Replace this calculation with a calculation for the ROV in MPS. The buoyancy formula outputs newtons.
 					forceActingOnRov.y + (waterDensity * gravity * volume)/rovMass,
 					forceActingOnRov.z
 				),
@@ -99,12 +152,12 @@
 
 	const castThrelteRigidBody = (value: unknown): ThrelteRigidBody => cast<ThrelteRigidBody>(value);
 </script>
-
+<!--
 <Debug
   depthTest={false}
   depthWrite={false}
 />
-
+-->
 <T.PerspectiveCamera
 	makeDefault
 	position={[15, 15, 15]}
@@ -172,6 +225,11 @@ The position of the water collider is where the water is, this may need to chang
 	<T.BoxGeometry args={[width, length, waterHeight]} />
 	<T.MeshStandardMaterial color="lightblue" transparent opacity={0.2} />
 </T.Mesh>
+
+
+<T.Box3Helper box={waterRovIntersection}></T.Box3Helper>
+<T.Box3Helper box={rovBox}></T.Box3Helper>
+<T.Box3Helper box={waterBox}></T.Box3Helper>
 
 <AutoColliders>
 	<T.Group rotation.x={-Math.PI / 2}>

@@ -3,7 +3,7 @@
 	import Scene from './Scene.svelte';
 	import { World } from '@threlte/rapier';
 
-	let isRovInCollider: boolean
+	let isRovInCollider: any
 </script>
 
 <Canvas>
@@ -11,7 +11,7 @@
 		<Scene bind:isRovInCollider />
 	</World>
 </Canvas>
-<!--
+
 <p>{isRovInCollider}</p>
 <style>
 	p{
@@ -19,4 +19,4 @@
 		top: 0;
 		left: 0;
 	}
-</style>-->
+</style>
