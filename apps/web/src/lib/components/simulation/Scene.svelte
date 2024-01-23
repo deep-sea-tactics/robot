@@ -35,16 +35,9 @@
 	let rovBox = new Box3();
 	let waterBox = new Box3();
 
-	let waterRovIntersection = new Box3(new Vector3(10, 50, 10), new Vector3(-10, -10, -10));
-
 	let water: THREE.Mesh | null = null;
 	let rov: THREE.Mesh | null = null;
 	let rovBody: ThrelteRigidBody | null = null;
-
-	let rovBoundsSuccessfullyComputed: boolean = false;
-	let waterBoundsSuccessfullyComputed: boolean = false;
-
-	let intersectionSuccessfullyComputed: boolean = false;
 
 	const rovDimensions = [inchesToMeters(15), inchesToMeters(16.5), inchesToMeters(11)];
 
@@ -73,38 +66,33 @@
 		// We want full control over the forces applied to the ROV, so we reset them every frame
 		rovBody?.resetForces(true);
 
-		rovBoundsSuccessfullyComputed = false;
-		waterBoundsSuccessfullyComputed = false;
-		intersectionSuccessfullyComputed = false;
+		let rovBoundsSuccessfullyComputed = false;
+		let waterBoundsSuccessfullyComputed = false;
 		
-		if (rov != null) 
-		{
-			rov.geometry.computeBoundingBox();
+    rov?.geometry.computeBoundingBox();
 
-			if (rov.geometry.boundingBox != null)
-			{
-				rovBox.copy(rov.geometry.boundingBox).applyMatrix4(rov.matrixWorld);
-				rovBoundsSuccessfullyComputed = true;
-			}
-		}
+    if (rov?.geometry.boundingBox != null)
+    {
+      rovBox.copy(rov.geometry.boundingBox).applyMatrix4(rov.matrixWorld);
+      rovBoundsSuccessfullyComputed = true;
+    }
 
-		if (water != null)
-		{
-			water.geometry.computeBoundingBox();
+    water?.geometry.computeBoundingBox();
 
-			if (water.geometry.boundingBox != null)
-			{
-				waterBox.copy(water.geometry.boundingBox).applyMatrix4(water.matrixWorld)
-				waterBoundsSuccessfullyComputed = true;
-			}
-		}
-		if (rovBoundsSuccessfullyComputed && waterBoundsSuccessfullyComputed)
-		{
-      if (waterBox.intersectsBox(rovBox)) {
-        waterRovIntersection = waterBox.intersect(rovBox);
-        intersectionSuccessfullyComputed = true;
-      }
-		}
+    if (water?.geometry.boundingBox != null)
+    {
+      waterBox.copy(water.geometry.boundingBox).applyMatrix4(water.matrixWorld)
+      waterBoundsSuccessfullyComputed = true;
+    }
+
+    let volume: number;
+    if (rovBoundsSuccessfullyComputed && waterBoundsSuccessfullyComputed && waterBox.intersectsBox(rovBox)) {
+      const waterRovIntersection = waterBox.intersect(rovBox);
+      const intersectionWHL = waterRovIntersection.max.sub(waterRovIntersection.min);
+      volume = intersectionWHL.x * intersectionWHL.y * intersectionWHL.z;
+    } else {
+      volume = rovDimensions.reduce((acc, cur) => acc * cur, 1);
+    }
 
 		const force = new Vector3(
 			motorRegistry[Motor.FrontLeft] + motorRegistry[Motor.FrontRight],
@@ -113,15 +101,6 @@
 		).multiplyScalar(delta * 100);
 
 		rovBody?.addForce(force, true);
-
-		let volume = rovDimensions.reduce((acc, cur) => acc * cur, 1);
-		
-		if (intersectionSuccessfullyComputed)
-		{
-			const intersectionWHL = waterRovIntersection.max.sub(waterRovIntersection.min);
-
-			volume = intersectionWHL.x * intersectionWHL.y * intersectionWHL.z;
-		}
 
 		if (isRovInCollider) {
 			rovBody?.addForce(
@@ -142,12 +121,7 @@
 
 	const castThrelteRigidBody = (value: unknown): ThrelteRigidBody => cast<ThrelteRigidBody>(value);
 </script>
-<!--
-<Debug
-  depthTest={false}
-  depthWrite={false}
-/>
--->
+
 <T.PerspectiveCamera
 	makeDefault
 	position={[15, 15, 15]}
