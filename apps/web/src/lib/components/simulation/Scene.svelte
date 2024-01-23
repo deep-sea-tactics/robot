@@ -19,12 +19,11 @@
 
 	// Simulation math
 	$: waterVolume = width * length * waterHeight;
-	let forceActingOnRov = new Vector3(0, 0, 0)
 
-	let rovMass = 3 //in kg
+	let rovMass = 10; //in kg
 
 	//Simulation logic
-	export let isRovInCollider = false
+	export let isRovInCollider = false;
 
 	// in kg/m^3
 	const waterDensity = 998;
@@ -62,37 +61,39 @@
 	});
 
 	useTask((delta) => {
-		
 		// We want full control over the forces applied to the ROV, so we reset them every frame
 		rovBody?.resetForces(true);
 
 		let rovBoundsSuccessfullyComputed = false;
 		let waterBoundsSuccessfullyComputed = false;
-		
-    rov?.geometry.computeBoundingBox();
 
-    if (rov?.geometry.boundingBox != null)
-    {
-      rovBox.copy(rov.geometry.boundingBox).applyMatrix4(rov.matrixWorld);
-      rovBoundsSuccessfullyComputed = true;
-    }
+		rov?.geometry.computeBoundingBox();
 
-    water?.geometry.computeBoundingBox();
+		if (rov?.geometry.boundingBox != null) {
+			rovBox.copy(rov.geometry.boundingBox).applyMatrix4(rov.matrixWorld);
+			rovBoundsSuccessfullyComputed = true;
+		}
 
-    if (water?.geometry.boundingBox != null)
-    {
-      waterBox.copy(water.geometry.boundingBox).applyMatrix4(water.matrixWorld)
-      waterBoundsSuccessfullyComputed = true;
-    }
+		water?.geometry.computeBoundingBox();
 
-    let volume: number;
-    if (rovBoundsSuccessfullyComputed && waterBoundsSuccessfullyComputed && waterBox.intersectsBox(rovBox)) {
-      const waterRovIntersection = waterBox.intersect(rovBox);
-      const intersectionWHL = waterRovIntersection.max.sub(waterRovIntersection.min);
-      volume = intersectionWHL.x * intersectionWHL.y * intersectionWHL.z;
-    } else {
-      volume = rovDimensions.reduce((acc, cur) => acc * cur, 1);
-    }
+		if (water?.geometry.boundingBox != null) {
+			waterBox.copy(water.geometry.boundingBox).applyMatrix4(water.matrixWorld);
+			waterBoundsSuccessfullyComputed = true;
+		}
+
+		let volume: number;
+		if (rovBoundsSuccessfullyComputed && waterBoundsSuccessfullyComputed && waterBox.intersectsBox(rovBox)) 
+		{
+			const waterRovIntersection = waterBox.intersect(rovBox);
+			const intersectionWHL = waterRovIntersection.max.sub(waterRovIntersection.min);
+			volume = intersectionWHL.x * intersectionWHL.y * intersectionWHL.z;
+		} 
+		else 
+		{
+			volume = rovDimensions.reduce((acc, cur) => acc * cur, 1);
+		}
+
+		console.log(volume);
 
 		const force = new Vector3(
 			motorRegistry[Motor.FrontLeft] + motorRegistry[Motor.FrontRight],
@@ -103,16 +104,13 @@
 		rovBody?.addForce(force, true);
 
 		if (isRovInCollider) {
-			rovBody?.addForce(
-				new Vector3(
-					forceActingOnRov.x,
-					forceActingOnRov.y + (waterDensity * gravity * volume) / rovMass,
-					forceActingOnRov.z
-				),
-				true
-			);
+			rovBody?.addForce(new Vector3(0, 0 + (waterDensity * gravity * volume) / rovMass, 0), true);
 		}
-	});
+		else
+		{
+			rovBody?.addForce(new Vector3(0,-gravity,0), true);
+		}
+ 	});
 
 	// TODO: file a threlte/core issue to add this to the core library instead of having to cast
 	function cast<T extends any>(value: unknown): T {
@@ -144,8 +142,9 @@ The mesh below represents the ROV, and is a work in progress. Interactivity is l
 		type={'dynamic'}
 		on:create={({ ref: refUncasted }) => {
 			const ref = castThrelteRigidBody(refUncasted);
-			
-			ref.setAdditionalMass(12, true);
+
+			ref.setAdditionalMass(rovMass, true);
+			ref.setGravityScale(0, true);
 			rovBody = ref;
 		}}
 		linearDamping={0.1}
@@ -159,7 +158,10 @@ The mesh below represents the ROV, and is a work in progress. Interactivity is l
 			<T.MeshBasicMaterial color="hotpink" />
 		</T.Mesh>
 
-		<Collider shape={'cuboid'} args={[rovDimensions[0]/2,rovDimensions[1]/2,rovDimensions[2]/2]} />
+		<Collider
+			shape={'cuboid'}
+			args={[rovDimensions[0] / 2, rovDimensions[1] / 2, rovDimensions[2] / 2]}
+		/>
 	</RigidBody>
 </T.Group>
 
@@ -168,13 +170,13 @@ The mesh below represents the ROV, and is a work in progress. Interactivity is l
 The position of the water collider is where the water is, this may need to change at some point.
 
 -->
-<T.Group position={[0, (plateThickness + waterHeight) / 2, 0]}> 
+<T.Group position={[0, (plateThickness + waterHeight) / 2, 0]}>
 	<Collider
-	  on:sensorenter={() => (isRovInCollider = true)}
-	  on:sensorexit={() => (isRovInCollider = false)}
-	  sensor
-	  shape={'cuboid'}
-	  args={[width/2, waterHeight/2, length/2]}
+		on:sensorenter={() => (isRovInCollider = true)}
+		on:sensorexit={() => (isRovInCollider = false)}
+		sensor
+		shape={'cuboid'}
+		args={[width / 2, waterHeight / 2, length / 2]}
 	/>
 </T.Group>
 
@@ -232,4 +234,3 @@ The position of the water collider is where the water is, this may need to chang
 </AutoColliders>
 
 <Gizmo />
-
