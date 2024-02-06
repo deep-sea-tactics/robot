@@ -9,7 +9,8 @@
 		"start": "vite preview",
 		"check": "svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",
-		"lint": "eslint \"src\""
+		"lint": "eslint \"src\"",
+		"generate": "svelte-kit sync"
 	},
 	"devDependencies": {
 		"@dimforge/rapier3d-compat": "^0.11.2",
