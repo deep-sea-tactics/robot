@@ -1,10 +1,13 @@
 import { initTRPC } from '@trpc/server';
-import { ControllerData, ControllerDataSchema } from './controller.js';
+import { ControllerDataSchema } from './controller.js';
 import debounce from 'debounce';
 import { observable } from '@trpc/server/observable';
 import { TypedEmitter } from 'tiny-typed-emitter';
-import { Motor, MotorEvent } from './motor.js';
-import { AccelerationData, AccelerationDataScheme } from './simulationmonitor.js';
+import { Motor } from './motor.js';
+import { AccelerationDataScheme } from './simulationmonitor.js';
+import type { ControllerData } from './controller.js';
+import type { MotorEvent } from './motor.js';
+import type { AccelerationData } from './simulationmonitor.js';
 
 type Events = {
 	controllerData: (data: ControllerData) => void;
