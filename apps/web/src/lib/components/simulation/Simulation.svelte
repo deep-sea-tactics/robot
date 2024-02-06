@@ -3,16 +3,16 @@
 	import Scene from './Scene.svelte';
 	import { World } from '@threlte/rapier';
 
-	let isRovInCollider: any
+	let acceleration: any
 </script>
 
 <Canvas>
 	<World>
-		<Scene bind:isRovInCollider />
+		<Scene bind:acceleration />
 	</World>
 </Canvas>
 
-<p>{isRovInCollider}</p>
+<p>{acceleration}</p>
 <style>
 	p{
 		position: fixed;
