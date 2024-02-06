@@ -26,6 +26,9 @@
 		},
 		"test": {
 			"dependsOn": ["^build"]
+		},
+		"check": {
+			"cache": false
 		}
 	}
 }
