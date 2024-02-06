@@ -12,7 +12,8 @@
 	"scripts": {
 		"robot:mock": "cross-env MOCK=true tsx watch --clear-screen=false ./src/index.ts",
 		"robot": "tsx ./src/index.ts",
-		"build": "tsc"
+		"build": "tsc",
+		"check": "tsc -p ./tsconfig.json"
 	},
 	"devDependencies": {
 		"@trpc/server": "^10.44.1",
