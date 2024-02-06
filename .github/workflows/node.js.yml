@@ -38,3 +38,6 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install
+
+      - name: check types
+        run: pnpm run check
