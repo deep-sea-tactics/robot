@@ -4,10 +4,12 @@ import debounce from 'debounce';
 import { observable } from '@trpc/server/observable';
 import { TypedEmitter } from 'tiny-typed-emitter';
 import { Motor, MotorEvent } from './motor.js';
+import { AccelerationData, AccelerationDataScheme } from './simulationmonitor.js';
 
 type Events = {
 	controllerData: (data: ControllerData) => void;
 	motorData: (data: MotorEvent) => void;
+	simulationAccelData: (data: AccelerationData) => void;
 };
 
 const emitter = new TypedEmitter<Events>();
@@ -15,6 +17,10 @@ const emitter = new TypedEmitter<Events>();
 const t = initTRPC.create();
 
 const isMock = process.env.MOCK === 'true';
+
+function updateSimulationAccelerationData(data: AccelerationData) {
+	emitter.emit('simulationAccelData', data)
+}
 
 function updateControllerData(data: ControllerData) {
 	emitter.emit('controllerData', data);
@@ -60,6 +66,10 @@ emitter.on('controllerData', (data) => {
 });
 
 export const router = t.router({
+	simulationAccelData: t.procedure.input(AccelerationDataScheme).mutation(({ input }) => {
+		updateSimulationAccelerationData(input);
+		return input;
+	}),
 	controllerData: t.procedure.input(ControllerDataSchema).mutation(({ input }) => {
 		debounce(updateControllerData, 50)(input);
 		return input;
