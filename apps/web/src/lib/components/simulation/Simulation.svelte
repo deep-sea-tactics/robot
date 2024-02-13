@@ -3,7 +3,7 @@
 	import Scene from './Scene.svelte';
 	import { World } from '@threlte/rapier';
 
-	let acceleration: any
+	let acceleration: any;
 </script>
 
 <Canvas>
@@ -13,8 +13,9 @@
 </Canvas>
 
 <p>{acceleration}</p>
+
 <style>
-	p{
+	p {
 		position: fixed;
 		top: 0;
 		left: 0;

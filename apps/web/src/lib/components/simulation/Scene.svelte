@@ -36,7 +36,7 @@
 	let water: THREE.Mesh | null = null;
 	let rov: THREE.Mesh | null = null;
 	let rovBody: ThrelteRigidBody | null = null;
-	
+
 	let rov_physics_group: THREE.Group | null = null;
 
 	const rovDimensions = [inchesToMeters(15), inchesToMeters(16.5), inchesToMeters(11)];
@@ -61,16 +61,15 @@
 		});
 	});
 
-	let past_position: Vector3 = new Vector3(0,0,0);
-	let current_position: Vector3 = new Vector3(0,0,0);
+	let past_position: Vector3 = new Vector3(0, 0, 0);
+	let current_position: Vector3 = new Vector3(0, 0, 0);
 
 	let past_speed: number = 0;
 	let current_speed: number = 0;
 
 	export let acceleration: number = 0;
 
-	useTask((delta) => 
-	{
+	useTask((delta) => {
 		// We want full control over the forces applied to the ROV, so we reset them every frame
 		rovBody?.resetForces(true);
 
@@ -81,29 +80,28 @@
 
 		rov?.geometry.computeBoundingBox();
 
-		if (rov?.geometry.boundingBox != null) 
-		{
+		if (rov?.geometry.boundingBox != null) {
 			rovBox.copy(rov.geometry.boundingBox).applyMatrix4(rov.matrixWorld);
 			rovBoundsSuccessfullyComputed = true;
 		}
 
 		water?.geometry.computeBoundingBox();
 
-		if (water?.geometry.boundingBox != null) 
-		{
+		if (water?.geometry.boundingBox != null) {
 			waterBox.copy(water.geometry.boundingBox).applyMatrix4(water.matrixWorld);
 			waterBoundsSuccessfullyComputed = true;
 		}
 
 		let volume: number;
-		if (rovBoundsSuccessfullyComputed && waterBoundsSuccessfullyComputed && waterBox.intersectsBox(rovBox)) 
-		{
+		if (
+			rovBoundsSuccessfullyComputed &&
+			waterBoundsSuccessfullyComputed &&
+			waterBox.intersectsBox(rovBox)
+		) {
 			const waterRovIntersection = waterBox.intersect(rovBox);
 			const intersectionWHL = waterRovIntersection.max.sub(waterRovIntersection.min);
 			volume = intersectionWHL.x * intersectionWHL.y * intersectionWHL.z;
-		} 
-		else 
-		{
+		} else {
 			volume = rovDimensions.reduce((acc, cur) => acc * cur, 1);
 		}
 
@@ -119,24 +117,25 @@
 
 		if (isRovInCollider) {
 			rovBody?.addForce(new Vector3(0, 0 + (waterDensity * gravity * volume) / rovMass, 0), true);
-		}
-		else
-		{
-			rovBody?.addForce(new Vector3(0,-gravity,0), true);
+		} else {
+			rovBody?.addForce(new Vector3(0, -gravity, 0), true);
 		}
 
-		current_position = rovBox.getCenter(new Vector3);
+		current_position = rovBox.getCenter(new Vector3());
 
-		if (current_position && past_position)
-		{
+		if (current_position && past_position) {
 			past_speed = current_speed;
 
-			let distance_covered: number = new Vector3(current_position.x-past_position.x,current_position.y-past_position.y,current_position.z-past_position.z).length();
-			current_speed = distance_covered/delta;
+			let distance_covered: number = new Vector3(
+				current_position.x - past_position.x,
+				current_position.y - past_position.y,
+				current_position.z - past_position.z
+			).length();
+			current_speed = distance_covered / delta;
 		}
 
-		acceleration = (past_speed-current_speed)/delta;
- 	});
+		acceleration = (past_speed - current_speed) / delta;
+	});
 
 	// TODO: file a threlte/core issue to add this to the core library instead of having to cast
 	function cast<T extends any>(value: unknown): T {
@@ -163,11 +162,10 @@
 The mesh below represents the ROV, and is a work in progress. Interactivity is limited and being improved upon
 -->
 
-<T.Group 
+<T.Group
 	position.y={waterHeight}
-
 	on:create={({ ref }) => {
-		rov_physics_group = ref
+		rov_physics_group = ref;
 	}}
 >
 	<RigidBody

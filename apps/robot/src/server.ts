@@ -22,7 +22,7 @@ const t = initTRPC.create();
 const isMock = process.env.MOCK === 'true';
 
 function updateSimulationAccelerationData(data: AccelerationData) {
-	emitter.emit('simulationAccelData', data)
+	emitter.emit('simulationAccelData', data);
 }
 
 function updateControllerData(data: ControllerData) {

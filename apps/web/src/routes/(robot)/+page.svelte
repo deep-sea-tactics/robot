@@ -24,7 +24,11 @@
 				<Simulation />
 			{:else}
 				<!-- NOTE: we cannot use img:enhanced here -->
-				<img src="http://127.0.0.1:8080/stream" alt="Video stream cannot be rendered. Perhaps no signal?" class="videoStream" />
+				<img
+					src="http://127.0.0.1:8080/stream"
+					alt="Video stream cannot be rendered. Perhaps no signal?"
+					class="videoStream"
+				/>
 			{/if}
 		</div>
 	</div>
@@ -32,9 +36,13 @@
 		<div class="item">
 			<div class="commandCenter">
 				<h2>Status</h2>
-				<p>Controller: <span class={output?.connected ? "green" : "red"}>{output?.connected ? "connected" : "disconnected"}</span></p>
+				<p>
+					Controller: <span class={output?.connected ? 'green' : 'red'}
+						>{output?.connected ? 'connected' : 'disconnected'}</span
+					>
+				</p>
 				<p>Input Device: {output?.id}</p>
-				<p>Mode: <span class={isMock ? "blue" : "green"}>{isMock ? "mock" : "live"}</span></p>
+				<p>Mode: <span class={isMock ? 'blue' : 'green'}>{isMock ? 'mock' : 'live'}</span></p>
 			</div>
 		</div>
 		<div class="item controllers">
