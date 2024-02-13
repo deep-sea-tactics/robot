@@ -11,6 +11,7 @@
 
 	const inchesToMeters = (inches: number) => inches * 0.0254;
 
+
 	// world-building variables
 	const waterHeight = 3;
 	const width = 25; //Used as the Z variable for the water collider
@@ -59,15 +60,51 @@
 				motorRegistry[value.motor] = value.speed;
 			}
 		});
+
+		window.addEventListener('keypress', (e: KeyboardEvent) => {
+			console.log(e.key)
+			if(e.key == "p") {
+				updateView(VIEWS.firstPerson)
+			} else if (e.key == "o") {
+				updateView(VIEWS.thirdPerson)
+			}
+		});
 	});
 
 	let past_position: Vector3 = new Vector3(0, 0, 0);
 	let current_position: Vector3 = new Vector3(0, 0, 0);
-
+	let cameraPosition: Vector3 = new Vector3(10, 10, 10)
+	let cameraRotation: Vector3 = new Vector3(0, 0, 0)
 	let past_speed: number = 0;
 	let current_speed: number = 0;
 
 	export let acceleration: number = 0;
+
+
+	enum VIEWS {
+		firstPerson = "first",
+		thirdPerson ="third"
+	}
+	let currentView: VIEWS = VIEWS.firstPerson;
+
+	let updateView = (view: VIEWS) => {
+		switch (view) {
+			case VIEWS.firstPerson: 
+				cameraPosition = current_position;
+				currentView = VIEWS.firstPerson
+				break;
+			
+			case VIEWS.thirdPerson: 
+				cameraPosition = new Vector3(10, 10, 10);
+				currentView = VIEWS.thirdPerson
+				break;
+			
+			default: 
+				break;
+			
+		}
+			
+	}
 
 	useTask((delta) => {
 		// We want full control over the forces applied to the ROV, so we reset them every frame
@@ -135,6 +172,13 @@
 		}
 
 		acceleration = (past_speed - current_speed) / delta;
+
+
+		//camera stuff
+		if(currentView == VIEWS.firstPerson) {
+			cameraPosition = current_position
+			cameraRotation = new Vector3(rovBody?.rotation().x, rovBody?.rotation().y || 0 - Math.PI/2, rovBody?.rotation().z)
+		}
 	});
 
 	// TODO: file a threlte/core issue to add this to the core library instead of having to cast
@@ -147,9 +191,10 @@
 
 <T.PerspectiveCamera
 	makeDefault
-	position={[15, 15, 15]}
+	position={[cameraPosition.x, cameraPosition.y, cameraPosition.z]}
+	rotation={[cameraRotation.x, cameraRotation.y, cameraRotation.z]}
 	on:create={({ ref }) => {
-		ref.lookAt(0, 1, 0);
+		
 	}}
 >
 	<OrbitControls />
@@ -176,6 +221,7 @@ The mesh below represents the ROV, and is a work in progress. Interactivity is l
 			ref.setAdditionalMass(rovMass, true);
 			ref.setGravityScale(0, true);
 			rovBody = ref;
+			
 		}}
 		linearDamping={0.1}
 	>
