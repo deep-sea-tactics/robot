@@ -11,6 +11,43 @@
 
 	const inchesToMeters = (inches: number) => inches * 0.0254;
 
+	const t200_12v_max_newtons = 32.5
+
+	class MotorConstraint
+	{
+		memb_type: Motor;
+		memb_position: Vector3;
+		memb_throttle: number;
+		memb_max_thrust: number;
+		memb_thrust_dir: Vector3; // unit vectors ONLY
+		memb_current_thrust: number; //output
+
+		constructor(motor_type: Motor, motor_position: Vector3, motor_throttle: number, motor_max_thrust: number, motor_thrust_direction: Vector3)
+		{
+			this.memb_type = motor_type;
+			this.memb_position = motor_position;
+			this.memb_throttle = motor_throttle;
+			this.memb_max_thrust = motor_max_thrust;
+			this.memb_current_thrust = 0; //init thrust
+			this.memb_thrust_dir = motor_thrust_direction;
+		}
+		
+		calculateMotorOutput(): number
+		{
+			this.memb_current_thrust = this.memb_max_thrust * this.memb_throttle //only assuming throttle is on the scale 0-1
+			return this.memb_current_thrust
+		}
+
+		getForceVector(): Vector3
+		{
+			return new Vector3
+			(
+				this.memb_thrust_dir.x * this.memb_current_thrust,
+				this.memb_thrust_dir.y * this.memb_current_thrust,
+				this.memb_thrust_dir.z * this.memb_current_thrust
+			)
+		}
+	}
 
 	// world-building variables
 	const waterHeight = 3;
@@ -51,6 +88,17 @@
 		[Motor.TopLeft]: 0,
 		[Motor.TopRight]: 0
 	};
+
+	let thrusters: MotorConstraint[] = [];
+
+	// TODO: populate thruster list from motor registry smth or other
+
+	thrusters.push(new MotorConstraint(Motor.FrontLeft,new Vector3(1,0,0),1,t200_12v_max_newtons,new Vector3(1,0,0)))
+	thrusters.push(new MotorConstraint(Motor.FrontRight,new Vector3(-1,0,0),1,t200_12v_max_newtons,new Vector3(1,0,0)))
+	thrusters.push(new MotorConstraint(Motor.SideFront,new Vector3(0,-1,1),0,t200_12v_max_newtons,new Vector3(1,0,0)))
+	thrusters.push(new MotorConstraint(Motor.SideBack,new Vector3(0,-1,-1),0,t200_12v_max_newtons,new Vector3(-1,0,0))) //assuming the sideback motors are mirrored relative to the sidefront motors
+	thrusters.push(new MotorConstraint(Motor.TopLeft,new Vector3(1,1,0),0,t200_12v_max_newtons,new Vector3(0,0,-1)))
+	thrusters.push(new MotorConstraint(Motor.TopRight,new Vector3(-1,1,0),0,t200_12v_max_newtons,new Vector3(0,0,-1))) //assuming the topleft and topright motors are mirrored to the frontleft and frontright motors
 
 	onMount(() => {
 		if (!client) throw new Error('No client found!');
@@ -109,6 +157,7 @@
 	useTask((delta) => {
 		// We want full control over the forces applied to the ROV, so we reset them every frame
 		rovBody?.resetForces(true);
+		rovBody?.resetTorques(true);
 
 		let rovBoundsSuccessfullyComputed = false;
 		let waterBoundsSuccessfullyComputed = false;
@@ -144,16 +193,18 @@
 
 		console.log(volume);
 
-		const force = new Vector3(
-			motorRegistry[Motor.FrontLeft] + motorRegistry[Motor.FrontRight],
-			motorRegistry[Motor.TopLeft] + motorRegistry[Motor.TopRight],
-			motorRegistry[Motor.SideFront] + motorRegistry[Motor.SideBack]
-		).multiplyScalar(delta * 100);
-
-		rovBody?.addForce(force, true);
+		thrusters.forEach( (element: MotorConstraint) => 
+		{
+			element.calculateMotorOutput();
+		})
 
 		if (isRovInCollider) {
 			rovBody?.addForce(new Vector3(0, 0 + (waterDensity * gravity * volume) / rovMass, 0), true);
+
+			thrusters.forEach( (element: MotorConstraint) => 
+			{
+				rovBody?.addForceAtPoint(element.getForceVector(), element.memb_position,true);
+			});
 		} else {
 			rovBody?.addForce(new Vector3(0, -gravity, 0), true);
 		}
@@ -175,7 +226,7 @@
 
 
 		//camera stuff
-		if(currentView == VIEWS.firstPerson) {
+		if(currentView == VIEWS.thirdPerson) {
 			cameraPosition = current_position
 			cameraRotation = new Vector3(rovBody?.rotation().x, rovBody?.rotation().y || 0 - Math.PI/2, rovBody?.rotation().z)
 		}
