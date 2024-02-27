@@ -11,41 +11,35 @@
 
 	const inchesToMeters = (inches: number) => inches * 0.0254;
 
-	const t200_12v_max_newtons = 32.5
+	const rovAngularDamping = 10000;
 
-	class MotorConstraint
-	{
-		memb_type: Motor;
-		memb_position: Vector3;
-		memb_throttle: number;
-		memb_max_thrust: number;
-		memb_thrust_dir: Vector3; // unit vectors ONLY
-		memb_current_thrust: number; //output
+	const t200_12v_max_newtons = 32.5;
+	const thrust_offset = -30;
 
-		constructor(motor_type: Motor, motor_position: Vector3, motor_throttle: number, motor_max_thrust: number, motor_thrust_direction: Vector3)
-		{
-			this.memb_type = motor_type;
-			this.memb_position = motor_position;
-			this.memb_throttle = motor_throttle;
-			this.memb_max_thrust = motor_max_thrust;
-			this.memb_current_thrust = 0; //init thrust
-			this.memb_thrust_dir = motor_thrust_direction;
+	class MotorConstraint {
+		type: Motor;
+		position: Vector3;
+		throttle: number;
+		maxThrust: number;
+		thrustDirection: Vector3; // unit vectors ONLY
+
+		constructor(
+			type: Motor,
+			position: Vector3,
+			throttle: number,
+			maxThrust: number,
+			thrustDirection: Vector3
+		) {
+			this.type = type;
+			this.position = position;
+			this.throttle = throttle;
+			this.maxThrust = maxThrust;
+			this.thrustDirection = thrustDirection;
 		}
-		
-		calculateMotorOutput(): number
-		{
-			this.memb_current_thrust = this.memb_max_thrust * this.memb_throttle //only assuming throttle is on the scale 0-1
-			return this.memb_current_thrust
-		}
 
-		getForceVector(): Vector3
-		{
-			return new Vector3
-			(
-				this.memb_thrust_dir.x * this.memb_current_thrust,
-				this.memb_thrust_dir.y * this.memb_current_thrust,
-				this.memb_thrust_dir.z * this.memb_current_thrust
-			)
+		getForceVector(): Vector3 {
+			const currentThrust = this.maxThrust * this.throttle; //only assuming throttle is on the scale 0-1
+			return this.thrustDirection.clone().multiplyScalar(currentThrust);
 		}
 	}
 
@@ -63,7 +57,7 @@
 	let isRovInCollider = false;
 
 	// in kg/m^3
-	const waterDensity = 998;
+	const waterDensity = 9.98;
 
 	// in m/s^2
 	const gravity = 9.807;
@@ -89,16 +83,50 @@
 		[Motor.TopRight]: 0
 	};
 
-	let thrusters: MotorConstraint[] = [];
-
-	// TODO: populate thruster list from motor registry smth or other
-
-	thrusters.push(new MotorConstraint(Motor.FrontLeft,new Vector3(1,0,0),1,t200_12v_max_newtons,new Vector3(1,0,0)))
-	thrusters.push(new MotorConstraint(Motor.FrontRight,new Vector3(-1,0,0),1,t200_12v_max_newtons,new Vector3(1,0,0)))
-	thrusters.push(new MotorConstraint(Motor.SideFront,new Vector3(0,-1,1),0,t200_12v_max_newtons,new Vector3(1,0,0)))
-	thrusters.push(new MotorConstraint(Motor.SideBack,new Vector3(0,-1,-1),0,t200_12v_max_newtons,new Vector3(-1,0,0))) //assuming the sideback motors are mirrored relative to the sidefront motors
-	thrusters.push(new MotorConstraint(Motor.TopLeft,new Vector3(1,1,0),0,t200_12v_max_newtons,new Vector3(0,0,-1)))
-	thrusters.push(new MotorConstraint(Motor.TopRight,new Vector3(-1,1,0),0,t200_12v_max_newtons,new Vector3(0,0,-1))) //assuming the topleft and topright motors are mirrored to the frontleft and frontright motors
+	let thrusters: MotorConstraint[] = [
+		new MotorConstraint(
+			Motor.FrontLeft,
+			new Vector3(0, 0, 0),
+			1,
+			t200_12v_max_newtons+thrust_offset,
+			new Vector3(1, 0, 0)
+		),
+		new MotorConstraint(
+			Motor.FrontRight,
+			new Vector3(0, 0, 0),
+			1,
+			t200_12v_max_newtons+thrust_offset,
+			new Vector3(1, 0, 0)
+		),
+		new MotorConstraint(
+			Motor.SideFront,
+			new Vector3(0, -1, 1),
+			0,
+			t200_12v_max_newtons+thrust_offset,
+			new Vector3(1, 0, 0)
+		),
+		new MotorConstraint(
+			Motor.SideBack,
+			new Vector3(0, -1, -1),
+			0,
+			t200_12v_max_newtons+thrust_offset,
+			new Vector3(-1, 0, 0)
+		), //assuming the sideback motors are mirrored relative to the sidefront motors
+		new MotorConstraint(
+			Motor.TopLeft,
+			new Vector3(1, 1, 0),
+			0,
+			t200_12v_max_newtons+thrust_offset,
+			new Vector3(0, 0, -1)
+		),
+		new MotorConstraint(
+			Motor.TopRight,
+			new Vector3(-1, 1, 0),
+			0,
+			t200_12v_max_newtons+thrust_offset,
+			new Vector3(0, 0, -1)
+		) //assuming the topleft and topright motors are mirrored to the frontleft and frontright motors
+	];
 
 	onMount(() => {
 		if (!client) throw new Error('No client found!');
@@ -110,49 +138,46 @@
 		});
 
 		window.addEventListener('keypress', (e: KeyboardEvent) => {
-			console.log(e.key)
-			if(e.key == "p") {
-				updateView(VIEWS.firstPerson)
-			} else if (e.key == "o") {
-				updateView(VIEWS.thirdPerson)
+			console.log(e.key);
+			if (e.key == 'p') {
+				updateView(VIEWS.firstPerson);
+			} else if (e.key == 'o') {
+				updateView(VIEWS.thirdPerson);
 			}
 		});
 	});
 
 	let past_position: Vector3 = new Vector3(0, 0, 0);
 	let current_position: Vector3 = new Vector3(0, 0, 0);
-	let cameraPosition: Vector3 = new Vector3(10, 10, 10)
-	let cameraRotation: Vector3 = new Vector3(0, 0, 0)
+	let cameraPosition: Vector3 = new Vector3(10, 10, 10);
+	let cameraRotation: Vector3 = new Vector3(0, 0, 0);
 	let past_speed: number = 0;
 	let current_speed: number = 0;
 
 	export let acceleration: number = 0;
 
-
 	enum VIEWS {
-		firstPerson = "first",
-		thirdPerson ="third"
+		firstPerson = 'first',
+		thirdPerson = 'third'
 	}
 	let currentView: VIEWS = VIEWS.firstPerson;
 
 	let updateView = (view: VIEWS) => {
 		switch (view) {
-			case VIEWS.firstPerson: 
+			case VIEWS.firstPerson:
 				cameraPosition = current_position;
-				currentView = VIEWS.firstPerson
+				currentView = VIEWS.firstPerson;
 				break;
-			
-			case VIEWS.thirdPerson: 
+
+			case VIEWS.thirdPerson:
 				cameraPosition = new Vector3(10, 10, 10);
-				currentView = VIEWS.thirdPerson
+				currentView = VIEWS.thirdPerson;
 				break;
-			
-			default: 
+
+			default:
 				break;
-			
 		}
-			
-	}
+	};
 
 	useTask((delta) => {
 		// We want full control over the forces applied to the ROV, so we reset them every frame
@@ -179,39 +204,38 @@
 		}
 
 		let volume: number;
-		if (
-			rovBoundsSuccessfullyComputed &&
-			waterBoundsSuccessfullyComputed &&
-			waterBox.intersectsBox(rovBox)
-		) {
+
+		if (rovBoundsSuccessfullyComputed && waterBoundsSuccessfullyComputed && waterBox.intersectsBox(rovBox)) 
+		{
 			const waterRovIntersection = waterBox.intersect(rovBox);
 			const intersectionWHL = waterRovIntersection.max.sub(waterRovIntersection.min);
 			volume = intersectionWHL.x * intersectionWHL.y * intersectionWHL.z;
-		} else {
+		} 
+		else 
+		{
 			volume = rovDimensions.reduce((acc, cur) => acc * cur, 1);
 		}
 
-		console.log(volume);
-
-		thrusters.forEach( (element: MotorConstraint) => 
+		if (isRovInCollider && rov) 
 		{
-			element.calculateMotorOutput();
-		})
-
-		if (isRovInCollider) {
 			rovBody?.addForce(new Vector3(0, 0 + (waterDensity * gravity * volume) / rovMass, 0), true);
+			
+//			rovBody?.addForceAtPoint(rov.localToWorld(new Vector3(0,0,1)), rov.worldToLocal(new Vector3(0,1,0)), true)
 
-			thrusters.forEach( (element: MotorConstraint) => 
+			for (const thruster of thrusters) 
 			{
-				rovBody?.addForceAtPoint(element.getForceVector(), element.memb_position,true);
-			});
-		} else {
+				rovBody?.addForceAtPoint(rov.localToWorld(thruster.getForceVector()), rov.localToWorld(thruster.position), true);
+			}
+		} 
+		else 
+		{
 			rovBody?.addForce(new Vector3(0, -gravity, 0), true);
 		}
 
 		current_position = rovBox.getCenter(new Vector3());
 
-		if (current_position && past_position) {
+		if (current_position && past_position) 
+		{
 			past_speed = current_speed;
 
 			let distance_covered: number = new Vector3(
@@ -224,16 +248,21 @@
 
 		acceleration = (past_speed - current_speed) / delta;
 
-
-		//camera stuff
-		if(currentView == VIEWS.thirdPerson) {
-			cameraPosition = current_position
-			cameraRotation = new Vector3(rovBody?.rotation().x, rovBody?.rotation().y || 0 - Math.PI/2, rovBody?.rotation().z)
+		// camera stuff
+		if (currentView == VIEWS.thirdPerson) 
+		{
+			cameraPosition = current_position;
+			cameraRotation = new Vector3(
+				rovBody?.rotation().x,
+				rovBody?.rotation().y || 0 - Math.PI / 2,
+				rovBody?.rotation().z
+			);
 		}
 	});
 
 	// TODO: file a threlte/core issue to add this to the core library instead of having to cast
-	function cast<T extends any>(value: unknown): T {
+	function cast<T extends any>(value: unknown): T 
+	{
 		return value as T;
 	}
 
@@ -244,9 +273,7 @@
 	makeDefault
 	position={[cameraPosition.x, cameraPosition.y, cameraPosition.z]}
 	rotation={[cameraRotation.x, cameraRotation.y, cameraRotation.z]}
-	on:create={({ ref }) => {
-		
-	}}
+	on:create={({ ref }) => {}}
 >
 	<OrbitControls />
 </T.PerspectiveCamera>
@@ -271,8 +298,8 @@ The mesh below represents the ROV, and is a work in progress. Interactivity is l
 
 			ref.setAdditionalMass(rovMass, true);
 			ref.setGravityScale(0, true);
+			ref.setAngularDamping(rovAngularDamping);
 			rovBody = ref;
-			
 		}}
 		linearDamping={0.1}
 	>
