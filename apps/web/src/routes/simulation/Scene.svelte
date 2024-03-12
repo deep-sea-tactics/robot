@@ -146,26 +146,22 @@
 			}
 		});
 	});
-
-	let past_position: Vector3 = new Vector3(0, 0, 0);
-	let current_position: Vector3 = new Vector3(0, 0, 0);
+	
+	let currentPosition: Vector3 = new Vector3(0, 0, 0);
 	let cameraPosition: Vector3 = new Vector3(10, 10, 10);
 	let cameraRotation: Vector3 = new Vector3(0, 0, 0);
-	let past_speed: number = 0;
-	let current_speed: number = 0;
-
-	export let acceleration: number = 0;
 
 	enum VIEWS {
 		firstPerson = 'first',
 		thirdPerson = 'third'
 	}
+
 	let currentView: VIEWS = VIEWS.firstPerson;
 
 	let updateView = (view: VIEWS) => {
 		switch (view) {
 			case VIEWS.firstPerson:
-				cameraPosition = current_position;
+				cameraPosition = currentPosition;
 				currentView = VIEWS.firstPerson;
 				break;
 
@@ -186,8 +182,6 @@
 
 		let rovBoundsSuccessfullyComputed = false;
 		let waterBoundsSuccessfullyComputed = false;
-
-		past_position = current_position;
 
 		rov?.geometry.computeBoundingBox();
 
@@ -232,26 +226,12 @@
 			rovBody?.addForce(new Vector3(0, -gravity, 0), true);
 		}
 
-		current_position = rovBox.getCenter(new Vector3());
-
-		if (current_position && past_position) 
-		{
-			past_speed = current_speed;
-
-			let distance_covered: number = new Vector3(
-				current_position.x - past_position.x,
-				current_position.y - past_position.y,
-				current_position.z - past_position.z
-			).length();
-			current_speed = distance_covered / delta;
-		}
-
-		acceleration = (past_speed - current_speed) / delta;
+		currentPosition = rovBox.getCenter(new Vector3());
 
 		// camera stuff
 		if (currentView == VIEWS.thirdPerson) 
 		{
-			cameraPosition = current_position;
+			cameraPosition = currentPosition;
 			cameraRotation = new Vector3(
 				rovBody?.rotation().x,
 				rovBody?.rotation().y || 0 - Math.PI / 2,

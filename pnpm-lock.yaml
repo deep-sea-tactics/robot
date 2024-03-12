@@ -87,9 +87,9 @@ importers:
 
   apps/web:
     devDependencies:
-      '@dimforge/rapier3d-compat':
-        specifier: ^0.11.2
-        version: 0.11.2
+      '@leodog896/rapier3d-compat':
+        specifier: ^0.12.0
+        version: 0.12.0
       '@sveltejs/adapter-node':
         specifier: ^2.0.0
         version: 2.0.0(@sveltejs/kit@1.27.7)
@@ -674,6 +674,10 @@ packages:
     dependencies:
       '@jridgewell/resolve-uri': 3.1.0
       '@jridgewell/sourcemap-codec': 1.4.15
+    dev: true
+
+  /@leodog896/rapier3d-compat@0.12.0:
+    resolution: {integrity: sha512-VNhS8lM1g+wHkZbLNu7h0XgkaxNxM9l5T2hrZ9MEwJOKeBCaEFMP4DufS0Z3y1tbxpyFkGDn7EQB01BDzZvedA==}
     dev: true
 
   /@nodelib/fs.scandir@2.1.5:

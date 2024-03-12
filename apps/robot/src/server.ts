@@ -69,7 +69,7 @@ emitter.on('controllerData', (data) => {
 });
 
 export const router = t.router({
-	simulationAccelData: t.procedure.input(AccelerationDataScheme).mutation(({ input }) => {
+	simulationAccelerationData: t.procedure.input(AccelerationDataScheme).mutation(({ input }) => {
 		updateSimulationAccelerationData(input);
 		return input;
 	}),
