@@ -11,7 +11,7 @@
 
 	const inchesToMeters = (inches: number) => inches * 0.0254;
 
-	const rovAngularDamping = 10000;
+	const rovAngularDamping = 922337203685477580;
 
 	const t200_12v_max_newtons = 32.5;
 	const thrust_offset = -30;
@@ -49,7 +49,7 @@
 	const length = 25;
 	const plateThickness = 0.3;
 
-	let rovMass = 10; //in kg
+	let rovMass = 10+10; //in kg
 
 	let isRovInCollider = false;
 
@@ -179,13 +179,13 @@
 		let rovBoundsSuccessfullyComputed = false;
 		let waterBoundsSuccessfullyComputed = false;
 
-		if (rovBody) {
-			client?.simulationAccelerationData.mutate({
-				accelerationValueX: rovBody?.userForce().x,
-				accelerationValueY: rovBody?.userForce().y,
-				accelerationValueZ: rovBody?.userForce().z,
-			})
-		}
+		//if (rovBody) {
+		//	client?.simulationAccelerationData.mutate({
+		//		accelerationValueX: rovBody?.userForce().x,
+		//		accelerationValueY: rovBody?.userForce().y,
+		//		accelerationValueZ: rovBody?.userForce().z,
+		//	})
+		//}
 
 		rov?.geometry.computeBoundingBox();
 
