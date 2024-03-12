@@ -4,10 +4,9 @@ import debounce from 'debounce';
 import { observable } from '@trpc/server/observable';
 import { TypedEmitter } from 'tiny-typed-emitter';
 import { Motor } from './motor.js';
-import { AccelerationDataScheme } from './simulationmonitor.js';
+import { accelerationDataScheme, type AccelerationData } from './simulationMonitor.js';
 import type { ControllerData } from './controller.js';
 import type { MotorEvent } from './motor.js';
-import type { AccelerationData } from './simulationmonitor.js';
 
 type Events = {
 	controllerData: (data: ControllerData) => void;
@@ -69,7 +68,7 @@ emitter.on('controllerData', (data) => {
 });
 
 export const router = t.router({
-	simulationAccelerationData: t.procedure.input(AccelerationDataScheme).mutation(({ input }) => {
+	simulationAccelerationData: t.procedure.input(accelerationDataScheme).mutation(({ input }) => {
 		updateSimulationAccelerationData(input);
 		return input;
 	}),

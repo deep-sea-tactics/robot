@@ -1,7 +1,9 @@
-import { Schema, z } from 'zod';
+import { z } from 'zod';
 
-export const AccelerationDataScheme = z.object({
-	accelerationValue: z.number()
+export const accelerationDataScheme = z.object({
+	accelerationValueX: z.number(),
+	accelerationValueY: z.number(),
+	accelerationValueZ: z.number()
 });
 
-export type AccelerationData = z.infer<typeof AccelerationDataScheme>;
+export type AccelerationData = z.infer<typeof accelerationDataScheme>;

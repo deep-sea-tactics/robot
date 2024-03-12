@@ -1,13 +1,13 @@
 <script lang="ts">
 	import { T, useTask } from '@threlte/core';
-	import { AutoColliders, RigidBody, Collider } from '@threlte/rapier';
+	import { AutoColliders, RigidBody as RapierRigidBody, Collider } from '@threlte/rapier';
 	import { OrbitControls } from '@threlte/extras';
 	import { client } from '$lib/connections/robot';
 	import { onMount } from 'svelte';
 	import { Motor } from 'robot/src/motor';
 	import { Gizmo } from '@threlte/extras';
-	import type { ThrelteRigidBody } from '@threlte/rapier/dist/types/types';
 	import { Box3, Vector3 } from 'three';
+	import type { RigidBody } from '@leodog896/rapier3d-compat/dynamics/rigid_body'
 
 	const inchesToMeters = (inches: number) => inches * 0.0254;
 
@@ -67,9 +67,8 @@
 
 	let water: THREE.Mesh | null = null;
 	let rov: THREE.Mesh | null = null;
-	let rovBody: ThrelteRigidBody | null = null;
 
-	let rov_physics_group: THREE.Group | null = null;
+	let rovBody: RigidBody | null = null;
 
 	const rovDimensions = [inchesToMeters(15), inchesToMeters(16.5), inchesToMeters(11)];
 
@@ -175,13 +174,21 @@
 		}
 	};
 
-	useTask((delta) => {
+	useTask(() => {
 		// We want full control over the forces applied to the ROV, so we reset them every frame
 		rovBody?.resetForces(true);
 		rovBody?.resetTorques(true);
 
 		let rovBoundsSuccessfullyComputed = false;
 		let waterBoundsSuccessfullyComputed = false;
+
+		if (rovBody) {
+			client?.simulationAccelerationData.mutate({
+				accelerationValueX: rovBody?.userForce().x,
+				accelerationValueY: rovBody?.userForce().y,
+				accelerationValueZ: rovBody?.userForce().z,
+			})
+		}
 
 		rov?.geometry.computeBoundingBox();
 
@@ -214,8 +221,6 @@
 		if (isRovInCollider && rov) {
 			rovBody?.addForce(new Vector3(0, 0 + (waterDensity * gravity * volume) / rovMass, 0), true);
 
-			//			rovBody?.addForceAtPoint(rov.localToWorld(new Vector3(0,0,1)), rov.worldToLocal(new Vector3(0,1,0)), true)
-
 			for (const thruster of thrusters) {
 				rovBody?.addForceAtPoint(
 					rov.localToWorld(thruster.getForceVector()),
@@ -240,19 +245,19 @@
 		}
 	});
 
-	// TODO: file a threlte/core issue to add this to the core library instead of having to cast
-	function cast<T extends any>(value: unknown): T {
+	// TODO: file a threlte/core issue to add this
+	// to the core library instead of having to cast
+	function cast<T>(value: unknown): T {
 		return value as T;
 	}
 
-	const castThrelteRigidBody = (value: unknown): ThrelteRigidBody => cast<ThrelteRigidBody>(value);
+	const castThrelteRigidBody = (value: unknown): RigidBody => cast<RigidBody>(value);
 </script>
 
 <T.PerspectiveCamera
 	makeDefault
 	position={[cameraPosition.x, cameraPosition.y, cameraPosition.z]}
 	rotation={[cameraRotation.x, cameraRotation.y, cameraRotation.z]}
-	on:create={({ ref }) => {}}
 >
 	<OrbitControls />
 </T.PerspectiveCamera>
@@ -264,13 +269,8 @@
 The mesh below represents the ROV, and is a work in progress. Interactivity is limited and being improved upon
 -->
 
-<T.Group
-	position.y={waterHeight}
-	on:create={({ ref }) => {
-		rov_physics_group = ref;
-	}}
->
-	<RigidBody
+<T.Group position.y={waterHeight}>
+	<RapierRigidBody
 		type={'dynamic'}
 		on:create={({ ref: refUncasted }) => {
 			const ref = castThrelteRigidBody(refUncasted);
@@ -295,7 +295,7 @@ The mesh below represents the ROV, and is a work in progress. Interactivity is l
 			shape={'cuboid'}
 			args={[rovDimensions[0] / 2, rovDimensions[1] / 2, rovDimensions[2] / 2]}
 		/>
-	</RigidBody>
+	</RapierRigidBody>
 </T.Group>
 
 <!-- Sensor for the water; tells if the rov should actively try to escape the cold grasp of the big blue. (Definitely not stolen from threlte documentation)
