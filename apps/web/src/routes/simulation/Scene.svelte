@@ -16,6 +16,7 @@
 	const t200_12v_max_newtons = 32.5;
 	const thrust_offset = -30;
 
+  // TODO: change to interface
 	class MotorConstraint {
 		type: Motor;
 		position: Vector3;
