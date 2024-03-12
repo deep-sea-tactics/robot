@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Simulation from '$lib/components/simulation/Simulation.svelte';
+	import Simulation from './Simulation.svelte';
 </script>
 
 <svelte:head>

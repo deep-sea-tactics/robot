@@ -4,7 +4,7 @@ import debounce from 'debounce';
 import { observable } from '@trpc/server/observable';
 import { TypedEmitter } from 'tiny-typed-emitter';
 import { Motor } from './motor.js';
-import { accelerationDataScheme, type AccelerationData } from './simulationMonitor.js';
+import { accelerationDataScheme, type AccelerationData } from './simulationmonitor.js';
 import type { ControllerData } from './controller.js';
 import type { MotorEvent } from './motor.js';
 

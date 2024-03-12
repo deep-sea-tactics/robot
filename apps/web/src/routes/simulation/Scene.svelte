@@ -45,12 +45,9 @@
 
 	// world-building variables
 	const waterHeight = 3;
-	const width = 25; //Used as the Z variable for the water collider
-	const length = 25; //Used as the X variable for the water collider
+	const width = 25;
+	const length = 25;
 	const plateThickness = 0.3;
-
-	// Simulation math
-	$: waterVolume = width * length * waterHeight;
 
 	let rovMass = 10; //in kg
 
@@ -146,9 +143,9 @@
 		});
 	});
 
-	let currentPosition: Vector3 = new Vector3(0, 0, 0);
-	let cameraPosition: Vector3 = new Vector3(10, 10, 10);
-	let cameraRotation: Vector3 = new Vector3(0, 0, 0);
+	let currentPosition  = new Vector3(0, 0, 0);
+	let cameraPosition = new Vector3(10, 10, 10);
+	let cameraRotation = new Vector3(0, 0, 0);
 
 	enum VIEWS {
 		firstPerson = 'first',
