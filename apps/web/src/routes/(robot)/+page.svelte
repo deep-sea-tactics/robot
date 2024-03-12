@@ -3,7 +3,6 @@
 	import Keyboard from '$lib/components/handlers/Keyboard.svelte';
 	import type { ControllerData } from 'robot/dist/controller';
 	import { client } from '$lib/connections/robot';
-	import Simulation from '$lib/components/simulation/Simulation.svelte';
 	import { env } from '$env/dynamic/public';
 
 	const isMock = env.PUBLIC_MOCK === 'true';
@@ -21,7 +20,7 @@
 	<div class="grid">
 		<div class="item">
 			{#if isMock}
-				<Simulation />
+				<!-- <Simulation /> -->
 			{:else}
 				<!-- NOTE: we cannot use img:enhanced here -->
 				<img

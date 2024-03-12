@@ -1,0 +1,349 @@
+diff --git a/dist/components/Colliders/AutoColliders.svelte b/dist/components/Colliders/AutoColliders.svelte
+index 02aba69606d85894c945099d59e04d26e567a90e..34604694f02a61bf5e0c5dbd8ef12c5d98bd4638 100644
+--- a/dist/components/Colliders/AutoColliders.svelte
++++ b/dist/components/Colliders/AutoColliders.svelte
+@@ -1,4 +1,4 @@
+-<script>import { ActiveCollisionTypes, CoefficientCombineRule } from '@dimforge/rapier3d-compat';
++<script>import { ActiveCollisionTypes, CoefficientCombineRule } from '@leodog896/rapier3d-compat';
+ import { createRawEventDispatcher, SceneGraphObject } from '@threlte/core';
+ import { onDestroy, onMount } from 'svelte';
+ import { Group } from 'three';
+diff --git a/dist/components/Colliders/AutoColliders.svelte.d.ts b/dist/components/Colliders/AutoColliders.svelte.d.ts
+index a138d8a1d016b4238f61c5078ff61b625a7007c0..05124b0a4fc3c0c80a6018c9453d996ba6cb99d2 100644
+--- a/dist/components/Colliders/AutoColliders.svelte.d.ts
++++ b/dist/components/Colliders/AutoColliders.svelte.d.ts
+@@ -1,4 +1,4 @@
+-import type { CoefficientCombineRule, Collider } from '@dimforge/rapier3d-compat'
++import type { CoefficientCombineRule, Collider } from '@leodog896/rapier3d-compat'
+ import { SvelteComponent } from 'svelte'
+ import type { Euler, Vector3 } from 'three'
+ import type { AutoCollidersShapes, ColliderEventMap } from '../../types/types'
+diff --git a/dist/components/Colliders/Collider.svelte b/dist/components/Colliders/Collider.svelte
+index 1178e3757d37574fe13c2116e4999eb6ca0dedba..6ebed5e8df249fd7e3ede89241db2a43108b6150 100644
+--- a/dist/components/Colliders/Collider.svelte
++++ b/dist/components/Colliders/Collider.svelte
+@@ -1,4 +1,4 @@
+-<script>import { ActiveCollisionTypes, CoefficientCombineRule, Collider, ColliderDesc } from '@dimforge/rapier3d-compat';
++<script>import { ActiveCollisionTypes, CoefficientCombineRule, Collider, ColliderDesc } from '@leodog896/rapier3d-compat';
+ import { createRawEventDispatcher, SceneGraphObject, useFrame } from '@threlte/core';
+ import { onDestroy, onMount, tick } from 'svelte';
+ import { Object3D, Quaternion, Vector3 } from 'three';
+diff --git a/dist/components/Colliders/Collider.svelte.d.ts b/dist/components/Colliders/Collider.svelte.d.ts
+index a860dc80628e619ef32e7b715b34dc578a8a2fce..4c6a8387c0b8d5bf4f4c965aeb01ce08daac582a 100644
+--- a/dist/components/Colliders/Collider.svelte.d.ts
++++ b/dist/components/Colliders/Collider.svelte.d.ts
+@@ -2,7 +2,7 @@ import type {
+   CoefficientCombineRule,
+   Collider as RapierCollider,
+   ColliderDesc
+-} from '@dimforge/rapier3d-compat'
++} from '@leodog896/rapier3d-compat'
+ import { SvelteComponent } from 'svelte'
+ import type { Euler, Vector3 } from 'three'
+ import type { ColliderEventMap } from '../../types/types'
+diff --git a/dist/components/RigidBody/RigidBody.svelte.d.ts b/dist/components/RigidBody/RigidBody.svelte.d.ts
+index 69af227abe0af92be52a911648a173800749e9d2..9f1e661cc8dac39557649e7a15c376a78cc5c078 100644
+--- a/dist/components/RigidBody/RigidBody.svelte.d.ts
++++ b/dist/components/RigidBody/RigidBody.svelte.d.ts
+@@ -1,4 +1,4 @@
+-import { RigidBody as RapierRigidBody } from '@dimforge/rapier3d-compat'
++import { RigidBody as RapierRigidBody } from '@leodog896/rapier3d-compat'
+ import { SvelteComponent } from 'svelte'
+ import type { Euler, Vector3 } from 'three'
+ import type { RigidBodyTypeString } from '../../lib/parseRigidBodyType'
+diff --git a/dist/components/World/InnerWorld.svelte.d.ts b/dist/components/World/InnerWorld.svelte.d.ts
+index e5f8b114fc35452d4308dfd6d15fce9439d97c77..2a74b09a96335e411e0b86fa04d13525546c845c 100644
+--- a/dist/components/World/InnerWorld.svelte.d.ts
++++ b/dist/components/World/InnerWorld.svelte.d.ts
+@@ -2,19 +2,19 @@ import { SvelteComponentTyped } from "svelte";
+ declare const __propDef: {
+     props: {
+         gravity?: [x: number, y: number, z: number] | undefined;
+-        rawIntegrationParameters?: import("@dimforge/rapier3d-compat/rapier_wasm3d").RawIntegrationParameters | undefined;
+-        rawIslands?: import("@dimforge/rapier3d-compat/rapier_wasm3d").RawIslandManager | undefined;
+-        rawBroadPhase?: import("@dimforge/rapier3d-compat/rapier_wasm3d").RawBroadPhase | undefined;
+-        rawNarrowPhase?: import("@dimforge/rapier3d-compat/rapier_wasm3d").RawNarrowPhase | undefined;
+-        rawBodies?: import("@dimforge/rapier3d-compat/rapier_wasm3d").RawRigidBodySet | undefined;
+-        rawColliders?: import("@dimforge/rapier3d-compat/rapier_wasm3d").RawColliderSet | undefined;
+-        rawImpulseJoints?: import("@dimforge/rapier3d-compat/rapier_wasm3d").RawImpulseJointSet | undefined;
+-        rawMultibodyJoints?: import("@dimforge/rapier3d-compat/rapier_wasm3d").RawMultibodyJointSet | undefined;
+-        rawCCDSolver?: import("@dimforge/rapier3d-compat/rapier_wasm3d").RawCCDSolver | undefined;
+-        rawQueryPipeline?: import("@dimforge/rapier3d-compat/rapier_wasm3d").RawQueryPipeline | undefined;
+-        rawPhysicsPipeline?: import("@dimforge/rapier3d-compat/rapier_wasm3d").RawPhysicsPipeline | undefined;
+-        rawSerializationPipeline?: import("@dimforge/rapier3d-compat/rapier_wasm3d").RawSerializationPipeline | undefined;
+-        rawDebugRenderPipeline?: import("@dimforge/rapier3d-compat/rapier_wasm3d").RawDebugRenderPipeline | undefined;
++        rawIntegrationParameters?: import("@leodog896/rapier3d-compat/rapier_wasm3d").RawIntegrationParameters | undefined;
++        rawIslands?: import("@leodog896/rapier3d-compat/rapier_wasm3d").RawIslandManager | undefined;
++        rawBroadPhase?: import("@leodog896/rapier3d-compat/rapier_wasm3d").RawBroadPhase | undefined;
++        rawNarrowPhase?: import("@leodog896/rapier3d-compat/rapier_wasm3d").RawNarrowPhase | undefined;
++        rawBodies?: import("@leodog896/rapier3d-compat/rapier_wasm3d").RawRigidBodySet | undefined;
++        rawColliders?: import("@leodog896/rapier3d-compat/rapier_wasm3d").RawColliderSet | undefined;
++        rawImpulseJoints?: import("@leodog896/rapier3d-compat/rapier_wasm3d").RawImpulseJointSet | undefined;
++        rawMultibodyJoints?: import("@leodog896/rapier3d-compat/rapier_wasm3d").RawMultibodyJointSet | undefined;
++        rawCCDSolver?: import("@leodog896/rapier3d-compat/rapier_wasm3d").RawCCDSolver | undefined;
++        rawQueryPipeline?: import("@leodog896/rapier3d-compat/rapier_wasm3d").RawQueryPipeline | undefined;
++        rawPhysicsPipeline?: import("@leodog896/rapier3d-compat/rapier_wasm3d").RawPhysicsPipeline | undefined;
++        rawSerializationPipeline?: import("@leodog896/rapier3d-compat/rapier_wasm3d").RawSerializationPipeline | undefined;
++        rawDebugRenderPipeline?: import("@leodog896/rapier3d-compat/rapier_wasm3d").RawDebugRenderPipeline | undefined;
+         order?: number | undefined;
+     };
+     events: {
+diff --git a/dist/components/World/World.svelte b/dist/components/World/World.svelte
+index 786b3ad949258d9ba2ea46c40a304aa6bab263f4..5e172302a4111260f87095435ad3155c9f3e4625 100644
+--- a/dist/components/World/World.svelte
++++ b/dist/components/World/World.svelte
+@@ -1,7 +1,7 @@
+ <script
+   context="module"
+  
+->import RAPIER from '@dimforge/rapier3d-compat';
++>import RAPIER from '@leodog896/rapier3d-compat';
+ import { onMount } from 'svelte';
+ import { writable } from 'svelte/store';
+ /**
+diff --git a/dist/components/World/World.svelte.d.ts b/dist/components/World/World.svelte.d.ts
+index c953b8865b0df368a8ef0229fbe8f03bbe70bfdf..90a1e85e65e65aebfcc89f93ccf6a4db3d9c6ea8 100644
+--- a/dist/components/World/World.svelte.d.ts
++++ b/dist/components/World/World.svelte.d.ts
+@@ -12,7 +12,7 @@ import type {
+   RawQueryPipeline,
+   RawRigidBodySet,
+   RawSerializationPipeline
+-} from '@dimforge/rapier3d-compat/raw'
++} from '@leodog896/rapier3d-compat/raw'
+ import { SvelteComponentTyped } from 'svelte'
+ import type { Vector3 } from 'three'
+ 
+diff --git a/dist/hooks/useCollisionGroups.d.ts b/dist/hooks/useCollisionGroups.d.ts
+index 2c2f1065fa4ff72c2cce0b61d2012ec89bdbcebd..d0ebf865d4c014356ab42cc026911f1f2c879750 100644
+--- a/dist/hooks/useCollisionGroups.d.ts
++++ b/dist/hooks/useCollisionGroups.d.ts
+@@ -1,4 +1,4 @@
+-import type { Collider } from '@dimforge/rapier3d-compat';
++import type { Collider } from '@leodog896/rapier3d-compat';
+ export declare const useCollisionGroups: () => {
+     registerColliders: (colliders: Collider[]) => void;
+     removeColliders: (colliders: Collider[]) => void;
+diff --git a/dist/hooks/useFixedJoint.d.ts b/dist/hooks/useFixedJoint.d.ts
+index 1dadb0dfc26c2b467280521f3b9fe2e72e61519a..f6154a1ac80558b32ed474cb4070c3e680889721 100644
+--- a/dist/hooks/useFixedJoint.d.ts
++++ b/dist/hooks/useFixedJoint.d.ts
+@@ -1,8 +1,8 @@
+ /// <reference types="svelte" />
+-import type { FixedImpulseJoint } from '@dimforge/rapier3d-compat';
++import type { FixedImpulseJoint } from '@leodog896/rapier3d-compat';
+ import { Euler } from 'three';
+ export declare const useFixedJoint: (anchorA: [x: number, y: number, z: number], frameA: Parameters<Euler['set']> | Euler, anchorB: [x: number, y: number, z: number], frameB: Parameters<Euler['set']> | Euler) => {
+     joint: import("svelte/store").Writable<FixedImpulseJoint>;
+-    rigidBodyA: import("svelte/store").Writable<import("@dimforge/rapier3d-compat").RigidBody | undefined>;
+-    rigidBodyB: import("svelte/store").Writable<import("@dimforge/rapier3d-compat").RigidBody | undefined>;
++    rigidBodyA: import("svelte/store").Writable<import("@leodog896/rapier3d-compat").RigidBody | undefined>;
++    rigidBodyB: import("svelte/store").Writable<import("@leodog896/rapier3d-compat").RigidBody | undefined>;
+ };
+diff --git a/dist/hooks/useFrameHandler.js b/dist/hooks/useFrameHandler.js
+index 1de57e02dac2887b44df427d15776eed0ab691e7..55a49b7063dba1a7c905b183b224c5ce3869df16 100644
+--- a/dist/hooks/useFrameHandler.js
++++ b/dist/hooks/useFrameHandler.js
+@@ -1,4 +1,4 @@
+-import { Collider, EventQueue } from '@dimforge/rapier3d-compat';
++import { Collider, EventQueue } from '@leodog896/rapier3d-compat';
+ import { useFrame } from '@threlte/core';
+ import { derived } from 'svelte/store';
+ import { Object3D, Quaternion, Vector3 } from 'three';
+diff --git a/dist/hooks/useJoint.d.ts b/dist/hooks/useJoint.d.ts
+index 6528729598f31d20ad3b62d47f2eeaf8473d7469..6640019c1c3a44815fb9cf0606367c85bb01f5af 100644
+--- a/dist/hooks/useJoint.d.ts
++++ b/dist/hooks/useJoint.d.ts
+@@ -1,5 +1,5 @@
+ /// <reference types="svelte" />
+-import { MultibodyJoint, type ImpulseJoint, type RigidBody } from '@dimforge/rapier3d-compat';
++import { MultibodyJoint, type ImpulseJoint, type RigidBody } from '@leodog896/rapier3d-compat';
+ import type { RapierContext } from '../types/types';
+ export declare const useJoint: <T extends ImpulseJoint | MultibodyJoint>(initializeJoint: (rigidBodyA: RigidBody, rigidBodyB: RigidBody, ctx: RapierContext) => T) => {
+     joint: import("svelte/store").Writable<T>;
+diff --git a/dist/hooks/useJoint.js b/dist/hooks/useJoint.js
+index 53ab0268027905a751d591a73c9830d9b1f5b958..484bfdd78ae44d41dd7af18739e45f15e9c9a70b 100644
+--- a/dist/hooks/useJoint.js
++++ b/dist/hooks/useJoint.js
+@@ -1,4 +1,4 @@
+-import { MultibodyJoint } from '@dimforge/rapier3d-compat';
++import { MultibodyJoint } from '@leodog896/rapier3d-compat';
+ import { onDestroy } from 'svelte';
+ import { derived, get, writable } from 'svelte/store';
+ import { useRapier } from './useRapier';
+diff --git a/dist/hooks/usePrismaticJoint.d.ts b/dist/hooks/usePrismaticJoint.d.ts
+index c2e2af056b801d58086de699199c8b17ff1f5fc1..0c472dc2fc93b6dd55eb77ba0d8a511b7a14815e 100644
+--- a/dist/hooks/usePrismaticJoint.d.ts
++++ b/dist/hooks/usePrismaticJoint.d.ts
+@@ -1,8 +1,8 @@
+ /// <reference types="svelte" />
+-import type { PrismaticImpulseJoint } from '@dimforge/rapier3d-compat';
++import type { PrismaticImpulseJoint } from '@leodog896/rapier3d-compat';
+ import { Vector3 } from 'three';
+ export declare const usePrismaticJoint: (anchorA: Parameters<Vector3['set']> | Vector3, anchorB: Parameters<Vector3['set']> | Vector3, axis: Parameters<Vector3['set']> | Vector3, limits?: [min: number, max: number]) => {
+     joint: import("svelte/store").Writable<PrismaticImpulseJoint>;
+-    rigidBodyA: import("svelte/store").Writable<import("@dimforge/rapier3d-compat").RigidBody | undefined>;
+-    rigidBodyB: import("svelte/store").Writable<import("@dimforge/rapier3d-compat").RigidBody | undefined>;
++    rigidBodyA: import("svelte/store").Writable<import("@leodog896/rapier3d-compat").RigidBody | undefined>;
++    rigidBodyB: import("svelte/store").Writable<import("@leodog896/rapier3d-compat").RigidBody | undefined>;
+ };
+diff --git a/dist/hooks/useRevoluteJoint.d.ts b/dist/hooks/useRevoluteJoint.d.ts
+index 824ace7617e38c154dee24f30c89972339add4ec..1997f094b864cbfb66797d179a1814d1f69603bf 100644
+--- a/dist/hooks/useRevoluteJoint.d.ts
++++ b/dist/hooks/useRevoluteJoint.d.ts
+@@ -1,8 +1,8 @@
+ /// <reference types="svelte" />
+-import type { RevoluteImpulseJoint } from '@dimforge/rapier3d-compat';
++import type { RevoluteImpulseJoint } from '@leodog896/rapier3d-compat';
+ import { Vector3 } from 'three';
+ export declare const useRevoluteJoint: (anchorA: Parameters<Vector3['set']> | Vector3, anchorB: Parameters<Vector3['set']> | Vector3, axis: Parameters<Vector3['set']> | Vector3, limits?: [min: number, max: number]) => {
+     joint: import("svelte/store").Writable<RevoluteImpulseJoint>;
+-    rigidBodyA: import("svelte/store").Writable<import("@dimforge/rapier3d-compat").RigidBody | undefined>;
+-    rigidBodyB: import("svelte/store").Writable<import("@dimforge/rapier3d-compat").RigidBody | undefined>;
++    rigidBodyA: import("svelte/store").Writable<import("@leodog896/rapier3d-compat").RigidBody | undefined>;
++    rigidBodyB: import("svelte/store").Writable<import("@leodog896/rapier3d-compat").RigidBody | undefined>;
+ };
+diff --git a/dist/hooks/useSphericalJoint.d.ts b/dist/hooks/useSphericalJoint.d.ts
+index 976f54ea48a18e7e54530fb3deb70dc1fdb2e59b..d54989bfc9e39906fcb2e9336db87296093f1f29 100644
+--- a/dist/hooks/useSphericalJoint.d.ts
++++ b/dist/hooks/useSphericalJoint.d.ts
+@@ -1,8 +1,8 @@
+ /// <reference types="svelte" />
+-import type { SphericalImpulseJoint } from '@dimforge/rapier3d-compat';
++import type { SphericalImpulseJoint } from '@leodog896/rapier3d-compat';
+ import { Vector3 } from 'three';
+ export declare const useSphericalJoint: (anchorA: Parameters<Vector3['set']> | Vector3, anchorB: Parameters<Vector3['set']> | Vector3) => {
+     joint: import("svelte/store").Writable<SphericalImpulseJoint>;
+-    rigidBodyA: import("svelte/store").Writable<import("@dimforge/rapier3d-compat").RigidBody | undefined>;
+-    rigidBodyB: import("svelte/store").Writable<import("@dimforge/rapier3d-compat").RigidBody | undefined>;
++    rigidBodyA: import("svelte/store").Writable<import("@leodog896/rapier3d-compat").RigidBody | undefined>;
++    rigidBodyB: import("svelte/store").Writable<import("@leodog896/rapier3d-compat").RigidBody | undefined>;
+ };
+diff --git a/dist/lib/applyColliderActiveEvents.d.ts b/dist/lib/applyColliderActiveEvents.d.ts
+index 9d1f5a0f7187276a0325a8864d061d5f3adcc106..2acee761746996df9585e3dafa78cffb16e8b55a 100644
+--- a/dist/lib/applyColliderActiveEvents.d.ts
++++ b/dist/lib/applyColliderActiveEvents.d.ts
+@@ -1,4 +1,4 @@
+-import { type Collider } from '@dimforge/rapier3d-compat';
++import { type Collider } from '@leodog896/rapier3d-compat';
+ import type { useHasEventListeners } from '../hooks/useHasEventListener';
+ import type { ColliderEventDispatcher, RigidBodyEventDispatcher } from '../types/types';
+ export declare const applyColliderActiveEvents: (collider: Collider, colliderHasEventListeners: ReturnType<typeof useHasEventListeners<ColliderEventDispatcher>>['hasEventListeners'], rigidBodyHasEventListeners?: ReturnType<typeof useHasEventListeners<RigidBodyEventDispatcher>>['hasEventListeners']) => void;
+diff --git a/dist/lib/applyColliderActiveEvents.js b/dist/lib/applyColliderActiveEvents.js
+index fa31f3f141555a133981f56715a5399033840ff3..409bb025546a7070967d8e53020715d2065912eb 100644
+--- a/dist/lib/applyColliderActiveEvents.js
++++ b/dist/lib/applyColliderActiveEvents.js
+@@ -1,4 +1,4 @@
+-import { ActiveEvents } from '@dimforge/rapier3d-compat';
++import { ActiveEvents } from '@leodog896/rapier3d-compat';
+ export const applyColliderActiveEvents = (collider, colliderHasEventListeners, rigidBodyHasEventListeners) => {
+     let events = 0;
+     if (colliderHasEventListeners('collisionenter') ||
+diff --git a/dist/lib/createCollidersFromChildren.d.ts b/dist/lib/createCollidersFromChildren.d.ts
+index 90dc37bee8bc4434b1a3d28de14ae47fa3030f17..ac2972e21b6028fd0e37afb12189b7f1c0e01bd1 100644
+--- a/dist/lib/createCollidersFromChildren.d.ts
++++ b/dist/lib/createCollidersFromChildren.d.ts
+@@ -1,4 +1,4 @@
+-import { Collider, World, RigidBody } from '@dimforge/rapier3d-compat';
++import { Collider, World, RigidBody } from '@leodog896/rapier3d-compat';
+ import { type Object3D } from 'three';
+ import type { AutoCollidersShapes } from '../types/types';
+ /**
+diff --git a/dist/lib/createCollidersFromChildren.js b/dist/lib/createCollidersFromChildren.js
+index 7a87ca39c83c82b25b13185ac6eb60e95b59f006..435c26ae16283759017e761d8598ce338278b3d7 100644
+--- a/dist/lib/createCollidersFromChildren.js
++++ b/dist/lib/createCollidersFromChildren.js
+@@ -1,4 +1,4 @@
+-import { ActiveEvents, Collider, ColliderDesc, World, RigidBody } from '@dimforge/rapier3d-compat';
++import { ActiveEvents, Collider, ColliderDesc, World, RigidBody } from '@leodog896/rapier3d-compat';
+ import { Mesh, Quaternion, Vector3 } from 'three';
+ const offset = new Vector3();
+ const worldPosition = new Vector3();
+diff --git a/dist/lib/createRapierContext.d.ts b/dist/lib/createRapierContext.d.ts
+index 042b2e7b100d9a68aae3b296884441724d64b26c..f53f94349170d59b1f690083c4ef254c5f68d49d 100644
+--- a/dist/lib/createRapierContext.d.ts
++++ b/dist/lib/createRapierContext.d.ts
+@@ -1,9 +1,9 @@
+ /// <reference types="svelte" />
+-import type { Collider, RigidBody } from '@dimforge/rapier3d-compat';
+-import RAPIER from '@dimforge/rapier3d-compat';
++import type { Collider, RigidBody } from '@leodog896/rapier3d-compat';
++import RAPIER from '@leodog896/rapier3d-compat';
+ import type { Object3D } from 'three';
+ import type { ColliderEventDispatcher, ColliderEventDispatchers, RigidBodyEventDispatcher, RigidBodyEventDispatchers } from '../types/types';
+-export declare const createRapierContext: (gravity: RAPIER.Vector, rawIntegrationParameters?: import("@dimforge/rapier3d-compat/rapier_wasm3d").RawIntegrationParameters | undefined, rawIslands?: import("@dimforge/rapier3d-compat/rapier_wasm3d").RawIslandManager | undefined, rawBroadPhase?: import("@dimforge/rapier3d-compat/rapier_wasm3d").RawBroadPhase | undefined, rawNarrowPhase?: import("@dimforge/rapier3d-compat/rapier_wasm3d").RawNarrowPhase | undefined, rawBodies?: import("@dimforge/rapier3d-compat/rapier_wasm3d").RawRigidBodySet | undefined, rawColliders?: import("@dimforge/rapier3d-compat/rapier_wasm3d").RawColliderSet | undefined, rawImpulseJoints?: import("@dimforge/rapier3d-compat/rapier_wasm3d").RawImpulseJointSet | undefined, rawMultibodyJoints?: import("@dimforge/rapier3d-compat/rapier_wasm3d").RawMultibodyJointSet | undefined, rawCCDSolver?: import("@dimforge/rapier3d-compat/rapier_wasm3d").RawCCDSolver | undefined, rawQueryPipeline?: import("@dimforge/rapier3d-compat/rapier_wasm3d").RawQueryPipeline | undefined, rawPhysicsPipeline?: import("@dimforge/rapier3d-compat/rapier_wasm3d").RawPhysicsPipeline | undefined, rawSerializationPipeline?: import("@dimforge/rapier3d-compat/rapier_wasm3d").RawSerializationPipeline | undefined, rawDebugRenderPipeline?: import("@dimforge/rapier3d-compat/rapier_wasm3d").RawDebugRenderPipeline | undefined) => {
++export declare const createRapierContext: (gravity: RAPIER.Vector, rawIntegrationParameters?: import("@leodog896/rapier3d-compat/rapier_wasm3d").RawIntegrationParameters | undefined, rawIslands?: import("@leodog896/rapier3d-compat/rapier_wasm3d").RawIslandManager | undefined, rawBroadPhase?: import("@leodog896/rapier3d-compat/rapier_wasm3d").RawBroadPhase | undefined, rawNarrowPhase?: import("@leodog896/rapier3d-compat/rapier_wasm3d").RawNarrowPhase | undefined, rawBodies?: import("@leodog896/rapier3d-compat/rapier_wasm3d").RawRigidBodySet | undefined, rawColliders?: import("@leodog896/rapier3d-compat/rapier_wasm3d").RawColliderSet | undefined, rawImpulseJoints?: import("@leodog896/rapier3d-compat/rapier_wasm3d").RawImpulseJointSet | undefined, rawMultibodyJoints?: import("@leodog896/rapier3d-compat/rapier_wasm3d").RawMultibodyJointSet | undefined, rawCCDSolver?: import("@leodog896/rapier3d-compat/rapier_wasm3d").RawCCDSolver | undefined, rawQueryPipeline?: import("@leodog896/rapier3d-compat/rapier_wasm3d").RawQueryPipeline | undefined, rawPhysicsPipeline?: import("@leodog896/rapier3d-compat/rapier_wasm3d").RawPhysicsPipeline | undefined, rawSerializationPipeline?: import("@leodog896/rapier3d-compat/rapier_wasm3d").RawSerializationPipeline | undefined, rawDebugRenderPipeline?: import("@leodog896/rapier3d-compat/rapier_wasm3d").RawDebugRenderPipeline | undefined) => {
+     rapier: typeof RAPIER;
+     world: RAPIER.World;
+     colliderObjects: Map<number, Object3D<import("three").Object3DEventMap>>;
+diff --git a/dist/lib/createRapierContext.js b/dist/lib/createRapierContext.js
+index a8ef3576ee9a9a7595150bc340b9ccbc11673bd8..91e8681a0fd57b24b8a89f6ae4199d977e058366 100644
+--- a/dist/lib/createRapierContext.js
++++ b/dist/lib/createRapierContext.js
+@@ -1,4 +1,4 @@
+-import RAPIER from '@dimforge/rapier3d-compat';
++import RAPIER from '@leodog896/rapier3d-compat';
+ import { readable, writable } from 'svelte/store';
+ export const createRapierContext = (...args) => {
+     const world = new RAPIER.World(...args);
+diff --git a/dist/lib/parseRigidBodyType.d.ts b/dist/lib/parseRigidBodyType.d.ts
+index b39a386f7732651afa7f5e4d16cce1d428758599..a4d8ac1baf1d34ef667d370860f37b5738a4064a 100644
+--- a/dist/lib/parseRigidBodyType.d.ts
++++ b/dist/lib/parseRigidBodyType.d.ts
+@@ -1,3 +1,3 @@
+-import { RigidBodyType } from '@dimforge/rapier3d-compat';
++import { RigidBodyType } from '@leodog896/rapier3d-compat';
+ export type RigidBodyTypeString = 'fixed' | 'dynamic' | 'kinematicPosition' | 'kinematicVelocity';
+ export declare const parseRigidBodyType: (type: RigidBodyTypeString) => RigidBodyType;
+diff --git a/dist/lib/parseRigidBodyType.js b/dist/lib/parseRigidBodyType.js
+index 82d3bfb07f5db16ce95a7ae0a4ed9c3603c3b5b7..0ec6624619a27b5c7708e048c6d624c1e930e2fb 100644
+--- a/dist/lib/parseRigidBodyType.js
++++ b/dist/lib/parseRigidBodyType.js
+@@ -1,4 +1,4 @@
+-import { RigidBodyType } from '@dimforge/rapier3d-compat';
++import { RigidBodyType } from '@leodog896/rapier3d-compat';
+ const rigidBodyTypeMap = {
+     dynamic: RigidBodyType.Dynamic,
+     fixed: RigidBodyType.Fixed,
+diff --git a/dist/lib/scaleColliderArgs.d.ts b/dist/lib/scaleColliderArgs.d.ts
+index 9fae02ec7b4829689d2796a8b4670cdd27bf28c2..33e18222b4f8b1bb77e8ec94a4bf0f52bb90a876 100644
+--- a/dist/lib/scaleColliderArgs.d.ts
++++ b/dist/lib/scaleColliderArgs.d.ts
+@@ -1,4 +1,4 @@
+-import type { ColliderDesc } from '@dimforge/rapier3d-compat';
++import type { ColliderDesc } from '@leodog896/rapier3d-compat';
+ import type { Vector3 } from 'three';
+ import type { ColliderShapes } from '../types/types';
+ export declare const scaleVertices: (vertices: ArrayLike<number>, scale: Vector3) => number[];
+diff --git a/dist/types/types.d.ts b/dist/types/types.d.ts
+index d8b5bcac52d20ab00c2540560e3ffc2efdf6141a..01d4cc76678901ce427f2be024c51ee8b03066a5 100644
+--- a/dist/types/types.d.ts
++++ b/dist/types/types.d.ts
+@@ -1,4 +1,4 @@
+-import type { Collider, ColliderHandle, RigidBody, RigidBodyHandle, TempContactManifold, Vector } from '@dimforge/rapier3d-compat';
++import type { Collider, ColliderHandle, RigidBody, RigidBodyHandle, TempContactManifold, Vector } from '@leodog896/rapier3d-compat';
+ import type { createRawEventDispatcher } from '@threlte/core';
+ import type { Writable } from 'svelte/store';
+ import type { useHasEventListeners } from '../hooks/useHasEventListener';
+diff --git a/package.json b/package.json
+index 899dad03e4b4885a5e085cb8d5361b88e4ea15a6..edc0e120cb1591d89108e1d88c52fb2bceda669b 100644
+--- a/package.json
++++ b/package.json
+@@ -4,7 +4,7 @@
+   "author": "Grischa Erbe <hello@legrisch.com> (https://legrisch.com)",
+   "license": "MIT",
+   "devDependencies": {
+-    "@dimforge/rapier3d-compat": "^0.11.2",
++    "@leodog896/rapier3d-compat": "^0.11.2",
+     "@sveltejs/adapter-auto": "^2.0.0",
+     "@sveltejs/kit": "^1.20.4",
+     "@sveltejs/package": "^2.1.0",
+@@ -32,7 +32,7 @@
+   "peerDependencies": {
+     "svelte": ">=4",
+     "three": ">=0.133",
+-    "@dimforge/rapier3d-compat": ">=0.11"
++    "@leodog896/rapier3d-compat": ">=0.11"
+   },
+   "type": "module",
+   "exports": {

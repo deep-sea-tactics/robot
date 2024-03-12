@@ -4,6 +4,11 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+patchedDependencies:
+  '@threlte/rapier@1.1.4':
+    hash: ziubxkbs6gzahv5buq6glgl53q
+    path: patches/@threlte__rapier@1.1.4.patch
+
 importers:
 
   .:
@@ -107,7 +112,7 @@ importers:
         version: 8.0.10(svelte@4.2.8)(three@0.159.0)
       '@threlte/rapier':
         specifier: ^1.1.4
-        version: 1.1.4(@dimforge/rapier3d-compat@0.11.2)(svelte@4.2.8)(three@0.159.0)
+        version: 1.1.4(patch_hash=ziubxkbs6gzahv5buq6glgl53q)(@dimforge/rapier3d-compat@0.11.2)(svelte@4.2.8)(three@0.159.0)
       '@trpc/client':
         specifier: ^10.44.1
         version: 10.44.1(@trpc/server@10.44.1)
@@ -1119,7 +1124,7 @@ packages:
       troika-three-text: 0.47.2(three@0.159.0)
     dev: true
 
-  /@threlte/rapier@1.1.4(@dimforge/rapier3d-compat@0.11.2)(svelte@4.2.8)(three@0.159.0):
+  /@threlte/rapier@1.1.4(patch_hash=ziubxkbs6gzahv5buq6glgl53q)(@dimforge/rapier3d-compat@0.11.2)(svelte@4.2.8)(three@0.159.0):
     resolution: {integrity: sha512-O9GWlmiL7nngf6JBPKp1d79/emm4mWd44tWSeerjq8XtD4RRFY0qyQ0pls19vidq/EsyzVeZ82V9t7bpaHfVJQ==}
     peerDependencies:
       '@dimforge/rapier3d-compat': '>=0.11'
@@ -1130,6 +1135,7 @@ packages:
       svelte: 4.2.8
       three: 0.159.0
     dev: true
+    patched: true
 
   /@trpc/client@10.44.1(@trpc/server@10.44.1):
     resolution: {integrity: sha512-vTWsykNcgz1LnwePVl2fKZnhvzP9N3GaaLYPkfGINo314ZOS0OBqe9x0ytB2LLUnRVTAAZ2WoONzARd8nHiqrA==}
