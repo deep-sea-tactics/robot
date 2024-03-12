@@ -11,7 +11,7 @@
 
 	const inchesToMeters = (inches: number) => inches * 0.0254;
 
-	const rovAngularDamping = 922337203685477580;
+	const rovAngularDamping = 0;//922337203685477580;
 
 	const t200_12v_max_newtons = 32.5;
 	const thrust_offset = -30;
@@ -83,14 +83,14 @@
 		new MotorConstraint(
 			Motor.FrontLeft,
 			new Vector3(0, 0, 0),
-			1,
+			0,
 			t200_12v_max_newtons + thrust_offset,
 			new Vector3(1, 0, 0)
 		),
 		new MotorConstraint(
 			Motor.FrontRight,
 			new Vector3(0, 0, 0),
-			1,
+			0,
 			t200_12v_max_newtons + thrust_offset,
 			new Vector3(1, 0, 0)
 		),
@@ -202,13 +202,14 @@
 		}
 
 		let volume: number;
+		let waterRovIntersection: THREE.Box3 | undefined = undefined;
 
 		if (
 			rovBoundsSuccessfullyComputed &&
 			waterBoundsSuccessfullyComputed &&
 			waterBox.intersectsBox(rovBox)
 		) {
-			const waterRovIntersection = waterBox.intersect(rovBox);
+			waterRovIntersection = waterBox.intersect(rovBox);
 			const intersectionWHL = waterRovIntersection.max.sub(waterRovIntersection.min);
 			volume = intersectionWHL.x * intersectionWHL.y * intersectionWHL.z;
 		} else {
@@ -216,7 +217,17 @@
 		}
 
 		if (isRovInCollider && rov) {
-			rovBody?.addForce(new Vector3(0, 0 + (waterDensity * gravity * volume) / rovMass, 0), true);
+			//rovBody?.addForce(new Vector3(0, (-waterDensity * gravity * volume) / rovMass, 0), true);
+			let buoyant_force = new Vector3(0, (-waterDensity * gravity * volume) / rovMass, 0);
+
+			if (waterRovIntersection?.getCenter(new Vector3(0,0,0)))
+			{
+				rovBody?.addForceAtPoint(
+					rov.localToWorld(buoyant_force), 
+					rov.localToWorld(waterRovIntersection.getCenter(new Vector3(0,0,0)))
+					);
+			}
+
 
 			for (const thruster of thrusters) {
 				rovBody?.addForceAtPoint(
