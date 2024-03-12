@@ -88,42 +88,42 @@
 			Motor.FrontLeft,
 			new Vector3(0, 0, 0),
 			1,
-			t200_12v_max_newtons+thrust_offset,
+			t200_12v_max_newtons + thrust_offset,
 			new Vector3(1, 0, 0)
 		),
 		new MotorConstraint(
 			Motor.FrontRight,
 			new Vector3(0, 0, 0),
 			1,
-			t200_12v_max_newtons+thrust_offset,
+			t200_12v_max_newtons + thrust_offset,
 			new Vector3(1, 0, 0)
 		),
 		new MotorConstraint(
 			Motor.SideFront,
 			new Vector3(0, -1, 1),
 			0,
-			t200_12v_max_newtons+thrust_offset,
+			t200_12v_max_newtons + thrust_offset,
 			new Vector3(1, 0, 0)
 		),
 		new MotorConstraint(
 			Motor.SideBack,
 			new Vector3(0, -1, -1),
 			0,
-			t200_12v_max_newtons+thrust_offset,
+			t200_12v_max_newtons + thrust_offset,
 			new Vector3(-1, 0, 0)
 		), //assuming the sideback motors are mirrored relative to the sidefront motors
 		new MotorConstraint(
 			Motor.TopLeft,
 			new Vector3(1, 1, 0),
 			0,
-			t200_12v_max_newtons+thrust_offset,
+			t200_12v_max_newtons + thrust_offset,
 			new Vector3(0, 0, -1)
 		),
 		new MotorConstraint(
 			Motor.TopRight,
 			new Vector3(-1, 1, 0),
 			0,
-			t200_12v_max_newtons+thrust_offset,
+			t200_12v_max_newtons + thrust_offset,
 			new Vector3(0, 0, -1)
 		) //assuming the topleft and topright motors are mirrored to the frontleft and frontright motors
 	];
@@ -146,7 +146,7 @@
 			}
 		});
 	});
-	
+
 	let currentPosition: Vector3 = new Vector3(0, 0, 0);
 	let cameraPosition: Vector3 = new Vector3(10, 10, 10);
 	let cameraRotation: Vector3 = new Vector3(0, 0, 0);
@@ -199,38 +199,38 @@
 
 		let volume: number;
 
-		if (rovBoundsSuccessfullyComputed && waterBoundsSuccessfullyComputed && waterBox.intersectsBox(rovBox)) 
-		{
+		if (
+			rovBoundsSuccessfullyComputed &&
+			waterBoundsSuccessfullyComputed &&
+			waterBox.intersectsBox(rovBox)
+		) {
 			const waterRovIntersection = waterBox.intersect(rovBox);
 			const intersectionWHL = waterRovIntersection.max.sub(waterRovIntersection.min);
 			volume = intersectionWHL.x * intersectionWHL.y * intersectionWHL.z;
-		} 
-		else 
-		{
+		} else {
 			volume = rovDimensions.reduce((acc, cur) => acc * cur, 1);
 		}
 
-		if (isRovInCollider && rov) 
-		{
+		if (isRovInCollider && rov) {
 			rovBody?.addForce(new Vector3(0, 0 + (waterDensity * gravity * volume) / rovMass, 0), true);
-			
-//			rovBody?.addForceAtPoint(rov.localToWorld(new Vector3(0,0,1)), rov.worldToLocal(new Vector3(0,1,0)), true)
 
-			for (const thruster of thrusters) 
-			{
-				rovBody?.addForceAtPoint(rov.localToWorld(thruster.getForceVector()), rov.localToWorld(thruster.position), true);
+			//			rovBody?.addForceAtPoint(rov.localToWorld(new Vector3(0,0,1)), rov.worldToLocal(new Vector3(0,1,0)), true)
+
+			for (const thruster of thrusters) {
+				rovBody?.addForceAtPoint(
+					rov.localToWorld(thruster.getForceVector()),
+					rov.localToWorld(thruster.position),
+					true
+				);
 			}
-		} 
-		else 
-		{
+		} else {
 			rovBody?.addForce(new Vector3(0, -gravity, 0), true);
 		}
 
 		currentPosition = rovBox.getCenter(new Vector3());
 
 		// camera stuff
-		if (currentView == VIEWS.thirdPerson) 
-		{
+		if (currentView == VIEWS.thirdPerson) {
 			cameraPosition = currentPosition;
 			cameraRotation = new Vector3(
 				rovBody?.rotation().x,
@@ -241,8 +241,7 @@
 	});
 
 	// TODO: file a threlte/core issue to add this to the core library instead of having to cast
-	function cast<T extends any>(value: unknown): T 
-	{
+	function cast<T extends any>(value: unknown): T {
 		return value as T;
 	}
 
