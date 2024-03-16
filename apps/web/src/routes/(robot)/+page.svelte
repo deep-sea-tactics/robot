@@ -31,7 +31,7 @@
 				/>
 			{/if}
 		</Pane>
-		<Pane size={20} minSize={15} maxSize={20}>
+		<Pane size={20} minSize={15} maxSize={30}>
 			<Splitpanes horizontal={true}>
 
 				<Pane >
@@ -44,24 +44,25 @@
 				</p>
 				<p>Input Device: {output?.id}</p>
 				<p>Mode: <span class={isMock ? 'blue' : 'green'}>{isMock ? 'mock' : 'live'}</span></p>
-		</div>
+				<div class="controllers">
+					{#if output?.id.includes('0ce6')}
+						<img src="/controller_ps5.png" alt="ps5 controller" />
+					{:else if output?.id.includes('09cc') || output?.id.includes('05c4')}
+						<img src="/controller_ps4.png" alt="ps4 controller" />
+					{:else if output?.id === 'keyboard'}
+						<img src="/connect_controller.gif" alt="connect controller" />
+						<p />
+					{:else}
+						<img src="/controller_generic.png" alt="ps4 controller" />
+					{/if}
+					</div>
+			</div>
 		</Pane>
 		<Pane >
 		
 		<div class="darkPane">
 			<!-- TODO add xbox controller -->
-			<div class="controllers">
-			{#if output?.id.includes('0ce6')}
-				<img src="/controller_ps5.png" alt="ps5 controller" />
-			{:else if output?.id.includes('09cc') || output?.id.includes('05c4')}
-				<img src="/controller_ps4.png" alt="ps4 controller" />
-			{:else if output?.id === 'keyboard'}
-				<img src="/connect_controller.gif" alt="connect controller" />
-				<p />
-			{:else}
-				<img src="/controller_generic.png" alt="ps4 controller" />
-			{/if}
-			</div>
+			
 		</Pane>
 		</Splitpanes>
 		</Pane>
@@ -89,8 +90,7 @@
 
 
 	.controllers img {
-		width: 100%;
-		padding: 1.5rem;
+		width: 80%;
 		height: fit-content;
 	}
 </style>
