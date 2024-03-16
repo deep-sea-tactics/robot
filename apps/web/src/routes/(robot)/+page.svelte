@@ -4,7 +4,7 @@
 	import type { ControllerData } from 'robot/dist/controller';
 	import { client } from '$lib/connections/robot';
 	import { env } from '$env/dynamic/public';
-	import { Pane, Splitpanes } from "svelte-splitpanes";
+	import { Pane, Splitpanes } from 'svelte-splitpanes';
 	import Simulation from '../simulation/Simulation.svelte';
 	const isMock = env.PUBLIC_MOCK === 'true';
 	let gamepad: Gamepad;
@@ -19,56 +19,54 @@
 
 <Splitpanes style="height: 100vh;">
 	<Pane>
-			{#if isMock}
-				<Simulation />
-				n
-			{:else}
-				<!-- NOTE: we cannot use img:enhanced here -->
-				<img
-					src="http://127.0.0.1:8080/stream"
-					alt="Video stream cannot be rendered. Perhaps no signal?"
-					class="videoStream"
-				/>
-			{/if}
-		</Pane>
-		<Pane size={20} minSize={15} maxSize={30}>
-			<Splitpanes horizontal={true}>
-
-				<Pane >
-		<div class="darkPane">
-				<h2>Status</h2>
-				<p>
-					Controller: <span class={output?.connected ? 'green' : 'red'}
-						>{output?.connected ? 'connected' : 'disconnected'}</span
-					>
-				</p>
-				<p>Input Device: {output?.id}</p>
-				<p>Mode: <span class={isMock ? 'blue' : 'green'}>{isMock ? 'mock' : 'live'}</span></p>
-				<div class="controllers">
-					{#if output?.id.includes('0ce6')}
-						<img src="/controller_ps5.png" alt="ps5 controller" />
-					{:else if output?.id.includes('09cc') || output?.id.includes('05c4')}
-						<img src="/controller_ps4.png" alt="ps4 controller" />
-					{:else if output?.id === 'keyboard'}
-						<img src="/connect_controller.gif" alt="connect controller" />
-						<p />
-					{:else}
-						<img src="/controller_generic.png" alt="ps4 controller" />
-					{/if}
+		{#if isMock}
+			<Simulation />
+			n
+		{:else}
+			<!-- NOTE: we cannot use img:enhanced here -->
+			<img
+				src="http://127.0.0.1:8080/stream"
+				alt="Video stream cannot be rendered. Perhaps no signal?"
+				class="videoStream"
+			/>
+		{/if}
+	</Pane>
+	<Pane size={20} minSize={15} maxSize={30}>
+		<Splitpanes horizontal={true}>
+			<Pane>
+				<div class="darkPane">
+					<h2>Status</h2>
+					<p>
+						Controller: <span class={output?.connected ? 'green' : 'red'}
+							>{output?.connected ? 'connected' : 'disconnected'}</span
+						>
+					</p>
+					<p>Input Device: {output?.id}</p>
+					<p>Mode: <span class={isMock ? 'blue' : 'green'}>{isMock ? 'mock' : 'live'}</span></p>
+					<div class="controllers">
+						{#if output?.id.includes('0ce6')}
+							<img src="/controller_ps5.png" alt="ps5 controller" />
+						{:else if output?.id.includes('09cc') || output?.id.includes('05c4')}
+							<img src="/controller_ps4.png" alt="ps4 controller" />
+						{:else if output?.id === 'keyboard'}
+							<img src="/connect_controller.gif" alt="connect controller" />
+							<p />
+						{:else}
+							<img src="/controller_generic.png" alt="ps4 controller" />
+						{/if}
 					</div>
-			</div>
-		</Pane>
-		<Pane >
-		
-		<div class="darkPane">
-			<!-- TODO add xbox controller -->
-			
-		</Pane>
+				</div>
+			</Pane>
+			<Pane>
+				<div class="darkPane">
+					<!-- TODO add xbox controller -->
+				</div></Pane
+			>
 		</Splitpanes>
-		</Pane>
+	</Pane>
 </Splitpanes>
-<style>
 
+<style>
 	.green {
 		color: green;
 	}
@@ -87,7 +85,6 @@
 		height: 100%;
 		color: var(--text);
 	}
-
 
 	.controllers img {
 		width: 80%;
