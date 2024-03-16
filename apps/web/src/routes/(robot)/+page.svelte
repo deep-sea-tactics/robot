@@ -4,7 +4,8 @@
 	import type { ControllerData } from 'robot/dist/controller';
 	import { client } from '$lib/connections/robot';
 	import { env } from '$env/dynamic/public';
-
+	import { Pane, Splitpanes } from "svelte-splitpanes";
+	import Simulation from '../simulation/Simulation.svelte';
 	const isMock = env.PUBLIC_MOCK === 'true';
 	let gamepad: Gamepad;
 	let gamepadOutput: ControllerData;
@@ -16,11 +17,11 @@
 <Controller bind:gamepad bind:output={gamepadOutput} />
 <Keyboard bind:output={keyboardOutput} />
 
-<div class="wrap">
-	<div class="grid">
-		<div class="item">
+<Splitpanes style="height: 100vh;">
+	<Pane>
 			{#if isMock}
-				<!-- <Simulation /> -->
+				<Simulation />
+				n
 			{:else}
 				<!-- NOTE: we cannot use img:enhanced here -->
 				<img
@@ -29,11 +30,12 @@
 					class="videoStream"
 				/>
 			{/if}
-		</div>
-	</div>
-	<div class="bottomBar">
-		<div class="item">
-			<div class="commandCenter">
+		</Pane>
+		<Pane size={20} minSize={15} maxSize={20}>
+			<Splitpanes horizontal={true}>
+
+				<Pane>
+		<div >
 				<h2>Status</h2>
 				<p>
 					Controller: <span class={output?.connected ? 'green' : 'red'}
@@ -42,9 +44,10 @@
 				</p>
 				<p>Input Device: {output?.id}</p>
 				<p>Mode: <span class={isMock ? 'blue' : 'green'}>{isMock ? 'mock' : 'live'}</span></p>
-			</div>
 		</div>
-		<div class="item controllers">
+		</Pane>
+		<Pane>
+		<div class="controllers">
 			<!-- TODO add xbox controller -->
 			{#if output?.id.includes('0ce6')}
 				<img src="/controller_ps5.png" alt="ps5 controller" />
@@ -56,50 +59,11 @@
 			{:else}
 				<img src="/controller_generic.png" alt="ps4 controller" />
 			{/if}
-		</div>
-	</div>
-</div>
-
+		</Pane>
+		</Splitpanes>
+		</Pane>
+</Splitpanes>
 <style>
-	.item {
-		flex: 1;
-		display: flex;
-		justify-content: space-evenly;
-	}
-	.wrap {
-		color: var(--text);
-		overflow-y: hidden;
-		display: flex;
-	}
-
-	.grid {
-		display: flex;
-		min-width: 10vw;
-		width: 80vw;
-	}
-	.bottomBar {
-		display: flex;
-		flex-direction: column;
-		height: 100vh;
-		width: 20vw;
-		background: var(--bgDark);
-	}
-
-	.controllers {
-		display: flex;
-		justify-content: center;
-	}
-
-	.controllers img {
-		width: 100%;
-		padding: 1.5rem;
-		height: fit-content;
-	}
-
-	.videoStream {
-		width: auto;
-		height: 100%;
-	}
 
 	.green {
 		color: green;
@@ -113,8 +77,21 @@
 		color: skyblue;
 	}
 
-	.commandCenter {
-		margin: 0 10px;
+	.sidebar {
+		padding: 10px;
+		background: var(--bgDark);
+		height: 100%;
+		color: var(--text);
+	}
+
+	.controllers {
+		display: flex;
+		justify-content: center;
+	}
+
+	.controllers img {
 		width: 100%;
+		padding: 1.5rem;
+		height: fit-content;
 	}
 </style>
