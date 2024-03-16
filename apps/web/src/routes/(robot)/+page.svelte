@@ -34,8 +34,8 @@
 		<Pane size={20} minSize={15} maxSize={20}>
 			<Splitpanes horizontal={true}>
 
-				<Pane>
-		<div >
+				<Pane >
+		<div class="darkPane">
 				<h2>Status</h2>
 				<p>
 					Controller: <span class={output?.connected ? 'green' : 'red'}
@@ -46,9 +46,11 @@
 				<p>Mode: <span class={isMock ? 'blue' : 'green'}>{isMock ? 'mock' : 'live'}</span></p>
 		</div>
 		</Pane>
-		<Pane>
-		<div class="controllers">
+		<Pane >
+		
+		<div class="darkPane">
 			<!-- TODO add xbox controller -->
+			<div class="controllers">
 			{#if output?.id.includes('0ce6')}
 				<img src="/controller_ps5.png" alt="ps5 controller" />
 			{:else if output?.id.includes('09cc') || output?.id.includes('05c4')}
@@ -59,6 +61,7 @@
 			{:else}
 				<img src="/controller_generic.png" alt="ps4 controller" />
 			{/if}
+			</div>
 		</Pane>
 		</Splitpanes>
 		</Pane>
@@ -77,17 +80,13 @@
 		color: skyblue;
 	}
 
-	.sidebar {
+	.darkPane {
 		padding: 10px;
 		background: var(--bgDark);
 		height: 100%;
 		color: var(--text);
 	}
 
-	.controllers {
-		display: flex;
-		justify-content: center;
-	}
 
 	.controllers img {
 		width: 100%;
