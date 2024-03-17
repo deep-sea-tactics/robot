@@ -282,9 +282,9 @@
 
 		// send out all force data
 		client?.simulationAccelerationData.mutate({
-			accelerationValueX: force.x,
-			accelerationValueY: force.y,
-			accelerationValueZ: force.z,
+			x: force.x,
+			y: force.y,
+			z: force.z,
 		});
 
 		keyRovPositionChange = Symbol();

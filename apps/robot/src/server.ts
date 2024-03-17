@@ -1,17 +1,18 @@
 import { initTRPC } from '@trpc/server';
-import { ControllerDataSchema } from './controller.js';
+import { controllerDataSchema } from './controller.js';
 import debounce from 'debounce';
 import { observable } from '@trpc/server/observable';
 import { TypedEmitter } from 'tiny-typed-emitter';
 import { Motor } from './motor.js';
-import { accelerationDataScheme, type AccelerationData } from './simulationMonitor.js';
+import { accelerationDataSchema, type AccelerationData, gyroDataSchema, type GyroData } from './sensors.js';
 import type { ControllerData } from './controller.js';
 import type { MotorEvent } from './motor.js';
 
 type Events = {
 	controllerData: (data: ControllerData) => void;
 	motorData: (data: MotorEvent) => void;
-	simulationAccelData: (data: AccelerationData) => void;
+	simulationAccelerationData: (data: AccelerationData) => void;
+	simulationGyroData: (data: GyroData) => void;
 };
 
 const emitter = new TypedEmitter<Events>();
@@ -21,8 +22,11 @@ const t = initTRPC.create();
 const isMock = process.env.MOCK === 'true';
 
 function updateSimulationAccelerationData(data: AccelerationData) {
-	emitter.emit('simulationAccelData', data);
-	console.log(data)
+	emitter.emit('simulationAccelerationData', data);
+}
+
+function updateGyroscopeData(data: GyroData) {
+	emitter.emit('simulationGyroData', data);
 }
 
 function updateControllerData(data: ControllerData) {
@@ -69,11 +73,15 @@ emitter.on('controllerData', (data) => {
 });
 
 export const router = t.router({
-	simulationAccelerationData: t.procedure.input(accelerationDataScheme).mutation(({ input }) => {
+	simulationAccelerationData: t.procedure.input(accelerationDataSchema).mutation(({ input }) => {
 		updateSimulationAccelerationData(input);
 		return input;
 	}),
-	controllerData: t.procedure.input(ControllerDataSchema).mutation(({ input }) => {
+	simulationGyroscopeData: t.procedure.input(gyroDataSchema).mutation(({ input }) => {
+		updateGyroscopeData(input);
+		return input;
+	}),
+	controllerData: t.procedure.input(controllerDataSchema).mutation(({ input }) => {
 		debounce(updateControllerData, 50)(input);
 		return input;
 	}),
