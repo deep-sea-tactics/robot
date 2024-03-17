@@ -11,10 +11,10 @@
 
 	const inchesToMeters = (inches: number) => inches * 0.0254;
 
-	const rovAngularDamping = 0; //922337203685477580;
+	const rovAngularDamping = 0;
 
 	const t200_12v_max_newtons = 32.5;
-	const thrust_offset = -30;
+	const thrustOffset = -30;
 
 	// TODO: change to interface
 	class MotorConstraint {
@@ -85,42 +85,42 @@
 			Motor.FrontLeft,
 			new Vector3(0, 0, 0),
 			0,
-			t200_12v_max_newtons + thrust_offset,
+			t200_12v_max_newtons + thrustOffset,
 			new Vector3(1, 0, 0)
 		),
 		new MotorConstraint(
 			Motor.FrontRight,
 			new Vector3(0, 0, 0),
 			0,
-			t200_12v_max_newtons + thrust_offset,
+			t200_12v_max_newtons + thrustOffset,
 			new Vector3(1, 0, 0)
 		),
 		new MotorConstraint(
 			Motor.SideFront,
 			new Vector3(0, -1, 1),
 			0,
-			t200_12v_max_newtons + thrust_offset,
+			t200_12v_max_newtons + thrustOffset,
 			new Vector3(1, 0, 0)
 		),
 		new MotorConstraint(
 			Motor.SideBack,
 			new Vector3(0, -1, -1),
 			0,
-			t200_12v_max_newtons + thrust_offset,
+			t200_12v_max_newtons + thrustOffset,
 			new Vector3(-1, 0, 0)
 		), //assuming the sideback motors are mirrored relative to the sidefront motors
 		new MotorConstraint(
 			Motor.TopLeft,
 			new Vector3(1, 1, 0),
 			0,
-			t200_12v_max_newtons + thrust_offset,
+			t200_12v_max_newtons + thrustOffset,
 			new Vector3(0, 0, -1)
 		),
 		new MotorConstraint(
 			Motor.TopRight,
 			new Vector3(-1, 1, 0),
 			0,
-			t200_12v_max_newtons + thrust_offset,
+			t200_12v_max_newtons + thrustOffset,
 			new Vector3(0, 0, -1)
 		) //assuming the topleft and topright motors are mirrored to the frontleft and frontright motors
 	];
@@ -224,7 +224,8 @@
 			if (waterRovIntersection?.getCenter(new Vector3(0, 0, 0))) {
 				rovBody?.addForceAtPoint(
 					rov.localToWorld(buoyant_force),
-					rov.localToWorld(waterRovIntersection.getCenter(new Vector3(0, 0, 0)))
+					rov.localToWorld(waterRovIntersection.getCenter(new Vector3(0, 0, 0))),
+					true
 				);
 			}
 
