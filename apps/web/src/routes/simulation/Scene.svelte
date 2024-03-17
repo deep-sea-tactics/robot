@@ -167,13 +167,13 @@
 		let rovBoundsSuccessfullyComputed = false;
 		let waterBoundsSuccessfullyComputed = false;
 
-		//if (rovBody) {
-		//	client?.simulationAccelerationData.mutate({
-		//		accelerationValueX: rovBody?.userForce().x,
-		//		accelerationValueY: rovBody?.userForce().y,
-		//		accelerationValueZ: rovBody?.userForce().z,
-		//	})
-		//}
+		if (rovBody) {
+			client?.simulationAccelerationData.mutate({
+				accelerationValueX: rovBody?.userForce().x,
+				accelerationValueY: rovBody?.userForce().y,
+				accelerationValueZ: rovBody?.userForce().z,
+			})
+		}
 
 		rov?.geometry.computeBoundingBox();
 
@@ -205,12 +205,11 @@
 		}
 
 		if (isRovInCollider && rov) {
-			//rovBody?.addForce(new Vector3(0, (-waterDensity * gravity * volume) / rovMass, 0), true);
-			let buoyant_force = new Vector3(0, (-waterDensity * gravity * volume) / rovMass, 0);
+			let buoyantForce = new Vector3(0, (-waterDensity * gravity * volume) / rovMass, 0);
 
 			if (waterRovIntersection?.getCenter(new Vector3(0, 0, 0))) {
 				rovBody?.addForceAtPoint(
-					rov.localToWorld(buoyant_force),
+					rov.localToWorld(buoyantForce),
 					rov.localToWorld(waterRovIntersection.getCenter(new Vector3(0, 0, 0))),
 					true
 				);
@@ -223,9 +222,9 @@
 					true
 				);
 			}
-		} else {
-			rovBody?.addForce(new Vector3(0, -gravity, 0), true);
 		}
+
+		rovBody?.addForce(new Vector3(0, -gravity, 0), true);
 
 		currentPosition = rovBox.getCenter(new Vector3());
 
