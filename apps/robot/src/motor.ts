@@ -1,6 +1,6 @@
 /**
  * The motors on the robot.
- * 
+ *
  * Note: When saying "left" and "right", that refers to
  * the left and right side of the front view of the robot.
  */

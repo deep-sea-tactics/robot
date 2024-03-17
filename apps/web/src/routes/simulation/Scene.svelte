@@ -22,12 +22,12 @@
 	}
 
 	function getForceVector(constraint: MotorConstraint, rov: THREE.Mesh): Vector3 {
-		 // assuming throttle is on the scale -1 - 1
+		// assuming throttle is on the scale -1 - 1
 		const currentThrust = constraint.maxThrust * constraint.throttle();
-		return calculateThrusterDirection(
-			constraint,
-			rov,
-		).clone().normalize().multiplyScalar(currentThrust);
+		return calculateThrusterDirection(constraint, rov)
+			.clone()
+			.normalize()
+			.multiplyScalar(currentThrust);
 	}
 
 	// world-building variables
@@ -77,7 +77,7 @@
 		return new Vector3(vector.x, vector.y, vector.z);
 	}
 
-	const thrusters: MotorConstraint[] = robotThrusters.map(thruster => ({
+	const thrusters: MotorConstraint[] = robotThrusters.map((thruster) => ({
 		...thruster,
 		throttle: () => motorRegistry[thruster.type],
 		position: toVector3(thruster.position),
@@ -130,19 +130,11 @@
 		}
 	};
 
-	function calculateThrusterPosition(
-		thruster: MotorConstraint,
-		rov: THREE.Mesh
-	): Vector3 {
-		return thruster.position
-			.clone()
-			.applyQuaternion(rov.getWorldQuaternion(new Quaternion()));
+	function calculateThrusterPosition(thruster: MotorConstraint, rov: THREE.Mesh): Vector3 {
+		return thruster.position.clone().applyQuaternion(rov.getWorldQuaternion(new Quaternion()));
 	}
-	
-	function calculateThrusterDirection(
-		thruster: MotorConstraint,
-		rov: THREE.Mesh
-	): Vector3 {
+
+	function calculateThrusterDirection(thruster: MotorConstraint, rov: THREE.Mesh): Vector3 {
 		return thruster.thrustDirection
 			.clone()
 			.applyQuaternion(rov.getWorldQuaternion(new Quaternion()));
@@ -156,15 +148,9 @@
 
 	function addForceAtPoint(
 		force: vector.VectorLike,
-		point: vector.VectorLike,
-	): [
-		force: vector.Vector,
-		torque: vector.Vector
-	] {
-		return [
-			vector.stabilize(force),
-			vector.cross(point)(force)
-		]
+		point: vector.VectorLike
+	): [force: vector.Vector, torque: vector.Vector] {
+		return [vector.stabilize(force), vector.cross(point)(force)];
 	}
 
 	useTask(() => {
@@ -204,15 +190,12 @@
 				force = vector.add(force)([0, -gravity, 0]);
 			}
 		} else {
-			if (
-				rovInWater &&
-				waterBox.intersectsBox(rovBox)
-			) {
+			if (rovInWater && waterBox.intersectsBox(rovBox)) {
 				const waterRovIntersection = waterBox.intersect(rovBox);
 				const { x, y, z } = waterRovIntersection.getSize(voidVector);
 				const volume = x * y * z;
 
-				let buoyantForce = new Vector3(0, (-waterDensity * gravity * volume), 0);
+				let buoyantForce = new Vector3(0, -waterDensity * gravity * volume, 0);
 
 				if (waterRovIntersection?.getCenter(voidVector)) {
 					const [addedForce, addedTorque] = addForceAtPoint(
@@ -247,14 +230,14 @@
 		client?.simulationAccelerationData.mutate({
 			x: force.x,
 			y: force.y,
-			z: force.z,
+			z: force.z
 		});
 
 		// send out current rotation
 		client?.simulationGyroscopeData.mutate({
 			x: rovBody.rotation().x,
 			y: rovBody.rotation().y,
-			z: rovBody.rotation().z,
+			z: rovBody.rotation().z
 		});
 
 		keyRovPositionChange = Symbol();
@@ -285,12 +268,11 @@
 {#key keyRovPositionChange}
 	{#if rov}
 		{#each thrusters as thruster}
-			<T 
+			<T
 				is={ArrowHelper}
 				args={[
 					calculateThrusterDirection(thruster, rov),
-					calculateThrusterPosition(thruster, rov)
-						.add(currentPosition),
+					calculateThrusterPosition(thruster, rov).add(currentPosition),
 					0.5,
 					0xff0000
 				]}
