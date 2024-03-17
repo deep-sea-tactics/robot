@@ -32,22 +32,22 @@ function updateControllerData(data: ControllerData) {
 
 emitter.on('controllerData', (data) => {
 	emitter.emit('motorData', {
-		motor: Motor.SideFront,
+		motor: Motor.BottomLeft,
 		speed: data.stickAxes.leftStick.x
 	});
 
 	emitter.emit('motorData', {
-		motor: Motor.SideBack,
+		motor: Motor.BottomRight,
 		speed: data.stickAxes.leftStick.x
 	});
 
 	emitter.emit('motorData', {
-		motor: Motor.FrontLeft,
+		motor: Motor.TopLeft,
 		speed: data.stickAxes.leftStick.y
 	});
 
 	emitter.emit('motorData', {
-		motor: Motor.FrontRight,
+		motor: Motor.TopRight,
 		speed: data.stickAxes.leftStick.y
 	});
 
@@ -59,7 +59,7 @@ emitter.on('controllerData', (data) => {
 		verticalSpeed = -1;
 	}
 	emitter.emit('motorData', {
-		motor: Motor.TopLeft,
+		motor: Motor.VerticalLeft,
 		speed: verticalSpeed
 	});
 
