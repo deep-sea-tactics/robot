@@ -124,9 +124,9 @@
 		window.addEventListener('keypress', (e: KeyboardEvent) => {
 			console.log(e.key);
 			if (e.key == 'p') {
-				updateView(VIEWS.firstPerson);
+				updateView(VIEWS.FirstPerson);
 			} else if (e.key == 'o') {
-				updateView(VIEWS.thirdPerson);
+				updateView(VIEWS.ThirdPerson);
 			}
 		});
 	});
@@ -136,22 +136,22 @@
 	let cameraRotation = new Vector3(0, 0, 0);
 
 	enum VIEWS {
-		firstPerson = 'first',
-		thirdPerson = 'third'
+		FirstPerson = 'first',
+		ThirdPerson = 'third'
 	}
 
-	let currentView: VIEWS = VIEWS.firstPerson;
+	let currentView: VIEWS = VIEWS.FirstPerson;
 
 	let updateView = (view: VIEWS) => {
 		switch (view) {
-			case VIEWS.firstPerson:
+			case VIEWS.FirstPerson:
 				cameraPosition = currentPosition;
-				currentView = VIEWS.firstPerson;
+				currentView = VIEWS.FirstPerson;
 				break;
 
-			case VIEWS.thirdPerson:
+			case VIEWS.ThirdPerson:
 				cameraPosition = new Vector3(10, 10, 10);
-				currentView = VIEWS.thirdPerson;
+				currentView = VIEWS.ThirdPerson;
 				break;
 
 			default:
@@ -166,14 +166,6 @@
 
 		let rovBoundsSuccessfullyComputed = false;
 		let waterBoundsSuccessfullyComputed = false;
-
-		if (rovBody) {
-			client?.simulationAccelerationData.mutate({
-				accelerationValueX: rovBody?.userForce().x,
-				accelerationValueY: rovBody?.userForce().y,
-				accelerationValueZ: rovBody?.userForce().z,
-			})
-		}
 
 		rov?.geometry.computeBoundingBox();
 
@@ -198,8 +190,8 @@
 			waterBox.intersectsBox(rovBox)
 		) {
 			waterRovIntersection = waterBox.intersect(rovBox);
-			const intersectionWHL = waterRovIntersection.max.sub(waterRovIntersection.min);
-			volume = intersectionWHL.x * intersectionWHL.y * intersectionWHL.z;
+			const { x, y, z } = waterRovIntersection.getSize(new Vector3(0, 0, 0));
+			volume = x * y * z;
 		} else {
 			volume = rovDimensions.reduce((acc, cur) => acc * cur, 1);
 		}
@@ -228,14 +220,23 @@
 
 		currentPosition = rovBox.getCenter(new Vector3());
 
-		// camera stuff
-		if (currentView == VIEWS.thirdPerson) {
+		// point the camera at the ROV
+		if (currentView == VIEWS.ThirdPerson) {
 			cameraPosition = currentPosition;
 			cameraRotation = new Vector3(
 				rovBody?.rotation().x,
-				rovBody?.rotation().y || 0 - Math.PI / 2,
+				rovBody?.rotation().y || -Math.PI / 2,
 				rovBody?.rotation().z
 			);
+		}
+
+		// send out all force data
+		if (rovBody) {
+			client?.simulationAccelerationData.mutate({
+				accelerationValueX: rovBody?.userForce().x,
+				accelerationValueY: rovBody?.userForce().y,
+				accelerationValueZ: rovBody?.userForce().z,
+			})
 		}
 	});
 
