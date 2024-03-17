@@ -8,6 +8,7 @@
 	import { Gizmo } from '@threlte/extras';
 	import { Box3, Vector3 } from 'three';
 	import type { RigidBody } from '@leodog896/rapier3d-compat/dynamics/rigid_body';
+	import type { Vector } from '@leodog896/rapier3d-compat';
 
 	const inchesToMeters = (inches: number) => inches * 0.0254;
 
@@ -39,7 +40,7 @@
 	// in kg
 	let rovMass = 9;
 
-	let isRovInCollider = false;
+	let rovInWater = false;
 
 	// in kg/m^3
 	const waterDensity = 9.98;
@@ -146,6 +147,10 @@
 		ThirdPerson = 'third'
 	}
 
+	function vectorToVector3(vector: Vector): THREE.Vector3 {
+		return new Vector3(vector.x, vector.y, vector.z);
+	}
+
 	let currentView: VIEWS = VIEWS.FirstPerson;
 
 	let updateView = (view: VIEWS) => {
@@ -165,14 +170,20 @@
 		}
 	};
 
+	/**
+	 * Whether the simulation should prevent the ROV from floating.
+	 * Currently, buoyancy is implemented wrong, so this is set to true.
+	 */
+	const counteractBuoyancy = true;
+
 	useTask(() => {
+		if (!water || !rov || !rovBody) return;
+
 		// Many three.js functions allow
 		// applying the result to a vector;
 		// we don't care about this, so this is our "void vector";
 		// so we don't have to create a new one every frame
 		let voidVector = new Vector3(0, 0, 0);
-
-		if (!water || !rov || !rovBody) return;
 
 		// We want full control over the forces applied to the ROV, so we reset them every frame
 		rovBody.resetForces(true);
@@ -183,38 +194,41 @@
 
 		water.geometry.computeBoundingBox();
 		waterBox.copy(water.geometry.boundingBox!).applyMatrix4(water.matrixWorld);
-		
-		if (
-			isRovInCollider &&
-			waterBox.intersectsBox(rovBox) &&
-			rov
-		) {
-			const waterRovIntersection = waterBox.intersect(rovBox);
-			const { x, y, z } = waterRovIntersection.getSize(voidVector);
-			const volume = x * y * z;
 
-			let buoyantForce = new Vector3(0, (-waterDensity * gravity * volume), 0);
-
-			if (waterRovIntersection?.getCenter(voidVector)) {
-				rovBody?.addForceAtPoint(
-					rov.localToWorld(buoyantForce),
-					rov.localToWorld(waterRovIntersection.getCenter(voidVector)),
-					true
-				);
-			}
+		for (const thruster of thrusters) {
+			rovBody.addForceAtPoint(
+				getForceVector(thruster),
+				vectorToVector3(rovBody.worldCom()).add(thruster.position),
+				true
+			);
 		}
 
-		if (isRovInCollider && rov) {
-			for (const thruster of thrusters) {
-				rovBody?.addForceAtPoint(
-					rov.localToWorld(getForceVector(thruster)),
-					rov.localToWorld(thruster.position),
-					true
-				);
+		if (counteractBuoyancy) {
+			if (!rovInWater) {
+				rovBody?.addForce(new Vector3(0, -gravity, 0), true);
 			}
-		}
+		} else {
+			if (
+				rovInWater &&
+				waterBox.intersectsBox(rovBox)
+			) {
+				const waterRovIntersection = waterBox.intersect(rovBox);
+				const { x, y, z } = waterRovIntersection.getSize(voidVector);
+				const volume = x * y * z;
 
-		rovBody?.addForce(new Vector3(0, -gravity, 0), true);
+				let buoyantForce = new Vector3(0, (-waterDensity * gravity * volume), 0);
+
+				if (waterRovIntersection?.getCenter(voidVector)) {
+					rovBody?.addForceAtPoint(
+						rov.localToWorld(buoyantForce),
+						rov.localToWorld(waterRovIntersection.getCenter(voidVector)),
+						true
+					);
+				}
+			}
+
+			rovBody.addForce(new Vector3(0, -gravity, 0), true);
+		}
 
 		currentPosition = rovBox.getCenter(new Vector3());
 
@@ -222,20 +236,18 @@
 		if (currentView == VIEWS.ThirdPerson) {
 			cameraPosition = currentPosition;
 			cameraRotation = new Vector3(
-				rovBody?.rotation().x,
-				rovBody?.rotation().y || -Math.PI / 2,
-				rovBody?.rotation().z
+				rovBody.rotation().x,
+				rovBody.rotation().y || -Math.PI / 2,
+				rovBody.rotation().z
 			);
 		}
 
 		// send out all force data
-		if (rovBody) {
-			client?.simulationAccelerationData.mutate({
-				accelerationValueX: rovBody?.userForce().x,
-				accelerationValueY: rovBody?.userForce().y,
-				accelerationValueZ: rovBody?.userForce().z,
-			})
-		}
+		client?.simulationAccelerationData.mutate({
+			accelerationValueX: rovBody.userForce().x,
+			accelerationValueY: rovBody.userForce().y,
+			accelerationValueZ: rovBody.userForce().z,
+		})
 	});
 
 	// TODO: file a threlte/core issue to add this
@@ -298,8 +310,8 @@ this may need to change at some point.
 -->
 <T.Group position={[0, (plateThickness + waterHeight) / 2, 0]}>
 	<Collider
-		on:sensorenter={() => (isRovInCollider = true)}
-		on:sensorexit={() => (isRovInCollider = false)}
+		on:sensorenter={() => (rovInWater = true)}
+		on:sensorexit={() => (rovInWater = false)}
 		sensor
 		shape={'cuboid'}
 		args={[width / 2, waterHeight / 2, length / 2]}
