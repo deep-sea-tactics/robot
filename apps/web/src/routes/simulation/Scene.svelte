@@ -23,10 +23,13 @@
 		thrustDirection: Vector3;
 	}
 
-	function getForceVector(constraint: MotorConstraint): Vector3 {
+	function getForceVector(constraint: MotorConstraint, rov: THREE.Mesh): Vector3 {
 		 // assuming throttle is on the scale -1 - 1
 		const currentThrust = constraint.maxThrust * constraint.throttle();
-		return constraint.thrustDirection.clone().normalize().multiplyScalar(currentThrust);
+		return calculateThrusterDirection(
+			constraint,
+			rov,
+		).clone().normalize().multiplyScalar(currentThrust);
 	}
 
 	// world-building variables
@@ -177,6 +180,15 @@
 			.applyQuaternion(rov.getWorldQuaternion(new Quaternion()))
 			.add(rov.getWorldPosition(new Vector3()));
 	}
+	
+	function calculateThrusterDirection(
+		thruster: MotorConstraint,
+		rov: THREE.Mesh
+	): Vector3 {
+		return thruster.thrustDirection
+			.clone()
+			.applyQuaternion(rov.getWorldQuaternion(new Quaternion()));
+	}
 
 	/**
 	 * Whether the simulation should prevent the ROV from floating.
@@ -206,7 +218,7 @@
 
 		for (const thruster of thrusters) {
 			rovBody.addForceAtPoint(
-				getForceVector(thruster),
+				getForceVector(thruster, rov),
 				calculateThrusterPosition(thruster, rov),
 				true
 			);
@@ -289,7 +301,7 @@
 			<T 
 				is={ArrowHelper}
 				args={[
-					thruster.thrustDirection,
+					calculateThrusterDirection(thruster, rov),
 					calculateThrusterPosition(thruster, rov),
 					0.5,
 					0xff0000
