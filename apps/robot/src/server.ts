@@ -22,6 +22,7 @@ const isMock = process.env.MOCK === 'true';
 
 function updateSimulationAccelerationData(data: AccelerationData) {
 	emitter.emit('simulationAccelData', data);
+	console.log(data)
 }
 
 function updateControllerData(data: ControllerData) {

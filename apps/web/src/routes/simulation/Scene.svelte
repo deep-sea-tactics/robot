@@ -8,7 +8,7 @@
 	import { Gizmo } from '@threlte/extras';
 	import { ArrowHelper, Box3, Quaternion, Vector3 } from 'three';
 	import type { RigidBody } from '@leodog896/rapier3d-compat/dynamics/rigid_body';
-	import type { Vector } from '@leodog896/rapier3d-compat';
+	import * as vector from './vector';
 
 	const rovAngularDamping = 0;
 
@@ -148,10 +148,6 @@
 		ThirdPerson = 'third'
 	}
 
-	function vectorToVector3(vector: Vector): THREE.Vector3 {
-		return new Vector3(vector.x, vector.y, vector.z);
-	}
-
 	let currentView: VIEWS = VIEWS.FirstPerson;
 
 	let updateView = (view: VIEWS) => {
@@ -177,8 +173,7 @@
 	): Vector3 {
 		return thruster.position
 			.clone()
-			.applyQuaternion(rov.getWorldQuaternion(new Quaternion()))
-			.add(rov.getWorldPosition(new Vector3()));
+			.applyQuaternion(rov.getWorldQuaternion(new Quaternion()));
 	}
 	
 	function calculateThrusterDirection(
@@ -196,6 +191,19 @@
 	 */
 	const counteractBuoyancy = true;
 
+	function addForceAtPoint(
+		force: vector.VectorLike,
+		point: vector.VectorLike,
+	): [
+		force: vector.Vector,
+		torque: vector.Vector
+	] {
+		return [
+			vector.stabilize(force),
+			vector.cross(point)(force)
+		]
+	}
+
 	useTask(() => {
 		if (!water || !rov || !rovBody) return;
 
@@ -204,11 +212,13 @@
 		// we don't care about this, so these are our "void objects";
 		// so we don't have to create a new one every frame
 		let voidVector = new Vector3(0, 0, 0);
-		let voidQuaternion = new Quaternion();
 
 		// We want full control over the forces applied to the ROV, so we reset them every frame
 		rovBody.resetForces(true);
 		rovBody.resetTorques(true);
+
+		let force: vector.Vector = { x: 0, y: 0, z: 0 };
+		let torque: vector.Vector = { x: 0, y: 0, z: 0 };
 
 		rov.geometry.computeBoundingBox();
 		rovBox.copy(rov.geometry.boundingBox!).applyMatrix4(rov.matrixWorld);
@@ -217,16 +227,18 @@
 		waterBox.copy(water.geometry.boundingBox!).applyMatrix4(water.matrixWorld);
 
 		for (const thruster of thrusters) {
-			rovBody.addForceAtPoint(
+			const [addedForce, addedTorque] = addForceAtPoint(
 				getForceVector(thruster, rov),
-				calculateThrusterPosition(thruster, rov),
-				true
+				calculateThrusterPosition(thruster, rov)
 			);
+
+			force = vector.add(force)(addedForce);
+			torque = vector.add(torque)(addedTorque);
 		}
 
 		if (counteractBuoyancy) {
 			if (!rovInWater) {
-				rovBody?.addForce(new Vector3(0, -gravity, 0), true);
+				force = vector.add(force)([0, -gravity, 0]);
 			}
 		} else {
 			if (
@@ -240,15 +252,17 @@
 				let buoyantForce = new Vector3(0, (-waterDensity * gravity * volume), 0);
 
 				if (waterRovIntersection?.getCenter(voidVector)) {
-					rovBody?.addForceAtPoint(
-						rov.localToWorld(buoyantForce),
-						rov.localToWorld(waterRovIntersection.getCenter(voidVector)),
-						true
+					const [addedForce, addedTorque] = addForceAtPoint(
+						buoyantForce,
+						waterRovIntersection.getCenter(voidVector)
 					);
+
+					force = vector.add(force)(addedForce);
+					torque = vector.add(torque)(addedTorque);
 				}
 			}
 
-			rovBody.addForce(new Vector3(0, -gravity, 0), true);
+			force = vector.add(force)([0, -gravity, 0]);
 		}
 
 		currentPosition = rovBox.getCenter(new Vector3());
@@ -263,11 +277,14 @@
 			);
 		}
 
+		rovBody.addForce(force, true);
+		rovBody.addTorque(torque, true);
+
 		// send out all force data
 		client?.simulationAccelerationData.mutate({
-			accelerationValueX: rovBody.userForce().x,
-			accelerationValueY: rovBody.userForce().y,
-			accelerationValueZ: rovBody.userForce().z,
+			accelerationValueX: force.x,
+			accelerationValueY: force.y,
+			accelerationValueZ: force.z,
 		});
 
 		keyRovPositionChange = Symbol();
@@ -302,7 +319,8 @@
 				is={ArrowHelper}
 				args={[
 					calculateThrusterDirection(thruster, rov),
-					calculateThrusterPosition(thruster, rov),
+					calculateThrusterPosition(thruster, rov)
+						.add(currentPosition),
 					0.5,
 					0xff0000
 				]}
@@ -314,7 +332,6 @@
 <!-- 
 The mesh below represents the ROV, and is a work in progress. Interactivity is limited and being improved upon
 -->
-
 <T.Group position.y={waterHeight}>
 	<RapierRigidBody
 		type={'dynamic'}
