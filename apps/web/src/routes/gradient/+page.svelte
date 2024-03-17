@@ -70,7 +70,7 @@
 <pre>
     {JSON.stringify(move(
         vector.vector(directionX, directionY, directionZ),
-        vector.vector(torqueX, torqueY, torqueZ)
+        vector.vector(torqueX, torqueY, torqueZ),
     ), null, 2)}
 </pre>
 

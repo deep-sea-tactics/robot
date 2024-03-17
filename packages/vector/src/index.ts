@@ -61,3 +61,43 @@ export const cross = (a: VectorLike) => (b: VectorLike): Vector => {
         z: a.x * b.y - a.y * b.x
     };
 }
+
+export interface Quaternion {
+    x: number;
+    y: number;
+    z: number;
+    w: number;
+}
+
+export function unitQuaternion(): Quaternion {
+    return { x: 0, y: 0, z: 0, w: 1 };
+}
+
+export const applyQuaternion = (v: VectorLike) => (q: Quaternion): Vector => {
+    v = stabilize(v);
+
+    let uv = cross(q)(v);
+    let uuv = cross(q)(uv);
+    uv = scale(uv)(2 * q.w);
+    uuv = scale(uuv)(2);
+
+    return add(v)(add(uv)(uuv));
+}
+
+export const eulerToQuaternion = (v: VectorLike): Quaternion => {
+    v = stabilize(v);
+
+    const c1 = Math.cos(v.y / 2);
+    const c2 = Math.cos(v.z / 2);
+    const c3 = Math.cos(v.x / 2);
+    const s1 = Math.sin(v.y / 2);
+    const s2 = Math.sin(v.z / 2);
+    const s3 = Math.sin(v.x / 2);
+
+    return {
+        x: s1 * c2 * c3 - c1 * s2 * s3,
+        y: c1 * s2 * c3 + s1 * c2 * s3,
+        z: c1 * c2 * s3 - s1 * s2 * c3,
+        w: c1 * c2 * c3 + s1 * s2 * s3
+    };
+}

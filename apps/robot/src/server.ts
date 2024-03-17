@@ -27,8 +27,11 @@ function updateSimulationAccelerationData(data: AccelerationData) {
 	emitter.emit('simulationAccelerationData', data);
 }
 
+let currentRotation = vector.vector(0, 0, 0);
+
 function updateGyroscopeData(data: GyroData) {
 	emitter.emit('simulationGyroData', data);
+	currentRotation = vector.vector(data.x, data.y, data.z);
 }
 
 function updateControllerData(data: ControllerData) {
@@ -41,7 +44,7 @@ emitter.on('controllerData', (data) => {
 	const movement = move(
 		{
 			x: data.stickAxes.leftStick.x,
-			y: 0,
+			y: data.stickButtons.leftStick ? 1 : data.stickButtons.rightStick ? -1 : 0,
 			z: data.stickAxes.leftStick.y
 		},
 		vector.vector(0, 0, 0)
@@ -67,16 +70,14 @@ emitter.on('controllerData', (data) => {
 		speed: movement.motors.find((m) => m.type === Motor.TopRight)?.speed ?? 0
 	});
 
-	// TODO: up and down - need to figure out view
-	let verticalSpeed = 0;
-	if (data.stickButtons.leftStick) {
-		verticalSpeed = 1;
-	} else if (data.stickButtons.rightStick) {
-		verticalSpeed = -1;
-	}
 	emitter.emit('motorData', {
 		motor: Motor.VerticalLeft,
-		speed: verticalSpeed
+		speed: movement.motors.find((m) => m.type === Motor.VerticalLeft)?.speed ?? 0
+	});
+
+	emitter.emit('motorData', {
+		motor: Motor.VerticalRight,
+		speed: movement.motors.find((m) => m.type === Motor.VerticalRight)?.speed ?? 0
 	});
 
 	// TODO: yaw (rotation)

@@ -39,8 +39,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: generate .svelte-kit folder
+      - name: Generate .svelte-kit folder
         run: cd apps/web && pnpm run generate
 
-      - name: check types
+      - name: Check types
         run: pnpm run check
