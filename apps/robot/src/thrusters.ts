@@ -103,7 +103,7 @@ export function move(
     // if we say f(a, b, c, d, e, g) = (directionDifference(a, b, c, d, e, g) + torqueDifference(a, b, c, d, e, g)) / 2
     // we can use a gradient descent algorithm to find the local minima
 
-    const outputs = gradientDescent<6>(
+    const outputs = gradientDescent(
         (a, b, c, d, e, g) => {
             const motorMovement: MotorMovement[] = [
                 { type: Motor.BottomLeft, speed: a },

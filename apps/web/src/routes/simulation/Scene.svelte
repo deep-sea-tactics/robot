@@ -8,7 +8,7 @@
 	import { Gizmo } from '@threlte/extras';
 	import { ArrowHelper, Box3, Quaternion, Vector3 } from 'three';
 	import type { RigidBody } from '@leodog896/rapier3d-compat/dynamics/rigid_body';
-	import * as vector from './vector';
+	import * as vector from 'vector';
 	import { thrusters as robotThrusters } from 'robot/src/thrusters';
 
 	const rovAngularDamping = 0;

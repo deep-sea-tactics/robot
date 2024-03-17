@@ -13,7 +13,7 @@ type Func<N extends number> = (...args: Tuple<number, N>) => number;
  * @param learningRate The learning rate for the gradient descent.
  * @param maxIterations The maximum amount of iterations.
  */
-export function gradientDescent<N extends number>(
+export function gradientDescent<const N extends number>(
     func: Func<N>,
     initialGuess: Tuple<number, N>,
     learningRate: number = 0.01,
