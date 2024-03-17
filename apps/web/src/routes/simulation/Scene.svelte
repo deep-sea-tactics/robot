@@ -6,11 +6,9 @@
 	import { onMount } from 'svelte';
 	import { Motor } from 'robot/src/motor';
 	import { Gizmo } from '@threlte/extras';
-	import { Box3, Vector3 } from 'three';
+	import { Box3, Quaternion, Vector3 } from 'three';
 	import type { RigidBody } from '@leodog896/rapier3d-compat/dynamics/rigid_body';
 	import type { Vector } from '@leodog896/rapier3d-compat';
-
-	const inchesToMeters = (inches: number) => inches * 0.0254;
 
 	const rovAngularDamping = 0;
 
@@ -180,10 +178,11 @@
 		if (!water || !rov || !rovBody) return;
 
 		// Many three.js functions allow
-		// applying the result to a vector;
-		// we don't care about this, so this is our "void vector";
+		// applying the result to some object;
+		// we don't care about this, so these are our "void objects";
 		// so we don't have to create a new one every frame
 		let voidVector = new Vector3(0, 0, 0);
+		let voidQuaternion = new Quaternion();
 
 		// We want full control over the forces applied to the ROV, so we reset them every frame
 		rovBody.resetForces(true);
@@ -198,7 +197,12 @@
 		for (const thruster of thrusters) {
 			rovBody.addForceAtPoint(
 				getForceVector(thruster),
-				vectorToVector3(rovBody.worldCom()).add(thruster.position),
+				vectorToVector3(rovBody.worldCom())
+					.add(
+						thruster.position
+							.clone()
+							.applyQuaternion(rov.getWorldQuaternion(voidQuaternion))
+					),
 				true
 			);
 		}
