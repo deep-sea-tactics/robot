@@ -7,6 +7,8 @@ import { Motor } from './motor.js';
 import { accelerationDataSchema, type AccelerationData, gyroDataSchema, type GyroData } from './sensors.js';
 import type { ControllerData } from './controller.js';
 import type { MotorEvent } from './motor.js';
+import { move } from './thrusters.js';
+import * as vector from 'vector';
 
 type Events = {
 	controllerData: (data: ControllerData) => void;
@@ -36,24 +38,33 @@ function updateControllerData(data: ControllerData) {
 // TODO: on sigint, stop all motors
 
 emitter.on('controllerData', (data) => {
+	const movement = move(
+		{
+			x: data.stickAxes.leftStick.x,
+			y: 0,
+			z: data.stickAxes.leftStick.y
+		},
+		vector.vector(0, 0, 0)
+	);
+
 	emitter.emit('motorData', {
 		motor: Motor.BottomLeft,
-		speed: data.stickAxes.leftStick.x
+		speed: movement.motors.find((m) => m.type === Motor.BottomLeft)?.speed ?? 0
 	});
 
 	emitter.emit('motorData', {
 		motor: Motor.BottomRight,
-		speed: data.stickAxes.leftStick.x
+		speed: movement.motors.find((m) => m.type === Motor.BottomRight)?.speed ?? 0
 	});
 
 	emitter.emit('motorData', {
 		motor: Motor.TopLeft,
-		speed: data.stickAxes.leftStick.y
+		speed: movement.motors.find((m) => m.type === Motor.TopLeft)?.speed ?? 0
 	});
 
 	emitter.emit('motorData', {
 		motor: Motor.TopRight,
-		speed: data.stickAxes.leftStick.y
+		speed: movement.motors.find((m) => m.type === Motor.TopRight)?.speed ?? 0
 	});
 
 	// TODO: up and down - need to figure out view
