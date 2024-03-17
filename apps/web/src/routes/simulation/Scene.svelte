@@ -19,13 +19,14 @@
 	interface MotorConstraint {
 		type: Motor;
 		position: Vector3;
-		throttle: number;
+		throttle: () => number;
 		maxThrust: number;
 		thrustDirection: Vector3;
 	}
 
 	function getForceVector(constraint: MotorConstraint): Vector3 {
-		const currentThrust = constraint.maxThrust * constraint.throttle; //only assuming throttle is on the scale 0-1
+		 // assuming throttle is on the scale -1 - 1
+		const currentThrust = constraint.maxThrust * constraint.throttle();
 		return constraint.thrustDirection.clone().normalize().multiplyScalar(currentThrust);
 	}
 
@@ -35,7 +36,8 @@
 	const length = 25;
 	const plateThickness = 0.3;
 
-	let rovMass = 10 + 10; //in kg
+	// in kg
+	let rovMass = 9;
 
 	let isRovInCollider = false;
 
@@ -53,7 +55,12 @@
 
 	let rovBody: RigidBody | null = null;
 
-	const rovDimensions = [inchesToMeters(15), inchesToMeters(16.5), inchesToMeters(11)];
+	// in [x, y, z]
+	const rovDimensions = [
+		362.278 / 1000,
+		261.011 / 1000,
+		310 / 1000
+	];
 
 	// TODO: generate this from the motor enum
 	let motorRegistry: Record<Motor, number> = {
@@ -69,14 +76,14 @@
 		{
 			type: Motor.FrontLeft,
 			position: new Vector3(0, 0, 0),
-			throttle: 0,
+			throttle: () => motorRegistry[Motor.FrontLeft],
 			maxThrust: t200_12v_max_newtons + thrustOffset,
 			thrustDirection: new Vector3(1, 0, 0)
 		},
 		{
 			type: Motor.FrontRight,
 			position: new Vector3(0, 0, 0),
-			throttle: 0,
+			throttle: () => motorRegistry[Motor.FrontRight],
 			maxThrust: t200_12v_max_newtons + thrustOffset,
 			thrustDirection: new Vector3(1, 0, 0)
 		},
@@ -84,14 +91,14 @@
 		{
 			type: Motor.SideFront,
 			position: new Vector3(0, -1, 1),
-			throttle: 0,
+			throttle: () => motorRegistry[Motor.SideFront],
 			maxThrust: t200_12v_max_newtons + thrustOffset,
 			thrustDirection: new Vector3(1, 0, 0)
 		},
 		{
 			type: Motor.SideBack,
 			position: new Vector3(0, -1, -1),
-			throttle: 0,
+			throttle: () => motorRegistry[Motor.SideBack],
 			maxThrust: t200_12v_max_newtons + thrustOffset,
 			thrustDirection: new Vector3(-1, 0, 0)
 		},
@@ -99,14 +106,14 @@
 		{
 			type: Motor.TopLeft,
 			position: new Vector3(1, 1, 0),
-			throttle: 0,
+			throttle: () => motorRegistry[Motor.TopLeft],
 			maxThrust: t200_12v_max_newtons + thrustOffset,
 			thrustDirection: new Vector3(0, 0, -1)
 		},
 		{
 			type: Motor.TopRight,
 			position: new Vector3(-1, 1, 0),
-			throttle: 0,
+			throttle: () => motorRegistry[Motor.TopRight],
 			maxThrust: t200_12v_max_newtons + thrustOffset,
 			thrustDirection: new Vector3(0, 0, -1)
 		}
@@ -122,7 +129,6 @@
 		});
 
 		window.addEventListener('keypress', (e: KeyboardEvent) => {
-			console.log(e.key);
 			if (e.key == 'p') {
 				updateView(VIEWS.FirstPerson);
 			} else if (e.key == 'o') {
@@ -160,53 +166,45 @@
 	};
 
 	useTask(() => {
+		// Many three.js functions allow
+		// applying the result to a vector;
+		// we don't care about this, so this is our "void vector";
+		// so we don't have to create a new one every frame
+		let voidVector = new Vector3(0, 0, 0);
+
+		if (!water || !rov || !rovBody) return;
+
 		// We want full control over the forces applied to the ROV, so we reset them every frame
-		rovBody?.resetForces(true);
-		rovBody?.resetTorques(true);
+		rovBody.resetForces(true);
+		rovBody.resetTorques(true);
 
-		let rovBoundsSuccessfullyComputed = false;
-		let waterBoundsSuccessfullyComputed = false;
+		rov.geometry.computeBoundingBox();
+		rovBox.copy(rov.geometry.boundingBox!).applyMatrix4(rov.matrixWorld);
 
-		rov?.geometry.computeBoundingBox();
-
-		if (rov?.geometry.boundingBox != null) {
-			rovBox.copy(rov.geometry.boundingBox).applyMatrix4(rov.matrixWorld);
-			rovBoundsSuccessfullyComputed = true;
-		}
-
-		water?.geometry.computeBoundingBox();
-
-		if (water?.geometry.boundingBox != null) {
-			waterBox.copy(water.geometry.boundingBox).applyMatrix4(water.matrixWorld);
-			waterBoundsSuccessfullyComputed = true;
-		}
-
-		let volume: number;
-		let waterRovIntersection: THREE.Box3 | undefined = undefined;
-
+		water.geometry.computeBoundingBox();
+		waterBox.copy(water.geometry.boundingBox!).applyMatrix4(water.matrixWorld);
+		
 		if (
-			rovBoundsSuccessfullyComputed &&
-			waterBoundsSuccessfullyComputed &&
-			waterBox.intersectsBox(rovBox)
+			isRovInCollider &&
+			waterBox.intersectsBox(rovBox) &&
+			rov
 		) {
-			waterRovIntersection = waterBox.intersect(rovBox);
-			const { x, y, z } = waterRovIntersection.getSize(new Vector3(0, 0, 0));
-			volume = x * y * z;
-		} else {
-			volume = rovDimensions.reduce((acc, cur) => acc * cur, 1);
-		}
+			const waterRovIntersection = waterBox.intersect(rovBox);
+			const { x, y, z } = waterRovIntersection.getSize(voidVector);
+			const volume = x * y * z;
 
-		if (isRovInCollider && rov) {
-			let buoyantForce = new Vector3(0, (-waterDensity * gravity * volume) / rovMass, 0);
+			let buoyantForce = new Vector3(0, (-waterDensity * gravity * volume), 0);
 
-			if (waterRovIntersection?.getCenter(new Vector3(0, 0, 0))) {
+			if (waterRovIntersection?.getCenter(voidVector)) {
 				rovBody?.addForceAtPoint(
 					rov.localToWorld(buoyantForce),
-					rov.localToWorld(waterRovIntersection.getCenter(new Vector3(0, 0, 0))),
+					rov.localToWorld(waterRovIntersection.getCenter(voidVector)),
 					true
 				);
 			}
+		}
 
+		if (isRovInCollider && rov) {
 			for (const thruster of thrusters) {
 				rovBody?.addForceAtPoint(
 					rov.localToWorld(getForceVector(thruster)),
@@ -293,10 +291,10 @@ The mesh below represents the ROV, and is a work in progress. Interactivity is l
 	</RapierRigidBody>
 </T.Group>
 
-<!-- Sensor for the water; tells if the rov should actively try to escape the cold grasp of the big blue. (Definitely not stolen from threlte documentation)
-
-The position of the water collider is where the water is, this may need to change at some point.
-
+<!--
+Sensor for the water; for buoyancy calculations
+The position of the water collider is where the water is;
+this may need to change at some point.
 -->
 <T.Group position={[0, (plateThickness + waterHeight) / 2, 0]}>
 	<Collider
