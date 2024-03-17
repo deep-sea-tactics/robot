@@ -16,32 +16,17 @@
 	const t200_12v_max_newtons = 32.5;
 	const thrustOffset = -30;
 
-	// TODO: change to interface
-	class MotorConstraint {
+	interface MotorConstraint {
 		type: Motor;
 		position: Vector3;
 		throttle: number;
 		maxThrust: number;
-		thrustDirection: Vector3; // unit vectors ONLY
+		thrustDirection: Vector3;
+	}
 
-		constructor(
-			type: Motor,
-			position: Vector3,
-			throttle: number,
-			maxThrust: number,
-			thrustDirection: Vector3
-		) {
-			this.type = type;
-			this.position = position;
-			this.throttle = throttle;
-			this.maxThrust = maxThrust;
-			this.thrustDirection = thrustDirection;
-		}
-
-		getForceVector(): Vector3 {
-			const currentThrust = this.maxThrust * this.throttle; //only assuming throttle is on the scale 0-1
-			return this.thrustDirection.clone().multiplyScalar(currentThrust);
-		}
+	function getForceVector(constraint: MotorConstraint): Vector3 {
+		const currentThrust = constraint.maxThrust * constraint.throttle; //only assuming throttle is on the scale 0-1
+		return constraint.thrustDirection.clone().normalize().multiplyScalar(currentThrust);
 	}
 
 	// world-building variables
@@ -81,48 +66,50 @@
 	};
 
 	let thrusters: MotorConstraint[] = [
-		new MotorConstraint(
-			Motor.FrontLeft,
-			new Vector3(0, 0, 0),
-			0,
-			t200_12v_max_newtons + thrustOffset,
-			new Vector3(1, 0, 0)
-		),
-		new MotorConstraint(
-			Motor.FrontRight,
-			new Vector3(0, 0, 0),
-			0,
-			t200_12v_max_newtons + thrustOffset,
-			new Vector3(1, 0, 0)
-		),
-		new MotorConstraint(
-			Motor.SideFront,
-			new Vector3(0, -1, 1),
-			0,
-			t200_12v_max_newtons + thrustOffset,
-			new Vector3(1, 0, 0)
-		),
-		new MotorConstraint(
-			Motor.SideBack,
-			new Vector3(0, -1, -1),
-			0,
-			t200_12v_max_newtons + thrustOffset,
-			new Vector3(-1, 0, 0)
-		), //assuming the sideback motors are mirrored relative to the sidefront motors
-		new MotorConstraint(
-			Motor.TopLeft,
-			new Vector3(1, 1, 0),
-			0,
-			t200_12v_max_newtons + thrustOffset,
-			new Vector3(0, 0, -1)
-		),
-		new MotorConstraint(
-			Motor.TopRight,
-			new Vector3(-1, 1, 0),
-			0,
-			t200_12v_max_newtons + thrustOffset,
-			new Vector3(0, 0, -1)
-		) //assuming the topleft and topright motors are mirrored to the frontleft and frontright motors
+		{
+			type: Motor.FrontLeft,
+			position: new Vector3(0, 0, 0),
+			throttle: 0,
+			maxThrust: t200_12v_max_newtons + thrustOffset,
+			thrustDirection: new Vector3(1, 0, 0)
+		},
+		{
+			type: Motor.FrontRight,
+			position: new Vector3(0, 0, 0),
+			throttle: 0,
+			maxThrust: t200_12v_max_newtons + thrustOffset,
+			thrustDirection: new Vector3(1, 0, 0)
+		},
+		// assuming the sideback motors are mirrored relative to the sidefront motors
+		{
+			type: Motor.SideFront,
+			position: new Vector3(0, -1, 1),
+			throttle: 0,
+			maxThrust: t200_12v_max_newtons + thrustOffset,
+			thrustDirection: new Vector3(1, 0, 0)
+		},
+		{
+			type: Motor.SideBack,
+			position: new Vector3(0, -1, -1),
+			throttle: 0,
+			maxThrust: t200_12v_max_newtons + thrustOffset,
+			thrustDirection: new Vector3(-1, 0, 0)
+		},
+		// assuming the topleft and topright motors are mirrored to the frontleft and frontright motors
+		{
+			type: Motor.TopLeft,
+			position: new Vector3(1, 1, 0),
+			throttle: 0,
+			maxThrust: t200_12v_max_newtons + thrustOffset,
+			thrustDirection: new Vector3(0, 0, -1)
+		},
+		{
+			type: Motor.TopRight,
+			position: new Vector3(-1, 1, 0),
+			throttle: 0,
+			maxThrust: t200_12v_max_newtons + thrustOffset,
+			thrustDirection: new Vector3(0, 0, -1)
+		}
 	];
 
 	onMount(() => {
@@ -231,7 +218,7 @@
 
 			for (const thruster of thrusters) {
 				rovBody?.addForceAtPoint(
-					rov.localToWorld(thruster.getForceVector()),
+					rov.localToWorld(getForceVector(thruster)),
 					rov.localToWorld(thruster.position),
 					true
 				);
