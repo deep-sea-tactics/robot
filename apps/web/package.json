@@ -35,5 +35,8 @@
 		"typescript": "^5.3.3",
 		"vite": "^5.0.10"
 	},
-	"type": "module"
+	"type": "module",
+	"dependencies": {
+		"svelte-splitpanes": "^0.8.0"
+	}
 }

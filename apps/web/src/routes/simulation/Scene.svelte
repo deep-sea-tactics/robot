@@ -7,16 +7,16 @@
 	import { Motor } from 'robot/src/motor';
 	import { Gizmo } from '@threlte/extras';
 	import { Box3, Vector3 } from 'three';
-	import type { RigidBody } from '@leodog896/rapier3d-compat/dynamics/rigid_body'
+	import type { RigidBody } from '@leodog896/rapier3d-compat/dynamics/rigid_body';
 
 	const inchesToMeters = (inches: number) => inches * 0.0254;
 
-	const rovAngularDamping = 0;//922337203685477580;
+	const rovAngularDamping = 0; //922337203685477580;
 
 	const t200_12v_max_newtons = 32.5;
 	const thrust_offset = -30;
 
-  // TODO: change to interface
+	// TODO: change to interface
 	class MotorConstraint {
 		type: Motor;
 		position: Vector3;
@@ -50,7 +50,7 @@
 	const length = 25;
 	const plateThickness = 0.3;
 
-	let rovMass = 10+10; //in kg
+	let rovMass = 10 + 10; //in kg
 
 	let isRovInCollider = false;
 
@@ -144,7 +144,7 @@
 		});
 	});
 
-	let currentPosition  = new Vector3(0, 0, 0);
+	let currentPosition = new Vector3(0, 0, 0);
 	let cameraPosition = new Vector3(10, 10, 10);
 	let cameraRotation = new Vector3(0, 0, 0);
 
@@ -221,14 +221,12 @@
 			//rovBody?.addForce(new Vector3(0, (-waterDensity * gravity * volume) / rovMass, 0), true);
 			let buoyant_force = new Vector3(0, (-waterDensity * gravity * volume) / rovMass, 0);
 
-			if (waterRovIntersection?.getCenter(new Vector3(0,0,0)))
-			{
+			if (waterRovIntersection?.getCenter(new Vector3(0, 0, 0))) {
 				rovBody?.addForceAtPoint(
-					rov.localToWorld(buoyant_force), 
-					rov.localToWorld(waterRovIntersection.getCenter(new Vector3(0,0,0)))
-					);
+					rov.localToWorld(buoyant_force),
+					rov.localToWorld(waterRovIntersection.getCenter(new Vector3(0, 0, 0)))
+				);
 			}
-
 
 			for (const thruster of thrusters) {
 				rovBody?.addForceAtPoint(
