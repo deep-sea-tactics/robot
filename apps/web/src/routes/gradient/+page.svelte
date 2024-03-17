@@ -34,6 +34,8 @@
     {/if}
 </h2>
 
+<p>[{directionX}, {directionY}, {directionZ}]</p>
+
 <div>
     <label for="directionX">X</label>
     <input type="range" min="-1" max="1" step="0.01" id="directionX" bind:value={directionX} />
@@ -53,6 +55,8 @@
         <button on:click={resetTorque}>Reset</button>
     {/if}
 </h2>
+
+<p>[{torqueX}, {torqueY}, {torqueZ}]</p>
 
 <div>
     <label for="torqueX">X</label>
