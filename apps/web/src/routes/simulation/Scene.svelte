@@ -9,11 +9,9 @@
 	import { ArrowHelper, Box3, Quaternion, Vector3 } from 'three';
 	import type { RigidBody } from '@leodog896/rapier3d-compat/dynamics/rigid_body';
 	import * as vector from './vector';
+	import { thrusters as robotThrusters } from 'robot/src/thrusters';
 
 	const rovAngularDamping = 0;
-
-	const t200_12v_max_newtons = 32.5;
-	const thrustOffset = -30;
 
 	interface MotorConstraint {
 		type: Motor;
@@ -75,51 +73,16 @@
 		[Motor.VerticalRight]: 0
 	};
 
-	// measured manually via fusion :}
-	let thrusters: MotorConstraint[] = [
-		{
-			type: Motor.BottomLeft,
-			position: new Vector3(85.075 / 1000, -67.57 / 1000, 95.417 / 1000),
-			throttle: () => motorRegistry[Motor.BottomLeft],
-			maxThrust: t200_12v_max_newtons + thrustOffset,
-			thrustDirection: new Vector3(-1, 0, 1)
-		},
-		{
-			type: Motor.BottomRight,
-			position: new Vector3(85.075 / 1000, -67.57 / 1000, -95.417 / 1000),
-			throttle: () => motorRegistry[Motor.BottomRight],
-			maxThrust: t200_12v_max_newtons + thrustOffset,
-			thrustDirection: new Vector3(-1, 0, -1)
-		},
-		{
-			type: Motor.TopLeft,
-			position: new Vector3(-114.204 / 1000, 65.297 / 1000, 103.873 / 1000),
-			throttle: () => motorRegistry[Motor.TopLeft],
-			maxThrust: t200_12v_max_newtons + thrustOffset,
-			thrustDirection: new Vector3(1, 0, 1)
-		},
-		{
-			type: Motor.TopRight,
-			position: new Vector3(-114.204 / 1000, 65.297 / 1000, -103.873 / 1000),
-			throttle: () => motorRegistry[Motor.TopRight],
-			maxThrust: t200_12v_max_newtons + thrustOffset,
-			thrustDirection: new Vector3(1, 0, -1)
-		},
-		{
-			type: Motor.VerticalLeft,
-			position: new Vector3(20.755 / 1000, 80.601 / 1000, 99.732 / 1000),
-			throttle: () => motorRegistry[Motor.VerticalLeft],
-			maxThrust: t200_12v_max_newtons + thrustOffset,
-			thrustDirection: new Vector3(0, 1, 0)
-		},
-		{
-			type: Motor.VerticalRight,
-			position: new Vector3(20.755 / 1000, 80.601 / 1000, -99.732 / 1000),
-			throttle: () => motorRegistry[Motor.VerticalRight],
-			maxThrust: t200_12v_max_newtons + thrustOffset,
-			thrustDirection: new Vector3(0, 1, 0)
-		}
-	];
+	function toVector3(vector: vector.Vector): Vector3 {
+		return new Vector3(vector.x, vector.y, vector.z);
+	}
+
+	const thrusters: MotorConstraint[] = robotThrusters.map(thruster => ({
+		...thruster,
+		throttle: () => motorRegistry[thruster.type],
+		position: toVector3(thruster.position),
+		thrustDirection: toVector3(thruster.thrustDirection)
+	}));
 
 	onMount(() => {
 		if (!client) throw new Error('No client found!');
@@ -285,6 +248,13 @@
 			x: force.x,
 			y: force.y,
 			z: force.z,
+		});
+
+		// send out current rotation
+		client?.simulationGyroscopeData.mutate({
+			x: rovBody.rotation().x,
+			y: rovBody.rotation().y,
+			z: rovBody.rotation().z,
 		});
 
 		keyRovPositionChange = Symbol();
