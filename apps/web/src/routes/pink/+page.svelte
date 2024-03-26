@@ -1,13 +1,23 @@
 <script lang="ts">
-    import SkeletonTestImage from './skeleton_test_image.jpg'
+    import SkeletonTestImage from './skeleton_test_image_with_pink_rect.jpg'
+    import template_image from './pink_rect.jpg'
+    import {onMount} from 'svelte'
+    import x_result from './main.svelte'
+    import y_result from './main.svelte'
+    
+    export let test_image: HTMLImageElement;
+    export let template_element: HTMLImageElement;
+
+  //  export function load({ params })
+ //   {
+//
+    //}
 </script>
 
 <main>
-    <img src = {SkeletonTestImage} class = "cool skeleton" alt = "rad skeleton">
-</main>
+    <img bind:this={test_image} src = {SkeletonTestImage} alt = "rad skeleton">
+    <img bind:this={template_element} src = {template_image} alt = "pink">
 
-<style>
-    .cool.skeleton {
-        filter: invert(100%);
-    }
-</style>
+    <p>x: {x_result}</p>
+    <p>y: {y_result}</p>
+</main>
