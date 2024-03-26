@@ -10,8 +10,12 @@
 	import type { RigidBody } from '@leodog896/rapier3d-compat/dynamics/rigid_body';
 	import * as vector from 'vector';
 	import { thrusters as robotThrusters } from 'robot/src/thrusters';
+	import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+	import { useLoader } from '@threlte/core';
 
 	const rovAngularDamping = 0;
+
+	const gltfModel = useLoader(GLTFLoader).load('./robot.glb');
 
 	interface MotorConstraint {
 		type: Motor;
@@ -303,8 +307,11 @@ The mesh below represents the ROV, and is a work in progress. Interactivity is l
 				rov = ref;
 			}}
 		>
-			<T.BoxGeometry args={rovDimensions} />
-			<T.MeshBasicMaterial color="hotpink" />
+			{#if $gltfModel}
+				<T is={$gltfModel?.scene} scale={0.001} />
+			{/if}
+
+			<T.MeshBasicMaterial color="rgba(0, 0, 0, 0)" />
 		</T.Mesh>
 
 		<Collider
