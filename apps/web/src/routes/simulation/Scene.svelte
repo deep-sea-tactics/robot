@@ -130,11 +130,12 @@
 		}
 	};
 
-	function calculateThrusterPosition(thruster: MotorConstraint, rov: THREE.Mesh): Vector3 {
+	function calculateThrusterPosition(thrustter: MotorConstraint, rov: THREE.Mesh): Vector3 {
 		return thruster.position.clone().applyQuaternion(rov.getWorldQuaternion(new Quaternion()));
 	}
 
-	function calculateThrusterDirection(thruster: MotorConstraint, rov: THREE.Mesh): Vector3 {
+	function calculateThrusterDirection(thruster: MotorConstraint, rov: THREE.Mesh): Vector3 
+	{
 		return thruster.thrustDirection
 			.clone()
 			.applyQuaternion(rov.getWorldQuaternion(new Quaternion()));
