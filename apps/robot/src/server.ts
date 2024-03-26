@@ -2,7 +2,6 @@ import { initTRPC } from '@trpc/server';
 import { controllerDataSchema } from './controller.js';
 import debounce from 'debounce';
 import { observable } from '@trpc/server/observable';
-import { TypedEmitter } from 'tiny-typed-emitter';
 import { Motor } from './motor.js';
 import {
 	accelerationDataSchema,
@@ -14,15 +13,12 @@ import type { ControllerData } from './controller.js';
 import type { MotorEvent } from './motor.js';
 import { move } from './thrusters.js';
 import * as vector from 'vector';
+import { setCurrentRotation } from './stable.js';
+import { emitter } from './emitter.js';
 
-type Events = {
-	controllerData: (data: ControllerData) => void;
-	motorData: (data: MotorEvent) => void;
-	simulationAccelerationData: (data: AccelerationData) => void;
-	simulationGyroData: (data: GyroData) => void;
-};
 
-const emitter = new TypedEmitter<Events>();
+
+
 
 const t = initTRPC.create();
 
@@ -36,7 +32,9 @@ let currentRotation = vector.vector(0, 0, 0);
 
 function updateGyroscopeData(data: GyroData) {
 	emitter.emit('simulationGyroData', data);
+	
 	currentRotation = vector.vector(data.x, data.y, data.z);
+	setCurrentRotation(currentRotation)
 }
 
 function updateControllerData(data: ControllerData) {
@@ -44,6 +42,8 @@ function updateControllerData(data: ControllerData) {
 }
 
 // TODO: on sigint, stop all motors
+
+
 
 emitter.on('controllerData', (data) => {
 	const movement = move(
@@ -54,6 +54,7 @@ emitter.on('controllerData', (data) => {
 		},
 		vector.vector(0, 0, 0)
 	);
+
 
 	emitter.emit('motorData', {
 		motor: Motor.BottomLeft,
