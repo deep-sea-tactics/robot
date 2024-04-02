@@ -21,9 +21,7 @@
 	<Pane>
 		{#if isMock}
 			<Simulation />
-			n
 		{:else}
-			<!-- NOTE: we cannot use img:enhanced here -->
 			<img
 				src="http://127.0.0.1:8080/stream"
 				alt="Video stream cannot be rendered. Perhaps no signal?"

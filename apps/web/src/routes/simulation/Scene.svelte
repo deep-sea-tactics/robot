@@ -134,7 +134,7 @@
 		}
 	};
 
-	function calculateThrusterPosition(thrustter: MotorConstraint, rov: THREE.Mesh): Vector3 {
+	function calculateThrusterPosition(thruster: MotorConstraint, rov: THREE.Mesh): Vector3 {
 		return thruster.position.clone().applyQuaternion(rov.getWorldQuaternion(new Quaternion()));
 	}
 

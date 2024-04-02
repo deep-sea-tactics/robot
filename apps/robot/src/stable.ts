@@ -33,7 +33,6 @@ export const createAlignment = () => {
 const alignmentStep = () => {
     const rotationDifference = vector.vector(currentRotation.x - targetRotation.x, currentRotation.y - targetRotation.y, currentRotation.z - targetRotation.z);
 	const thrust = vector.vector(0.1 * -rotationDifference.x, 0.1 * -rotationDifference.y, 0.1 * -rotationDifference.z);
-	console.log(thrust)
     const movement = move(
 		vector.vector(0, 0, 0),
 		thrust
