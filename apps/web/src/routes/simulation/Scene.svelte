@@ -272,7 +272,6 @@
 {#key keyRovPositionChange}
 	{#if rov}
 		{#each thrusters as thruster}
-			{@const x = console.log(currentPosition)}
 			<T
 				is={ArrowHelper}
 				args={[
