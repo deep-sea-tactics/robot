@@ -16,10 +16,6 @@ import * as vector from 'vector';
 import { setCurrentRotation } from './stable.js';
 import { emitter } from './emitter.js';
 
-
-
-
-
 const t = initTRPC.create();
 
 const isMock = process.env.MOCK === 'true';
@@ -43,8 +39,6 @@ function updateControllerData(data: ControllerData) {
 
 // TODO: on sigint, stop all motors
 
-
-
 emitter.on('controllerData', (data) => {
 	const movement = move(
 		{
@@ -54,7 +48,6 @@ emitter.on('controllerData', (data) => {
 		},
 		vector.vector(0, 0, 0)
 	);
-
 
 	emitter.emit('motorData', {
 		motor: Motor.BottomLeft,

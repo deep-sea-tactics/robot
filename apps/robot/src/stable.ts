@@ -7,26 +7,16 @@ import { emitter } from './emitter.js';
 let targetRotation = vector.vector(0, 0, 0)
 let currentRotation = vector.vector(0, 0, 0)
 
-
-
-const fakeVector = z.object({
-	x: z.number(),
-	y: z.number(),
-	z: z.number()
-});
-
-export const setTargetRotation = (target: z.infer<typeof fakeVector>) => {
-    targetRotation = target;
+export const setTargetRotation = (target: vector.VectorLike) => {
+    targetRotation = vector.stabilize(target);
 }
 
-export const setCurrentRotation = (current: z.infer<typeof fakeVector>) => {
-    currentRotation = current;
+export const setCurrentRotation = (current: vector.VectorLike) => {
+    currentRotation = vector.stabilize(current);
 }
 
 export const createAlignment = () => {
     setInterval(alignmentStep, 1000)
-    
-    
     //calculate amount of thrust needed on 
 }
 

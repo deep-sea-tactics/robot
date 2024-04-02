@@ -106,7 +106,7 @@
 		});
 	});
 
-	let currentPosition = new Vector3(0, 0, 0);
+	let currentPosition = new Vector3(0, waterHeight, 0)
 	let cameraPosition = new Vector3(10, 10, 10);
 	let cameraRotation = new Vector3(0, 0, 0);
 
@@ -138,8 +138,7 @@
 		return thruster.position.clone().applyQuaternion(rov.getWorldQuaternion(new Quaternion()));
 	}
 
-	function calculateThrusterDirection(thruster: MotorConstraint, rov: THREE.Mesh): Vector3 
-	{
+	function calculateThrusterDirection(thruster: MotorConstraint, rov: THREE.Mesh): Vector3  {
 		return thruster.thrustDirection
 			.clone()
 			.applyQuaternion(rov.getWorldQuaternion(new Quaternion()));
@@ -216,11 +215,11 @@
 			force = vector.add(force)([0, -gravity, 0]);
 		}
 
-		currentPosition = rovBox.getCenter(new Vector3());
+		currentPosition = new Vector3(...vector.asTuple(rovBody.translation()))
 
 		// point the camera at the ROV
 		if (currentView == VIEWS.ThirdPerson) {
-			cameraPosition = currentPosition;
+			cameraPosition = new Vector3(...currentPosition);
 			cameraRotation = new Vector3(
 				rovBody.rotation().x,
 				rovBody.rotation().y || -Math.PI / 2,
@@ -273,6 +272,7 @@
 {#key keyRovPositionChange}
 	{#if rov}
 		{#each thrusters as thruster}
+			{@const x = console.log(currentPosition)}
 			<T
 				is={ArrowHelper}
 				args={[
@@ -294,12 +294,12 @@ The mesh below represents the ROV, and is a work in progress. Interactivity is l
 		type={'dynamic'}
 		on:create={({ ref: refUncasted }) => {
 			const ref = castThrelteRigidBody(refUncasted);
-
 			ref.setAdditionalMass(rovMass, true);
 			ref.setGravityScale(0, true);
 			ref.setAngularDamping(rovAngularDamping);
 			rovBody = ref;
 		}}
+
 		linearDamping={0.1}
 	>
 		<T.Mesh
@@ -308,7 +308,11 @@ The mesh below represents the ROV, and is a work in progress. Interactivity is l
 			}}
 		>
 			{#if $gltfModel}
-				<T is={$gltfModel?.scene} scale={0.001} />
+				<T
+					is={$gltfModel?.scene}
+					scale={0.001}
+					rotation={[0, Math.PI / 2, 0]}
+				/>
 			{/if}
 
 			<T.MeshBasicMaterial color="rgba(0, 0, 0, 0)" />
