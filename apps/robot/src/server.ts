@@ -42,9 +42,9 @@ function updateControllerData(data: ControllerData) {
 emitter.on('controllerData', (data) => {
 	const movement = move(
 		{
-			x: data.stickAxes.leftStick.y,
-			y: data.stickButtons.leftStick ? 1 : data.stickButtons.rightStick ? -1 : 0,
-			z: data.stickAxes.leftStick.x
+			x: data.mainAxes.x,
+			y: data.mainAxes.y ? 1 : data.mainAxes.y ? -1 : 0,
+			z: data.secondaryAxes.y
 		},
 		vector.vector(0, 0, 0)
 	);
