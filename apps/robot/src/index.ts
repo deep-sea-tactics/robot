@@ -13,10 +13,11 @@ const server = applyWSSHandler({
 });
 
 console.log('Listening on http://localhost:9000');
-createAlignment()
+const timeout = createAlignment()
 
 process.on('SIGTERM', () => {
 	console.log('SIGTERM');
 	server.broadcastReconnectNotification();
 	wss.close();
+	clearTimeout(timeout);
 });

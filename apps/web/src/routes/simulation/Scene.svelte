@@ -239,9 +239,9 @@
 
 		// send out current rotation
 		client?.simulationGyroscopeData.mutate({
-			x: rovBody.rotation().x,
-			y: rovBody.rotation().y,
-			z: rovBody.rotation().z
+			x: rovBody.angvel().x,
+			y: rovBody.angvel().y,
+			z: rovBody.angvel().z
 		});
 
 		keyRovPositionChange = Symbol();

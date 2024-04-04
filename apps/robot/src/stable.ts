@@ -16,14 +16,13 @@ export const setCurrentRotation = (current: vector.VectorLike) => {
 }
 
 export const createAlignment = () => {
-    setInterval(alignmentStep, 1000)
-    //calculate amount of thrust needed on 
+    return setInterval(alignmentStep, 1000);
 }
 
 const alignmentStep = () => {
-    const rotationDifference = vector.vector(currentRotation.x - targetRotation.x, currentRotation.y - targetRotation.y, currentRotation.z - targetRotation.z);
-	const thrust = vector.vector(0.1 * -rotationDifference.x, 0.1 * -rotationDifference.y, 0.1 * -rotationDifference.z);
-    const movement = move(
+    const rotationDifference = vector.subtract(currentRotation)(targetRotation);
+	const thrust = vector.scale(rotationDifference)(-0.1);
+	const movement = move(
 		vector.vector(0, 0, 0),
 		thrust
 	);

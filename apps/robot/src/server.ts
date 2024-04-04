@@ -4,40 +4,21 @@ import debounce from 'debounce';
 import { observable } from '@trpc/server/observable';
 import { Motor } from './motor.js';
 import {
-	accelerationDataSchema,
-	type AccelerationData,
-	gyroDataSchema,
-	type GyroData
+	vectorSchema
 } from './sensors.js';
 import type { ControllerData } from './controller.js';
 import type { MotorEvent } from './motor.js';
 import { move } from './thrusters.js';
 import * as vector from 'vector';
 import { setCurrentRotation } from './stable.js';
-import { emitter } from './emitter.js';
+import { Events, emitter } from './emitter.js';
 
 const t = initTRPC.create();
 
 const isMock = process.env.MOCK === 'true';
 
-function updateSimulationAccelerationData(data: AccelerationData) {
-	emitter.emit('simulationAccelerationData', data);
-}
-
-let currentRotation = vector.vector(0, 0, 0);
-
-function updateGyroscopeData(data: GyroData) {
-	emitter.emit('simulationGyroData', data);
-	
-	currentRotation = vector.vector(data.x, data.y, data.z);
-	setCurrentRotation(currentRotation)
-}
-
-function updateControllerData(data: ControllerData) {
-	emitter.emit('controllerData', data);
-}
-
-// TODO: on sigint, stop all motors
+const emit: <U extends keyof Events>(event: U) => ((...args: Parameters<Events[U]>) => void) 
+	= event => (...data) => emitter.emit(event, ...data)
 
 emitter.on('controllerData', (data) => {
 	const movement = move(
@@ -82,16 +63,16 @@ emitter.on('controllerData', (data) => {
 });
 
 export const router = t.router({
-	simulationAccelerationData: t.procedure.input(accelerationDataSchema).mutation(({ input }) => {
-		updateSimulationAccelerationData(input);
+	simulationAccelerationData: t.procedure.input(vectorSchema).mutation(({ input }) => {
+		emit('simulationAccelerationData')(input);
 		return input;
 	}),
-	simulationGyroscopeData: t.procedure.input(gyroDataSchema).mutation(({ input }) => {
-		updateGyroscopeData(input);
+	simulationGyroscopeData: t.procedure.input(vectorSchema).mutation(({ input }) => {
+		emit('simulationGyroData')(input);
 		return input;
 	}),
 	controllerData: t.procedure.input(controllerDataSchema).mutation(({ input }) => {
-		debounce(updateControllerData, 50)(input);
+		debounce(emit('controllerData'), 50)(input);
 		return input;
 	}),
 	motorEvent: t.procedure.subscription(() => {
