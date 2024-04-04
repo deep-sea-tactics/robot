@@ -18,6 +18,8 @@
 					rightSmall: false,
 					leftBig: false,
 					rightBig: false, 
+					bottomBig: false,
+					bottomSmall: false
 				}
 			};
 

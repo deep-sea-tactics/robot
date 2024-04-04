@@ -79,8 +79,6 @@ emitter.on('controllerData', (data) => {
 		speed: movement.motors.find((m) => m.type === Motor.VerticalRight)?.speed ?? 0
 	});
 
-	// TODO: yaw (rotation)
-	// TODO: camera position (throttle)
 });
 
 export const router = t.router({

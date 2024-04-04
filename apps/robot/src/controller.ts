@@ -36,6 +36,8 @@ export const controllerDataSchema = z.object({
 		rightSmall: z.boolean(),
 		leftBig: z.boolean(),
 		rightBig: z.boolean(),
+		bottomSmall: z.boolean(),
+		bottomBig: z.boolean(),
 	})
 });
 
