@@ -2,24 +2,25 @@
 	import type { ControllerData } from 'robot/dist/controller';
 
 	const defaultData = {
-				connected: true,
-				id: "keyboard",
-				mainAxes: {
-					x: 0,
-					y: 0
-				},
-				secondaryAxes: {
-					x: 0,
-					y: 0				},
-				yaw: 0,
-				trigger: false,
-				buttons: {
-					leftSmall: false,
-					rightSmall: false,
-					leftBig: false,
-					rightBig: false, 
-				}
-			};
+		connected: true,
+		id: "keyboard",
+		mainAxes: {
+			x: 0,
+			y: 0
+		},
+		secondaryAxes: {
+			x: 0,
+			y: 0
+		},
+		yaw: 0,
+		trigger: false,
+		buttons: {
+			leftSmall: false,
+			rightSmall: false,
+			leftBig: false,
+			rightBig: false, 
+		}
+	};
 
 	export let output: ControllerData = structuredClone(defaultData);
 

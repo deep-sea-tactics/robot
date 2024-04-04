@@ -1,7 +1,6 @@
 import { applyWSSHandler } from '@trpc/server/adapters/ws';
 import { WebSocketServer } from 'ws';
-import { router } from './server.js';
-import { createAlignment } from './stable.js';
+import { router, queueTick } from './server.js';
 
 const wss = new WebSocketServer({
 	port: 9000
@@ -13,7 +12,7 @@ const server = applyWSSHandler({
 });
 
 console.log('Listening on http://localhost:9000');
-const timeout = createAlignment()
+const timeout = queueTick()
 
 process.on('SIGTERM', () => {
 	console.log('SIGTERM');
