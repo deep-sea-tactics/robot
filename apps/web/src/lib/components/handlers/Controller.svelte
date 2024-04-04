@@ -46,6 +46,8 @@
 					rightSmall: gamepad.buttons[5].pressed,
 					leftBig: gamepad.buttons[2].pressed,
 					rightBig: gamepad.buttons[3].pressed, 
+					bottomSmall: gamepad.buttons[11].pressed,
+					bottomBig: gamepad.buttons[10].pressed
 				}
 			};
 		} else if (UA.includes('Windows')) {

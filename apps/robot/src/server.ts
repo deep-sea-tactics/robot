@@ -77,8 +77,6 @@ emitter.on('controllerData', (data) => {
 		yaw: 0
 	}
 
-	// TODO: yaw (rotation)
-	// TODO: camera position (throttle)
 });
 
 export const router = t.router({
