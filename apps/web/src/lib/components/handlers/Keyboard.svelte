@@ -2,51 +2,38 @@
 	import type { ControllerData } from 'robot/dist/controller';
 
 	const defaultData = {
-		connected: false,
-		id: 'keyboard',
-		stickAxes: {
-			leftStick: {
-				x: 0,
-				y: 0
-			},
-			rightStick: {
-				x: 0,
-				y: 0
-			}
-		},
-		stickButtons: {
-			leftStick: false,
-			rightStick: false
-		},
-		bumbers: {
-			left: false,
-			right: false
-		},
-		triggers: {
-			left: false,
-			right: false
-		},
-		shapeButtons: {
-			up: false,
-			down: false,
-			left: false,
-			right: false
-		}
-	};
+				connected: true,
+				id: "keyboard",
+				mainAxes: {
+					x: 0,
+					y: 0
+				},
+				secondaryAxes: {
+					x: 0,
+					y: 0				},
+				yaw: 0,
+				trigger: false,
+				buttons: {
+					leftSmall: false,
+					rightSmall: false,
+					leftBig: false,
+					rightBig: false, 
+				}
+			};
 
 	export let output: ControllerData = structuredClone(defaultData);
 
 	let pressedKeys: Set<string> = new Set();
 
 	const mapping: Record<string, () => void> = {
-		w: () => (output.stickAxes.leftStick.y = 1),
-		s: () => (output.stickAxes.leftStick.y = -1),
-		d: () => (output.stickAxes.leftStick.x = 1),
-		a: () => (output.stickAxes.leftStick.x = -1),
-		i: () => (output.stickAxes.rightStick.y = 1),
-		k: () => (output.stickAxes.rightStick.y = -1),
-		j: () => (output.stickAxes.rightStick.x = -1),
-		l: () => (output.stickAxes.rightStick.x = 1)
+		w: () => (output.mainAxes.y = 1),
+		s: () => (output.mainAxes.y = -1),
+		d: () => (output.mainAxes.x = 1),
+		a: () => (output.mainAxes.x = -1),
+		i: () => (output.secondaryAxes.y = 1),
+		k: () => (output.secondaryAxes.y = -1),
+		j: () => (output.yaw = -1),
+		l: () => (output.yaw = 1)
 	};
 
 	function update() {
