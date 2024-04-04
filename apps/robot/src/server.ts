@@ -43,7 +43,7 @@ emitter.on('controllerData', (data) => {
 	const movement = move(
 		{
 			x: data.mainAxes.x,
-			y: data.mainAxes.y ? 1 : data.mainAxes.y ? -1 : 0,
+			y: data.mainAxes.y,
 			z: data.secondaryAxes.y
 		},
 		vector.vector(0, 0, 0)
