@@ -43,11 +43,10 @@ function calculateGradient<N extends number>(
 	func: Func<N>,
 	point: Tuple<number, N>
 ): Tuple<number, N> {
-	const gradient = point.map((value, index) => {
-		const delta = 0.0001;
+	const delta = 0.0001;
+	return point.map((_, index) => {
 		const deltaInput = point.map((v, i) => (i === index ? v + delta : v)) as Tuple<number, N>;
 		const deltaOutput = func(...deltaInput);
 		return (deltaOutput - func(...point)) / delta;
 	}) as Tuple<number, N>;
-	return gradient;
 }
