@@ -1,17 +1,38 @@
 <script lang="ts">
+    import * as cv from '@techstark/opencv-js'
+    import { onMount } from 'svelte';
     import SkeletonTestImage from './skeleton_test_image_with_pink_rect.jpg'
     import template_image from './pink_rect.jpg'
-    import {onMount} from 'svelte'
-    import x_result from './main.svelte'
-    import y_result from './main.svelte'
-    
+
     export let test_image: HTMLImageElement;
     export let template_element: HTMLImageElement;
 
-  //  export function load({ params })
- //   {
-//
-    //}
+    export let x_result: number;
+    export let y_result: number;
+
+    let exit_code = 1;
+
+    onMount(() => 
+    {
+        console.log(cv)
+        alert("Did it even work");
+        let source = cv.imread(test_image);
+        let template = cv.imread(template_element);
+        
+        let dst = new cv.Mat();
+        let mask = new cv.Mat();
+
+        cv.matchTemplate(source, template, dst, cv.TM_CCOEFF, mask);
+        let res = cv.minMaxLoc(dst, mask);
+
+        let max_point = res.maxLoc;
+        let point = new cv.Point(max_point.x + template.cols, max_point.y + template.rows);
+
+        x_result = point.x;
+        y_result = point.y;
+
+        exit_code = 0;
+    })
 </script>
 
 <main>
