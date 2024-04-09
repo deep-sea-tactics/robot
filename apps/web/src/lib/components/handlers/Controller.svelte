@@ -31,68 +31,27 @@
 			output = {
 				connected: gamepad.connected,
 				id: gamepad.id,
-				stickAxes: {
-					leftStick: {
-						x: gamepad.axes[0],
-						y: gamepad.axes[1] * -1 // invert y axis (up is positive)
-					},
-					rightStick: {
-						x: gamepad.axes[3],
-						y: gamepad.axes[4] * -1 // invert y axis (up is positive)
-					}
+				mainAxes: {
+					x: gamepad.axes[0],
+					y: gamepad.axes[1] * -1
 				},
-				stickButtons: {
-					leftStick: gamepad.buttons[11].pressed,
-					rightStick: gamepad.buttons[12].pressed
+				secondaryAxes: {
+					x: gamepad.axes[4],
+					y: gamepad.axes[5] * -1
 				},
-				bumbers: {
-					left: gamepad.buttons[4].pressed,
-					right: gamepad.buttons[5].pressed
-				},
-				triggers: {
-					left: gamepad.buttons[6].pressed,
-					right: gamepad.buttons[7].pressed
-				},
-				shapeButtons: {
-					down: gamepad.buttons[0].pressed,
-					right: gamepad.buttons[1].pressed,
-					up: gamepad.buttons[2].pressed,
-					left: gamepad.buttons[3].pressed
+				yaw: gamepad.axes[2],
+				trigger: gamepad.buttons[0].pressed,
+				buttons: {
+					leftSmall: gamepad.buttons[4].pressed,
+					rightSmall: gamepad.buttons[5].pressed,
+					leftBig: gamepad.buttons[2].pressed,
+					rightBig: gamepad.buttons[3].pressed, 
+					bottomSmall: gamepad.buttons[11].pressed,
+					bottomBig: gamepad.buttons[10].pressed
 				}
 			};
 		} else if (UA.includes('Windows')) {
-			output = {
-				id: gamepad.id,
-				connected: gamepad.connected,
-				stickAxes: {
-					leftStick: {
-						x: gamepad.axes[0],
-						y: gamepad.axes[1] * -1 // invert y axis (up is positive)
-					},
-					rightStick: {
-						x: gamepad.axes[2],
-						y: gamepad.axes[3] * -1 // invert y axis (up is positive)
-					}
-				},
-				stickButtons: {
-					leftStick: gamepad.buttons[10].pressed,
-					rightStick: gamepad.buttons[11].pressed
-				},
-				bumbers: {
-					left: gamepad.buttons[4].pressed,
-					right: gamepad.buttons[5].pressed
-				},
-				triggers: {
-					left: gamepad.buttons[6].pressed,
-					right: gamepad.buttons[7].pressed
-				},
-				shapeButtons: {
-					down: gamepad.buttons[0].pressed,
-					right: gamepad.buttons[1].pressed,
-					up: gamepad.buttons[3].pressed,
-					left: gamepad.buttons[2].pressed
-				}
-			};
+			//todo impl
 		}
 		requestAnimationFrame(getInput);
 	}

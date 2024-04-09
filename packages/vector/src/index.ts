@@ -23,6 +23,11 @@ export function vector(x: number, y: number, z: number): Vector {
 	return { x, y, z };
 }
 
+export function asTuple(v: VectorLike): VectorTuple {
+	v = stabilize(v);
+	return [v.x, v.y, v.z];
+}
+
 export const add =
 	(a: VectorLike) =>
 	(b: VectorLike): Vector => {

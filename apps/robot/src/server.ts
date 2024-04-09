@@ -2,104 +2,94 @@ import { initTRPC } from '@trpc/server';
 import { controllerDataSchema } from './controller.js';
 import debounce from 'debounce';
 import { observable } from '@trpc/server/observable';
-import { TypedEmitter } from 'tiny-typed-emitter';
 import { Motor } from './motor.js';
 import {
-	accelerationDataSchema,
-	type AccelerationData,
-	gyroDataSchema,
-	type GyroData
+	vectorSchema
 } from './sensors.js';
-import type { ControllerData } from './controller.js';
 import type { MotorEvent } from './motor.js';
 import { move } from './thrusters.js';
 import * as vector from 'vector';
-
-type Events = {
-	controllerData: (data: ControllerData) => void;
-	motorData: (data: MotorEvent) => void;
-	simulationAccelerationData: (data: AccelerationData) => void;
-	simulationGyroData: (data: GyroData) => void;
-};
-
-const emitter = new TypedEmitter<Events>();
+import { Events, emitter } from './emitter.js';
+import { calculateNeededTorque } from './stable.js';
 
 const t = initTRPC.create();
 
 const isMock = process.env.MOCK === 'true';
 
-function updateSimulationAccelerationData(data: AccelerationData) {
-	emitter.emit('simulationAccelerationData', data);
+const emit: <U extends keyof Events>(event: U) => ((...args: Parameters<Events[U]>) => void) 
+	= event => (...data) => emitter.emit(event, ...data)
+
+interface Movement {
+	x: number;
+	/** up */
+	y: number;
+	z: number;
+	yaw: number;
 }
 
-let currentRotation = vector.vector(0, 0, 0);
+let movement: Movement = { x: 0, y: 0, z: 0, yaw: 0 }
 
-function updateGyroscopeData(data: GyroData) {
-	emitter.emit('simulationGyroData', data);
-	currentRotation = vector.vector(data.x, data.y, data.z);
-}
-
-function updateControllerData(data: ControllerData) {
-	emitter.emit('controllerData', data);
-}
-
-// TODO: on sigint, stop all motors
-
-emitter.on('controllerData', (data) => {
-	const movement = move(
-		{
-			x: data.stickAxes.leftStick.y,
-			y: data.stickButtons.leftStick ? 1 : data.stickButtons.rightStick ? -1 : 0,
-			z: data.stickAxes.leftStick.x
-		},
-		vector.vector(0, 0, 0)
+let lastTick = Date.now();
+function tick() {
+	const movementCalc = move(
+		movement,
+		calculateNeededTorque()
 	);
 
 	emitter.emit('motorData', {
 		motor: Motor.BottomLeft,
-		speed: movement.motors.find((m) => m.type === Motor.BottomLeft)?.speed ?? 0
+		speed: movementCalc.motors.find((m) => m.type === Motor.BottomLeft)?.speed ?? 0
 	});
 
 	emitter.emit('motorData', {
 		motor: Motor.BottomRight,
-		speed: movement.motors.find((m) => m.type === Motor.BottomRight)?.speed ?? 0
+		speed: movementCalc.motors.find((m) => m.type === Motor.BottomRight)?.speed ?? 0
 	});
 
 	emitter.emit('motorData', {
 		motor: Motor.TopLeft,
-		speed: movement.motors.find((m) => m.type === Motor.TopLeft)?.speed ?? 0
+		speed: movementCalc.motors.find((m) => m.type === Motor.TopLeft)?.speed ?? 0
 	});
 
 	emitter.emit('motorData', {
 		motor: Motor.TopRight,
-		speed: movement.motors.find((m) => m.type === Motor.TopRight)?.speed ?? 0
+		speed: movementCalc.motors.find((m) => m.type === Motor.TopRight)?.speed ?? 0
 	});
 
 	emitter.emit('motorData', {
 		motor: Motor.VerticalLeft,
-		speed: movement.motors.find((m) => m.type === Motor.VerticalLeft)?.speed ?? 0
+		speed: movementCalc.motors.find((m) => m.type === Motor.VerticalLeft)?.speed ?? 0
 	});
 
 	emitter.emit('motorData', {
 		motor: Motor.VerticalRight,
-		speed: movement.motors.find((m) => m.type === Motor.VerticalRight)?.speed ?? 0
+		speed: movementCalc.motors.find((m) => m.type === Motor.VerticalRight)?.speed ?? 0
 	});
+}
 
-	// TODO: yaw (rotation)
-	// TODO: camera position (throttle)
+export const queueTick = () => setInterval(tick, 60)
+
+emitter.on('controllerData', (data) => {
+	movement = {
+		x: data.mainAxes.x,
+		y: data.mainAxes.y,
+		z: data.secondaryAxes.y,
+		yaw: 0
+	}
+
 });
 
 export const router = t.router({
-	simulationAccelerationData: t.procedure.input(accelerationDataSchema).mutation(({ input }) => {
-		updateSimulationAccelerationData(input);
+	simulationAccelerationData: t.procedure.input(vectorSchema).mutation(({ input }) => {
+		emit('simulationAccelerationData')(input);
 		return input;
 	}),
-	simulationGyroscopeData: t.procedure.input(gyroDataSchema).mutation(({ input }) => {
-		updateGyroscopeData(input);
+	simulationGyroscopeData: t.procedure.input(vectorSchema).mutation(({ input }) => {
+		emit('simulationGyroData')([Date.now(), input]);
 		return input;
 	}),
 	controllerData: t.procedure.input(controllerDataSchema).mutation(({ input }) => {
-		debounce(updateControllerData, 50)(input);
+		debounce(emit('controllerData'), 50)(input);
 		return input;
 	}),
 	motorEvent: t.procedure.subscription(() => {
