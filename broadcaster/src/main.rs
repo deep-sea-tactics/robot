@@ -35,6 +35,7 @@ impl RGBStruct
     {
         let mut res = self.clone();
         
+        //FIXME: Efficient-ify the process of unsigned subtraction
         if res.r > against.r
         {
             res.r -= against.r;
