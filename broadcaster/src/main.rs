@@ -17,6 +17,7 @@ struct RGBStruct
     r: u8,
     g: u8,
     b: u8,
+    is_pink: bool,
 }
 impl RGBStruct
 {
@@ -27,52 +28,29 @@ impl RGBStruct
             r: r,
             g: g,
             b: b,
+            is_pink: false,
         }
     }
 
     //TODO: Operator overload
     fn difference(&self, against: RGBStruct) -> RGBStruct
     {
-        let mut res = self.clone();
-        
-        //FIXME: Efficient-ify the process of unsigned subtraction
-        if res.r > against.r
-        {
-            res.r -= against.r;
-        }
-        else
-        {
-            res.r = 0;
-        }
-        
-        if res.g > against.g
-        {
-            res.g -= against.g;
-        }
-        else
-        {
-            res.g = 0;
-        }
+        let mut res = RGBStruct::new(0,0,0);
 
-        if res.b > against.b
-        {
-            res.b -= against.b;
-        }
-        else
-        {
-            res.b = 0;
-        }
+        res.r = difference_of_rgb_value(self.r, against.r);
+        res.g = difference_of_rgb_value(self.g, against.g);
+        res.b = difference_of_rgb_value(self.b, against.b);
 
         res
     }
 
-    fn to_scalar(&self) -> u32
+    fn to_scalar(&self) -> u16
     {
-        let mut res: u32 = 0;
+        let mut res: u16 = 0;
 
-        res += self.r as u32;
-        res += self.g as u32;
-        res += self.b as u32;
+        res += self.r as u16;
+        res += self.g as u16;
+        res += self.b as u16;
 
         res
     }
@@ -82,7 +60,7 @@ impl RGBStruct
         let res: f32;
 
         let against_diff: RGBStruct = self.difference(against);
-        let scale: u32 = against_diff.to_scalar();
+        let scale: u16 = against_diff.to_scalar();
 
         let perc: f32 = scale as f32/100.0;
 
@@ -96,21 +74,60 @@ impl RGBStruct
         println!("R: {}", self.r);
         println!("G: {}", self.g);
         println!("B: {}", self.b);
+        println!("Is pink? {}", self.is_pink);
     }
 }
 
-const PINK: RGBStruct = RGBStruct{r: 255, g: 0, b: 240};
+const PINK_SQUARE_OUT_OF_FRAME_MIN: f32 = 0.1;
+const IS_PINK_DEVIANT: f32 = 0.1;
+const PINK: RGBStruct = RGBStruct{r: 255, g: 0, b: 240, is_pink: true};
 
-static mut PROCESSED_PIXELS: Vec<RGBStruct> = vec![];
+static mut PIXELS: Vec<RGBStruct> = vec![];
+static mut PINK_PIXELS: Vec<&RGBStruct> = vec![];
+
+fn difference_of_rgb_value(target: u8, against: u8) -> u8
+{
+    let res: u8 = (target as i16 - against as i16).abs() as u8;
+    
+    res
+}
+
+fn process_pink_pixels() -> ()
+{
+    unsafe
+    {
+        for pixel in PIXELS.iter()
+        {
+            let pink_perc = pixel.perc_diff(PINK);
+
+            if pink_perc < PINK_SQUARE_OUT_OF_FRAME_MIN
+            {
+                pixel.to_owned().is_pink = true;
+                PINK_PIXELS.push(&pixel);
+            }
+        }
+    }
+}
+
+fn debug_perc() -> ()
+{
+    unsafe
+    {
+        let res: f32 = (PINK_PIXELS.len() as f32/PIXELS.len() as f32);
+
+        println!("Percent of pink pixels in image (0 to 1): {res}");
+        println!("Pink pixel count: {}", PINK_PIXELS.len());
+        println!("Total pixel count: {}", PIXELS.len());
+    }
+}
 
 fn main()
 {
-    let image = ImageReader::open("/workspace/robot/broadcaster/pink.jpeg")
+    let image = ImageReader::open("/workspace/robot/broadcaster/kittens_and_pink_square.jpeg")
         .expect("Failed to open file.")
         .decode();
 
     let rgb_image = image.unwrap().to_rgb8();
-
     
     for (index,pixel) in rgb_image.pixels().enumerate()
     {
@@ -144,15 +161,10 @@ fn main()
 
         unsafe
         {
-            PROCESSED_PIXELS.push(new_pixel);
+            PIXELS.push(new_pixel);
         }
     }
 
-    unsafe
-    {
-        for item in PROCESSED_PIXELS.iter()
-        {
-            println!("{}", item.perc_diff(PINK));
-        }
-    }
+    process_pink_pixels();
+    debug_perc();
 }
