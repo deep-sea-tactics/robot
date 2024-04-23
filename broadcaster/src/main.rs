@@ -271,11 +271,8 @@ fn main() {
 
         unsafe {
             PIXELS.push(new_pixel);
-            PIXEL_POSITIONS.push(new_pixel_position.clone());
+            PIXEL_POSITIONS.push(new_pixel_position);
         }
-
-        let mut test_pixel_position = Position::from_pixel_position(new_pixel_position.clone());
-        test_pixel_position.debug_dump();
     }
 
     process_pink_pixels();
