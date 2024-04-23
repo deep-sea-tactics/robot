@@ -15,6 +15,7 @@ Origin is the top left corner.
 Positive Y values move down (tis` awful but images are loaded in the fourth quadrant)
 */
 
+#[derive(Clone)]
 struct PixelPosition {
     x: usize,
     y: usize,
@@ -32,6 +33,22 @@ struct Position {
 impl Position {
     fn new(x: f32, y: f32) -> Position {
         Position { x, y }
+    }
+
+    fn from_pixel_position(from: PixelPosition) -> Position {
+        let mut res = Position::new(0.0, 0.0);
+
+        unsafe { //sorry tristan
+            res.x = from.x as f32/IMAGE_DIMENSIONS.edge2.x as f32;
+            res.y = from.x as f32/IMAGE_DIMENSIONS.edge2.y as f32;
+        }
+
+        res
+    }
+
+    fn debug_dump(&self) {
+        println!("X position: {}", self.x);
+        println!("Y position: {}", self.y);
     }
 }
 
@@ -254,8 +271,11 @@ fn main() {
 
         unsafe {
             PIXELS.push(new_pixel);
-            PIXEL_POSITIONS.push(new_pixel_position);
+            PIXEL_POSITIONS.push(new_pixel_position.clone());
         }
+
+        let mut test_pixel_position = Position::from_pixel_position(new_pixel_position.clone());
+        test_pixel_position.debug_dump();
     }
 
     process_pink_pixels();
