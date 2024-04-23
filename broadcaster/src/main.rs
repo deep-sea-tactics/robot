@@ -1,41 +1,92 @@
-use std::io::Cursor;
 use image::io::Reader as ImageReader;
 use num::clamp;
+
 /*
 #FF00F0 is the pink color used for testing.
 This is 255, 0, 240 in RGB. Note: The image library has decided that the color of the test images is 255, 0, 240.
 
-Note: A lot of this is just boilerplate code. 
+Note: A lot of this is just boilerplate code.
 The plan is to test all the pixels in an image against the pink color and deduce that the 'most pink' parts of the image are the pink square.
 
 This could probably be more efficient. We could probably have just used a different library, but I don't know what I'm doing TM (so I'm improvising :) ).
+
+Origin is the top left corner.
+
+Positive Y values move down (tis` awful but images are loaded in the fourth quadrant)
 */
 
+struct PixelPosition {
+    x: usize,
+    y: usize,
+}
+impl PixelPosition {
+    fn new(x: usize, y: usize) -> PixelPosition {
+        PixelPosition { x, y }
+    }
+}
+
+struct Position {
+    x: f32,
+    y: f32,
+}
+impl Position {
+    fn new(x: f32, y: f32) -> Position {
+        Position { x, y }
+    }
+}
+
+struct PercRect {
+    edge1: Position,
+    edge2: Position,
+}
+impl PercRect {
+    fn new(x1: f32, y1: f32, x2: f32, y2: f32) -> PercRect {
+        let edge1 = Position::new(x1, y1);
+        let edge2 = Position::new(x2, y2);
+
+        PercRect {
+            edge1,
+            edge2,
+        }
+    }
+}
+
+struct PixelRect {
+    edge1: PixelPosition,
+    edge2: PixelPosition,
+}
+impl PixelRect {
+    fn new(x1: usize, y1: usize, x2: usize, y2: usize) -> PixelRect {
+        let edge1 = PixelPosition::new(x1, y1);
+        let edge2 = PixelPosition::new(x2, y2);
+
+        PixelRect {
+            edge1,
+            edge2,
+        }
+    }
+}
+
 #[derive(Clone)]
-struct RGBStruct
-{
+struct RGBStruct {
     r: u8,
     g: u8,
     b: u8,
     is_pink: bool,
 }
-impl RGBStruct
-{
-    fn new(r: u8, g: u8, b: u8) -> RGBStruct
-    {
-        RGBStruct
-        {
-            r: r,
-            g: g,
-            b: b,
+impl RGBStruct {
+    fn new(r: u8, g: u8, b: u8) -> RGBStruct {
+        RGBStruct {
+            r,
+            g,
+            b,
             is_pink: false,
         }
     }
 
     //TODO: Operator overload
-    fn difference(&self, against: RGBStruct) -> RGBStruct
-    {
-        let mut res = RGBStruct::new(0,0,0);
+    fn difference(&self, against: RGBStruct) -> RGBStruct {
+        let mut res = RGBStruct::new(0, 0, 0);
 
         res.r = difference_of_rgb_value(self.r, against.r);
         res.g = difference_of_rgb_value(self.g, against.g);
@@ -44,8 +95,7 @@ impl RGBStruct
         res
     }
 
-    fn to_scalar(&self) -> u16
-    {
+    fn to_scalar(&self) -> u16 {
         let mut res: u16 = 0;
 
         res += self.r as u16;
@@ -55,22 +105,21 @@ impl RGBStruct
         res
     }
 
-    fn perc_diff(&self, against: RGBStruct) -> f32
-    {
-        let res: f32;
+    fn perc_diff(&self, against: RGBStruct) -> f32 {
+        
 
         let against_diff: RGBStruct = self.difference(against);
         let scale: u16 = against_diff.to_scalar();
 
-        let perc: f32 = scale as f32/100.0;
+        let perc: f32 = scale as f32 / 100.0;
 
-        res = clamp(perc, 0.0, 1.0);
+        let res: f32 = clamp(perc, 0.0, 1.0);
 
         res
     }
 
-    fn debug_dump(&self) -> ()
-    {
+    ///A function for dumping the contents of this struct into the console
+    fn debug_dump(&self) {
         println!("R: {}", self.r);
         println!("G: {}", self.g);
         println!("B: {}", self.b);
@@ -80,40 +129,66 @@ impl RGBStruct
 
 const PINK_SQUARE_OUT_OF_FRAME_MIN: f32 = 0.1;
 const IS_PINK_DEVIANT: f32 = 0.1;
-const PINK: RGBStruct = RGBStruct{r: 255, g: 0, b: 240, is_pink: true};
+const PINK: RGBStruct = RGBStruct {
+    r: 255,
+    g: 0,
+    b: 240,
+    is_pink: true,
+};
 
 static mut PIXELS: Vec<RGBStruct> = vec![];
+static mut PIXEL_POSITIONS: Vec<PixelPosition> = vec![];
 static mut PINK_PIXELS: Vec<&RGBStruct> = vec![];
 
-fn difference_of_rgb_value(target: u8, against: u8) -> u8
-{
-    let res: u8 = (target as i16 - against as i16).abs() as u8;
-    
+static mut PINK_SQUARE_RECTANGLE: PercRect = PercRect {
+    edge1: Position { x: 0.0, y: 0.0 },
+    edge2: Position { x: 0.0, y: 0.0 },
+};
+
+static mut IMAGE_DIMENSIONS: PixelRect = PixelRect {
+    edge1: PixelPosition { x: 0, y: 0 },
+    edge2: PixelPosition { x: 0, y: 0 },
+};
+
+fn difference_of_rgb_value(target: u8, against: u8) -> u8 {
+    let res: u8 = (target as i16 - against as i16).unsigned_abs() as u8;
+
     res
 }
 
-fn process_pink_pixels() -> ()
-{
-    unsafe
-    {
-        for pixel in PIXELS.iter()
-        {
+fn process_pink_pixels() {
+    unsafe {
+        for pixel in PIXELS.iter() {
             let pink_perc = pixel.perc_diff(PINK);
 
-            if pink_perc < PINK_SQUARE_OUT_OF_FRAME_MIN
-            {
+            if pink_perc < PINK_SQUARE_OUT_OF_FRAME_MIN {
                 pixel.to_owned().is_pink = true;
-                PINK_PIXELS.push(&pixel);
+                PINK_PIXELS.push(pixel);
             }
         }
     }
 }
 
-fn debug_perc() -> ()
+/*
+So far assuming that:
+
+The first pink pixel encountered is a corner
+The last pink pixel encountered is a corner
+*/
+
+/*
+fn generate_rectangle()
 {
     unsafe
     {
-        let res: f32 = (PINK_PIXELS.len() as f32/PIXELS.len() as f32);
+        let begin =
+    }
+}
+*/
+
+fn debug_perc() {
+    unsafe {
+        let res: f32 = PINK_PIXELS.len() as f32 / PIXELS.len() as f32;
 
         println!("Percent of pink pixels in image (0 to 1): {res}");
         println!("Pink pixel count: {}", PINK_PIXELS.len());
@@ -121,20 +196,38 @@ fn debug_perc() -> ()
     }
 }
 
-fn main()
-{
-    let image = ImageReader::open("/workspace/robot/broadcaster/kittens_and_pink_square.jpeg")
-        .expect("Failed to open file.")
-        .decode();
+fn main() {
+    let loaded_image =
+        ImageReader::open("/workspace/robot/broadcaster/kittens_and_pink_square.jpeg")
+            .expect("Failed to open file.")
+            .decode();
 
-    let rgb_image = image.unwrap().to_rgb8();
-    
-    for (index,pixel) in rgb_image.pixels().enumerate()
-    {
-        let mut new_pixel = RGBStruct::new(0,0,0);
+    let (width, height) =
+        image::image_dimensions("/workspace/robot/broadcaster/kittens_and_pink_square.jpeg")
+            .expect("Failed to open file.");
 
-        for (val_i,rgb_value) in pixel.0.iter().enumerate()
-        {
+    unsafe {
+        IMAGE_DIMENSIONS.edge2.x = width as usize;
+        IMAGE_DIMENSIONS.edge2.y = height as usize;
+    }
+
+    println!("Image width: {:?}", width);
+    println!("Image height: {:?}", height);
+
+    let rgb_image = loaded_image.unwrap().to_rgb8();
+
+    let mut row: u32 = 0;
+
+    for (index, pixel) in rgb_image.pixels().enumerate() {
+        let mut new_pixel = RGBStruct::new(0, 0, 0);
+
+        if index % width as usize == 0 {
+            row += 1;
+        }
+
+        let new_pixel_position = PixelPosition::new(index % width as usize, row as usize);
+
+        for (val_i, rgb_value) in pixel.0.iter().enumerate() {
             match val_i //Try not to: Wretch, Vomit, Scream, or Die when reading this. Please.
             {
                 0 =>
@@ -159,9 +252,9 @@ fn main()
             }
         }
 
-        unsafe
-        {
+        unsafe {
             PIXELS.push(new_pixel);
+            PIXEL_POSITIONS.push(new_pixel_position);
         }
     }
 
