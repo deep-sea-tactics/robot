@@ -8,8 +8,7 @@ import {
 } from './sensors.js';
 import type { MotorEvent } from './motor.js';
 import { move } from './thrusters.js';
-import * as vector from 'vector';
-import { Events, emitter } from './emitter.js';
+import { type Events, emitter } from './emitter.js';
 import { calculateNeededTorque } from './stable.js';
 
 const t = initTRPC.create();

@@ -1,7 +1,7 @@
 import { TypedEmitter } from "tiny-typed-emitter";
-import { ControllerData } from "./controller.js";
-import { MotorEvent } from "./motor.js";
-import { Vector } from "vector";
+import type { ControllerData } from "./controller.js";
+import type { MotorEvent } from "./motor.js";
+import type { Vector } from "vector";
 
 export type Events = {
 	controllerData(data: ControllerData): void;

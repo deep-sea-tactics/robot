@@ -19,6 +19,8 @@
 			rightSmall: false,
 			leftBig: false,
 			rightBig: false, 
+			bottomSmall: false,
+			bottomBig: false
 		}
 	};
 
