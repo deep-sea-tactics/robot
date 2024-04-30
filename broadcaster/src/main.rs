@@ -1,280 +1,154 @@
-use image::io::Reader as ImageReader;
-use num::clamp;
-
-/*
-#FF00F0 is the pink color used for testing.
-This is 255, 0, 240 in RGB. Note: The image library has decided that the color of the test images is 255, 0, 240.
-
-Note: A lot of this is just boilerplate code.
-The plan is to test all the pixels in an image against the pink color and deduce that the 'most pink' parts of the image are the pink square.
-
-This could probably be more efficient. We could probably have just used a different library, but I don't know what I'm doing TM (so I'm improvising :) ).
-
-Origin is the top left corner.
-
-Positive Y values move down (tis` awful but images are loaded in the fourth quadrant)
-*/
-
-#[derive(Clone)]
-struct PixelPosition {
-    x: usize,
-    y: usize,
-}
-impl PixelPosition {
-    fn new(x: usize, y: usize) -> PixelPosition {
-        PixelPosition { x, y }
-    }
-}
-
-struct Position {
-    x: f32,
-    y: f32,
-}
-impl Position {
-    fn new(x: f32, y: f32) -> Position {
-        Position { x, y }
-    }
-
-    fn from_pixel_position(from: PixelPosition) -> Position {
-        let mut res = Position::new(0.0, 0.0);
-
-        unsafe { //sorry tristan
-            res.x = from.x as f32/IMAGE_DIMENSIONS.edge2.x as f32;
-            res.y = from.x as f32/IMAGE_DIMENSIONS.edge2.y as f32;
-        }
-
-        res
-    }
-
-    fn debug_dump(&self) {
-        println!("X position: {}", self.x);
-        println!("Y position: {}", self.y);
-    }
-}
-
-struct PercRect {
-    edge1: Position,
-    edge2: Position,
-}
-impl PercRect {
-    fn new(x1: f32, y1: f32, x2: f32, y2: f32) -> PercRect {
-        let edge1 = Position::new(x1, y1);
-        let edge2 = Position::new(x2, y2);
-
-        PercRect {
-            edge1,
-            edge2,
-        }
-    }
-}
-
-struct PixelRect {
-    edge1: PixelPosition,
-    edge2: PixelPosition,
-}
-impl PixelRect {
-    fn new(x1: usize, y1: usize, x2: usize, y2: usize) -> PixelRect {
-        let edge1 = PixelPosition::new(x1, y1);
-        let edge2 = PixelPosition::new(x2, y2);
-
-        PixelRect {
-            edge1,
-            edge2,
-        }
-    }
-}
-
-#[derive(Clone)]
-struct RGBStruct {
-    r: u8,
-    g: u8,
-    b: u8,
-    is_pink: bool,
-}
-impl RGBStruct {
-    fn new(r: u8, g: u8, b: u8) -> RGBStruct {
-        RGBStruct {
-            r,
-            g,
-            b,
-            is_pink: false,
-        }
-    }
-
-    //TODO: Operator overload
-    fn difference(&self, against: RGBStruct) -> RGBStruct {
-        let mut res = RGBStruct::new(0, 0, 0);
-
-        res.r = difference_of_rgb_value(self.r, against.r);
-        res.g = difference_of_rgb_value(self.g, against.g);
-        res.b = difference_of_rgb_value(self.b, against.b);
-
-        res
-    }
-
-    fn to_scalar(&self) -> u16 {
-        let mut res: u16 = 0;
-
-        res += self.r as u16;
-        res += self.g as u16;
-        res += self.b as u16;
-
-        res
-    }
-
-    fn perc_diff(&self, against: RGBStruct) -> f32 {
-        
-
-        let against_diff: RGBStruct = self.difference(against);
-        let scale: u16 = against_diff.to_scalar();
-
-        let perc: f32 = scale as f32 / 100.0;
-
-        let res: f32 = clamp(perc, 0.0, 1.0);
-
-        res
-    }
-
-    ///A function for dumping the contents of this struct into the console
-    fn debug_dump(&self) {
-        println!("R: {}", self.r);
-        println!("G: {}", self.g);
-        println!("B: {}", self.b);
-        println!("Is pink? {}", self.is_pink);
-    }
-}
-
-const PINK_SQUARE_OUT_OF_FRAME_MIN: f32 = 0.1;
-const IS_PINK_DEVIANT: f32 = 0.1;
-const PINK: RGBStruct = RGBStruct {
-    r: 255,
-    g: 0,
-    b: 240,
-    is_pink: true,
+use anyhow::Result;
+use image::{io::Reader as ImageReader, DynamicImage, Luma, Pixel, Rgb};
+use imageproc::{
+    contours::{find_contours_with_threshold, Contour},
+    map::map_colors,
+    point::Point,
 };
+use num::{integer::sqrt, abs};
 
-static mut PIXELS: Vec<RGBStruct> = vec![];
-static mut PIXEL_POSITIONS: Vec<PixelPosition> = vec![];
-static mut PINK_PIXELS: Vec<&RGBStruct> = vec![];
+const PINK: Rgb<u8> = Rgb([255, 0, 240]);
+const PINK_THRESHOLD: u8 = 200;
 
-static mut PINK_SQUARE_RECTANGLE: PercRect = PercRect {
-    edge1: Position { x: 0.0, y: 0.0 },
-    edge2: Position { x: 0.0, y: 0.0 },
-};
+/// A point from 0-1, relative to the width and height of the image.
+type PercentagePoint = Point<f32>;
 
-static mut IMAGE_DIMENSIONS: PixelRect = PixelRect {
-    edge1: PixelPosition { x: 0, y: 0 },
-    edge2: PixelPosition { x: 0, y: 0 },
-};
-
-fn difference_of_rgb_value(target: u8, against: u8) -> u8 {
-    let res: u8 = (target as i16 - against as i16).unsigned_abs() as u8;
-
-    res
+/// Gets the point as a percentage for broadcasting back to `web`
+fn point_as_percentage<T>(point: Point<T>, dimensions: Point<usize>) -> PercentagePoint
+where
+    f32: From<T>,
+{
+    PercentagePoint {
+        x: Into::<f32>::into(point.x) / dimensions.x as f32,
+        y: Into::<f32>::into(point.y) / dimensions.y as f32,
+    }
 }
 
-fn process_pink_pixels() {
-    unsafe {
-        for pixel in PIXELS.iter() {
-            let pink_perc = pixel.perc_diff(PINK);
+#[derive(Debug, Copy, Clone, PartialEq, Eq)]
+struct Extrema<T> {
+    min: Point<T>,
+    max: Point<T>,
+}
 
-            if pink_perc < PINK_SQUARE_OUT_OF_FRAME_MIN {
-                pixel.to_owned().is_pink = true;
-                PINK_PIXELS.push(pixel);
+impl<T> Extrema<T> {
+    fn to_percentage_point(&self, dimensions: Point<usize>) -> Extrema<f32>
+    where
+        f32: From<T>,
+        T: Clone
+    {
+        Extrema {
+            min: point_as_percentage(self.min.clone(), dimensions),
+            max: point_as_percentage(self.max.clone(), dimensions),
+        }
+    }
+}
+
+/// Find the extrema of a series of contours.
+fn contours_extrema(contours: &[Contour<usize>]) -> Extrema<usize> {
+    let points = contours
+        .iter()
+        .flat_map(|contour| &contour.points)
+        .collect::<Vec<_>>();
+
+    let mut x_min = usize::MAX;
+    let mut y_min = usize::MAX;
+    let mut x_max = 0;
+    let mut y_max = 0;
+
+    for point in points {
+        if x_min > point.x {
+            x_min = point.x;
+        }
+
+        if y_min > point.y {
+            y_min = point.y;
+        }
+
+        if x_max < point.x {
+            x_max = point.x;
+        }
+
+        if y_max < point.y {
+            y_max = point.y;
+        }
+    }
+
+    Extrema {
+        min: Point { x: x_min, y: y_min },
+        max: Point { x: x_max, y: y_max },
+    }
+}
+
+/// Finds the difference between two colors
+fn distance(first: Rgb<u8>, second: Rgb<u8>) -> usize {
+    let [r1, g1, b1] = first.0;
+    let [r2, g2, b2] = second.0;
+    let r = r1 as isize - r2 as isize;
+    let g = g1 as isize - g2 as isize;
+    let b = b1 as isize - b2 as isize;
+
+    (r * r + g * g + b * b) as usize
+}
+
+fn process_image(image: DynamicImage) -> Result<()> {
+    let image = map_colors(&image, |p| {
+        let dist = distance(PINK, p.to_rgb());
+
+        Luma::<u8>([abs(255 as isize - sqrt(dist) as isize) as u8])
+    });
+
+    // TODO: find with threshold
+    let contours = find_contours_with_threshold::<usize>(&image, PINK_THRESHOLD);
+
+    let mut image = map_colors(&image, |p| Rgb([p.0[0], p.0[0], p.0[0]]));
+
+    for contour in &contours {
+        for pixel in &contour.points {
+            *image.get_pixel_mut(pixel.x as u32, pixel.y as u32) = Rgb([0, 127, 0]);
+        }
+    }
+
+    let extrema = contours_extrema(&contours);
+    let extrema = Extrema {
+        min: Point {
+            x: extrema.min.x as f32,
+            y: extrema.min.y as f32
+        },
+        max: Point  {
+            x: extrema.max.x as f32,
+            y: extrema.max.y as f32
+        }
+    };
+
+    dbg!(extrema.to_percentage_point(
+        {
+            let (x, y) = image.dimensions();
+
+            Point {
+                x: x as usize,
+                y: y as usize
             }
         }
-    }
+    ));
+
+    image.save("./test.png")?;
+
+    Ok(())
 }
 
-/*
-So far assuming that:
-
-The first pink pixel encountered is a corner
-The last pink pixel encountered is a corner
-*/
-
-/*
-fn generate_rectangle()
-{
-    unsafe
-    {
-        let begin =
-    }
-}
-*/
-
-fn debug_perc() {
-    unsafe {
-        let res: f32 = PINK_PIXELS.len() as f32 / PIXELS.len() as f32;
-
-        println!("Percent of pink pixels in image (0 to 1): {res}");
-        println!("Pink pixel count: {}", PINK_PIXELS.len());
-        println!("Total pixel count: {}", PIXELS.len());
-    }
-}
-
-fn main() {
+fn main() -> Result<()> {
     let loaded_image =
         ImageReader::open("/workspace/robot/broadcaster/kittens_and_pink_square.jpeg")
             .expect("Failed to open file.")
-            .decode();
+            .decode()?;
 
-    let (width, height) =
-        image::image_dimensions("/workspace/robot/broadcaster/kittens_and_pink_square.jpeg")
-            .expect("Failed to open file.");
+    process_image(loaded_image)?;
 
-    unsafe {
-        IMAGE_DIMENSIONS.edge2.x = width as usize;
-        IMAGE_DIMENSIONS.edge2.y = height as usize;
-    }
+    Ok(())
+}
 
-    println!("Image width: {:?}", width);
-    println!("Image height: {:?}", height);
-
-    let rgb_image = loaded_image.unwrap().to_rgb8();
-
-    let mut row: u32 = 0;
-
-    for (index, pixel) in rgb_image.pixels().enumerate() {
-        let mut new_pixel = RGBStruct::new(0, 0, 0);
-
-        if index % width as usize == 0 {
-            row += 1;
-        }
-
-        let new_pixel_position = PixelPosition::new(index % width as usize, row as usize);
-
-        for (val_i, rgb_value) in pixel.0.iter().enumerate() {
-            match val_i //Try not to: Wretch, Vomit, Scream, or Die when reading this. Please.
-            {
-                0 =>
-                {
-                    new_pixel.r = *rgb_value;
-                }
-
-                1 =>
-                {
-                    new_pixel.g = *rgb_value;
-                }
-
-                2 =>
-                {
-                    new_pixel.b = *rgb_value;
-                }
-
-                _ =>
-                {
-                    println!("Went out of indexing for reading image to Vec<RGBStruct>");
-                }
-            }
-        }
-
-        unsafe {
-            PIXELS.push(new_pixel);
-            PIXEL_POSITIONS.push(new_pixel_position);
-        }
-    }
-
-    process_pink_pixels();
-    debug_perc();
+#[cfg(test)]
+mod test {
+    #[test]
+    fn check_kittens() {}
 }
