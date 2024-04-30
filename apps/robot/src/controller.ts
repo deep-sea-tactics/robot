@@ -29,6 +29,12 @@ export const controllerDataSchema = z.object({
 		x: z.number().min(-1).max(1),
 		y: z.number().min(-1).max(1)
 	}),
+	plusButtonCombo: z.object({
+		up: z.boolean(),
+		down: z.boolean(),
+		left: z.boolean(),
+		right: z.boolean()
+	}),
 	yaw: z.number().min(-1).max(1),
 	trigger: z.boolean(),
 	buttons: z.object({

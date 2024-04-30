@@ -24,9 +24,10 @@ interface Movement {
 	y: number;
 	z: number;
 	yaw: number;
+	pitch: number;
 }
 
-let movement: Movement = { x: 0, y: 0, z: 0, yaw: 0 }
+let movement: Movement = { x: 0, y: 0, z: 0, yaw: 0, pitch: 0 }
 
 let lastTick = Date.now();
 function tick() {
@@ -69,11 +70,13 @@ function tick() {
 export const queueTick = () => setInterval(tick, 60)
 
 emitter.on('controllerData', (data) => {
+	//how did we get here?
 	movement = {
-		x: data.mainAxes.x,
-		y: data.mainAxes.y,
-		z: data.secondaryAxes.y,
-		yaw: 0
+		x: data.mainAxes.y,
+		y: (data.plusButtonCombo.up ? 1 : 0) - (data.plusButtonCombo.down ? 1 : 0) ,
+		z: data.mainAxes.x,
+		yaw: data.secondaryAxes.x,
+		pitch: data.secondaryAxes.y
 	}
 
 });
