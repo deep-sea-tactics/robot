@@ -15,7 +15,37 @@ const t = initTRPC.create();
 
 const isMock = process.env.MOCK === 'true';
 
-const emit: <U extends keyof Events>(event: U) => ((...args: Parameters<Events[U]>) => void) 
+async function connectPhysicalMotors() {
+	const { Gpio } = await import("pigpio");
+
+	const thrusterConfig = {
+		[Motor.VerticalLeft]: new Gpio(19, { mode: Gpio.OUTPUT }),
+		[Motor.VerticalRight]: new Gpio(16, { mode: Gpio.OUTPUT }),
+		[Motor.TopLeft]: new Gpio(5, { mode: Gpio.OUTPUT }),
+		[Motor.TopRight]: new Gpio(13, { mode: Gpio.OUTPUT }),
+		[Motor.BottomLeft]: new Gpio(12, { mode: Gpio.OUTPUT }),
+		[Motor.BottomRight]: new Gpio(6, { mode: Gpio.OUTPUT }),
+	}
+
+	function speedToServo(speed: number) {
+		// 1100 - 1900, 1500 is neutral, range is 800 - multiply by its range and add initial
+		return speed * 800 + 1100
+	}
+
+	function onMotorData(event: MotorEvent) {
+		const pin = thrusterConfig[event.motor];
+		
+		pin.servoWrite(speedToServo(event.speed));
+	}
+
+	emitter.on('motorData', onMotorData)
+}
+
+if (!isMock) {
+	connectPhysicalMotors();
+}
+
+const emit: <U extends keyof Events>(event: U) => ((...args: Parameters<Events[U]>) => void)
 	= event => (...data) => emitter.emit(event, ...data)
 
 interface Movement {
