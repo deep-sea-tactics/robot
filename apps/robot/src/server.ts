@@ -28,13 +28,14 @@ async function connectPhysicalMotors() {
 	}
 
 	function speedToServo(speed: number) {
-		// 1100 - 1900, 1500 is neutral, range is 800 - multiply by its range and add initial
+		// 1100 - 1900, 1500 is neutral
+		// range is 800 - multiply by its range and add initial
 		return speed * 800 + 1100
 	}
 
 	function onMotorData(event: MotorEvent) {
 		const pin = thrusterConfig[event.motor];
-		
+
 		pin.servoWrite(speedToServo(event.speed));
 	}
 

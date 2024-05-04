@@ -31,3 +31,6 @@ yarn-error.log*
 .pnpm-store
 
 .gitpod.yml
+
+# cargo
+target
