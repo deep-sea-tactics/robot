@@ -2,9 +2,8 @@
 import { exec } from 'node:child_process';
 const runCommand = 'ustreamer';
 
-// Function to check if uStreamer is installed
-const isUstreamerInstalled = () => {
-	const checkCommand = `${runCommand} --version`;
+/** Checks if a command executes successfully */
+function commandRunsSuccessfully(checkCommand: string): Promise<boolean> {
 	const checkProcess = exec(checkCommand);
 
 	return new Promise((resolve) => {
@@ -14,6 +13,20 @@ const isUstreamerInstalled = () => {
 	});
 };
 
+/** Gets the install command for the current operating system */
+async function getInstallCommand() {
+	if (await commandRunsSuccessfully('dnf --version')) {
+		return 'sudo dnf install -y ustreamer';
+	}
+
+	if (await commandRunsSuccessfully('apt-get --version')) {
+		return 'sudo apt-get install -y ustreamer';
+	}
+
+	throw new Error('Unsupported operating.');
+}
+
+/** Runs µStreamer; doesn't work if not installed. */
 async function run() {
 	const runProcess = exec(runCommand);
 
@@ -31,6 +44,7 @@ async function run() {
 	});
 }
 
+/** Installs µStreamer. */
 async function install() {
 	console.log('uStreamer is not already installed. Attempting install...');
 
@@ -40,12 +54,12 @@ async function install() {
 
 	if (!supportedOS.includes(os)) {
 		console.error(`Unsupported operating system: ${os}.`);
-		console.error(`Perhaps you meant "pnpm run mock" instead?`);
+		console.error(`Perhaps you meant "pnpm run robot:mock" instead?`);
 		return;
 	}
 
 	// Install uStreamer using apt-get
-	const installCommand = 'sudo apt-get install -y ustreamer';
+	const installCommand = await getInstallCommand();
 
 	// Execute the command
 	const installProcess = exec(installCommand);
@@ -70,7 +84,7 @@ async function install() {
 
 async function main() {
 	// Check if uStreamer is already installed
-	const isInstalled = await isUstreamerInstalled();
+	const isInstalled = await commandRunsSuccessfully(`${runCommand} --version`);
 
 	if (isInstalled) {
 		await run()
