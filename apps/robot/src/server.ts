@@ -19,12 +19,28 @@ async function connectPhysicalMotors() {
 	const { Gpio } = await import("pigpio");
 
 	const thrusterConfig = {
-		[Motor.VerticalLeft]: new Gpio(19, { mode: Gpio.OUTPUT }),
-		[Motor.VerticalRight]: new Gpio(16, { mode: Gpio.OUTPUT }),
-		[Motor.TopLeft]: new Gpio(5, { mode: Gpio.OUTPUT }),
-		[Motor.TopRight]: new Gpio(13, { mode: Gpio.OUTPUT }),
-		[Motor.BottomLeft]: new Gpio(12, { mode: Gpio.OUTPUT }),
-		[Motor.BottomRight]: new Gpio(6, { mode: Gpio.OUTPUT }),
+		// ESC 1
+		[Motor.VerticalLeft]: new Gpio(36, { mode: Gpio.OUTPUT }),
+		// ESC 2
+		[Motor.VerticalRight]: new Gpio(35, { mode: Gpio.OUTPUT }),
+		// ESC 3
+		[Motor.TopLeft]: new Gpio(33, { mode: Gpio.OUTPUT }),
+		// ESC 4
+		[Motor.TopRight]: new Gpio(32, { mode: Gpio.OUTPUT }),
+		// ESC 5
+		[Motor.BottomLeft]: new Gpio(31, { mode: Gpio.OUTPUT }),
+		// ESC 6
+		[Motor.BottomRight]: new Gpio(29, { mode: Gpio.OUTPUT }),
+	}
+
+	const sensorConfig = {
+		1: new Gpio(11, { mode: Gpio.OUTPUT }),
+		// (2 is not soldered)
+		2: new Gpio(12, { mode: Gpio.OUTPUT }),
+		3: new Gpio(13, { mode: Gpio.OUTPUT }),
+		// (4 is not soldered)
+		4: new Gpio(15, { mode: Gpio.OUTPUT }),
+		5: new Gpio(16, { mode: Gpio.OUTPUT })
 	}
 
 	function speedToServo(speed: number) {
@@ -33,13 +49,25 @@ async function connectPhysicalMotors() {
 		return speed * 800 + 1100
 	}
 
-	function onMotorData(event: MotorEvent) {
-		const pin = thrusterConfig[event.motor];
-
-		pin.servoWrite(speedToServo(event.speed));
+	function onMotorData(event: Record<`${Motor}`, number>) {
+		for (const entry of Object.entries(event)) {
+			const [motor, speed] = entry;
+			const pin = thrusterConfig[parseInt(motor) as Motor];
+			pin.servoWrite(speedToServo(speed))
+		}
 	}
 
-	emitter.on('motorData', onMotorData)
+	emitter.on('motorData', onMotorData);
+
+	// on CTRL + C, clean up
+	process.on('SIGINT', () => {
+		Object.values(thrusterConfig).forEach((pin) => {
+			pin.servoWrite(1500);
+			pin.digitalWrite(0);
+		});
+
+		process.exit();
+	});
 }
 
 if (!isMock) {
@@ -67,41 +95,12 @@ function tick() {
 		calculateNeededTorque()
 	);
 
-	emitter.emit('motorData', {
-		motor: Motor.BottomLeft,
-		speed: movementCalc.motors.find((m) => m.type === Motor.BottomLeft)?.speed ?? 0
-	});
-
-	emitter.emit('motorData', {
-		motor: Motor.BottomRight,
-		speed: movementCalc.motors.find((m) => m.type === Motor.BottomRight)?.speed ?? 0
-	});
-
-	emitter.emit('motorData', {
-		motor: Motor.TopLeft,
-		speed: movementCalc.motors.find((m) => m.type === Motor.TopLeft)?.speed ?? 0
-	});
-
-	emitter.emit('motorData', {
-		motor: Motor.TopRight,
-		speed: movementCalc.motors.find((m) => m.type === Motor.TopRight)?.speed ?? 0
-	});
-
-	emitter.emit('motorData', {
-		motor: Motor.VerticalLeft,
-		speed: movementCalc.motors.find((m) => m.type === Motor.VerticalLeft)?.speed ?? 0
-	});
-
-	emitter.emit('motorData', {
-		motor: Motor.VerticalRight,
-		speed: movementCalc.motors.find((m) => m.type === Motor.VerticalRight)?.speed ?? 0
-	});
+	emitter.emit('motorData', Object.fromEntries(movementCalc.motors.map(motor => [motor.type.toString(), motor.speed])) as Record<`${Motor}`, number>);
 }
 
 export const queueTick = () => setInterval(tick, 60)
 
 emitter.on('controllerData', (data) => {
-	//how did we get here?
 	movement = {
 		x: data.mainAxes.y,
 		y: (data.plusButtonCombo.up ? 1 : 0) - (data.plusButtonCombo.down ? 1 : 0) ,
@@ -109,7 +108,6 @@ emitter.on('controllerData', (data) => {
 		yaw: data.secondaryAxes.x,
 		pitch: data.secondaryAxes.y
 	}
-
 });
 
 export const router = t.router({
@@ -127,7 +125,7 @@ export const router = t.router({
 	}),
 	motorEvent: t.procedure.subscription(() => {
 		return observable<MotorEvent>((emit) => {
-			const onAdd = (data: MotorEvent) => emit.next(data);
+			const onAdd = (data: Record<`${Motor}`, number>) => Object.entries(data).forEach(([motor, speed]) => emit.next({ motor: parseInt(motor), speed }));
 
 			emitter.on('motorData', onAdd);
 
