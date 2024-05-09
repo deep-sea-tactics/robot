@@ -1,0 +1,47 @@
+{
+	"$schema": "./node_modules/nx/schemas/nx-schema.json",
+	"targetDefaults": {
+		"build": {
+			"dependsOn": ["^build"],
+			"outputs": [
+				"{workspaceRoot}/.svelte-kit/**",
+				"{workspaceRoot}/.vercel/**",
+				"{workspaceRoot}/.dist/**"
+			]
+		},
+		"cp-env": {
+			"dependsOn": ["^cp-env"]
+		},
+		"lint": {},
+		"dev": {
+			"cache": false,
+			"dependsOn": ["^build"]
+		},
+		"dev:mock": {
+			"cache": false,
+			"dependsOn": ["^build"]
+		},
+		"robot": {
+			"cache": false
+		},
+		"robot:mock": {
+			"cache": false
+		},
+		"test": {
+			"dependsOn": ["^build"]
+		},
+		"check": {
+			"cache": false
+		}
+	},
+	"defaultBase": "main",
+	"plugins": [
+		{
+			"plugin": "@nx/eslint/plugin",
+			"options": {
+				"targetName": "eslint:lint",
+				"extensions": ["ts", "tsx", "js", "jsx", "html", "vue"]
+			}
+		}
+	]
+}
