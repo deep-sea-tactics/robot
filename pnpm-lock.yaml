@@ -52,9 +52,6 @@ importers:
       debounce:
         specifier: ^2.0.0
         version: 2.0.0
-      pigpio:
-        specifier: ^3.3.1
-        version: 3.3.1
       tiny-typed-emitter:
         specifier: ^2.1.0
         version: 2.1.0
@@ -67,6 +64,10 @@ importers:
       zod:
         specifier: ^3.22.4
         version: 3.22.4
+    optionalDependencies:
+      pigpio:
+        specifier: ^3.3.1
+        version: 3.3.1
     devDependencies:
       '@trpc/server':
         specifier: ^10.44.1
@@ -2708,6 +2709,7 @@ snapshots:
   bindings@1.5.0:
     dependencies:
       file-uri-to-path: 1.0.0
+    optional: true
 
   brace-expansion@1.1.11:
     dependencies:
@@ -3023,7 +3025,8 @@ snapshots:
     dependencies:
       flat-cache: 3.0.4
 
-  file-uri-to-path@1.0.0: {}
+  file-uri-to-path@1.0.0:
+    optional: true
 
   fill-range@7.0.1:
     dependencies:
@@ -3262,7 +3265,8 @@ snapshots:
 
   ms@2.1.2: {}
 
-  nan@2.19.0: {}
+  nan@2.19.0:
+    optional: true
 
   nanoid@3.3.6: {}
 
@@ -3339,6 +3343,7 @@ snapshots:
     dependencies:
       bindings: 1.5.0
       nan: 2.19.0
+    optional: true
 
   pkg-types@1.0.3:
     dependencies:
