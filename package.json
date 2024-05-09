@@ -1,27 +1,28 @@
 {
-	"private": true,
-	"scripts": {
-		"build": "turbo run build",
-		"dev": "turbo run dev",
-		"dev:mock": "turbo run dev:mock",
-		"lint": "turbo run lint",
-		"robot": "turbo run robot",
-		"robot:mock": "turbo run robot:mock",
-		"format": "prettier --plugin-search-dir . --write .",
-		"test": "turbo run test",
-		"check": "turbo run check"
-	},
-	"devDependencies": {
-		"eslint": "^8.0.0",
-		"eslint-config-custom": "workspace:*",
-		"prettier": "^2.7.1",
-		"prettier-plugin-svelte": "^2.10.0",
-		"turbo": "latest"
-	},
-	"packageManager": "pnpm@9.0.6",
-	"pnpm": {
-		"patchedDependencies": {
-			"@threlte/rapier@1.1.4": "patches/@threlte__rapier@1.1.4.patch"
-		}
-	}
+  "private": true,
+  "scripts": {
+    "build": "nx run-many -t build",
+    "dev": "nx run-many -t dev",
+    "dev:mock": "nx run-many -t dev:mock",
+    "lint": "nx run-many -t lint",
+    "robot": "nx run-many -t robot",
+    "robot:mock": "nx run-many -t robot:mock",
+    "format": "prettier --plugin-search-dir . --write .",
+    "test": "nx run-many -t test",
+    "check": "nx run-many -t check"
+  },
+  "devDependencies": {
+    "eslint": "^8.0.0",
+    "eslint-config-custom": "workspace:*",
+    "prettier": "^2.7.1",
+    "prettier-plugin-svelte": "^2.10.0",
+    "nx": "19.0.2",
+    "@nx/eslint": "19.0.2"
+  },
+  "packageManager": "pnpm@9.0.6",
+  "pnpm": {
+    "patchedDependencies": {
+      "@threlte/rapier@1.1.4": "patches/@threlte__rapier@1.1.4.patch"
+    }
+  }
 }
