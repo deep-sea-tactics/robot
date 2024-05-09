@@ -6,7 +6,7 @@ This is a PNPM & Turbo monorepo.
 
 ## Task Pipelines
 
-> [!NOTE]  
+> [!NOTE]
 > To run any of these tasks, do `pnpm run <task>`. The `robot` task must be run as root if [µStreamer](https://github.com/pikvm/ustreamer) is not installed.
 
 There are two different task categories:
@@ -43,3 +43,9 @@ Some of these tasks may depend on `build`:
 Same components as above, but:
 
 - `robot:mock` communicates with a [tRPC](https://trpc.io/) on the client that now hosts a _simulation_ that drives the "motors".
+
+## Setting up Physical Robot
+
+Instead of using `:mock`, use `dev` and `robot` directly.
+
+Configure `.env` to point to the proper RPI IP address.

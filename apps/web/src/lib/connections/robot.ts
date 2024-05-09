@@ -9,7 +9,9 @@ export const client = browser
 			links: [
 				wsLink({
 					client: createWSClient({
-						url: transform(9000, 'ws')
+						url: import.meta.env.VITE_RPI_IP ? transform(9000, 'ws', {
+							origin: `https://${import.meta.env.VITE_RPI_IP}`
+						}) : transform(9000, 'ws')
 					})
 				})
 			]
