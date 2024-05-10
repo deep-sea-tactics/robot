@@ -13,6 +13,7 @@
 		"motor": "tsx watch --clear-screen=false ./src/debug.ts"
 	},
 	"devDependencies": {
+		"@types/node": "^20.9.2",
 		"tsx": "^4.6.0"
 	},
 	"optionalDependencies": {
