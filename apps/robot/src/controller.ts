@@ -25,6 +25,10 @@ export const controllerDataSchema = z.object({
 		/** Does the 3D scanning task */
 		scanning: z.boolean()
 	}),
+	camera: z.object({
+		/** Y-movement of the camera. -1 is down, 1 is up */
+		y: z.number().min(-1).max(1)
+	}),
 	rotation: z.object({
 		/** Controls the pitch of the ROV. -1 is down, 1 is up */
 		pitch: z.number().min(-1).max(1),
@@ -33,7 +37,9 @@ export const controllerDataSchema = z.object({
 	}),
 	arm: z.object({
 		/** Controls how the arm opens and closes. -1 is closing, 1 is opening */
-		openClose: z.number().min(-1).max(1)
+		openClose: z.number().min(-1).max(1),
+		/** Controls how the secondary arm rotates. -1 is counterclockwise, 1 is clockwise */
+		rotate: z.number().min(-1).max(1)
 	})
 });
 
@@ -54,8 +60,12 @@ export const defaultControllerData: ControllerData = Object.freeze({
 		pitch: 0,
 		yaw: 0
 	},
+	camera: {
+		y: 0
+	},
 	arm: {
-		openClose: 0
+		openClose: 0,
+		rotate: 0
 	}
 });
 

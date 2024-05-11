@@ -26,8 +26,12 @@
 			barrelRoll: gamepad.buttons[10].pressed,
 			scanning: gamepad.buttons[11].pressed
 		},
+		camera: {
+			y: 0
+		},
 		arm: {
-			openClose: buttonAxis(gamepad.buttons[0].pressed, gamepad.buttons[1].pressed)
+			openClose: buttonAxis(gamepad.buttons[0].pressed, gamepad.buttons[1].pressed),
+			rotate: 0
 		}
 	})}
 />

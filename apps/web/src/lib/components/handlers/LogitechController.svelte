@@ -1,12 +1,9 @@
 <script lang="ts">
 	import type { ControllerData } from 'robot/src/controller';
 	import GamepadApi from './GamepadAPI.svelte';
+	import { buttonAxis } from './utils';
 
 	export let output: ControllerData | undefined;
-
-	function booleanToNumber(bool: boolean): 0 | 1 {
-		return bool ? 1 : 0;
-	}
 </script>
 
 <GamepadApi
@@ -18,7 +15,7 @@
 		movement: {
 			x: gamepad.axes[0],
 			z: gamepad.axes[1] * -1,
-			y: booleanToNumber(gamepad.buttons[12].pressed) - booleanToNumber(gamepad.buttons[13].pressed)
+			y: buttonAxis(gamepad.buttons[12].pressed, gamepad.buttons[13].pressed)
 		},
 		rotation: {
 			pitch: gamepad.axes[2],
@@ -29,8 +26,12 @@
 			barrelRoll: gamepad.buttons[3].pressed,
 			scanning: gamepad.buttons[1].pressed
 		},
+		camera: {
+			y: buttonAxis(gamepad.buttons[5].pressed, gamepad.buttons[4].pressed)
+		},
 		arm: {
-			openClose: (-gamepad.axes[4] - 1) / 2 + (gamepad.axes[5] + 1) / 2
+			openClose: (gamepad.axes[5] + 1) / 2 - (gamepad.axes[4] + 1) / 2,
+			rotate: buttonAxis(gamepad.buttons[9].pressed, gamepad.buttons[8].pressed)
 		}
 	})}
 />
