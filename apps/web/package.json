@@ -28,6 +28,7 @@
 		"cpx": "^1.5.0",
 		"cross-env": "^7.0.3",
 		"eslint-config-custom": "workspace:*",
+		"object-property-extractor": "^1.0.10",
 		"robot": "workspace:*",
 		"sass": "^1.76.0",
 		"svelte": "^4.2.8",

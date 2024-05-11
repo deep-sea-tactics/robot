@@ -1,22 +1,64 @@
 <script lang="ts">
-	import Logitech from '$lib/components/handlers/LogitechController.svelte';
-	import Keyboard from '$lib/components/handlers/Keyboard.svelte';
 	import type { ControllerData } from 'robot/dist/controller';
+	import Arbitrary from '$lib/components/handlers/Arbitrary.svelte';
+	import extract from "object-property-extractor"
+
+	let propertyExtractor = '';
+	let propertyError = '';
+
+	let isDeadzoning = false;
+	let deadzoneMin = 0;
+	let deadzoneMax = 0;
 
 	let output: ControllerData;
-	let keyboardOutput: ControllerData;
+	$: if (isDeadzoning) {
+		const value = extract(output, propertyExtractor);
+
+		deadzoneMin = Math.min(value, deadzoneMin);
+		deadzoneMax = Math.max(value, deadzoneMax);
+	}
+
+	function beginDeadzone() {
+		propertyError = '';
+
+		if (!output) {
+			propertyError = 'No output to scan';
+			return;
+		}
+
+		const property = extract(output, propertyExtractor);
+
+		console.log(property)
+		if (typeof property !== 'number') {
+			propertyError = 'Property is not a number'
+			return;
+		}
+
+		isDeadzoning = true;
+	}
 </script>
 
 <svelte:head>
 	<title>Controller Debugging</title>
 </svelte:head>
 
-<Logitech bind:output />
-<Keyboard bind:output={keyboardOutput} />
+<Arbitrary bind:output />
 
 <main>
-	<pre>{JSON.stringify(output, null, 2)}</pre>
-	<pre>{JSON.stringify(keyboardOutput, null, 2)}</pre>
+	<div class="output">
+		<pre>{JSON.stringify(output, null, 2)}</pre>
+	</div>
+	<div class="deadzone">
+		<input type="text" placeholder="Enter property to extract" bind:value={propertyExtractor}>
+		<button on:click={beginDeadzone}>Begin Deadzone</button>
+		{#if propertyError}
+			<p>{propertyError}</p>
+		{/if}
+		{#if isDeadzoning}
+			<p>{deadzoneMin}</p>
+			<p>{deadzoneMax}</p>
+		{/if}
+	</div>
 </main>
 
 <style>

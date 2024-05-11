@@ -16,4 +16,9 @@ yarn.lock
 
 # Ignore pnpm-store
 .pnpm-store
+
+# Ignore NX cache
 /.nx/cache
+
+# Ignore cargo target
+target
