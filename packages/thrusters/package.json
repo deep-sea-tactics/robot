@@ -1,4 +1,13 @@
 {
 	"name": "thrusters",
-	"version": "0.0.0"
+	"version": "0.0.0",
+	"type": "module",
+	"scripts": {
+		"parse": "tsx parse.ts"
+	},
+	"devDependencies": {
+		"@types/node": "^20.9.2",
+		"tsx": "^4.6.0",
+		"xlsx": "^0.18.5"
+	}
 }

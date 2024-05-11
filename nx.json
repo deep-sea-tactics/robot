@@ -22,16 +22,19 @@
 			"dependsOn": ["^build"]
 		},
 		"robot": {
-			"cache": false
+			"cache": false,
+			"dependsOn": ["^build"]
 		},
 		"robot:mock": {
-			"cache": false
+			"cache": false,
+			"dependsOn": ["^build"]
 		},
 		"test": {
 			"dependsOn": ["^build"]
 		},
 		"check": {
-			"cache": false
+			"cache": false,
+			"dependsOn": ["^build"]
 		}
 	},
 	"defaultBase": "main",

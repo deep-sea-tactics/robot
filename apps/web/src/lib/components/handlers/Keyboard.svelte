@@ -1,46 +1,34 @@
 <script lang="ts">
-	import type { ControllerData } from 'robot/dist/controller';
+	import { type ControllerData, defaultControllerData } from 'robot/dist/controller';
 
-	const defaultData = {
+	const defaultKeyboardData: ControllerData = Object.freeze({
+		...defaultControllerData,
 		connected: true,
-		id: "keyboard",
-		mainAxes: {
-			x: 0,
-			y: 0
-		},
-		secondaryAxes: {
-			x: 0,
-			y: 0
-		},
-		yaw: 0,
-		trigger: false,
-		buttons: {
-			leftSmall: false,
-			rightSmall: false,
-			leftBig: false,
-			rightBig: false, 
-			bottomSmall: false,
-			bottomBig: false
-		}
-	};
+		id: 'keyboard'
+	});
 
-	export let output: ControllerData = structuredClone(defaultData);
+	export let output: ControllerData = structuredClone(defaultKeyboardData);
 
 	let pressedKeys: Set<string> = new Set();
 
 	const mapping: Record<string, () => void> = {
-		w: () => (output.mainAxes.y = 1),
-		s: () => (output.mainAxes.y = -1),
-		d: () => (output.mainAxes.x = 1),
-		a: () => (output.mainAxes.x = -1),
-		i: () => (output.secondaryAxes.y = 1),
-		k: () => (output.secondaryAxes.y = -1),
-		j: () => (output.yaw = -1),
-		l: () => (output.yaw = 1)
+		w: () => (output.movement.z = 1),
+		s: () => (output.movement.z = -1),
+		d: () => (output.movement.x = 1),
+		a: () => (output.movement.x = -1),
+		i: () => (output.movement.y = 1),
+		k: () => (output.movement.y = -1),
+		j: () => (output.rotation.yaw = -1),
+		l: () => (output.rotation.yaw = 1),
+		f: () => (output.rotation.pitch = 1),
+		v: () => (output.rotation.pitch = -1),
+		',': () => (output.tasks.pinkSquare = true),
+		'.': () => (output.tasks.barrelRoll = true),
+		'/': () => (output.tasks.scanning = true),
 	};
 
 	function update() {
-		output = structuredClone(defaultData);
+		output = structuredClone(defaultKeyboardData);
 		for (const key of pressedKeys) {
 			mapping[key]?.();
 		}

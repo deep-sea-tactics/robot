@@ -2,11 +2,11 @@
   "private": true,
   "scripts": {
     "build": "nx run-many -t build",
-    "dev": "nx run-many -t dev",
-    "dev:mock": "nx run-many -t dev:mock",
+    "dev": "nx run-many -t dev --output-style stream",
+    "dev:mock": "nx run-many -t dev:mock --output-style stream",
     "lint": "nx run-many -t lint",
-    "robot": "nx run-many -t robot",
-    "robot:mock": "nx run-many -t robot:mock",
+    "robot": "nx run-many -t robot --output-style stream",
+    "robot:mock": "nx run-many -t robot:mock --output-style stream",
     "format": "prettier --plugin-search-dir . --write .",
     "test": "nx run-many -t test",
     "check": "nx run-many -t check"

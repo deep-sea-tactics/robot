@@ -1,50 +1,62 @@
 import { z } from 'zod';
 
 /**
- * General X and Y position interface.
- *
- * X and Y are between -1 and 1. 0 is in the middle.
- *
- * -1y means backwards, 1y means forwards
- * -1x means left, 1x means right
- */
-export const PositionSchema = z.object({
-	x: z.number().min(-1).max(1),
-	y: z.number().min(-1).max(1)
-});
-
-export type Position = z.infer<typeof PositionSchema>;
-
-/**
  * All data sent from the controller
  */
 export const controllerDataSchema = z.object({
+	/** The current ID of the controller; i.e. logitech */
 	id: z.string(),
+	/** Whether the controller is currently connected */
 	connected: z.boolean(),
-	mainAxes: z.object({
+	/** How the robot moves. */
+	movement: z.object({
+		/** The x (sideways) movement. -1 is left, 1 is right */
 		x: z.number().min(-1).max(1),
-		y: z.number().min(-1).max(1)
+		/** The y (up/down) movement. -1 is down, 1 is up */
+		y: z.number().min(-1).max(1),
+		/** The z (forward/backwards) movement. -1 is backwards, 1 is forwards */
+		z: z.number().min(-1).max(1),
 	}),
-	secondaryAxes: z.object({
-		x: z.number().min(-1).max(1),
-		y: z.number().min(-1).max(1)
+	tasks: z.object({
+		/** Activates the pink square task. */
+		pinkSquare: z.boolean(),
+		/** Does a barrel roll */
+		barrelRoll: z.boolean(),
+		/** Does the 3D scanning task */
+		scanning: z.boolean(),
 	}),
-	plusButtonCombo: z.object({
-		up: z.boolean(),
-		down: z.boolean(),
-		left: z.boolean(),
-		right: z.boolean()
+	rotation: z.object({
+		/** Controls the pitch of the ROV. -1 is down, 1 is up */
+		pitch: z.number().min(-1).max(1),
+		/** Controls the yaw of the ROV. -1 is left, 1 is right */
+		yaw: z.number().min(-1).max(1),
 	}),
-	yaw: z.number().min(-1).max(1),
-	trigger: z.boolean(),
-	buttons: z.object({
-		leftSmall: z.boolean(),
-		rightSmall: z.boolean(),
-		leftBig: z.boolean(),
-		rightBig: z.boolean(),
-		bottomSmall: z.boolean(),
-		bottomBig: z.boolean(),
+	arm: z.object({
+		/** Controls how the arm opens and closes. -1 is closing, 1 is opening */
+		openClose: z.number().min(-1).max(1),
 	})
+});
+
+export const defaultControllerData: ControllerData = Object.freeze({
+	id: 'dummy',
+	connected: false,
+	movement: {
+		x: 0,
+		y: 0,
+		z: 0,
+	},
+	tasks: {
+		pinkSquare: false,
+		barrelRoll: false,
+		scanning: false,
+	},
+	rotation: {
+		pitch: 0,
+		yaw: 0,
+	},
+	arm: {
+		openClose: 0,
+	}
 });
 
 export type ControllerData = z.infer<typeof controllerDataSchema>;
