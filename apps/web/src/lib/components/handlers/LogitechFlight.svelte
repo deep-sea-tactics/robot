@@ -27,11 +27,11 @@
 			scanning: gamepad.buttons[11].pressed
 		},
 		camera: {
-			y: 0
+			y: gamepad.axes[5] * -1
 		},
 		arm: {
 			openClose: buttonAxis(gamepad.buttons[0].pressed, gamepad.buttons[1].pressed),
-			rotate: 0
+			rotate: gamepad.axes[3] * -1
 		}
 	})}
 />
