@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Controller from '$lib/components/handlers/Controller.svelte';
+	import Logitech from '$lib/components/handlers/LogitechController.svelte';
 	import Keyboard from '$lib/components/handlers/Keyboard.svelte';
 	import type { ControllerData } from 'robot/dist/controller';
 
@@ -11,7 +11,7 @@
 	<title>Controller Debugging</title>
 </svelte:head>
 
-<Controller bind:output />
+<Logitech bind:output />
 <Keyboard bind:output={keyboardOutput} />
 
 <main>

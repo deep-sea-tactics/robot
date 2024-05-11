@@ -1,21 +1,16 @@
 <script lang="ts">
-	import Controller from '$lib/components/handlers/Controller.svelte';
-	import Keyboard from '$lib/components/handlers/Keyboard.svelte';
 	import type { ControllerData } from 'robot/dist/controller';
 	import { client } from '$lib/connections/robot';
 	import { env } from '$env/dynamic/public';
 	import { Pane, Splitpanes } from 'svelte-splitpanes';
 	import Simulation from '../simulation/Simulation.svelte';
+	import Arbitrary from '$lib/components/handlers/Arbitrary.svelte';
 	const isMock = env.PUBLIC_MOCK === 'true';
-	let gamepad: Gamepad;
-	let gamepadOutput: ControllerData;
-	let keyboardOutput: ControllerData;
-	$: output = gamepadOutput ?? keyboardOutput;
+	let output: ControllerData;
 	$: if (output) client?.controllerData.mutate(output);
 </script>
 
-<Controller bind:gamepad bind:output={gamepadOutput} />
-<Keyboard bind:output={keyboardOutput} />
+<Arbitrary bind:output />
 
 <Splitpanes style="height: 100vh;">
 	<Pane>
