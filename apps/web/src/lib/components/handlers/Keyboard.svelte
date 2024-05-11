@@ -24,7 +24,7 @@
 		v: () => (output.rotation.pitch = -1),
 		',': () => (output.tasks.pinkSquare = true),
 		'.': () => (output.tasks.barrelRoll = true),
-		'/': () => (output.tasks.scanning = true),
+		'/': () => (output.tasks.scanning = true)
 	};
 
 	function update() {

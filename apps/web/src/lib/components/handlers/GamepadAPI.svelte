@@ -30,10 +30,10 @@
 		gamepad = navigator.getGamepads()[0];
 
 		if (!gamepad) {
-			console.warn("No controller connected")
+			console.warn('No controller connected');
 			output = null;
 			return;
-		};
+		}
 
 		if (!gamepad.id.toLowerCase().includes(idContains.toLowerCase())) {
 			output = null;

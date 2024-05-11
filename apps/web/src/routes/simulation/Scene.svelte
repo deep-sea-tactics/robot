@@ -14,7 +14,7 @@
 	import { useLoader } from '@threlte/core';
 
 	const rovAngularDamping = 0;
-	
+
 	const gltfModel = useLoader(GLTFLoader).load('./robot.glb');
 	const current_profiler = useLoader(GLTFLoader).load('./current_profiler.glb');
 	const multifunction_node = useLoader(GLTFLoader).load('./multifunction_node.glb');
@@ -110,7 +110,7 @@
 		});
 	});
 
-	let currentPosition = new Vector3(0, waterHeight, 0)
+	let currentPosition = new Vector3(0, waterHeight, 0);
 	let cameraPosition = new Vector3(10, 10, 10);
 	let cameraRotation = new Vector3(0, 0, 0);
 
@@ -142,7 +142,7 @@
 		return thruster.position.clone().applyQuaternion(rov.getWorldQuaternion(new Quaternion()));
 	}
 
-	function calculateThrusterDirection(thruster: MotorConstraint, rov: THREE.Mesh): Vector3  {
+	function calculateThrusterDirection(thruster: MotorConstraint, rov: THREE.Mesh): Vector3 {
 		return thruster.thrustDirection
 			.clone()
 			.applyQuaternion(rov.getWorldQuaternion(new Quaternion()));
@@ -219,7 +219,7 @@
 			force = vector.add(force)([0, -gravity, 0]);
 		}
 
-		currentPosition = new Vector3(...vector.asTuple(rovBody.translation()))
+		currentPosition = new Vector3(...vector.asTuple(rovBody.translation()));
 
 		// point the camera at the ROV
 		if (currentView == VIEWS.ThirdPerson) {
@@ -302,7 +302,6 @@ The mesh below represents the ROV, and is a work in progress. Interactivity is l
 			ref.setAngularDamping(rovAngularDamping);
 			rovBody = ref;
 		}}
-
 		linearDamping={0.1}
 	>
 		<T.Mesh
@@ -311,11 +310,7 @@ The mesh below represents the ROV, and is a work in progress. Interactivity is l
 			}}
 		>
 			{#if $gltfModel}
-				<T
-					is={$gltfModel?.scene}
-					scale={0.001}
-					rotation={[0, Math.PI / 2, 0]}
-				/>
+				<T is={$gltfModel?.scene} scale={0.001} rotation={[0, Math.PI / 2, 0]} />
 			{/if}
 
 			<T.MeshBasicMaterial color="rgba(0, 0, 0, 0)" />
@@ -343,10 +338,6 @@ The following are props
 {#if $waypoint1}
 	<T is={$waypoint1?.scene} />
 {/if}
-
-
-
-
 
 <!--
 Sensor for the water; for buoyancy calculations

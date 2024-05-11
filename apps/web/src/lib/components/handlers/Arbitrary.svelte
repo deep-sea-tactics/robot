@@ -1,8 +1,8 @@
 <script lang="ts">
-	import type { ControllerData } from "robot/dist/controller";
-	import LogitechController from "./LogitechController.svelte";
-	import LogitechFlight from "./LogitechFlight.svelte";
-	import Keyboard from "./Keyboard.svelte";
+	import type { ControllerData } from 'robot/dist/controller';
+	import LogitechController from './LogitechController.svelte';
+	import LogitechFlight from './LogitechFlight.svelte';
+	import Keyboard from './Keyboard.svelte';
 
 	let logitechControllerOutput: ControllerData | undefined;
 	let logitechFlightOutput: ControllerData | undefined;

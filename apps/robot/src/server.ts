@@ -3,9 +3,7 @@ import { ControllerData, controllerDataSchema, defaultControllerData } from './c
 import debounce from 'debounce';
 import { observable } from '@trpc/server/observable';
 import { Motor } from './motor.js';
-import {
-	vectorSchema
-} from './sensors.js';
+import { vectorSchema } from './sensors.js';
 import type { MotorEvent } from './motor.js';
 import { move } from './thrusters.js';
 import { type Events, emitter } from './emitter.js';
@@ -16,7 +14,7 @@ const t = initTRPC.create();
 const isMock = process.env.MOCK === 'true';
 
 async function connectPhysicalMotors() {
-	const { Gpio } = await import("pigpio");
+	const { Gpio } = await import('pigpio');
 
 	const thrusterConfig = {
 		// ESC 1
@@ -30,8 +28,8 @@ async function connectPhysicalMotors() {
 		// ESC 5
 		[Motor.BottomLeft]: new Gpio(31, { mode: Gpio.OUTPUT }),
 		// ESC 6
-		[Motor.BottomRight]: new Gpio(29, { mode: Gpio.OUTPUT }),
-	}
+		[Motor.BottomRight]: new Gpio(29, { mode: Gpio.OUTPUT })
+	};
 
 	const sensorConfig = {
 		1: new Gpio(11, { mode: Gpio.OUTPUT }),
@@ -41,19 +39,19 @@ async function connectPhysicalMotors() {
 		// (4 is not soldered)
 		4: new Gpio(15, { mode: Gpio.OUTPUT }),
 		5: new Gpio(16, { mode: Gpio.OUTPUT })
-	}
+	};
 
 	function speedToServo(speed: number) {
 		// 1100 - 1900, 1500 is neutral
 		// range is 800 - multiply by its range and add initial
-		return speed * 800 + 1100
+		return speed * 800 + 1100;
 	}
 
 	function onMotorData(event: Record<`${Motor}`, number>) {
 		for (const entry of Object.entries(event)) {
 			const [motor, speed] = entry;
 			const pin = thrusterConfig[parseInt(motor) as Motor];
-			pin.servoWrite(speedToServo(speed))
+			pin.servoWrite(speedToServo(speed));
 		}
 	}
 
@@ -74,21 +72,25 @@ if (!isMock) {
 	connectPhysicalMotors();
 }
 
-const emit: <U extends keyof Events>(event: U) => ((...args: Parameters<Events[U]>) => void)
-	= event => (...data) => emitter.emit(event, ...data)
+const emit: <U extends keyof Events>(event: U) => (...args: Parameters<Events[U]>) => void =
+	(event) =>
+	(...data) =>
+		emitter.emit(event, ...data);
 
 let movement: ControllerData = defaultControllerData;
 
 function tick() {
-	const movementCalc = move(
-		movement.movement,
-		calculateNeededTorque(movement.rotation)
-	);
+	const movementCalc = move(movement.movement, calculateNeededTorque(movement.rotation));
 
-	emitter.emit('motorData', Object.fromEntries(movementCalc.motors.map(motor => [motor.type.toString(), motor.speed])) as Record<`${Motor}`, number>);
+	emitter.emit(
+		'motorData',
+		Object.fromEntries(
+			movementCalc.motors.map((motor) => [motor.type.toString(), motor.speed])
+		) as Record<`${Motor}`, number>
+	);
 }
 
-export const queueTick = () => setInterval(tick, 60)
+export const queueTick = () => setInterval(tick, 60);
 
 emitter.on('controllerData', (data) => {
 	movement = data;
@@ -109,7 +111,10 @@ export const router = t.router({
 	}),
 	motorEvent: t.procedure.subscription(() => {
 		return observable<MotorEvent>((emit) => {
-			const onAdd = (data: Record<`${Motor}`, number>) => Object.entries(data).forEach(([motor, speed]) => emit.next({ motor: parseInt(motor), speed }));
+			const onAdd = (data: Record<`${Motor}`, number>) =>
+				Object.entries(data).forEach(([motor, speed]) =>
+					emit.next({ motor: parseInt(motor), speed })
+				);
 
 			emitter.on('motorData', onAdd);
 

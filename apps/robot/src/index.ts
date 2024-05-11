@@ -12,7 +12,7 @@ const server = applyWSSHandler({
 });
 
 console.log('Listening on http://localhost:9000');
-const timeout = queueTick()
+const timeout = queueTick();
 
 process.on('SIGTERM', () => {
 	console.log('SIGTERM');

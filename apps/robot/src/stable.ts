@@ -11,9 +11,5 @@ emitter.on('simulationGyroData', ([time, angularVelocity]) => {
 type Rotation = ControllerData['rotation'];
 
 export function calculateNeededTorque(rotation: Rotation): vector.Vector {
-	return vector.vector(
-		rotation.yaw,
-		rotation.pitch,
-		0
-	);
+	return vector.vector(rotation.yaw, rotation.pitch, 0);
 }

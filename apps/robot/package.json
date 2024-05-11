@@ -1,36 +1,36 @@
 {
-  "name": "robot",
-  "private": true,
-  "version": "0.0.0",
-  "files": [
-    "dist/**",
-    "src/**"
-  ],
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "type": "module",
-  "scripts": {
-    "robot:mock": "cross-env MOCK=true tsx watch --clear-screen=false ./src/index.ts",
-    "robot": "tsx ./src/index.ts",
-    "build": "tsc",
-    "check": "tsc -p ./tsconfig.json",
-    "stabilization": "tsx ./src/stabilization/main.ts"
-  },
-  "devDependencies": {
-    "@trpc/server": "^10.44.1",
-    "@types/ws": "^8.5.10",
-    "cross-env": "^7.0.3",
-    "tsx": "^4.6.0",
-    "typescript": "^5.4.5"
-  },
-  "dependencies": {
-    "debounce": "^2.0.0",
-    "tiny-typed-emitter": "^2.1.0",
-    "vector": "workspace:*",
-    "ws": "^8.15.1",
-    "zod": "^3.22.4"
-  },
-  "optionalDependencies": {
-    "pigpio": "^3.3.1"
-  }
+	"name": "robot",
+	"private": true,
+	"version": "0.0.0",
+	"files": [
+		"dist/**",
+		"src/**"
+	],
+	"main": "dist/index.js",
+	"types": "dist/index.d.ts",
+	"type": "module",
+	"scripts": {
+		"robot:mock": "cross-env MOCK=true tsx watch --clear-screen=false ./src/index.ts",
+		"robot": "tsx ./src/index.ts",
+		"build": "tsc",
+		"check": "tsc -p ./tsconfig.json",
+		"stabilization": "tsx ./src/stabilization/main.ts"
+	},
+	"devDependencies": {
+		"@trpc/server": "^10.44.1",
+		"@types/ws": "^8.5.10",
+		"cross-env": "^7.0.3",
+		"tsx": "^4.6.0",
+		"typescript": "^5.4.5"
+	},
+	"dependencies": {
+		"debounce": "^2.0.0",
+		"tiny-typed-emitter": "^2.1.0",
+		"vector": "workspace:*",
+		"ws": "^8.15.1",
+		"zod": "^3.22.4"
+	},
+	"optionalDependencies": {
+		"pigpio": "^3.3.1"
+	}
 }

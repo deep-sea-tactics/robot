@@ -11,7 +11,7 @@ function commandRunsSuccessfully(checkCommand: string): Promise<boolean> {
 			resolve(code === 0);
 		});
 	});
-};
+}
 
 /** Gets the install command for the current operating system */
 async function getInstallCommand() {
@@ -87,11 +87,11 @@ async function main() {
 	const isInstalled = await commandRunsSuccessfully(`${runCommand} --version`);
 
 	if (isInstalled) {
-		await run()
+		await run();
 	} else {
 		await install();
 	}
-};
+}
 
 // Call the function to install and run uStreamer
 main();

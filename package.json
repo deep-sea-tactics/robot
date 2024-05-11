@@ -1,28 +1,28 @@
 {
-  "private": true,
-  "scripts": {
-    "build": "nx run-many -t build",
-    "dev": "nx run-many -t dev --output-style stream",
-    "dev:mock": "nx run-many -t dev:mock --output-style stream",
-    "lint": "nx run-many -t lint",
-    "robot": "nx run-many -t robot --output-style stream",
-    "robot:mock": "nx run-many -t robot:mock --output-style stream",
-    "format": "prettier --plugin-search-dir . --write .",
-    "test": "nx run-many -t test",
-    "check": "nx run-many -t check"
-  },
-  "devDependencies": {
-    "eslint": "^8.0.0",
-    "eslint-config-custom": "workspace:*",
-    "prettier": "^2.7.1",
-    "prettier-plugin-svelte": "^2.10.0",
-    "nx": "19.0.2",
-    "@nx/eslint": "19.0.2"
-  },
-  "packageManager": "pnpm@9.1.0",
-  "pnpm": {
-    "patchedDependencies": {
-      "@threlte/rapier@1.1.4": "patches/@threlte__rapier@1.1.4.patch"
-    }
-  }
+	"private": true,
+	"scripts": {
+		"build": "nx run-many -t build",
+		"dev": "nx run-many -t dev --output-style stream",
+		"dev:mock": "nx run-many -t dev:mock --output-style stream",
+		"lint": "nx run-many -t lint",
+		"robot": "nx run-many -t robot --output-style stream",
+		"robot:mock": "nx run-many -t robot:mock --output-style stream",
+		"format": "prettier --plugin-search-dir . --write .",
+		"test": "nx run-many -t test",
+		"check": "nx run-many -t check"
+	},
+	"devDependencies": {
+		"eslint": "^8.0.0",
+		"eslint-config-custom": "workspace:*",
+		"prettier": "^2.7.1",
+		"prettier-plugin-svelte": "^2.10.0",
+		"nx": "19.0.2",
+		"@nx/eslint": "19.0.2"
+	},
+	"packageManager": "pnpm@9.1.0",
+	"pnpm": {
+		"patchedDependencies": {
+			"@threlte/rapier@1.1.4": "patches/@threlte__rapier@1.1.4.patch"
+		}
+	}
 }
