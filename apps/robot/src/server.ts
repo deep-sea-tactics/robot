@@ -1,5 +1,5 @@
 import { initTRPC } from '@trpc/server';
-import { ControllerData, controllerDataSchema, defaultControllerData } from './controller.js';
+import { type ControllerData, controllerDataSchema, defaultControllerData } from './controller.js';
 import debounce from 'debounce';
 import { observable } from '@trpc/server/observable';
 import { Motor } from './motor.js';

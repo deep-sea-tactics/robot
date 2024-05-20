@@ -1,6 +1,6 @@
 import * as vector from 'vector';
 import { emitter } from './emitter.js';
-import { ControllerData } from './controller.js';
+import type { ControllerData } from './controller.js';
 
 let currentRotation = vector.vector(0, 0, 0);
 
