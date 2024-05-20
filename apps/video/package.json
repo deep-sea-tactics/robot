@@ -6,8 +6,8 @@
 		"robot": "tsx ./src/index.ts"
 	},
 	"devDependencies": {
-		"@types/node": "^20.9.2",
+		"@types/node": "^20.12.12",
 		"cross-env": "^7.0.3",
-		"tsx": "^4.6.0"
+		"tsx": "^4.10.5"
 	}
 }
