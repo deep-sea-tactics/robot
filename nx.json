@@ -3,16 +3,15 @@
 	"targetDefaults": {
 		"build": {
 			"dependsOn": ["^build"],
-			"outputs": [
-				"{workspaceRoot}/.svelte-kit/**",
-				"{workspaceRoot}/.vercel/**",
-				"{workspaceRoot}/.dist/**"
-			]
+			"outputs": ["{projectRoot}/.svelte-kit", "{projectRoot}/dist", "{projectRoot}/build"]
 		},
 		"cp-env": {
 			"dependsOn": ["^cp-env"]
 		},
-		"lint": {},
+		"lint": {
+			"cache": true,
+			"dependsOn": ["^build"]
+		},
 		"dev": {
 			"cache": false,
 			"dependsOn": ["^build"]
@@ -30,10 +29,11 @@
 			"dependsOn": ["^build"]
 		},
 		"test": {
-			"dependsOn": ["^build"]
+			"dependsOn": ["^build"],
+			"cache": true
 		},
 		"check": {
-			"cache": false,
+			"cache": true,
 			"dependsOn": ["^build"]
 		}
 	},

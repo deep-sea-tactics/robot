@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { ControllerData } from 'robot/dist/controller';
 	import Arbitrary from '$lib/components/handlers/Arbitrary.svelte';
-	import extract from "object-property-extractor"
+	import extract from 'object-property-extractor';
 
 	let propertyExtractor = '';
 	let propertyError = '';
@@ -28,9 +28,9 @@
 
 		const property = extract(output, propertyExtractor);
 
-		console.log(property)
+		console.log(property);
 		if (typeof property !== 'number') {
-			propertyError = 'Property is not a number'
+			propertyError = 'Property is not a number';
 			return;
 		}
 
@@ -49,7 +49,7 @@
 		<pre>{JSON.stringify(output, null, 2)}</pre>
 	</div>
 	<div class="deadzone">
-		<input type="text" placeholder="Enter property to extract" bind:value={propertyExtractor}>
+		<input type="text" placeholder="Enter property to extract" bind:value={propertyExtractor} />
 		<button on:click={beginDeadzone}>Begin Deadzone</button>
 		{#if propertyError}
 			<p>{propertyError}</p>
