@@ -1,4 +1,4 @@
-@typescript-eslint/eslint-plugindiff --git a/dist/components/Colliders/AutoColliders.svelte b/dist/components/Colliders/AutoColliders.svelte
+diff --git a/dist/components/Colliders/AutoColliders.svelte b/dist/components/Colliders/AutoColliders.svelte
 index 02aba69606d85894c945099d59e04d26e567a90e..34604694f02a61bf5e0c5dbd8ef12c5d98bd4638 100644
 --- a/dist/components/Colliders/AutoColliders.svelte
 +++ b/dist/components/Colliders/AutoColliders.svelte
