@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { ControllerData } from 'robot/dist/controller';
-	import Arbitrary from '$lib/components/handlers/Arbitrary.svelte';
+	import Arbitrary from '$lib/components/controller/Arbitrary.svelte';
 	import extract from 'object-property-extractor';
 
 	let propertyExtractor = '';

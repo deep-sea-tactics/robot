@@ -4,7 +4,7 @@
 	import { env } from '$env/dynamic/public';
 	import { Pane, Splitpanes } from 'svelte-splitpanes';
 	import Simulation from '../simulation/Simulation.svelte';
-	import Arbitrary from '$lib/components/handlers/Arbitrary.svelte';
+	import Arbitrary from '$lib/components/controller/Arbitrary.svelte';
 	const isMock = env.PUBLIC_MOCK === 'true';
 	let output: ControllerData;
 	$: if (output) client?.controllerData.mutate(output);
