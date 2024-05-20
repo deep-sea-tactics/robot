@@ -4,7 +4,7 @@ import { browser } from '$app/environment';
 import { transform } from 'cloud-url-resolver';
 
 export const rpiIp =
-	import.meta.env.VITE_RPI_IP.length > 1 ? import.meta.env.VITE_RPI_IP : undefined;
+	import.meta.env.VITE_RPI_IP ? import.meta.env.VITE_RPI_IP.length > 1 ? import.meta.env.VITE_RPI_IP : undefined : undefined;
 
 // TODO: transform this into a component
 export const client = browser
