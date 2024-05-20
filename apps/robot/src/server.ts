@@ -18,17 +18,17 @@ async function connectPhysicalMotors() {
 
 	const thrusterConfig = {
 		// ESC 1
-		[Motor.VerticalLeft]: new Gpio(36, { mode: Gpio.OUTPUT }),
+		[Motor.VerticalLeft]: new Gpio(33, { mode: Gpio.OUTPUT }),
 		// ESC 2
-		[Motor.VerticalRight]: new Gpio(35, { mode: Gpio.OUTPUT }),
+		[Motor.VerticalRight]: new Gpio(32, { mode: Gpio.OUTPUT }),
 		// ESC 3
-		[Motor.TopLeft]: new Gpio(33, { mode: Gpio.OUTPUT }),
+		[Motor.TopLeft]: new Gpio(31, { mode: Gpio.OUTPUT }),
 		// ESC 4
-		[Motor.TopRight]: new Gpio(32, { mode: Gpio.OUTPUT }),
+		[Motor.TopRight]: new Gpio(29, { mode: Gpio.OUTPUT }),
 		// ESC 5
-		[Motor.BottomLeft]: new Gpio(31, { mode: Gpio.OUTPUT }),
+		[Motor.BottomLeft]: new Gpio(36, { mode: Gpio.OUTPUT }),
 		// ESC 6
-		[Motor.BottomRight]: new Gpio(29, { mode: Gpio.OUTPUT })
+		[Motor.BottomRight]: new Gpio(35, { mode: Gpio.OUTPUT })
 	};
 
 	const sensorConfig = {

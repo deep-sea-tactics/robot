@@ -2,7 +2,7 @@
 
 Source for the main Deep Sea Tactics ROV.
 
-This is a PNPM & Turbo monorepo.
+This is a PNPM & Nx monorepo.
 
 ## Task Pipelines
 
@@ -46,6 +46,16 @@ Same components as above, but:
 
 ## Setting up Physical Robot
 
+Install pigpio: `sudo apt install pigpio`
+
 Instead of using `:mock`, use `dev` and `robot` directly.
 
 Configure `.env` to point to the proper RPI IP address.
+
+### Troubleshooting
+
+Remove the PNPM global content addressable store if PNPM is causing issues:
+
+```sh
+rm -rf $(pnpm store path)
+```
