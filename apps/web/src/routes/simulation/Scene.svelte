@@ -6,11 +6,11 @@
 	import { onMount } from 'svelte';
 	import { Motor } from 'robot/src/motor';
 	import { Gizmo } from '@threlte/extras';
-	import { ArrowHelper, Box3, Quaternion, Vector3 } from 'three';
+	import { ArrowHelper, Box3, Quaternion, Vector3, type Mesh } from 'three';
 	import type { RigidBody } from '@leodog896/rapier3d-compat/dynamics/rigid_body';
 	import * as vector from 'vector';
 	import { thrusters as robotThrusters } from 'robot/src/thrusters';
-	import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+	import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 	import { useLoader } from '@threlte/core';
 
 	const rovAngularDamping = 0;
@@ -29,7 +29,7 @@
 		thrustDirection: Vector3;
 	}
 
-	function getForceVector(constraint: MotorConstraint, rov: THREE.Mesh): Vector3 {
+	function getForceVector(constraint: MotorConstraint, rov: Mesh): Vector3 {
 		// assuming throttle is on the scale -1 - 1
 		const currentThrust = constraint.maxThrust * constraint.throttle();
 		return calculateThrusterDirection(constraint, rov)
@@ -58,8 +58,8 @@
 	let rovBox = new Box3();
 	let waterBox = new Box3();
 
-	let water: THREE.Mesh | null = null;
-	let rov: THREE.Mesh | null = null;
+	let water: Mesh | null = null;
+	let rov: Mesh | null = null;
 
 	let rovBody: RigidBody | null = null;
 
@@ -138,11 +138,11 @@
 		}
 	};
 
-	function calculateThrusterPosition(thruster: MotorConstraint, rov: THREE.Mesh): Vector3 {
+	function calculateThrusterPosition(thruster: MotorConstraint, rov: Mesh): Vector3 {
 		return thruster.position.clone().applyQuaternion(rov.getWorldQuaternion(new Quaternion()));
 	}
 
-	function calculateThrusterDirection(thruster: MotorConstraint, rov: THREE.Mesh): Vector3 {
+	function calculateThrusterDirection(thruster: MotorConstraint, rov: Mesh): Vector3 {
 		return thruster.thrustDirection
 			.clone()
 			.applyQuaternion(rov.getWorldQuaternion(new Quaternion()));
@@ -289,7 +289,7 @@
 	{/if}
 {/key}
 
-<!-- 
+<!--
 The mesh below represents the ROV, and is a work in progress. Interactivity is limited and being improved upon
 -->
 <T.Group position.y={waterHeight}>

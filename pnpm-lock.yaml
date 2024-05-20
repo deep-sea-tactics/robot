@@ -133,19 +133,19 @@ importers:
         version: 4.9.0-release.3
       '@threlte/core':
         specifier: ^7.3.0
-        version: 7.3.0(svelte@4.2.17)(three@0.160.1)
+        version: 7.3.0(svelte@4.2.17)(three@0.164.1)
       '@threlte/extras':
         specifier: ^8.11.2
-        version: 8.11.2(@types/three@0.162.0)(svelte@4.2.17)(three@0.160.1)
+        version: 8.11.2(@types/three@0.164.0)(svelte@4.2.17)(three@0.164.1)
       '@threlte/rapier':
         specifier: ^2.0.0
-        version: 2.0.0(patch_hash=wpry5ew7juzt3ftwqg5iu6deyu)(@dimforge/rapier3d-compat@0.11.2)(svelte@4.2.17)(three@0.160.1)
+        version: 2.0.0(patch_hash=wpry5ew7juzt3ftwqg5iu6deyu)(@dimforge/rapier3d-compat@0.11.2)(svelte@4.2.17)(three@0.164.1)
       '@trpc/client':
         specifier: ^10.45.2
         version: 10.45.2(@trpc/server@10.45.2)
       '@types/three':
-        specifier: ^0.162.0
-        version: 0.162.0
+        specifier: ^0.164.0
+        version: 0.164.0
       cloud-url-resolver:
         specifier: ^1.0.0
         version: 1.0.0
@@ -183,8 +183,8 @@ importers:
         specifier: ^0.8.0
         version: 0.8.0(svelte@4.2.17)
       three:
-        specifier: ^0.160.0
-        version: 0.160.1
+        specifier: ^0.164.1
+        version: 0.164.1
       tslib:
         specifier: ^2.6.2
         version: 2.6.2
@@ -812,8 +812,8 @@ packages:
   '@types/three@0.159.0':
     resolution: {integrity: sha512-2gybdh7HtX+rGUgslzK7QEJfzD2I0qrbUGzKk+dK0FDx49UHkNX0rqZVRzIgeFjBd1HzzhNNgwNoMacm3Wyc7w==}
 
-  '@types/three@0.162.0':
-    resolution: {integrity: sha512-0j5yZcVukVIhrhSIC7+LmBPkkMoMuEJ1AfYBZfgNytdYqYREMuiyXWhYOMeZLBElTEAlJIZn7r2W3vqTIgjWlg==}
+  '@types/three@0.164.0':
+    resolution: {integrity: sha512-SFDofn9dJVrE+1DKta7xj7lc4ru7B3S3yf10NsxOserW57aQlB6GxtAS1UK5To3LfEMN5HUHMu3n5v+M5rApgA==}
 
   '@types/webxr@0.5.10':
     resolution: {integrity: sha512-n3u5sqXQJhf1CS68mw3Wf16FQ4cRPNBBwdYLFzq3UddiADOim1Pn3Y6PBdDilz1vOJF3ybLxJ8ZEDlLIzrOQZg==}
@@ -1489,6 +1489,9 @@ packages:
 
   fflate@0.6.10:
     resolution: {integrity: sha512-IQrh3lEPM93wVCEczc9SaAOvkmcoQn/G8Bo1e8ZPlY3X3bnAxWaBdvTdvM1hP62iZp0BXWDy4vTAy4fF0+Dlpg==}
+
+  fflate@0.8.2:
+    resolution: {integrity: sha512-cPJU47OaAoCbg0pBvzsgpTPhmhqI5eJjh/JIu8tPj5q+T7iLvW/JAYUqmE7KOB4R1ZyEhzBaIQpQpardBF5z8A==}
 
   figures@3.2.0:
     resolution: {integrity: sha512-yaduQFRKLXYOGgEn6AZau90j3ggSOyiqXU0F9JZfeXYhNa+Jk4X+s45A2zg5jns87GAFa34BBm2kXw4XpNcbdg==}
@@ -2677,8 +2680,8 @@ packages:
     peerDependencies:
       three: '>=0.151'
 
-  three@0.160.1:
-    resolution: {integrity: sha512-Bgl2wPJypDOZ1stAxwfWAcJ0WQf7QzlptsxkjYiURPz+n5k4RBDLsq+6f9Y75TYxn6aHLcWz+JNmwTOXWrQTBQ==}
+  three@0.164.1:
+    resolution: {integrity: sha512-iC/hUBbl1vzFny7f5GtqzVXYjMJKaTPxiCxXfrvVdBi1Sf+jhd1CAkitiFwC7mIBFCo3MrDLJG97yisoaWig0w==}
 
   through@2.3.8:
     resolution: {integrity: sha512-w89qg7PI8wAdvX60bMDP+bFoD5Dvhm9oLheFp5O4a2QF0cSBGsBX4qZmadPMvVqlLJBBci+WqGGOAPvcDeNSVg==}
@@ -3449,39 +3452,39 @@ snapshots:
 
   '@techstark/opencv-js@4.9.0-release.3': {}
 
-  '@threejs-kit/instanced-sprite-mesh@2.4.7(@types/three@0.162.0)(three@0.160.1)':
+  '@threejs-kit/instanced-sprite-mesh@2.4.7(@types/three@0.164.0)(three@0.164.1)':
     dependencies:
       diet-sprite: 0.0.1
       earcut: 2.2.4
-      maath: 0.10.7(@types/three@0.162.0)(three@0.160.1)
-      three: 0.160.1
-      three-instanced-uniforms-mesh: 0.49.1(three@0.160.1)
-      troika-three-utils: 0.49.0(three@0.160.1)
+      maath: 0.10.7(@types/three@0.164.0)(three@0.164.1)
+      three: 0.164.1
+      three-instanced-uniforms-mesh: 0.49.1(three@0.164.1)
+      troika-three-utils: 0.49.0(three@0.164.1)
     transitivePeerDependencies:
       - '@types/three'
 
-  '@threlte/core@7.3.0(svelte@4.2.17)(three@0.160.1)':
+  '@threlte/core@7.3.0(svelte@4.2.17)(three@0.164.1)':
     dependencies:
       mitt: 3.0.1
       svelte: 4.2.17
-      three: 0.160.1
+      three: 0.164.1
 
-  '@threlte/extras@8.11.2(@types/three@0.162.0)(svelte@4.2.17)(three@0.160.1)':
+  '@threlte/extras@8.11.2(@types/three@0.164.0)(svelte@4.2.17)(three@0.164.1)':
     dependencies:
-      '@threejs-kit/instanced-sprite-mesh': 2.4.7(@types/three@0.162.0)(three@0.160.1)
+      '@threejs-kit/instanced-sprite-mesh': 2.4.7(@types/three@0.164.0)(three@0.164.1)
       svelte: 4.2.17
-      three: 0.160.1
-      three-mesh-bvh: 0.7.4(three@0.160.1)
-      three-perf: 1.0.10(three@0.160.1)
-      troika-three-text: 0.49.1(three@0.160.1)
+      three: 0.164.1
+      three-mesh-bvh: 0.7.4(three@0.164.1)
+      three-perf: 1.0.10(three@0.164.1)
+      troika-three-text: 0.49.1(three@0.164.1)
     transitivePeerDependencies:
       - '@types/three'
 
-  '@threlte/rapier@2.0.0(patch_hash=wpry5ew7juzt3ftwqg5iu6deyu)(@dimforge/rapier3d-compat@0.11.2)(svelte@4.2.17)(three@0.160.1)':
+  '@threlte/rapier@2.0.0(patch_hash=wpry5ew7juzt3ftwqg5iu6deyu)(@dimforge/rapier3d-compat@0.11.2)(svelte@4.2.17)(three@0.164.1)':
     dependencies:
       '@dimforge/rapier3d-compat': 0.11.2
       svelte: 4.2.17
-      three: 0.160.1
+      three: 0.164.1
 
   '@trpc/client@10.45.2(@trpc/server@10.45.2)':
     dependencies:
@@ -3512,12 +3515,12 @@ snapshots:
       fflate: 0.6.10
       meshoptimizer: 0.18.1
 
-  '@types/three@0.162.0':
+  '@types/three@0.164.0':
     dependencies:
       '@tweenjs/tween.js': 23.1.2
       '@types/stats.js': 0.17.3
       '@types/webxr': 0.5.10
-      fflate: 0.6.10
+      fflate: 0.8.2
       meshoptimizer: 0.18.1
 
   '@types/webxr@0.5.10': {}
@@ -4322,6 +4325,8 @@ snapshots:
 
   fflate@0.6.10: {}
 
+  fflate@0.8.2: {}
+
   figures@3.2.0:
     dependencies:
       escape-string-regexp: 1.0.5
@@ -4758,10 +4763,10 @@ snapshots:
       yallist: 3.1.1
     optional: true
 
-  maath@0.10.7(@types/three@0.162.0)(three@0.160.1):
+  maath@0.10.7(@types/three@0.164.0)(three@0.164.1):
     dependencies:
-      '@types/three': 0.162.0
-      three: 0.160.1
+      '@types/three': 0.164.0
+      three: 0.164.1
 
   magic-string@0.30.10:
     dependencies:
@@ -5514,22 +5519,22 @@ snapshots:
 
   text-table@0.2.0: {}
 
-  three-instanced-uniforms-mesh@0.49.1(three@0.160.1):
+  three-instanced-uniforms-mesh@0.49.1(three@0.164.1):
     dependencies:
-      three: 0.160.1
-      troika-three-utils: 0.49.0(three@0.160.1)
+      three: 0.164.1
+      troika-three-utils: 0.49.0(three@0.164.1)
 
-  three-mesh-bvh@0.7.4(three@0.160.1):
+  three-mesh-bvh@0.7.4(three@0.164.1):
     dependencies:
-      three: 0.160.1
+      three: 0.164.1
 
-  three-perf@1.0.10(three@0.160.1):
+  three-perf@1.0.10(three@0.164.1):
     dependencies:
-      three: 0.160.1
-      troika-three-text: 0.47.2(three@0.160.1)
+      three: 0.164.1
+      troika-three-text: 0.47.2(three@0.164.1)
       tweakpane: 3.1.10
 
-  three@0.160.1: {}
+  three@0.164.1: {}
 
   through@2.3.8: {}
 
@@ -5573,29 +5578,29 @@ snapshots:
 
   totalist@3.0.0: {}
 
-  troika-three-text@0.47.2(three@0.160.1):
+  troika-three-text@0.47.2(three@0.164.1):
     dependencies:
       bidi-js: 1.0.3
-      three: 0.160.1
-      troika-three-utils: 0.47.2(three@0.160.1)
+      three: 0.164.1
+      troika-three-utils: 0.47.2(three@0.164.1)
       troika-worker-utils: 0.47.2
       webgl-sdf-generator: 1.1.1
 
-  troika-three-text@0.49.1(three@0.160.1):
+  troika-three-text@0.49.1(three@0.164.1):
     dependencies:
       bidi-js: 1.0.3
-      three: 0.160.1
-      troika-three-utils: 0.49.0(three@0.160.1)
+      three: 0.164.1
+      troika-three-utils: 0.49.0(three@0.164.1)
       troika-worker-utils: 0.49.0
       webgl-sdf-generator: 1.1.1
 
-  troika-three-utils@0.47.2(three@0.160.1):
+  troika-three-utils@0.47.2(three@0.164.1):
     dependencies:
-      three: 0.160.1
+      three: 0.164.1
 
-  troika-three-utils@0.49.0(three@0.160.1):
+  troika-three-utils@0.49.0(three@0.164.1):
     dependencies:
-      three: 0.160.1
+      three: 0.164.1
 
   troika-worker-utils@0.47.2: {}
 
