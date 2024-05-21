@@ -141,6 +141,7 @@ fn process_image(image: DynamicImage) -> Result<()> {
 fn main() -> Result<()> {
     web_socket::open_server();
     web_socket::open_client();
+    web_socket::open_client();
 
     let loaded_image =
         ImageReader::open("/workspace/robot/crates/broadcaster/kittens_and_pink_square.jpeg")

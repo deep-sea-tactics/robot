@@ -14,9 +14,17 @@ pub fn open_server() {
                 let mut websocket = accept(stream.unwrap()).unwrap();
     
                 loop {
-                    let message = websocket.read().unwrap();
-    
-                    println!("{message}");
+                    let message = websocket.read();
+
+                    match message {
+                        Ok(v) => {
+                            println!("{v}");
+                        }
+
+                        Err(_) => {
+                            continue;
+                        }
+                    }
                 }
             });
         }
@@ -29,8 +37,6 @@ pub fn open_client() {
 
         let (mut socket, response) = connect("ws://localhost:9999/").expect("failed to connect to serber");
         
-        loop {
-            socket.send(Message::Text("Yo".into())).unwrap();
-        } 
+        socket.send(Message::Text("Yo server, this is a test client. Can you print this message?".into())).unwrap();
     });
 }
