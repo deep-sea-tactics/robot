@@ -7,6 +7,8 @@ use imageproc::{
 };
 use num::{integer::sqrt, abs};
 
+mod web_socket;
+
 const PINK: Rgb<u8> = Rgb([255, 0, 240]);
 const PINK_THRESHOLD: u8 = 200;
 
@@ -137,8 +139,12 @@ fn process_image(image: DynamicImage) -> Result<()> {
 }
 
 fn main() -> Result<()> {
+    web_socket::open_server();
+    web_socket::open_client();
+    web_socket::open_client();
+
     let loaded_image =
-        ImageReader::open("/workspace/robot/broadcaster/kittens_and_pink_square.jpeg")
+        ImageReader::open("/workspace/robot/crates/broadcaster/kittens_and_pink_square.jpeg")
             .expect("Failed to open file.")
             .decode()?;
 
@@ -149,6 +155,15 @@ fn main() -> Result<()> {
 
 #[cfg(test)]
 mod test {
+    use super::*;
+
     #[test]
     fn check_kittens() {}
+    
+
+    #[test]
+    fn test_server() {
+        web_socket::open_server();
+        web_socket::open_client();
+    }
 }
