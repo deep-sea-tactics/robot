@@ -25,6 +25,7 @@
 	},
 	"dependencies": {
 		"debounce": "^2.0.0",
+		"mathjs": "^12.4.2",
 		"tiny-typed-emitter": "^2.1.0",
 		"vector": "workspace:*",
 		"ws": "^8.17.0",
