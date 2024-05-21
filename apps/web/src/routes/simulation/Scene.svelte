@@ -174,8 +174,8 @@
 		rovBody.resetForces(true);
 		rovBody.resetTorques(true);
 
-		let force: vector.Vector = { x: 0, y: 0, z: 0 };
-		let torque: vector.Vector = { x: 0, y: 0, z: 0 };
+		let force = vector.vector(0, 0, 0);
+		let torque = vector.vector(0, 0, 0);
 
 		rov.geometry.computeBoundingBox();
 		rovBox.copy(rov.geometry.boundingBox!).applyMatrix4(rov.matrixWorld);

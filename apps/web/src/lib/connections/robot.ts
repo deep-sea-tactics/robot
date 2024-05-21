@@ -15,10 +15,10 @@ export const client = browser
 						url: rpiIp
 							? transform(9000, 'ws', {
 									origin: `http://${rpiIp}`
-							  })
+								})
 							: transform(9000, 'ws')
 					})
 				})
 			]
-	  })
+		})
 	: null;

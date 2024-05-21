@@ -64,25 +64,31 @@ interface MoveOutput {
 }
 
 function calculateForce(motorMovement: MotorMovement[]): vector.Vector {
-	return motorMovement.reduce((force, movement) => {
-		const motor = thrusters.find((t) => t.type === movement.type);
-		if (!motor) {
-			return force;
-		}
-		return vector.add(force)(vector.scale(motor.thrustDirection)(movement.speed));
-	}, vector.vector(0, 0, 0));
+	return motorMovement.reduce(
+		(force, movement) => {
+			const motor = thrusters.find((t) => t.type === movement.type);
+			if (!motor) {
+				return force;
+			}
+			return vector.add(force)(vector.scale(motor.thrustDirection)(movement.speed));
+		},
+		vector.vector(0, 0, 0)
+	);
 }
 
 function calculateTorque(motorMovement: MotorMovement[]): vector.Vector {
-	return motorMovement.reduce((torque, movement) => {
-		const motor = thrusters.find((t) => t.type === movement.type);
-		if (!motor) {
-			return torque;
-		}
-		return vector.add(torque)(
-			vector.cross(motor.position)(vector.scale(motor.thrustDirection)(movement.speed))
-		);
-	}, vector.vector(0, 0, 0));
+	return motorMovement.reduce(
+		(torque, movement) => {
+			const motor = thrusters.find((t) => t.type === movement.type);
+			if (!motor) {
+				return torque;
+			}
+			return vector.add(torque)(
+				vector.cross(motor.position)(vector.scale(motor.thrustDirection)(movement.speed))
+			);
+		},
+		vector.vector(0, 0, 0)
+	);
 }
 
 function calculateInverse() {
@@ -94,29 +100,29 @@ function calculateInverse() {
 	const thrusterValues = Object.values(thrusters);
 
 	// Populate the first three rows with force contributions
-    for (let i = 0; i < 6; i++) {
-        const orientation = math.matrix(vector.asTuple(thrusterValues[i].thrustDirection));
+	for (let i = 0; i < 6; i++) {
+		const orientation = math.matrix(vector.asTuple(thrusterValues[i].thrustDirection));
 		controlMatrix = math.subset(
 			controlMatrix,
 			math.index(math.range(0, 3), i),
 			math.reshape(orientation, [3, 1])
 		);
-    }
+	}
 
-    // Populate the last three rows with torque contributions
-    for (let i = 0; i < 6; i++) {
-        const location = vector.asTuple(thrusterValues[i].position);
-        const orientation = vector.asTuple(thrusterValues[i].thrustDirection);
-        const displacement = math.subtract(location, rovCenterOfMass);
+	// Populate the last three rows with torque contributions
+	for (let i = 0; i < 6; i++) {
+		const location = vector.asTuple(thrusterValues[i].position);
+		const orientation = vector.asTuple(thrusterValues[i].thrustDirection);
+		const displacement = math.subtract(location, rovCenterOfMass);
 		// using cross product here to account for the extra rotation produced from
 		// the motors
-        const torque = math.reshape(math.transpose(math.cross(displacement, orientation)), [3, 1]);
-        controlMatrix = math.subset(controlMatrix, math.index(math.range(3, 6), i), torque);
-    }
+		const torque = math.reshape(math.transpose(math.cross(displacement, orientation)), [3, 1]);
+		controlMatrix = math.subset(controlMatrix, math.index(math.range(3, 6), i), torque);
+	}
 
-    // Calculate the inverse of the control matrix, so we can map the motors to force and torque,
+	// Calculate the inverse of the control matrix, so we can map the motors to force and torque,
 	// instead of the other way around.
-    return math.inv(controlMatrix);
+	return math.inv(controlMatrix);
 }
 
 const controlInverse = calculateInverse();

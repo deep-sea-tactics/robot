@@ -8,3 +8,5 @@ const workbook = read(spreadsheet, { type: 'buffer' });
 const sheets = Object.fromEntries(
 	Object.entries(workbook.Sheets).filter(([key]) => key !== 'READ ME FIRST')
 );
+
+console.log(sheets)

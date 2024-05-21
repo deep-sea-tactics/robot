@@ -7,7 +7,7 @@
 		"lint": "nx run-many -t lint",
 		"robot": "nx run-many -t robot --output-style stream",
 		"robot:mock": "nx run-many -t robot:mock --output-style stream",
-		"format": "prettier --plugin-search-dir . --write .",
+		"format": "prettier --plugin=prettier-plugin-svelte --write .",
 		"test": "nx run-many -t test",
 		"check": "nx run-many -t check"
 	},
