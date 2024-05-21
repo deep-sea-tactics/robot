@@ -2,10 +2,10 @@ import { Gpio } from 'pigpio';
 import { program } from 'commander';
 
 program
-	.option('-p', '--pin <pin>', 'Pin number')
-	.option('-d', '--digital', 'Digital write')
-	.option('-s', '--servo', 'Servo write')
-	.option('-v', '--value <value>', 'Value to write');
+	.option('-p, --pin <pin>', 'Pin number')
+	.option('-d, --digital', 'Digital write')
+	.option('-s, --servo', 'Servo write')
+	.option('-v, --value <value>', 'Value to write');
 
 program.parse(process.argv);
 
