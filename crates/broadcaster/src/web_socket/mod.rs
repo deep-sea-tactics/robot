@@ -35,7 +35,7 @@ pub fn open_client() {
     spawn(move || {
         println!("Client open initiated");
 
-        let (mut socket, response) = connect("ws://localhost:9999/").expect("failed to connect to serber");
+        let (mut socket, _response) = connect("ws://localhost:9999/").expect("failed to connect to serber");
         
         socket.send(Message::Text("Yo server, this is a test client. Can you print this message?".into())).unwrap();
     });
