@@ -10,7 +10,7 @@
 	"types": "dist/index.d.ts",
 	"type": "module",
 	"scripts": {
-		"motor": "tsx watch --clear-screen=false ./src/debug.ts"
+		"motor": "tsx ./src/debug.ts"
 	},
 	"devDependencies": {
 		"@types/node": "^20.12.12",

@@ -231,8 +231,8 @@
 			);
 		}
 
-		rovBody.addForce(force, true);
 		rovBody.addTorque(torque, true);
+		rovBody.addForce(force, true);
 
 		// send out all force data
 		client?.simulationAccelerationData.mutate({
@@ -289,9 +289,7 @@
 	{/if}
 {/key}
 
-<!--
-The mesh below represents the ROV, and is a work in progress. Interactivity is limited and being improved upon
--->
+<!-- The mesh below represents the ROV, and is a work in progress. -->
 <T.Group position.y={waterHeight}>
 	<RapierRigidBody
 		type={'dynamic'}
