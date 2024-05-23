@@ -2,11 +2,13 @@
 	"$schema": "./node_modules/nx/schemas/nx-schema.json",
 	"targetDefaults": {
 		"build": {
-			"dependsOn": ["^build"],
+			"dependsOn": ["^build", "cp-env", "^cp-env"],
 			"outputs": ["{projectRoot}/.svelte-kit", "{projectRoot}/dist", "{projectRoot}/build"]
 		},
 		"cp-env": {
-			"dependsOn": ["^cp-env"]
+			"dependsOn": ["^cp-env"],
+			"inputs": ["{workspaceRoot}/.env"],
+			"outputs": ["{projectRoot}/.env"]
 		},
 		"lint": {
 			"cache": true,
