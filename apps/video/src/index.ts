@@ -37,8 +37,8 @@ async function install() {
 	}
 
 	console.log("Building µStreamer...");
-	await $`sudo apt install -y libevent-dev libjpeg62-turbo libbsd-dev libgpiod-dev libsystemd-dev libjpeg-dev`;
-	await $`git clone --depth=1 https://github.com/pikvm/ustreamer ~/ustreamer`
+	await $`sudo apt-get install -y libevent-dev libjpeg62-turbo libbsd-dev libgpiod-dev libsystemd-dev libjpeg-dev`;
+	await $({ cwd: "~" })`git clone --depth=1 https://github.com/pikvm/ustreamer`
 	await $({ cwd: "~/ustreamer" })`make`;
 	// we enable no throw here to make sure that we continue even if /usr/bin/ustreamer doesn't exist
 	await $({ nothrow: true })`sudo rm /usr/bin/ustreamer`
