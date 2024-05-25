@@ -44,15 +44,24 @@ async function install() {
 		return;
 	}
 
-	console.log("Building µStreamer...");
 	const home = orElse(process.env.HOME, new Error("HOME environment variable doesn't exist."));
 
+	console.log("Downloading µStreamer dependencies...")
+	await execa`sudo apt-get update`;
 	await execa`sudo apt-get install -y libevent-dev libjpeg62-turbo libbsd-dev libgpiod-dev libsystemd-dev libjpeg-dev`;
+
+	console.log("Cloning µStreamer...")
 	await execa({ cwd: home })`git clone --depth=1 https://github.com/pikvm/ustreamer`
+
+	console.log("Building µStreamer...");
 	await execa({ cwd: `${home}/ustreamer` })`make`;
+
+	console.log("Adding µStreamer to PATH...");
 	// we enable no throw here to make sure that we continue even if /usr/bin/ustreamer doesn't exist
 	await execa`sudo rm -f /usr/bin/ustreamer`
 	await execa`sudo ln -s ${home}/ustreamer/ustreamer ustreamer`
+
+	console.log("µStreamer installed!");
 }
 
 async function main() {
