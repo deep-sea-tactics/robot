@@ -107,16 +107,10 @@ importers:
 
   apps/video:
     dependencies:
-      detect-rpi:
-        specifier: ^1.5.0
-        version: 1.5.0
       execa:
         specifier: ^9.1.0
         version: 9.1.0
     devDependencies:
-      '@types/detect-rpi':
-        specifier: ^1.5.0
-        version: 1.5.0
       '@types/node':
         specifier: ^20.12.12
         version: 20.12.12
@@ -818,9 +812,6 @@ packages:
   '@types/cookie@0.6.0':
     resolution: {integrity: sha512-4Kh9a6B2bQciAhf7FSuMRRkUWecJgJu9nPnx3yzpsfXX/c50REIqpHY4C82bXP90qrLtXtkDxTZosYO3UpOwlA==}
 
-  '@types/detect-rpi@1.5.0':
-    resolution: {integrity: sha512-EN3yNfCna+47cqORMQVoS+QIy0usqliBpFEKd8AzHwGJLik+UHcw5c0kGZYz2aXdskJeQ/1xUMkWcmVAoffArQ==}
-
   '@types/estree@1.0.5':
     resolution: {integrity: sha512-/kYRxGDLWzHOB7q+wtSUQlFrtcdUccpfy+X+9iMBpHK8QLLhx2wIPYuS5DYtR9Wa/YlZAbIovy7qVdB1Aq6Lyw==}
 
@@ -1326,9 +1317,6 @@ packages:
   detect-indent@6.1.0:
     resolution: {integrity: sha512-reYkTUJAZb9gUuZ2RvVCNhVHdg62RHnJ7WJl8ftMi4diZ6NWlciOzQN88pUhSELEwflJht4oQDv0F0BMlwaYtA==}
     engines: {node: '>=8'}
-
-  detect-rpi@1.5.0:
-    resolution: {integrity: sha512-ndLq+hZriMCFgF/6eTYt8x+oe1O0F2AaIREWhupxu000y+rP5tswLzQfBbhXRBt5corTeNHGbbhkZRwPqJBU7A==}
 
   devalue@5.0.0:
     resolution: {integrity: sha512-gO+/OMXF7488D+u3ue+G7Y4AA3ZmUnB3eHJXmBTgNHvr4ZNzl36A0ZtG+XCRNYCkYx/bFmw4qtkoFLa+wSrwAA==}
@@ -3615,8 +3603,6 @@ snapshots:
 
   '@types/cookie@0.6.0': {}
 
-  '@types/detect-rpi@1.5.0': {}
-
   '@types/estree@1.0.5': {}
 
   '@types/node@20.12.12':
@@ -4185,8 +4171,6 @@ snapshots:
   dequal@2.0.3: {}
 
   detect-indent@6.1.0: {}
-
-  detect-rpi@1.5.0: {}
 
   devalue@5.0.0: {}
 

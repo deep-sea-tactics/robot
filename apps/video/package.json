@@ -7,13 +7,11 @@
 		"robot": "tsx ./src/index.ts"
 	},
 	"devDependencies": {
-		"@types/detect-rpi": "^1.5.0",
 		"@types/node": "^20.12.12",
 		"cross-env": "^7.0.3",
 		"tsx": "^4.10.5"
 	},
 	"dependencies": {
-		"detect-rpi": "^1.5.0",
 		"execa": "^9.1.0"
 	}
 }
