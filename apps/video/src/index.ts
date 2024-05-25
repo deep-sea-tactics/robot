@@ -74,11 +74,12 @@ async function main() {
 	// Check if uStreamer is already installed
 	const isInstalled = await commandRunsSuccessfully(`ustreamer --version`);
 
-	if (isInstalled) {
-		await run();
-	} else {
+	if (!isInstalled) {
 		await install();
 	}
+
+	console.log("Running µStreamer...");
+	await run();
 }
 
 // Call the function to install and run uStreamer
