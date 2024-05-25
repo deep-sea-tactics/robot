@@ -16,9 +16,9 @@ function commandRunsSuccessfully(checkCommand: string): Promise<boolean> {
 /** Runs µStreamer; doesn't work if not installed. */
 async function run() {
 	if (isPi()) {
-		await execa`libcamerify ustreamer --host :: --encoder=m2m-image`;
+		await execa({ stdio: ['ignore', 'pipe', 'pipe'] })`libcamerify ustreamer --host :: --encoder=m2m-image`;
 	} else {
-		await execa`ustreamer`;
+		await execa({ stdio: ['ignore', 'pipe', 'pipe'] })`ustreamer`;
 	}
 }
 
