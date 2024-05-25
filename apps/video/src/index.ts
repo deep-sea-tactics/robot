@@ -65,7 +65,7 @@ async function install() {
 	console.log('Adding µStreamer to PATH...');
 	// we enable no throw here to make sure that we continue even if /usr/bin/ustreamer doesn't exist
 	await execa`sudo rm -f /usr/bin/ustreamer`;
-	await execa`sudo ln -s ${home}/ustreamer/ustreamer ustreamer`;
+	await execa`sudo ln -s ${home}/ustreamer/ustreamer /usr/bin/ustreamer`;
 
 	console.log('µStreamer installed!');
 }
