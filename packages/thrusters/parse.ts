@@ -26,13 +26,15 @@ console.log(
 					// filtering for any actual cells (not any metadata)
 					.filter(([k]) => k == k.toUpperCase())
 					// selecting certain columns
-					.filter(([k]) => [
-						'A', // pwm
-						'C', // current
-						'F', // force
-					].includes(k[0]))
+					.filter(([k]) =>
+						[
+							'A', // pwm
+							'C', // current
+							'F' // force
+						].includes(k[0])
+					)
 					// drop the first row
-					.filter(([k]) => !(k.length === 2 && k.includes("1")))
+					.filter(([k]) => !(k.length === 2 && k.includes('1')))
 					// trimming labels
 					.map(([k, v]) => [k, typeof v.v === 'string' ? v.v.trim() : v.v])
 			);
