@@ -18,7 +18,7 @@ async function run() {
 	if (isPi()) {
 		await execa({
 			stdio: ['ignore', 'inherit', 'inherit'],
-			shell: '/usr/bin/bash'
+			shell: true
 		})`libcamerify ustreamer --host :: --encoder=m2m-image`;
 	} else {
 		await execa({ stdio: ['ignore', 'inherit', 'inherit'] })`ustreamer`;
