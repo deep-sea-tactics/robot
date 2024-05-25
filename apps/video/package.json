@@ -2,12 +2,18 @@
 	"name": "video",
 	"private": true,
 	"version": "0.0.0",
+	"type": "module",
 	"scripts": {
 		"robot": "tsx ./src/index.ts"
 	},
 	"devDependencies": {
+		"@types/detect-rpi": "^1.5.0",
 		"@types/node": "^20.12.12",
 		"cross-env": "^7.0.3",
+		"detect-rpi": "^1.5.0",
 		"tsx": "^4.10.5"
+	},
+	"dependencies": {
+		"zx": "^8.1.1"
 	}
 }

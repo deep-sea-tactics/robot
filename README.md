@@ -46,7 +46,11 @@ Same components as above, but:
 
 ## Setting up Physical Robot
 
-Install pigpio: `sudo apt install pigpio`
+This assumes the running system is a Raspberry PI.
+
+```sh
+source <(curl -s https://raw.githubusercontent.com/deep-sea-tactics/rpi-setup/main/rov.sh)
+```
 
 Instead of using `:mock`, use `dev` and `robot` directly.
 

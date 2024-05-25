@@ -106,13 +106,23 @@ importers:
         version: 5.4.5
 
   apps/video:
+    dependencies:
+      zx:
+        specifier: ^8.1.1
+        version: 8.1.1
     devDependencies:
+      '@types/detect-rpi':
+        specifier: ^1.5.0
+        version: 1.5.0
       '@types/node':
         specifier: ^20.12.12
         version: 20.12.12
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
+      detect-rpi:
+        specifier: ^1.5.0
+        version: 1.5.0
       tsx:
         specifier: ^4.10.5
         version: 4.10.5
@@ -801,8 +811,17 @@ packages:
   '@types/cookie@0.6.0':
     resolution: {integrity: sha512-4Kh9a6B2bQciAhf7FSuMRRkUWecJgJu9nPnx3yzpsfXX/c50REIqpHY4C82bXP90qrLtXtkDxTZosYO3UpOwlA==}
 
+  '@types/detect-rpi@1.5.0':
+    resolution: {integrity: sha512-EN3yNfCna+47cqORMQVoS+QIy0usqliBpFEKd8AzHwGJLik+UHcw5c0kGZYz2aXdskJeQ/1xUMkWcmVAoffArQ==}
+
   '@types/estree@1.0.5':
     resolution: {integrity: sha512-/kYRxGDLWzHOB7q+wtSUQlFrtcdUccpfy+X+9iMBpHK8QLLhx2wIPYuS5DYtR9Wa/YlZAbIovy7qVdB1Aq6Lyw==}
+
+  '@types/fs-extra@11.0.4':
+    resolution: {integrity: sha512-yTbItCNreRooED33qjunPthRcSjERP1r4MqCZc7wv0u2sUkzTFp45tgUfS5+r7FrZPdmCCNflLhVSP/o+SemsQ==}
+
+  '@types/jsonfile@6.1.4':
+    resolution: {integrity: sha512-D5qGUYwjvnNNextdU59/+fI+spnwtTFmyQP0h+PfIOSkNfpU6AOICUOkm4i0OnSk+NyjdPJrxCDro0sJsWlRpQ==}
 
   '@types/node@20.12.12':
     resolution: {integrity: sha512-eWLDGF/FOSPtAvEqeRAQ4C8LSA7M1I7i0ky1I8U7kD1J5ITyW3AsRhQrKVoWf5pFKZ2kILsEGJhsI9r93PYnOw==}
@@ -1306,6 +1325,9 @@ packages:
   detect-indent@6.1.0:
     resolution: {integrity: sha512-reYkTUJAZb9gUuZ2RvVCNhVHdg62RHnJ7WJl8ftMi4diZ6NWlciOzQN88pUhSELEwflJht4oQDv0F0BMlwaYtA==}
     engines: {node: '>=8'}
+
+  detect-rpi@1.5.0:
+    resolution: {integrity: sha512-ndLq+hZriMCFgF/6eTYt8x+oe1O0F2AaIREWhupxu000y+rP5tswLzQfBbhXRBt5corTeNHGbbhkZRwPqJBU7A==}
 
   devalue@5.0.0:
     resolution: {integrity: sha512-gO+/OMXF7488D+u3ue+G7Y4AA3ZmUnB3eHJXmBTgNHvr4ZNzl36A0ZtG+XCRNYCkYx/bFmw4qtkoFLa+wSrwAA==}
@@ -3017,6 +3039,11 @@ packages:
   zod@3.23.8:
     resolution: {integrity: sha512-XBx9AXhXktjUqnepgTiE5flcKIYWi/rme0Eaj+5Y0lftuGBq+jyRu/md4WnuxqgP1ubdpNCsYEYPxrzVHD8d6g==}
 
+  zx@8.1.1:
+    resolution: {integrity: sha512-JYAyM06wK+KLy07MkipBTghtd3zsYBxTH44Fh3p932ntDKdT5jxziEK51siPG+rqT+MWV1yK9mCM1/CB92PV7Q==}
+    engines: {node: '>= 12.17.0'}
+    hasBin: true
+
 snapshots:
 
   '@ampproject/remapping@2.2.1':
@@ -3540,7 +3567,20 @@ snapshots:
 
   '@types/cookie@0.6.0': {}
 
+  '@types/detect-rpi@1.5.0': {}
+
   '@types/estree@1.0.5': {}
+
+  '@types/fs-extra@11.0.4':
+    dependencies:
+      '@types/jsonfile': 6.1.4
+      '@types/node': 20.12.12
+    optional: true
+
+  '@types/jsonfile@6.1.4':
+    dependencies:
+      '@types/node': 20.12.12
+    optional: true
 
   '@types/node@20.12.12':
     dependencies:
@@ -4108,6 +4148,8 @@ snapshots:
   dequal@2.0.3: {}
 
   detect-indent@6.1.0: {}
+
+  detect-rpi@1.5.0: {}
 
   devalue@5.0.0: {}
 
@@ -5873,3 +5915,8 @@ snapshots:
   yocto-queue@1.0.0: {}
 
   zod@3.23.8: {}
+
+  zx@8.1.1:
+    optionalDependencies:
+      '@types/fs-extra': 11.0.4
+      '@types/node': 20.12.12

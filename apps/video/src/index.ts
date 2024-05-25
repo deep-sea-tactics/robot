@@ -1,6 +1,6 @@
-// Import child_process module
 import { exec } from 'node:child_process';
-const runCommand = 'ustreamer';
+import isPi from 'detect-rpi';
+import { $ } from 'zx';
 
 /** Checks if a command executes successfully */
 function commandRunsSuccessfully(checkCommand: string): Promise<boolean> {
@@ -13,40 +13,18 @@ function commandRunsSuccessfully(checkCommand: string): Promise<boolean> {
 	});
 }
 
-/** Gets the install command for the current operating system */
-async function getInstallCommand() {
-	if (await commandRunsSuccessfully('dnf --version')) {
-		return 'sudo dnf install -y ustreamer';
-	}
-
-	if (await commandRunsSuccessfully('apt-get --version')) {
-		return 'sudo apt-get install -y ustreamer';
-	}
-
-	throw new Error('Unsupported operating.');
-}
-
 /** Runs µStreamer; doesn't work if not installed. */
 async function run() {
-	const runProcess = exec(runCommand);
-
-	// Handle run process events
-	runProcess.stdout?.on('data', (data) => {
-		console.log(data.toString());
-	});
-
-	runProcess.stderr?.on('data', (data) => {
-		console.error(data.toString());
-	});
-
-	runProcess.on('close', (code) => {
-		console.log(`uStreamer process exited with code ${code}`);
-	});
+	if (isPi()) {
+		await $`libcamerify ustreamer --host :: --encoder=m2m-image`;
+	} else {
+		await $`ustreamer`;
+	}
 }
 
 /** Installs µStreamer. */
 async function install() {
-	console.log('uStreamer is not already installed. Attempting install...');
+	console.log('µStreamer is not already installed. Attempting install...');
 
 	// Check if operating system is supported
 	const supportedOS = ['linux', 'darwin'];
@@ -58,33 +36,18 @@ async function install() {
 		return;
 	}
 
-	// Install uStreamer using apt-get
-	const installCommand = await getInstallCommand();
-
-	// Execute the command
-	const installProcess = exec(installCommand);
-
-	// Handle install process events
-	installProcess.stdout?.on('data', (data) => {
-		console.log(`[INSTALL] ${data}`);
-	});
-
-	installProcess.stderr?.on('data', (data) => {
-		console.error(`[INSTALL ERROR] ${data}`);
-	});
-
-	installProcess.on('close', (code) => {
-		if (code === 0) {
-			run();
-		} else {
-			console.error('uStreamer installation failed.');
-		}
-	});
+	console.log("Building µStreamer...");
+	await $`sudo apt install -y libevent-dev libjpeg62-turbo libbsd-dev libgpiod-dev libsystemd-dev libjpeg-dev`;
+	await $`git clone --depth=1 https://github.com/pikvm/ustreamer ~/ustreamer`
+	await $({ cwd: "~/ustreamer" })`make`;
+	// we enable no throw here to make sure that we continue even if /usr/bin/ustreamer doesn't exist
+	await $({ nothrow: true })`sudo rm /usr/bin/ustreamer`
+	await $`sudo ln -s ~/ustreamer/ustreamer ustreamer`
 }
 
 async function main() {
 	// Check if uStreamer is already installed
-	const isInstalled = await commandRunsSuccessfully(`${runCommand} --version`);
+	const isInstalled = await commandRunsSuccessfully(`ustreamer --version`);
 
 	if (isInstalled) {
 		await run();
