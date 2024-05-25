@@ -14,6 +14,6 @@
 	},
 	"dependencies": {
 		"detect-rpi": "^1.5.0",
-		"zx": "^8.1.1"
+		"execa": "^9.1.0"
 	}
 }

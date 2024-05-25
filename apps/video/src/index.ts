@@ -1,6 +1,6 @@
 import { exec } from 'node:child_process';
 import isPi from 'detect-rpi';
-import { $ } from 'zx';
+import { execa } from 'execa';
 
 /** Checks if a command executes successfully */
 function commandRunsSuccessfully(checkCommand: string): Promise<boolean> {
@@ -16,9 +16,9 @@ function commandRunsSuccessfully(checkCommand: string): Promise<boolean> {
 /** Runs µStreamer; doesn't work if not installed. */
 async function run() {
 	if (isPi()) {
-		await $`libcamerify ustreamer --host :: --encoder=m2m-image`;
+		await execa`libcamerify ustreamer --host :: --encoder=m2m-image`;
 	} else {
-		await $`ustreamer`;
+		await execa`ustreamer`;
 	}
 }
 
@@ -37,12 +37,12 @@ async function install() {
 	}
 
 	console.log("Building µStreamer...");
-	await $`sudo apt-get install -y libevent-dev libjpeg62-turbo libbsd-dev libgpiod-dev libsystemd-dev libjpeg-dev`;
-	await $({ cwd: "~" })`git clone --depth=1 https://github.com/pikvm/ustreamer`
-	await $({ cwd: "~/ustreamer" })`make`;
+	await execa`sudo apt-get install -y libevent-dev libjpeg62-turbo libbsd-dev libgpiod-dev libsystemd-dev libjpeg-dev`;
+	await execa({ cwd: "~" })`git clone --depth=1 https://github.com/pikvm/ustreamer`
+	await execa({ cwd: "~/ustreamer" })`make`;
 	// we enable no throw here to make sure that we continue even if /usr/bin/ustreamer doesn't exist
-	await $({ nothrow: true })`sudo rm /usr/bin/ustreamer`
-	await $`sudo ln -s ~/ustreamer/ustreamer ustreamer`
+	await execa`sudo rm -f /usr/bin/ustreamer`
+	await execa`sudo ln -s ~/ustreamer/ustreamer ustreamer`
 }
 
 async function main() {
