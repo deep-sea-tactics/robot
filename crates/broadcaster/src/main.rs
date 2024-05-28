@@ -5,9 +5,9 @@ use imageproc::{
     map::map_colors,
     point::Point,
 };
-use num::{integer::sqrt, abs};
+use num::{abs, integer::sqrt};
 
-mod web_socket;
+mod server_client_subsystem;
 
 const PINK: Rgb<u8> = Rgb([255, 0, 240]);
 const PINK_THRESHOLD: u8 = 200;
@@ -36,7 +36,7 @@ impl<T> Extrema<T> {
     fn to_percentage_point(&self, dimensions: Point<usize>) -> Extrema<f32>
     where
         f32: From<T>,
-        T: Clone
+        T: Clone,
     {
         Extrema {
             min: point_as_percentage(self.min.clone(), dimensions),
@@ -114,24 +114,22 @@ fn process_image(image: DynamicImage) -> Result<()> {
     let extrema = Extrema {
         min: Point {
             x: extrema.min.x as f32,
-            y: extrema.min.y as f32
+            y: extrema.min.y as f32,
         },
-        max: Point  {
+        max: Point {
             x: extrema.max.x as f32,
-            y: extrema.max.y as f32
-        }
+            y: extrema.max.y as f32,
+        },
     };
 
-    dbg!(extrema.to_percentage_point(
-        {
-            let (x, y) = image.dimensions();
+    dbg!(extrema.to_percentage_point({
+        let (x, y) = image.dimensions();
 
-            Point {
-                x: x as usize,
-                y: y as usize
-            }
+        Point {
+            x: x as usize,
+            y: y as usize,
         }
-    ));
+    }));
 
     image.save("./test.png")?;
 
@@ -139,9 +137,16 @@ fn process_image(image: DynamicImage) -> Result<()> {
 }
 
 fn main() -> Result<()> {
-    web_socket::open_server();
-    web_socket::open_client();
-    web_socket::open_client();
+    server_client_subsystem::open_server();
+
+    std::thread::spawn(move || {
+        let mut client = server_client_subsystem::Client::new();
+        client.connect_to_server("ws://localhost:9999/");
+
+        client.new_record("test".to_string(), "help".to_string(), "string".to_string());
+
+        client.send_database();
+    });
 
     let loaded_image =
         ImageReader::open("/workspace/robot/crates/broadcaster/kittens_and_pink_square.jpeg")
@@ -155,15 +160,8 @@ fn main() -> Result<()> {
 
 #[cfg(test)]
 mod test {
-    use super::*;
+    //use super::*;
 
     #[test]
     fn check_kittens() {}
-    
-
-    #[test]
-    fn test_server() {
-        web_socket::open_server();
-        web_socket::open_client();
-    }
 }
