@@ -11,6 +11,14 @@ program
 
 program.parse(process.argv);
 
+function getOrTry<T>(f: () => T): T | null {
+	try {
+		return f();
+	} catch {
+		return null;
+	}
+}
+
 const { pin, digital, servo, value, analog, info } = program.opts();
 
 if (!pin) {
@@ -21,11 +29,11 @@ if (!pin) {
 const gpio = new Gpio(parseInt(pin), { mode: Gpio.OUTPUT });
 
 if (info) {
-	console.log("PWM Duty Cycle", gpio.getPwmDutyCycle());
-	console.log("PWM Frequency", gpio.getPwmFrequency());
-	console.log("PWM Range", gpio.getPwmRange());
-	console.log("PWM Real Range", gpio.getPwmRealRange());
-	console.log("Servo Pulse Width", gpio.getServoPulseWidth());
+	console.log("PWM Duty Cycle", getOrTry(gpio.getPwmDutyCycle) ?? "Could not get.");
+	console.log("PWM Frequency", getOrTry(gpio.getPwmFrequency) ?? "Could not get.");
+	console.log("PWM Range", getOrTry(gpio.getPwmRange) ?? "Could not get.");
+	console.log("PWM Real Range", getOrTry(gpio.getPwmRealRange) ?? "Could not get.");
+	console.log("Servo Pulse Width", getOrTry(gpio.getServoPulseWidth) ?? "Could not get.");
 	process.exit(0);
 }
 
