@@ -16,10 +16,11 @@ program
 	.option('-d, --digital', 'Digital write')
 	.option('-s, --servo', 'Servo write')
 	.option('-a, --analog', 'PWM/analog write')
+	.option('-r, --range <range>', 'PWM range')
 	.option('-i, --info', 'Get info about a GPIO device.')
 	.option('-v, --value <value>', 'Value to write')
 	.showHelpAfterError(true)
-	.action(async ({ pin, digital, servo, analog, info, value }) => {
+	.action(async ({ pin, digital, servo, analog, info, range, value }) => {
 		const { Gpio } = await import('pigpio');
 
 		const gpio = new Gpio(parseInt(pin), { mode: Gpio.OUTPUT });
@@ -47,6 +48,8 @@ program
 			gpio.servoWrite(parseInt(value));
 		} else if (analog) {
 			gpio.pwmWrite(parseInt(value));
+			if (range)
+				gpio.pwmRange(parseInt(range));
 		} else {
 			program.error('Either --digital, --servo, or --analog (pwm) must be specified');
 		}
