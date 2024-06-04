@@ -86,7 +86,6 @@ program
 	.command('multi')
 	.argument('<pins...>')
 	.action(async (pinWrites) => {
-		const { Gpio } = await import('pigpio');
 		for (const pinWrite of pinWrites) {
 			const args = pinWrite.split('>');
 
@@ -102,6 +101,7 @@ program
 
 			const [, pin, format, ...parameters] = latter;
 
+			const { Gpio } = await import('pigpio');
 			const gpio = new Gpio(parseInt(pin), { mode: Gpio.OUTPUT });
 
 			const pairings: Record<string, (num: number) => unknown> = {
@@ -111,7 +111,7 @@ program
 				f: gpio.pwmFrequency
 			};
 
-			const parsedParameters = Object.fromEntries(parameters.map(parameter => trimComma(parameter).split("=")));
+			const parsedParameters = Object.fromEntries(parameters.filter(Boolean).map(parameter => trimComma(parameter).split("=")));
 
 			const functor = pairings[format];
 
