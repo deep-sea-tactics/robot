@@ -1,5 +1,7 @@
-import { Gpio } from 'pigpio';
 import { program } from '@commander-js/extra-typings';
+import { getGpio } from './pigpiow.js';
+
+const OUTPUT = 1;
 
 function getOrTry<T>(f: () => T): T | null {
 	try {
@@ -9,7 +11,7 @@ function getOrTry<T>(f: () => T): T | null {
 	}
 }
 
-const sleep = (time: number): Promise<void> => new Promise(resolve => setInterval(resolve, time));
+const sleep = (time: number): Promise<void> => new Promise(resolve => setTimeout(resolve, time));
 
 function trimComma(str: string): string {
 	if (str.endsWith(",")) {
@@ -25,19 +27,20 @@ program
 
 program
 	.command('simple')
-	.usage('--pin <pin> (--digital/--servo/--analog) --value <value>')
-	.requiredOption('-p, --pin <pin>', 'Pin number')
+	.usage('--pin <gpio number> (--digital/--servo/--analog) --value <value>')
+	.requiredOption('-p, --pin <pin>', 'GPIO number')
 	.option('-d, --digital', 'Digital write')
 	.option('-s, --servo', 'Servo write')
 	.option('-a, --analog', 'PWM/analog write')
 	.option('-r, --range <range>', 'PWM range')
 	.option('-f, --frequency', 'PWM frequency')
 	.option('-i, --info', 'Get info about a GPIO device.')
-	.option('-w, --wait <value>', 'Value to wait')
+	.option('-w, --wait <value>', 'Value to wait (in ms)')
 	.option('-v, --value <value>', 'Value to write')
+	.option('-m, --mock', "Doesn't actually use pigpio; simply mocks values and logs it.")
 	.showHelpAfterError(true)
-	.action(async ({ pin, digital, servo, analog, info, range, value, frequency, wait }) => {
-		const gpio = new Gpio(parseInt(pin), { mode: Gpio.OUTPUT });
+	.action(async ({ pin, digital, servo, analog, info, range, value, frequency, wait, mock }) => {
+		const gpio = await getGpio(parseInt(pin), { mode: OUTPUT, mock });
 
 		if (info) {
 			console.log("PWM Duty Cycle:", getOrTry(gpio.getPwmDutyCycle) ?? "Could not get.");
@@ -60,50 +63,43 @@ program
 			program.error('Either --digital, --servo, or --analog (pwm) must be specified');
 		}
 
-		const write = () => {
-			if (digital) {
-				gpio.digitalWrite(parseInt(value));
-			} else if (servo) {
-				gpio.servoWrite(parseInt(value));
-			} else if (frequency) {
-				gpio.pwmFrequency(parseInt(value));
-			} else if (analog) {
-				gpio.pwmWrite(parseInt(value));
-				if (range)
-					gpio.pwmRange(parseInt(range));
-			}
-		};
+		if (digital) {
+			gpio.digitalWrite(parseInt(value));
+		} else if (servo) {
+			gpio.servoWrite(parseInt(value));
+		} else if (frequency) {
+			gpio.pwmFrequency(parseInt(value));
+		} else if (analog) {
+			gpio.pwmWrite(parseInt(value));
+			if (range)
+				gpio.pwmRange(parseInt(range));
+		}
 
-		write();
 		if (wait)
 			await sleep(parseInt(wait));
 	});
 
 program
 	.command('multi')
+	.usage(`value`)
 	.argument('<pins...>')
-	.action(async (pinWrites) => {
+	.option('-m, --mock', "Doesn't actually use pigpio; simply mocks values and logs it.")
+	.action(async (pinWrites, { mock }) => {
 		for (const pinWrite of pinWrites) {
-			const args = pinWrite.split('>');
+			const regex = /^(\d+)t(\d+)([a-zA-Z])(?:\[(\w=\d+,?)+\])?$/;
 
-			if (args.length !== 2) {
-				program.error('No more than one ">" in the arg');
-			}
+			const latter = [...pinWrite.match(regex) ?? []];
 
-			const value = parseInt(args[0]);
+			const [, unparsedValue, pin, format, ...parameters] = latter;
 
-			const regex = /^(\d+)(\w)(?:\[(\w=\d+,?)+\])?$/;
+			const value = parseInt(unparsedValue);
 
-			const latter = [...args[1].match(regex) ?? []];
-
-			const [, pin, format, ...parameters] = latter;
-
-			const gpio = new Gpio(parseInt(pin), { mode: Gpio.OUTPUT });
+			const gpio = await getGpio(parseInt(pin), { mode: OUTPUT, mock });
 
 			const pairings: Record<string, (num: number) => unknown> = {
 				d: gpio.digitalWrite,
 				s: gpio.servoWrite,
-				a: gpio.analogWrite,
+				a: gpio.pwmWrite,
 				f: gpio.pwmFrequency
 			};
 
