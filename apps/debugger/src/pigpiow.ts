@@ -1,4 +1,5 @@
 import type { Gpio as GpioType } from 'pigpio';
+import memoize from 'memoize';
 
 interface CommonGpioOptions {
 	mode: number,
@@ -21,9 +22,12 @@ export interface CommonGpio {
 	pwmRange: ReplaceReturnType<GpioType["pwmRange"], CommonGpio>;
 }
 
+const uncachedImportGpio = async () => await import('pigpio');
+const importGpio = memoize(uncachedImportGpio);
+
 export async function getGpio(pin: number, options: CommonGpioOptions): Promise<CommonGpio> {
 	if (!options.mock) {
-		const { Gpio } = await import('pigpio');
+		const { Gpio } = await importGpio();
 
 		const gpio = new Gpio(pin, options);
 
