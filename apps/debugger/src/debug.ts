@@ -8,10 +8,23 @@ function getOrTry<T>(f: () => T): T | null {
 	}
 }
 
+const sleep = (time: number): Promise<void> => new Promise(resolve => setInterval(() => resolve(), time));
+
+function trimComma(str: string): string {
+	if (str.endsWith(",")) {
+		return str.slice(0, -1);
+	}
+
+	return str;
+}
+
 program
 	.name('pigpio-cli')
-	.description('PIGPIO CLI debugging tool.')
-	.usage('pigpio-cli --pin <pin> (--digital/--servo/--analog) --value <value>')
+	.description('PIGPIO CLI debugging tool.');
+
+program
+	.command('simple')
+	.usage('--pin <pin> (--digital/--servo/--analog) --value <value>')
 	.requiredOption('-p, --pin <pin>', 'Pin number')
 	.option('-d, --digital', 'Digital write')
 	.option('-s, --servo', 'Servo write')
@@ -67,5 +80,51 @@ program
 		} else {
 			write();
 		}
-	})
-	.parse();
+	});
+
+program
+	.command('multi')
+	.argument('<pins...>')
+	.action(async (pinWrites) => {
+		const { Gpio } = await import('pigpio');
+		for (const pinWrite of pinWrites) {
+			const args = pinWrite.split('>');
+
+			if (args.length !== 2) {
+				program.error('No more than one ">" in the arg');
+			}
+
+			const value = parseInt(args[0]);
+
+			const regex = /^(\d+)(\w)(?:\[(\w=\d+,?)+\])?$/;
+
+			const latter = [...args[1].match(regex) ?? []];
+
+			const [, pin, format, ...parameters] = latter;
+
+			const gpio = new Gpio(parseInt(pin), { mode: Gpio.OUTPUT });
+
+			const pairings: Record<string, (num: number) => unknown> = {
+				d: gpio.digitalWrite,
+				s: gpio.servoWrite,
+				a: gpio.analogWrite,
+				f: gpio.pwmFrequency
+			};
+
+			const parsedParameters = Object.fromEntries(parameters.map(parameter => trimComma(parameter).split("=")));
+
+			const functor = pairings[format];
+
+			const time = parsedParameters['t'];
+
+			if (time) {
+				const interval = setInterval(() => functor(value), 20);
+				await sleep(time);
+				clearInterval(interval);
+			} else {
+				functor(value);
+			}
+		}
+	});
+
+program.parse();
