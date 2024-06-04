@@ -23,10 +23,11 @@ function trimComma(str: string): string {
 
 program
 	.name('pigpio-cli')
-	.description('PIGPIO CLI debugging tool.');
+	.description('PIGPIO CLI debugging tool.')
+	.showHelpAfterError(true);
 
 program
-	.command('simple')
+	.command('single')
 	.usage('--pin <gpio number> (--digital/--servo/--analog) --value <value>')
 	.requiredOption('-p, --pin <pin>', 'GPIO number')
 	.option('-d, --digital', 'Digital write')
@@ -38,7 +39,6 @@ program
 	.option('-w, --wait <value>', 'Value to wait (in ms)')
 	.option('-v, --value <value>', 'Value to write')
 	.option('-m, --mock', "Doesn't actually use pigpio; simply mocks values and logs it.")
-	.showHelpAfterError(true)
 	.action(async ({ pin, digital, servo, analog, info, range, value, frequency, wait, mock }) => {
 		const gpio = await getGpio(parseInt(pin), { mode: OUTPUT, mock });
 
@@ -81,7 +81,23 @@ program
 
 program
 	.command('multi')
-	.usage(`value`)
+	.usage(`<value>t<gpio number><mode>[t(ime)=ms]
+
+t stands for to
+
+mode:
+	d for digital,
+	s for servo,
+	a for analog/pwm,
+	f for frequency
+
+Examples:
+	to set the servo pulse width to 1500 on GPIO 6 and wait 1s
+		pigpio-cli multi 1500t6s[t=1000]
+	to write the digital value "1" on GPIO 5
+		pigpio-cli multi 1t5d
+	to start and stop servos 3,4,5 for 2s
+		pigpio-cli multi 1700t3s 1700t4s 1700t5s[t=2000] 1500t3s 1500t4s 1500t5s[t=2000]`)
 	.argument('<pins...>')
 	.option('-m, --mock', "Doesn't actually use pigpio; simply mocks values and logs it.")
 	.action(async (pinWrites, { mock }) => {
@@ -107,7 +123,7 @@ program
 
 			const functor = pairings[format];
 
-			const time = parsedParameters['t'];
+			const time = parsedParameters['t'] || parsedParameters['time'];
 
 			functor(value);
 			if (time)
