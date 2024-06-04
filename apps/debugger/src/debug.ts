@@ -33,9 +33,10 @@ program
 	.option('-f, --frequency', 'PWM frequency')
 	.option('-i, --info', 'Get info about a GPIO device.')
 	.option('-l, --loop', 'Loop the write')
+	.option('-w, --wait <value>', 'Value to wait')
 	.option('-v, --value <value>', 'Value to write')
 	.showHelpAfterError(true)
-	.action(async ({ pin, digital, servo, analog, info, range, value, frequency, loop }) => {
+	.action(async ({ pin, digital, servo, analog, info, range, value, frequency, loop, wait }) => {
 		const { Gpio } = await import('pigpio');
 
 		const gpio = new Gpio(parseInt(pin), { mode: Gpio.OUTPUT });
@@ -79,6 +80,8 @@ program
 			setInterval(write, 20);
 		} else {
 			write();
+			if (wait)
+				await sleep(parseInt(wait));
 		}
 	});
 
