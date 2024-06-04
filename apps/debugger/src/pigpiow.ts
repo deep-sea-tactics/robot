@@ -31,6 +31,18 @@ export async function getGpio(pin: number, options: CommonGpioOptions): Promise<
 
 		const gpio = new Gpio(pin, options);
 
+		gpio.getPwmDutyCycle.bind(gpio);
+		gpio.getPwmFrequency.bind(gpio);
+		gpio.getPwmRange.bind(gpio);
+		gpio.getPwmRealRange.bind(gpio);
+		gpio.getServoPulseWidth.bind(gpio);
+
+		gpio.digitalWrite.bind(gpio);
+		gpio.servoWrite.bind(gpio);
+		gpio.pwmFrequency.bind(gpio);
+		gpio.pwmWrite.bind(gpio);
+		gpio.pwmRange.bind(gpio);
+
 		return gpio;
 	} else {
 		const gpio: CommonGpio = {
