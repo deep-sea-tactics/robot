@@ -19,9 +19,10 @@ program
 	.option('-r, --range <range>', 'PWM range')
 	.option('-f, --frequency', 'PWM frequency')
 	.option('-i, --info', 'Get info about a GPIO device.')
+	.option('-l, --loop', 'Loop the write')
 	.option('-v, --value <value>', 'Value to write')
 	.showHelpAfterError(true)
-	.action(async ({ pin, digital, servo, analog, info, range, value, frequency }) => {
+	.action(async ({ pin, digital, servo, analog, info, range, value, frequency, loop }) => {
 		const { Gpio } = await import('pigpio');
 
 		const gpio = new Gpio(parseInt(pin), { mode: Gpio.OUTPUT });
@@ -43,18 +44,28 @@ program
 			program.error('Only either --digital, --servo, or --analog (pwm) must be specified');
 		}
 
-		if (digital) {
-			gpio.digitalWrite(parseInt(value));
-		} else if (servo) {
-			gpio.servoWrite(parseInt(value));
-		} else if (frequency) {
-			gpio.pwmFrequency(parseInt(value));
-		} else if (analog) {
-			gpio.pwmWrite(parseInt(value));
-			if (range)
-				gpio.pwmRange(parseInt(range));
-		} else {
+		if (!digital && !servo && !frequency && !analog) {
 			program.error('Either --digital, --servo, or --analog (pwm) must be specified');
+		}
+
+		const write = () => {
+			if (digital) {
+				gpio.digitalWrite(parseInt(value));
+			} else if (servo) {
+				gpio.servoWrite(parseInt(value));
+			} else if (frequency) {
+				gpio.pwmFrequency(parseInt(value));
+			} else if (analog) {
+				gpio.pwmWrite(parseInt(value));
+				if (range)
+					gpio.pwmRange(parseInt(range));
+			}
+		};
+
+		if (loop) {
+			setInterval(write, 20);
+		} else {
+			write();
 		}
 	})
 	.parse();
