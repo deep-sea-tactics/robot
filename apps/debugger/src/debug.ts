@@ -15,7 +15,7 @@ const sleep = (time: number): Promise<void> => new Promise(resolve => setInterva
 
 await sleep(1000);
 gpio.servoWrite(1500);
-await sleep(1000);
+await sleep(2000);
 gpio.servoWrite(1700);
 await sleep(1000);
 gpio.servoWrite(1500);
