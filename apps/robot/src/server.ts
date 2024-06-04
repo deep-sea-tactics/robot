@@ -13,22 +13,24 @@ const t = initTRPC.create();
 
 const isMock = process.env.MOCK === 'true';
 
+const sleep = (time: number): Promise<void> => new Promise(resolve => setInterval(resolve, time));
+
 async function connectPhysicalMotors() {
 	const { Gpio } = await import('pigpio');
 
 	const thrusterConfig = {
-		// ESC 1
-		[Motor.VerticalLeft]: new Gpio(33, { mode: Gpio.OUTPUT }),
-		// ESC 2
-		[Motor.VerticalRight]: new Gpio(32, { mode: Gpio.OUTPUT }),
-		// ESC 3
-		[Motor.TopLeft]: new Gpio(31, { mode: Gpio.OUTPUT }),
-		// ESC 4
-		[Motor.TopRight]: new Gpio(29, { mode: Gpio.OUTPUT }),
-		// ESC 5
-		[Motor.BottomLeft]: new Gpio(36, { mode: Gpio.OUTPUT }),
-		// ESC 6
-		[Motor.BottomRight]: new Gpio(35, { mode: Gpio.OUTPUT })
+		// ESC 1 - pin 33
+		[Motor.VerticalLeft]: new Gpio(13, { mode: Gpio.OUTPUT }),
+		// ESC 2 - pin 32
+		[Motor.VerticalRight]: new Gpio(12, { mode: Gpio.OUTPUT }),
+		// ESC 3 - pin 31
+		[Motor.TopLeft]: new Gpio(6, { mode: Gpio.OUTPUT }),
+		// ESC 4 - pin 29
+		[Motor.TopRight]: new Gpio(5, { mode: Gpio.OUTPUT }),
+		// ESC 5 - pin 36
+		[Motor.BottomLeft]: new Gpio(16, { mode: Gpio.OUTPUT }),
+		// ESC 6 - pin 35
+		[Motor.BottomRight]: new Gpio(19, { mode: Gpio.OUTPUT })
 	};
 
 	const sensorConfig = {
@@ -40,6 +42,18 @@ async function connectPhysicalMotors() {
 		4: new Gpio(15, { mode: Gpio.OUTPUT }),
 		5: new Gpio(16, { mode: Gpio.OUTPUT })
 	};
+
+	for (const motor of Object.values(thrusterConfig)) {
+		motor.servoWrite(0);
+	}
+
+	await sleep(1000);
+
+	for (const motor of Object.values(thrusterConfig)) {
+		motor.servoWrite(1500);
+	}
+
+	await sleep(2000);
 
 	function speedToServo(speed: number) {
 		// 1100 - 1900, 1500 is neutral

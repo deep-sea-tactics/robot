@@ -1,143 +1,122 @@
 import { Gpio } from 'pigpio';
-const gpio = new Gpio(5, { mode: Gpio.OUTPUT });
-gpio.servoWrite(0);
-// import { program } from '@commander-js/extra-typings';
+import { program } from '@commander-js/extra-typings';
 
-// function getOrTry<T>(f: () => T): T | null {
-// 	try {
-// 		return f();
-// 	} catch {
-// 		return null;
-// 	}
-// }
+function getOrTry<T>(f: () => T): T | null {
+	try {
+		return f();
+	} catch {
+		return null;
+	}
+}
 
 const sleep = (time: number): Promise<void> => new Promise(resolve => setInterval(resolve, time));
 
-await sleep(1000);
-gpio.servoWrite(1500);
-await sleep(2000);
-gpio.servoWrite(1700);
-await sleep(1000);
-gpio.servoWrite(1500);
+function trimComma(str: string): string {
+	if (str.endsWith(",")) {
+		return str.slice(0, -1);
+	}
 
-// function trimComma(str: string): string {
-// 	if (str.endsWith(",")) {
-// 		return str.slice(0, -1);
-// 	}
+	return str;
+}
 
-// 	return str;
-// }
+program
+	.name('pigpio-cli')
+	.description('PIGPIO CLI debugging tool.');
 
-// program
-// 	.name('pigpio-cli')
-// 	.description('PIGPIO CLI debugging tool.');
+program
+	.command('simple')
+	.usage('--pin <pin> (--digital/--servo/--analog) --value <value>')
+	.requiredOption('-p, --pin <pin>', 'Pin number')
+	.option('-d, --digital', 'Digital write')
+	.option('-s, --servo', 'Servo write')
+	.option('-a, --analog', 'PWM/analog write')
+	.option('-r, --range <range>', 'PWM range')
+	.option('-f, --frequency', 'PWM frequency')
+	.option('-i, --info', 'Get info about a GPIO device.')
+	.option('-w, --wait <value>', 'Value to wait')
+	.option('-v, --value <value>', 'Value to write')
+	.showHelpAfterError(true)
+	.action(async ({ pin, digital, servo, analog, info, range, value, frequency, wait }) => {
+		const gpio = new Gpio(parseInt(pin), { mode: Gpio.OUTPUT });
 
-// program
-// 	.command('simple')
-// 	.usage('--pin <pin> (--digital/--servo/--analog) --value <value>')
-// 	.requiredOption('-p, --pin <pin>', 'Pin number')
-// 	.option('-d, --digital', 'Digital write')
-// 	.option('-s, --servo', 'Servo write')
-// 	.option('-a, --analog', 'PWM/analog write')
-// 	.option('-r, --range <range>', 'PWM range')
-// 	.option('-f, --frequency', 'PWM frequency')
-// 	.option('-i, --info', 'Get info about a GPIO device.')
-// 	.option('-l, --loop', 'Loop the write')
-// 	.option('-w, --wait <value>', 'Value to wait')
-// 	.option('-v, --value <value>', 'Value to write')
-// 	.showHelpAfterError(true)
-// 	.action(async ({ pin, digital, servo, analog, info, range, value, frequency, loop, wait }) => {
-// 		const { Gpio } = await import('pigpio');
+		if (info) {
+			console.log("PWM Duty Cycle:", getOrTry(gpio.getPwmDutyCycle) ?? "Could not get.");
+			console.log("PWM Frequency:", getOrTry(gpio.getPwmFrequency) ?? "Could not get.");
+			console.log("PWM Range:", getOrTry(gpio.getPwmRange) ?? "Could not get.");
+			console.log("PWM Real Range:", getOrTry(gpio.getPwmRealRange) ?? "Could not get.");
+			console.log("Servo Pulse Width:", getOrTry(gpio.getServoPulseWidth) ?? "Could not get.");
+			return;
+		}
 
-// 		const gpio = new Gpio(parseInt(pin), { mode: Gpio.OUTPUT });
+		if (!value) {
+			program.error('error: required option, \'-v, --value <value>\' not specified');
+		}
 
-// 		if (info) {
-// 			console.log("PWM Duty Cycle:", getOrTry(gpio.getPwmDutyCycle) ?? "Could not get.");
-// 			console.log("PWM Frequency:", getOrTry(gpio.getPwmFrequency) ?? "Could not get.");
-// 			console.log("PWM Range:", getOrTry(gpio.getPwmRange) ?? "Could not get.");
-// 			console.log("PWM Real Range:", getOrTry(gpio.getPwmRealRange) ?? "Could not get.");
-// 			console.log("Servo Pulse Width:", getOrTry(gpio.getServoPulseWidth) ?? "Could not get.");
-// 			return;
-// 		}
+		if ([digital, servo, analog].filter(Boolean).length > 1) {
+			program.error('Only either --digital, --servo, or --analog (pwm) must be specified');
+		}
 
-// 		if (!value) {
-// 			program.error('error: required option, \'-v, --value <value>\' not specified');
-// 		}
+		if (!digital && !servo && !frequency && !analog) {
+			program.error('Either --digital, --servo, or --analog (pwm) must be specified');
+		}
 
-// 		if ([digital, servo, analog].filter(Boolean).length > 1) {
-// 			program.error('Only either --digital, --servo, or --analog (pwm) must be specified');
-// 		}
+		const write = () => {
+			if (digital) {
+				gpio.digitalWrite(parseInt(value));
+			} else if (servo) {
+				gpio.servoWrite(parseInt(value));
+			} else if (frequency) {
+				gpio.pwmFrequency(parseInt(value));
+			} else if (analog) {
+				gpio.pwmWrite(parseInt(value));
+				if (range)
+					gpio.pwmRange(parseInt(range));
+			}
+		};
 
-// 		if (!digital && !servo && !frequency && !analog) {
-// 			program.error('Either --digital, --servo, or --analog (pwm) must be specified');
-// 		}
+		write();
+		if (wait)
+			await sleep(parseInt(wait));
+	});
 
-// 		const write = () => {
-// 			if (digital) {
-// 				gpio.digitalWrite(parseInt(value));
-// 			} else if (servo) {
-// 				gpio.servoWrite(parseInt(value));
-// 			} else if (frequency) {
-// 				gpio.pwmFrequency(parseInt(value));
-// 			} else if (analog) {
-// 				gpio.pwmWrite(parseInt(value));
-// 				if (range)
-// 					gpio.pwmRange(parseInt(range));
-// 			}
-// 		};
+program
+	.command('multi')
+	.argument('<pins...>')
+	.action(async (pinWrites) => {
+		for (const pinWrite of pinWrites) {
+			const args = pinWrite.split('>');
 
-// 		if (loop) {
-// 			setInterval(write, 20);
-// 		} else {
-// 			write();
-// 			if (wait)
-// 				await sleep(parseInt(wait));
-// 		}
-// 	});
+			if (args.length !== 2) {
+				program.error('No more than one ">" in the arg');
+			}
 
-// program
-// 	.command('multi')
-// 	.argument('<pins...>')
-// 	.action(async (pinWrites) => {
-// 		for (const pinWrite of pinWrites) {
-// 			const args = pinWrite.split('>');
+			const value = parseInt(args[0]);
 
-// 			if (args.length !== 2) {
-// 				program.error('No more than one ">" in the arg');
-// 			}
+			const regex = /^(\d+)(\w)(?:\[(\w=\d+,?)+\])?$/;
 
-// 			const value = parseInt(args[0]);
+			const latter = [...args[1].match(regex) ?? []];
 
-// 			const regex = /^(\d+)(\w)(?:\[(\w=\d+,?)+\])?$/;
+			const [, pin, format, ...parameters] = latter;
 
-// 			const latter = [...args[1].match(regex) ?? []];
+			const gpio = new Gpio(parseInt(pin), { mode: Gpio.OUTPUT });
 
-// 			const [, pin, format, ...parameters] = latter;
+			const pairings: Record<string, (num: number) => unknown> = {
+				d: gpio.digitalWrite,
+				s: gpio.servoWrite,
+				a: gpio.analogWrite,
+				f: gpio.pwmFrequency
+			};
 
-// 			const { Gpio } = await import('pigpio');
-// 			const gpio = new Gpio(parseInt(pin), { mode: Gpio.OUTPUT });
+			const parsedParameters = Object.fromEntries(parameters.filter(Boolean).map(parameter => trimComma(parameter).split("=")));
 
-// 			const pairings: Record<string, (num: number) => unknown> = {
-// 				d: gpio.digitalWrite,
-// 				s: gpio.servoWrite,
-// 				a: gpio.analogWrite,
-// 				f: gpio.pwmFrequency
-// 			};
+			const functor = pairings[format];
 
-// 			const parsedParameters = Object.fromEntries(parameters.filter(Boolean).map(parameter => trimComma(parameter).split("=")));
+			const time = parsedParameters['t'];
 
-// 			const functor = pairings[format];
+			functor(value);
+			if (time)
+				await sleep(time);
+		}
+	});
 
-// 			const time = parsedParameters['t'];
-
-// 			if (time) {
-// 				const interval = setInterval(() => functor(value), 20);
-// 				await sleep(time);
-// 				clearInterval(interval);
-// 			} else {
-// 				functor(value);
-// 			}
-// 		}
-// 	});
-
-// program.parse();
+program.parse();
