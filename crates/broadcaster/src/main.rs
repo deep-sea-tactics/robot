@@ -7,6 +7,8 @@ use imageproc::{
 };
 use num::{abs, integer::sqrt};
 
+use crate::server_client_subsystem::DataManager;
+
 mod server_client_subsystem;
 
 const PINK: Rgb<u8> = Rgb([255, 0, 240]);
@@ -134,6 +136,10 @@ fn process_image(image: DynamicImage) -> Result<()> {
     image.save("./test.png")?;
 
     Ok(())
+}
+
+fn test_callback() {
+    
 }
 
 fn main() -> Result<()> {

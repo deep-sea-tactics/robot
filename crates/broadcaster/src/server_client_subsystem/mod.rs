@@ -1,12 +1,23 @@
-use std::collections::HashMap;
+use std::{collections::HashMap, net::TcpStream};
 use std::net::TcpListener;
 use std::thread::spawn;
-use tungstenite::{accept, connect, Message};
+use tungstenite::{accept, connect, protocol::frame::coding::Data, Message, WebSocket};
+
+//TODO: remove the t and opt for serde's type inference
+
+type Callback = fn(String);
 
 pub struct Record {
     pub name: String,
     pub data: String,
     pub t: String,
+}
+
+pub trait DataManager {
+    fn modify_record(&mut self, key: String, new_value: Record);
+    fn get_record(&self, key: String) -> Option<&Record>;
+    fn new_record(&mut self, key: String, value: String, t: String);
+    fn remove_record(&mut self, key: String);
 }
 
 pub struct Client {
@@ -41,22 +52,23 @@ impl Client {
             }
         }
     }
-
-    pub fn modify_record(&mut self, key: String, new_value: Record) {
+}
+impl DataManager for Client {
+    fn modify_record(&mut self, key: String, new_value: Record) {
         if self.replicated_database.contains_key(&key) {
             *self.replicated_database.get_mut(&key).unwrap() = new_value;
         }
     }
 
-    pub fn get_record(&mut self, key: String) -> Option<&String> {
+    fn get_record(&self, key: String) -> Option<&Record> {
         if self.replicated_database.contains_key(&key) {
-            return Some(&self.replicated_database.get(&key).unwrap().data)
+            return Some(&self.replicated_database.get(&key).unwrap())
         }
 
         None
     }
 
-    pub fn new_record(&mut self, key: String, value: String, t: String) {
+    fn new_record(&mut self, key: String, value: String, t: String) {
         let record = Record {
             name: key.clone(),
             data: value,
@@ -65,14 +77,69 @@ impl Client {
 
         self.replicated_database.insert(key, record);
     }
+
+    fn remove_record(&mut self, key: String) {
+        if self.replicated_database.contains_key(&key) {
+            self.replicated_database.remove(&key);
+        }
+    }
 }
 
 struct Server {
     server: Option<TcpListener>,
+    replicated_database: HashMap<String, Record>,
+    on_recieved_callbacks: Vec<Callback>,
 }
 impl Server {
-    pub fn broadcast(&mut self, address: String) {
-        
+    pub fn new() -> Self {
+        Server {
+            server: None,
+            replicated_database: HashMap::new(),
+            on_recieved_callbacks: vec![],
+        }
+    }
+
+    pub fn open(&mut self, address: String) {
+        let server = TcpListener::bind(address);
+
+        if server.is_ok() {
+            self.server = Some(server.unwrap());
+        }
+    }
+
+    pub fn bind_to_recieved(&mut self, method: Callback) {
+        self.on_recieved_callbacks.push(method);
+    }
+}
+impl DataManager for Server {
+    fn modify_record(&mut self, key: String, new_value: Record) {
+        if self.replicated_database.contains_key(&key) {
+            *self.replicated_database.get_mut(&key).unwrap() = new_value;
+        }
+    }
+
+    fn get_record(&self, key: String) -> Option<&Record> {
+        if self.replicated_database.contains_key(&key) {
+            return Some(&self.replicated_database.get(&key).unwrap())
+        }
+
+        None
+    }
+
+    fn new_record(&mut self, key: String, value: String, t: String) {
+        let record = Record {
+            name: key.clone(),
+            data: value,
+            t,
+        };
+
+        self.replicated_database.insert(key, record);
+    }
+
+    fn remove_record(&mut self, key: String) {
+        if self.replicated_database.contains_key(&key) {
+            self.replicated_database.remove(&key);
+        }
     }
 }
 
