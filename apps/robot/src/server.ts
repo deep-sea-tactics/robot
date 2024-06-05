@@ -74,7 +74,7 @@ async function connectPhysicalMotors() {
 		const normalizedEntries = Object.entries(event).map(([motor, speed]) => {
 			return [
 				motor,
-				speed / motorMagnitude
+				motorMagnitude == 0 ? 1500 : speed / motorMagnitude
 			] as const
 		})
 		for (const [motor, speed] of normalizedEntries) {
