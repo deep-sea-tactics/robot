@@ -67,9 +67,7 @@ async function connectPhysicalMotors() {
 	function onMotorData(event: Record<`${Motor}`, number>) {
 		for (const [motor, speed] of Object.entries(event)) {
 			const pin = thrusterConfig[parseInt(motor) as Motor];
-			console.log(speed)
-			console.log(speedToServo(speed));
-			pin.servoWrite(speedToServo(speed));
+			pin.servoWrite(Math.round(speedToServo(speed)));
 		}
 	}
 
