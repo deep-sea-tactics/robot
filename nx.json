@@ -16,19 +16,19 @@
 		},
 		"dev": {
 			"cache": false,
-			"dependsOn": ["^build"]
+			"dependsOn": ["^build", "^cp-env", "cp-env"]
 		},
 		"dev:mock": {
 			"cache": false,
-			"dependsOn": ["^build"]
+			"dependsOn": ["^build", "^cp-env", "cp-env"]
 		},
 		"robot": {
 			"cache": false,
-			"dependsOn": ["^build"]
+			"dependsOn": ["^build", "^cp-env", "cp-env"]
 		},
 		"robot:mock": {
 			"cache": false,
-			"dependsOn": ["^build"]
+			"dependsOn": ["^build", "^cp-env", "cp-env"]
 		},
 		"test": {
 			"dependsOn": ["^build"],

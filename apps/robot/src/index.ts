@@ -3,7 +3,8 @@ import { WebSocketServer } from 'ws';
 import { router, queueTick } from './server.js';
 
 const wss = new WebSocketServer({
-	port: 9000
+	port: 9000,
+	host: '0.0.0.0'
 });
 
 const server = applyWSSHandler({
