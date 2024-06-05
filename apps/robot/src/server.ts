@@ -8,6 +8,7 @@ import type { MotorEvent } from './motor.js';
 import { move } from './thrusters.js';
 import { type Events, emitter } from './emitter.js';
 import { calculateNeededTorque } from './stable.js';
+import { asyncExitHook } from 'exit-hook';
 
 const t = initTRPC.create();
 
@@ -62,8 +63,7 @@ async function connectPhysicalMotors() {
 	}
 
 	function onMotorData(event: Record<`${Motor}`, number>) {
-		for (const entry of Object.entries(event)) {
-			const [motor, speed] = entry;
+		for (const [motor, speed] of Object.entries(event)) {
 			const pin = thrusterConfig[parseInt(motor) as Motor];
 			pin.servoWrite(speedToServo(speed));
 		}
@@ -72,14 +72,14 @@ async function connectPhysicalMotors() {
 	emitter.on('motorData', onMotorData);
 
 	// on CTRL + C, clean up
-	process.on('SIGINT', () => {
-		Object.values(thrusterConfig).forEach((pin) => {
+	asyncExitHook(async () => {
+		for (const pin of Object.values(thrusterConfig)) {
 			pin.servoWrite(1500);
-			pin.digitalWrite(0);
-		});
+			await sleep(500);
+		}
 
 		process.exit();
-	});
+	}, { wait: 1000 });
 }
 
 if (!isMock) {
