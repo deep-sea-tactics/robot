@@ -35,5 +35,3 @@ yarn-error.log*
 # cargo
 target
 .nx/cache
-
-.env
