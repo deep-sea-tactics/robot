@@ -31,17 +31,17 @@ export async function getGpio(pin: number, options: CommonGpioOptions): Promise<
 
 		const gpio = new Gpio(pin, options);
 
-		gpio.getPwmDutyCycle.bind(gpio);
-		gpio.getPwmFrequency.bind(gpio);
-		gpio.getPwmRange.bind(gpio);
-		gpio.getPwmRealRange.bind(gpio);
-		gpio.getServoPulseWidth.bind(gpio);
+		gpio.getPwmDutyCycle = gpio.getPwmDutyCycle.bind(gpio);
+		gpio.getPwmFrequency = gpio.getPwmFrequency.bind(gpio);
+		gpio.getPwmRange = gpio.getPwmRange.bind(gpio);
+		gpio.getPwmRealRange = gpio.getPwmRealRange.bind(gpio);
+		gpio.getServoPulseWidth = gpio.getServoPulseWidth.bind(gpio);
 
-		gpio.digitalWrite.bind(gpio);
-		gpio.servoWrite.bind(gpio);
-		gpio.pwmFrequency.bind(gpio);
-		gpio.pwmWrite.bind(gpio);
-		gpio.pwmRange.bind(gpio);
+		gpio.digitalWrite = gpio.digitalWrite.bind(gpio);
+		gpio.servoWrite = gpio.servoWrite.bind(gpio);
+		gpio.pwmFrequency = gpio.pwmFrequency.bind(gpio);
+		gpio.pwmWrite = gpio.pwmWrite.bind(gpio);
+		gpio.pwmRange = gpio.pwmRange.bind(gpio);
 
 		return gpio;
 	} else {
