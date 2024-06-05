@@ -10,7 +10,7 @@
 	"types": "dist/index.d.ts",
 	"type": "module",
 	"scripts": {
-		"robot:mock": "cross-env MOCK=true tsx watch --clear-screen=false ./src/index.ts",
+		"robot:mock": "cross-env MOCK=true tsx ./src/index.ts",
 		"robot": "tsx ./src/index.ts",
 		"build": "tsc",
 		"check": "tsc -p ./tsconfig.json",

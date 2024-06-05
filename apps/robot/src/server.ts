@@ -9,6 +9,8 @@ import { move } from './thrusters.js';
 import { type Events, emitter } from './emitter.js';
 import { calculateNeededTorque } from './stable.js';
 import { asyncExitHook } from 'exit-hook';
+import readline from 'node:readline';
+import { stdin, stdout } from 'node:process';
 
 const t = initTRPC.create();
 
@@ -71,14 +73,36 @@ async function connectPhysicalMotors() {
 
 	emitter.on('motorData', onMotorData);
 
-	// on CTRL + C, clean up
-	asyncExitHook(async () => {
+	async function cleanup() {
 		for (const pin of Object.values(thrusterConfig)) {
 			pin.servoWrite(1500);
-			await sleep(500);
 		}
 
-		process.exit();
+		await sleep(500);
+	}
+
+	// Ask for cleanup
+	const rl = readline.createInterface({ input: stdin, output: stdout });
+
+	async function runPrompt(answer: string) {
+		if (['y', 'yes'].includes(answer.toLocaleLowerCase())) {
+			console.log("Cleaning up...");
+			await cleanup();
+			console.log("Bye!");
+			process.exit(0);
+		} else {
+			rl.question('Shutdown? (y[es]) ', runPrompt);
+		}
+	}
+
+	runPrompt('');
+
+	// Clean up on sig signals (doesn't work in NX? https://github.com/nrwl/nx/issues/18255)
+	asyncExitHook(async () => {
+		console.log('Cleaning up...');
+		await cleanup();
+		console.log('Bye!');
+		process.exit(0);
 	}, { wait: 1000 });
 }
 
