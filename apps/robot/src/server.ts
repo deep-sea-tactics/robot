@@ -61,12 +61,25 @@ async function connectPhysicalMotors() {
 	/** Converts speed to servo, where speed is constrained to [-1, 1] */
 	function speedToServo(speed: number) {
 		// 1100 - 1900, 1500 is neutral
-		return speed * ((1900 - 1100) / 2) + 1500;
+		return Math.max(Math.min(1900, speed * ((1900 - 1100) / 2) + 1500), 1100);
 	}
 
 	function onMotorData(event: Record<`${Motor}`, number>) {
-		for (const [motor, speed] of Object.entries(event)) {
+		// magnitude = square root of the dot product of the vector and itself again
+		const motorMagnitude = Math.sqrt(
+			Object.values(event).map(x => x * x).reduce((a, b) => a + b, 0)
+		)
+
+		// TODO: move to linear logic, variable control
+		const normalizedEntries = Object.entries(event).map(([motor, speed]) => {
+			return [
+				motor,
+				speed / motorMagnitude
+			] as const
+		})
+		for (const [motor, speed] of normalizedEntries) {
 			const pin = thrusterConfig[parseInt(motor) as Motor];
+			console.log(speed, speedToServo(speed));
 			pin.servoWrite(Math.round(speedToServo(speed)));
 		}
 	}
