@@ -24,12 +24,12 @@ export function vector(x: number, y: number, z: number): Vector {
 }
 
 export function abs(v: VectorLike): Vector {
-	const normalized = normalize(v);
+	const stabilized = stabilize(v);
 
 	return {
-		x: Math.abs(normalized.x),
-		y: Math.abs(normalized.y),
-		z: Math.abs(normalized.z)
+		x: Math.abs(stabilized.x),
+		y: Math.abs(stabilized.y),
+		z: Math.abs(stabilized.z)
 	}
 }
 
