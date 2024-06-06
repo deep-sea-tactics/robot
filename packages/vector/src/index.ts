@@ -23,6 +23,16 @@ export function vector(x: number, y: number, z: number): Vector {
 	return { x, y, z };
 }
 
+export function abs(v: VectorLike): Vector {
+	const normalized = normalize(v);
+
+	return {
+		x: Math.abs(normalized.x),
+		y: Math.abs(normalized.y),
+		z: Math.abs(normalized.z)
+	}
+}
+
 export function asTuple(v: VectorLike): VectorTuple {
 	v = stabilize(v);
 	return [v.x, v.y, v.z];

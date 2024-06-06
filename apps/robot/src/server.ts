@@ -65,19 +65,7 @@ async function connectPhysicalMotors() {
 	}
 
 	function onMotorData(event: Record<`${Motor}`, number>) {
-		// magnitude = square root of the dot product of the vector and itself again
-		const motorMagnitude = Math.sqrt(
-			Object.values(event).map(x => x * x).reduce((a, b) => a + b, 0)
-		)
-
-		// TODO: move to linear logic, variable control
-		const normalizedEntries = Object.entries(event).map(([motor, speed]) => {
-			return [
-				motor,
-				motorMagnitude == 0 ? 0 : speed / motorMagnitude
-			] as const
-		})
-		for (const [motor, speed] of normalizedEntries) {
+		for (const [motor, speed] of Object.entries(event)) {
 			const pin = thrusterConfig[parseInt(motor) as Motor];
 			console.log(speed, speedToServo(speed));
 			pin.servoWrite(Math.round(speedToServo(speed)));
