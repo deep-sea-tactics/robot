@@ -125,7 +125,7 @@ function calculateInverse() {
 	return math.inv(controlMatrix);
 }
 
-const controlInverse = calculateInverse();
+export const controlInverse = Object.freeze(calculateInverse());
 
 function convertToMotorPowers(force: vector.VectorTuple, torque: vector.VectorTuple) {
 	const forceMax = Math.max(...vector.asTuple(vector.abs(force)));
@@ -134,7 +134,7 @@ function convertToMotorPowers(force: vector.VectorTuple, torque: vector.VectorTu
 	const maxEither = Math.max(forceMax, torqueMax);
 
 	const inputVector = math.transpose(math.matrix([...force, ...torque]));
-	const motorPowers = math.multiply(controlInverse, inputVector);
+	const motorPowers = math.multiply(controlInverse as math.MathCollection, inputVector);
 
 	// TODO: better way to do this
 	const values = [

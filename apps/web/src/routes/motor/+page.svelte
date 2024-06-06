@@ -23,9 +23,14 @@
 		torqueY = 0;
 		torqueZ = 0;
 	}
+
+	$: result = move(
+		vector.vector(directionX, directionY, directionZ),
+		vector.vector(torqueX, torqueY, torqueZ)
+	);
 </script>
 
-<h1>Optimal Motor Placements</h1>
+<h1>Motor Calculation Debugging</h1>
 
 <h2>
 	Direction
@@ -34,7 +39,7 @@
 	{/if}
 </h2>
 
-<p>[{directionX}, {directionY}, {directionZ}]</p>
+<p>[x: {directionX}, y: {directionY}, z: {directionZ}]</p>
 
 <div>
 	<label for="directionX">X</label>
@@ -56,7 +61,7 @@
 	{/if}
 </h2>
 
-<p>[{torqueX}, {torqueY}, {torqueZ}]</p>
+<p>[x: {torqueX}, y: {torqueY}, z: {torqueZ}]</p>
 
 <div>
 	<label for="torqueX">X</label>
@@ -71,21 +76,21 @@
 	<input type="range" min="-1" max="1" step="0.01" id="torqueZ" bind:value={torqueZ} />
 </div>
 
-<pre>
-    {JSON.stringify(
-		move(
-			vector.vector(directionX, directionY, directionZ),
-			vector.vector(torqueX, torqueY, torqueZ)
-		),
-		null,
-		2
-	)}
-</pre>
+<pre><b>motors</b>: {JSON.stringify(result.motors, null,2)}</pre>
+<pre><b>torque difference</b>: {JSON.stringify(result.torqueDifference, null,2)}</pre>
+<pre><b>direction difference</b>: {JSON.stringify(result.directionDifference, null,2)}</pre>
 
 <style>
 	div {
 		display: flex;
 		align-items: center;
 		gap: 1rem;
+	}
+
+	@media (prefers-color-scheme: dark) {
+		:global(body) {
+			background-color: black;
+			color: white;
+		}
 	}
 </style>
