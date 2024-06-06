@@ -14,14 +14,16 @@
 		"robot": "tsx ./src/index.ts",
 		"build": "tsc",
 		"check": "tsc -p ./tsconfig.json",
-		"stabilization": "tsx ./src/stabilization/main.ts"
+		"stabilization": "tsx ./src/stabilization/main.ts",
+		"test": "vitest"
 	},
 	"devDependencies": {
 		"@trpc/server": "^10.45.2",
 		"@types/ws": "^8.5.10",
 		"cross-env": "^7.0.3",
 		"tsx": "^4.10.5",
-		"typescript": "^5.4.5"
+		"typescript": "^5.4.5",
+		"vitest": "^1.6.0"
 	},
 	"dependencies": {
 		"debounce": "^2.0.0",

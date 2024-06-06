@@ -136,17 +136,31 @@ function convertToMotorPowers(force: vector.VectorTuple, torque: vector.VectorTu
 	const inputVector = math.transpose(math.matrix([...force, ...torque]));
 	const motorPowers = math.multiply(controlInverse, inputVector);
 
-	const magnitude = Math.sqrt(
-		motorPowers.get([0]) ** 2 +
-			motorPowers.get([1]) ** 2 +
-			motorPowers.get([2]) ** 2 +
-			motorPowers.get([3]) ** 2 +
-			motorPowers.get([4]) ** 2 +
-			motorPowers.get([5]) ** 2
+	// TODO: better way to do this
+	const values = [
+		motorPowers.get([0]),
+		motorPowers.get([1]),
+		motorPowers.get([2]),
+		motorPowers.get([3]),
+		motorPowers.get([4]),
+		motorPowers.get([5])
+	];
+
+	const magnitude = Math.sqrt(values.map(x => x ** 2).reduce((a, b) => a + b, 0));
+
+	const normalizedMatrix =  motorPowers
+		.map(x => magnitude == 0 ? 0 : (x / magnitude));
+
+	const normalizedValuesMax = Math.max(
+		Math.abs(normalizedMatrix.get([0])),
+		Math.abs(normalizedMatrix.get([1])),
+		Math.abs(normalizedMatrix.get([2])),
+		Math.abs(normalizedMatrix.get([3])),
+		Math.abs(normalizedMatrix.get([4])),
+		Math.abs(normalizedMatrix.get([5]))
 	);
 
-	console.log(vector.abs(force), vector.asTuple(vector.abs(force)), forceMax);
-	return motorPowers.map((x) => (magnitude == 0 ? 0 : x / magnitude) * maxEither);
+	return normalizedMatrix.map(x => normalizedValuesMax == 0 ? 0 : (maxEither * x / normalizedValuesMax))
 }
 
 /**
