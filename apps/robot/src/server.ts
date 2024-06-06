@@ -61,7 +61,9 @@ async function connectPhysicalMotors() {
 	/** Converts speed to servo, where speed is constrained to [-1, 1] */
 	function speedToServo(speed: number) {
 		// 1100 - 1900, 1500 is neutral
-		return Math.max(Math.min(1900, speed * ((1900 - 1100) / 2) + 1500), 1100);
+		const min = 1100;
+		const max = 1900;
+		return Math.max(Math.min(max, speed * ((max - min) / 2) + (max + min) / 2), min);
 	}
 
 	function onMotorData(event: Record<`${Motor}`, number>) {
