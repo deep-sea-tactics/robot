@@ -16,7 +16,7 @@ function commandRunsSuccessfully(checkCommand: string): Promise<boolean> {
 /** Runs µStreamer; doesn't work if not installed. */
 async function run() {
 	// Check if we are on a Raspberry PI or not.
-	if (existsSync("/usr/bin/raspi-config")) {
+	if (existsSync('/usr/bin/raspi-config')) {
 		await execa({
 			stdio: ['ignore', 'inherit', 'inherit'],
 			shell: true

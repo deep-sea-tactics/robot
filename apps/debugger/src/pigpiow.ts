@@ -2,24 +2,26 @@ import type { Gpio as GpioType } from 'pigpio';
 import memoize from 'memoize';
 
 interface CommonGpioOptions {
-	mode: number,
-	mock?: boolean
+	mode: number;
+	mock?: boolean;
 }
 
-type ReplaceReturnType<T extends (...a: any[]) => unknown, TNewReturn> = (...a: Parameters<T>) => TNewReturn;
+type ReplaceReturnType<T extends (...a: any[]) => unknown, TNewReturn> = (
+	...a: Parameters<T>
+) => TNewReturn;
 
 export interface CommonGpio {
-	getPwmDutyCycle: GpioType["getPwmDutyCycle"];
-	getPwmFrequency: GpioType["getPwmFrequency"];
-	getPwmRange: GpioType["getPwmRange"];
-	getPwmRealRange: GpioType["getPwmRealRange"];
-	getServoPulseWidth: GpioType["getServoPulseWidth"];
+	getPwmDutyCycle: GpioType['getPwmDutyCycle'];
+	getPwmFrequency: GpioType['getPwmFrequency'];
+	getPwmRange: GpioType['getPwmRange'];
+	getPwmRealRange: GpioType['getPwmRealRange'];
+	getServoPulseWidth: GpioType['getServoPulseWidth'];
 
-	digitalWrite: ReplaceReturnType<GpioType["digitalWrite"], CommonGpio>;
-	servoWrite: ReplaceReturnType<GpioType["servoWrite"], CommonGpio>;
-	pwmFrequency: ReplaceReturnType<GpioType["pwmFrequency"], CommonGpio>;
-	pwmWrite: ReplaceReturnType<GpioType["pwmWrite"], CommonGpio>;
-	pwmRange: ReplaceReturnType<GpioType["pwmRange"], CommonGpio>;
+	digitalWrite: ReplaceReturnType<GpioType['digitalWrite'], CommonGpio>;
+	servoWrite: ReplaceReturnType<GpioType['servoWrite'], CommonGpio>;
+	pwmFrequency: ReplaceReturnType<GpioType['pwmFrequency'], CommonGpio>;
+	pwmWrite: ReplaceReturnType<GpioType['pwmWrite'], CommonGpio>;
+	pwmRange: ReplaceReturnType<GpioType['pwmRange'], CommonGpio>;
 }
 
 const uncachedImportGpio = async () => await import('pigpio');
@@ -82,7 +84,7 @@ export async function getGpio(pin: number, options: CommonGpioOptions): Promise<
 				console.log(`Called GPIO#pwmRange to pin ${pin} with range ${range}.`);
 				return gpio;
 			}
-		}
+		};
 
 		return gpio;
 	}

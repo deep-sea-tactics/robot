@@ -10,7 +10,7 @@ const ipAddr = rpiIp
 	? transform(9000, 'ws', {
 			origin: `http://${rpiIp}`
 		})
-	: transform(9000, 'ws')
+	: transform(9000, 'ws');
 
 if (rpiIp) {
 	console.log(`Connecting with RPI IP ${rpiIp} and resolved IP ${ipAddr}.`);

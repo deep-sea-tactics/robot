@@ -138,15 +138,15 @@ function convertToMotorPowers(force: vector.VectorTuple, torque: vector.VectorTu
 
 	const magnitude = Math.sqrt(
 		motorPowers.get([0]) ** 2 +
-		motorPowers.get([1]) ** 2 +
-		motorPowers.get([2]) ** 2 +
-		motorPowers.get([3]) ** 2 +
-		motorPowers.get([4]) ** 2 +
-		motorPowers.get([5]) ** 2
+			motorPowers.get([1]) ** 2 +
+			motorPowers.get([2]) ** 2 +
+			motorPowers.get([3]) ** 2 +
+			motorPowers.get([4]) ** 2 +
+			motorPowers.get([5]) ** 2
 	);
-	
-	console.log(vector.abs(force), vector.asTuple(vector.abs(force)), forceMax)
-	return motorPowers.map(x => (magnitude == 0 ? 0 : (x / magnitude)) * maxEither);
+
+	console.log(vector.abs(force), vector.asTuple(vector.abs(force)), forceMax);
+	return motorPowers.map((x) => (magnitude == 0 ? 0 : x / magnitude) * maxEither);
 }
 
 /**
@@ -155,14 +155,13 @@ function convertToMotorPowers(force: vector.VectorTuple, torque: vector.VectorTu
  *
  * @param direction The desired direction.
  * @param torque The desired torque.
- * 
+ *
  * Where direction and torque are limited to the [+-1, +-1, +-1] vector spcae rangbe
  *
  * @returns The optimal configuration. Difference variables are provided if deviations are needed.
  * This function will compromise evenly between direction and torque, getting the smallest difference on both.
  */
 export function move(direction: vector.Vector, torque: vector.Vector): MoveOutput {
-
 	// Convert the combined vector to motor powers using the control matrix inverse
 	const motorPowers = convertToMotorPowers(vector.asTuple(direction), vector.asTuple(torque));
 

@@ -30,7 +30,7 @@ export function abs(v: VectorLike): Vector {
 		x: Math.abs(stabilized.x),
 		y: Math.abs(stabilized.y),
 		z: Math.abs(stabilized.z)
-	}
+	};
 }
 
 export function asTuple(v: VectorLike): VectorTuple {

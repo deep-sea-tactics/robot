@@ -16,7 +16,7 @@ const t = initTRPC.create();
 
 const isMock = process.env.MOCK === 'true';
 
-const sleep = (time: number): Promise<void> => new Promise(resolve => setInterval(resolve, time));
+const sleep = (time: number): Promise<void> => new Promise((resolve) => setInterval(resolve, time));
 
 async function connectPhysicalMotors() {
 	const { Gpio } = await import('pigpio');
@@ -87,9 +87,9 @@ async function connectPhysicalMotors() {
 
 	async function runPrompt(answer: string) {
 		if (['y', 'yes'].includes(answer.toLocaleLowerCase())) {
-			console.log("Cleaning up...");
+			console.log('Cleaning up...');
 			await cleanup();
-			console.log("Bye!");
+			console.log('Bye!');
 			process.exit(0);
 		} else {
 			rl.question('Shutdown? (y[es]) ', runPrompt);
@@ -99,12 +99,15 @@ async function connectPhysicalMotors() {
 	runPrompt('');
 
 	// Clean up on sig signals (doesn't work in NX? https://github.com/nrwl/nx/issues/18255)
-	asyncExitHook(async () => {
-		console.log('Cleaning up...');
-		await cleanup();
-		console.log('Bye!');
-		process.exit(0);
-	}, { wait: 1000 });
+	asyncExitHook(
+		async () => {
+			console.log('Cleaning up...');
+			await cleanup();
+			console.log('Bye!');
+			process.exit(0);
+		},
+		{ wait: 1000 }
+	);
 }
 
 if (!isMock) {

@@ -11,20 +11,17 @@ function getOrTry<T>(f: () => T): T | null {
 	}
 }
 
-const sleep = (time: number): Promise<void> => new Promise(resolve => setTimeout(resolve, time));
+const sleep = (time: number): Promise<void> => new Promise((resolve) => setTimeout(resolve, time));
 
 function trimComma(str: string): string {
-	if (str.endsWith(",")) {
+	if (str.endsWith(',')) {
 		return str.slice(0, -1);
 	}
 
 	return str;
 }
 
-program
-	.name('pigpio-cli')
-	.description('PIGPIO CLI debugging tool.')
-	.showHelpAfterError(true);
+program.name('pigpio-cli').description('PIGPIO CLI debugging tool.').showHelpAfterError(true);
 
 program
 	.command('single')
@@ -43,16 +40,16 @@ program
 		const gpio = await getGpio(parseInt(pin), { mode: OUTPUT, mock });
 
 		if (info) {
-			console.log("PWM Duty Cycle:", getOrTry(gpio.getPwmDutyCycle) ?? "Could not get.");
-			console.log("PWM Frequency:", getOrTry(gpio.getPwmFrequency) ?? "Could not get.");
-			console.log("PWM Range:", getOrTry(gpio.getPwmRange) ?? "Could not get.");
-			console.log("PWM Real Range:", getOrTry(gpio.getPwmRealRange) ?? "Could not get.");
-			console.log("Servo Pulse Width:", getOrTry(gpio.getServoPulseWidth) ?? "Could not get.");
+			console.log('PWM Duty Cycle:', getOrTry(gpio.getPwmDutyCycle) ?? 'Could not get.');
+			console.log('PWM Frequency:', getOrTry(gpio.getPwmFrequency) ?? 'Could not get.');
+			console.log('PWM Range:', getOrTry(gpio.getPwmRange) ?? 'Could not get.');
+			console.log('PWM Real Range:', getOrTry(gpio.getPwmRealRange) ?? 'Could not get.');
+			console.log('Servo Pulse Width:', getOrTry(gpio.getServoPulseWidth) ?? 'Could not get.');
 			return;
 		}
 
 		if (!value) {
-			program.error('error: required option, \'-v, --value <value>\' not specified');
+			program.error("error: required option, '-v, --value <value>' not specified");
 		}
 
 		if ([digital, servo, analog].filter(Boolean).length > 1) {
@@ -71,17 +68,16 @@ program
 			gpio.pwmFrequency(parseInt(value));
 		} else if (analog) {
 			gpio.pwmWrite(parseInt(value));
-			if (range)
-				gpio.pwmRange(parseInt(range));
+			if (range) gpio.pwmRange(parseInt(range));
 		}
 
-		if (wait)
-			await sleep(parseInt(wait));
+		if (wait) await sleep(parseInt(wait));
 	});
 
 program
 	.command('multi')
-	.usage(`<value>t<gpio number><mode>[t(ime)=ms]
+	.usage(
+		`<value>t<gpio number><mode>[t(ime)=ms]
 
 t stands for to
 
@@ -97,14 +93,15 @@ Examples:
 	to write the digital value "1" on GPIO 5
 		pigpio-cli multi 1t5d
 	to start and stop servos 3,4,5 for 2s
-		pigpio-cli multi 1700t3s 1700t4s 1700t5s[t=2000] 1500t3s 1500t4s 1500t5s[t=2000]`)
+		pigpio-cli multi 1700t3s 1700t4s 1700t5s[t=2000] 1500t3s 1500t4s 1500t5s[t=2000]`
+	)
 	.argument('<pins...>')
 	.option('-m, --mock', "Doesn't actually use pigpio; simply mocks values and logs it.")
 	.action(async (pinWrites, { mock }) => {
 		for (const pinWrite of pinWrites) {
 			const regex = /^(\d+)t(\d+)([a-zA-Z])(?:\[(\w=\d+,?)+\])?$/;
 
-			const latter = [...pinWrite.match(regex) ?? []];
+			const latter = [...(pinWrite.match(regex) ?? [])];
 
 			const [, unparsedValue, pin, format, ...parameters] = latter;
 
@@ -119,15 +116,16 @@ Examples:
 				f: gpio.pwmFrequency
 			};
 
-			const parsedParameters = Object.fromEntries(parameters.filter(Boolean).map(parameter => trimComma(parameter).split("=")));
+			const parsedParameters = Object.fromEntries(
+				parameters.filter(Boolean).map((parameter) => trimComma(parameter).split('='))
+			);
 
 			const functor = pairings[format];
 
 			const time = parsedParameters['t'] || parsedParameters['time'];
 
 			functor(value);
-			if (time)
-				await sleep(time);
+			if (time) await sleep(time);
 		}
 	});
 
