@@ -145,7 +145,7 @@ function convertToMotorPowers(force: vector.VectorTuple, torque: vector.VectorTu
 		motorPowers.get([5]) ** 2
 	);
 	
-	console.log(force, torque)
+	console.log(vector.abs(force), vector.asTuple(vector.abs(force)), forceMax)
 	return motorPowers.map(x => (magnitude == 0 ? 0 : (x / magnitude)) * maxEither);
 }
 
