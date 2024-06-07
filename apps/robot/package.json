@@ -15,7 +15,7 @@
 		"build": "tsc",
 		"check": "tsc -p ./tsconfig.json",
 		"stabilization": "tsx ./src/stabilization/main.ts",
-		"test": "vitest"
+		"test": "vitest run"
 	},
 	"devDependencies": {
 		"@trpc/server": "^10.45.2",

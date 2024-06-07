@@ -170,7 +170,7 @@ function convertToMotorPowers(force: vector.VectorTuple, torque: vector.VectorTu
  * @param direction The desired direction.
  * @param torque The desired torque.
  *
- * Where direction and torque are limited to the [+-1, +-1, +-1] vector spcae rangbe
+ * Where direction and torque are limited to the [+-1, +-1, +-1] vector space range
  *
  * @returns The optimal configuration. Difference variables are provided if deviations are needed.
  * This function will compromise evenly between direction and torque, getting the smallest difference on both.

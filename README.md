@@ -29,7 +29,7 @@ There are two different task categories:
 
 `/packages/*` serve as general utilities.
 
-### Non-mocking:
+### Non-mocking
 
 - `/apps/robot`: robot code (for driving motors)How runs on PI.
 - `/apps/video`: isolated app for running [µStreamer](https://github.com/pikvm/ustreamer), runs on PI.

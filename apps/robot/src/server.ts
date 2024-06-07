@@ -69,7 +69,6 @@ async function connectPhysicalMotors() {
 	function onMotorData(event: Record<`${Motor}`, number>) {
 		for (const [motor, speed] of Object.entries(event)) {
 			const pin = thrusterConfig[parseInt(motor) as Motor];
-			console.log(speed, speedToServo(speed));
 			if (Number.isNaN(speed)) {
 				console.warn(`Motor ${motor} attempted to write NaN`);
 			} else {
