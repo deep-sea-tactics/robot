@@ -1,8 +1,10 @@
 # robot
 
+[![GitHub branch check runs](https://img.shields.io/github/check-runs/deep-sea-tactics/robot/main?style=flat-square&logo=github&link=https%3A%2F%2Fgithub.com%2Fdeep-sea-tactics%2Frobot%2Factions%3Fquery%3Dbranch%253Amain)](https://github.com/deep-sea-tactics/robot/actions?query=branch%3Amain)
+
 Source for the main Deep Sea Tactics ROV.
 
-This is a [PNPM](https://pnpm.io/) & [Nx](https://nx.dev/) monorepo.
+This is a [Cargo](https://doc.rust-lang.org/stable/cargo/) / [PNPM](https://pnpm.io/) & [Nx](https://nx.dev/) monorepo.
 
 ## Task Pipelines
 
@@ -13,18 +15,15 @@ There are two different task categories:
 
 ### Development
 
-These tasks do not depend on `build`
-
-- `robot:mock`: mocking version of the robot code to be run on docker / podman.
-- `dev`: runs all frontend (land computer) tasks in development mode.
+- `robot:mock`: mocking version of the robot code.
+- `dev:mock`: runs all frontend (land computer) tasks in development mode.
 
 ### Production
 
-Some of these tasks may depend on `build`:
-
 - `build`: builds _everything_, and is used when the robot is being moved to real production.
 - `start`: runs all frontend (land computer) tasks.
-- `robot`: runs all non-mocked robot tasks (for Raspberry PI).
+- `dev`: runs all frontend (land computer) tasks in watch mode.
+- `robot`: runs all non-mocked robot tasks (thus runs on a Raspberry PI).
 
 ## Architecture
 
@@ -56,7 +55,11 @@ Instead of using `:mock`, use `dev` and `robot` directly.
 
 Configure `.env` to point to the proper RPI IP address.
 
-### Troubleshooting
+### Utilities
+
+- `/apps/debugger`: simple [PIGPIO](https://www.npmjs.com/package/pigpio) debugging CLI
+
+## Troubleshooting
 
 Remove the PNPM global content addressable store if PNPM is causing issues:
 
