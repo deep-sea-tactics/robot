@@ -4,8 +4,8 @@
 	import { ArrowHelper } from 'three';
 	import * as vector from 'vector'
 
-	export let to: vector.VectorLike;
-	export let from: vector.VectorLike;
+	export let origin: vector.VectorLike;
+	export let direction: vector.VectorLike;
 	export let length: number;
 	export let color: number;
 </script>
@@ -14,8 +14,8 @@
 	<T
 		is={ArrowHelper}
 		args={[
-			new THREE.Vector3(...vector.asTuple(vector.subtract(to)(from))),
-			new THREE.Vector3(...vector.asTuple(from)),
+			new THREE.Vector3(...vector.asTuple(vector.normalize(direction))),
+			new THREE.Vector3(...vector.asTuple(origin)),
 			length,
 			color
 		]}
@@ -24,8 +24,8 @@
 	<T
 		is={ArrowHelper}
 		args={[
-			new THREE.Vector3(...vector.asTuple(vector.scale(vector.subtract(to)(from))(-1))),
-			new THREE.Vector3(...vector.asTuple(from)),
+			new THREE.Vector3(...vector.asTuple(vector.normalize(direction))),
+			new THREE.Vector3(...vector.asTuple(vector.scale(origin)(-1))),
 			length,
 			color
 		]}

@@ -6,7 +6,8 @@
 	import { ArrowHelper } from 'three';
 	import * as vector from 'vector';
 	import * as THREE from 'three';
-	import Arrow from '$lib/three/Arrow.svelte';
+	import PositionalArrow from '$lib/three/PositionalArrow.svelte';
+	import DirectionalArrow from '$lib/three/DirectionalArrow.svelte';
 
 	export let motors: MotorMovement[];
 	export let desiredDirection: vector.Vector;
@@ -32,37 +33,35 @@
 		{@const thruster = getThruster(motor.type)}
 		{@const direction = vector.asTuple(thruster.thrustDirection)}
 		{@const position = vector.asTuple(thruster.position)}
-		<Arrow to={direction} from={position} length={motor.speed * .2} color={0x00ff00} />
+		<PositionalArrow to={vector.add(position)(vector.scale(direction)(motor.speed))} from={position} color={0x00ff00} />
 	{/each}
 {/key}
 
 {#key actualDirection}
-	<Arrow
-		to={vector.asTuple(actualDirection)}
+	<PositionalArrow
+		to={vector.asTuple(vector.scale(actualDirection)(1/2))}
 		from={[0, 0, 0]}
-		length={vector.magnitude(actualDirection)}
 		color={0x00ff00}
 	/>
 {/key}
 
-<T.Mesh position={[...vector.asTuple(actualDirection)]} scale={0.02}>
+{#key desiredDirection}
+	<PositionalArrow
+		to={vector.asTuple(vector.scale(desiredDirection)(1/2))}
+		from={[0, 0, 0]}
+		color={0xff0000}
+	/>
+{/key}
+
+<T.Mesh position={[...vector.asTuple(vector.scale(actualDirection)(1/2))]} scale={0.02}>
 	<T.BoxGeometry />
 	<T.MeshBasicMaterial color={"lightgreen"} />
 </T.Mesh>
 
-<T.Mesh position={[...vector.asTuple(desiredDirection)]} scale={0.012}>
+<T.Mesh position={[...vector.asTuple(vector.scale(desiredDirection)(1/2))]} scale={0.012}>
 	<T.SphereGeometry />
 	<T.MeshBasicMaterial color={"red"} />
 </T.Mesh>
-
-{#key desiredDirection}
-	<Arrow
-		to={vector.asTuple(desiredDirection)}
-		from={[0, 0, 0]}
-		length={vector.magnitude(desiredDirection)}
-		color={0xff0000}
-	/>
-{/key}
 
 <T.PerspectiveCamera
 	makeDefault
