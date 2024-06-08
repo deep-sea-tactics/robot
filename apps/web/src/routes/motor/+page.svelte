@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { move } from 'robot/src/thrusters';
 	import * as vector from 'vector';
+	import { Canvas } from '@threlte/core';
+	import Scene from './Scene.svelte';
 
 	let directionX = 0;
 	let directionY = 0;
@@ -29,6 +31,10 @@
 		vector.vector(torqueX, torqueY, torqueZ)
 	);
 </script>
+
+<svelte:head>
+	<title>ROV Debugger</title>
+</svelte:head>
 
 <h1>Motor Calculation Debugging</h1>
 
@@ -80,7 +86,18 @@
 <pre><b>torque difference</b>: {JSON.stringify(result.torqueDifference, null,2)}</pre>
 <pre><b>direction difference</b>: {JSON.stringify(result.directionDifference, null,2)}</pre>
 
+<div class="canvas">
+	<Canvas>
+		<Scene />
+	</Canvas>
+</div>
+
 <style>
+	.canvas {
+		width: 400px;
+		height: 400px;
+	}
+
 	div {
 		display: flex;
 		align-items: center;

@@ -17,6 +17,7 @@ if (rpiIp) {
 } else {
 	console.log(`Connecting with resolved IP ${ipAddr}`);
 }
+
 // TODO: transform this into a component
 export const client = browser
 	? createTRPCProxyClient<RobotRouter>({
