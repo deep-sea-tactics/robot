@@ -26,81 +26,107 @@
 		torqueZ = 0;
 	}
 
-	$: result = move(
-		vector.vector(directionX, directionY, directionZ),
-		vector.vector(torqueX, torqueY, torqueZ)
-	);
+	$: direction = vector.vector(directionX, directionY, directionZ);
+	$: torque = vector.vector(torqueX, torqueY, torqueZ);
+	$: result = move(direction, torque);
 </script>
 
 <svelte:head>
 	<title>ROV Debugger</title>
 </svelte:head>
 
-<h1>Motor Calculation Debugging</h1>
+<main>
+	<h1>Motor Calculation Debugging</h1>
 
-<h2>
-	Direction
-	{#if !neutralDirection}
-		<button on:click={resetDirection}>Reset</button>
-	{/if}
-</h2>
+	<div class="body">
+		<div class="input">
+			<h2>
+				Direction
+				{#if !neutralDirection}
+					<button on:click={resetDirection}>Reset</button>
+				{/if}
+			</h2>
 
-<p>[x: {directionX}, y: {directionY}, z: {directionZ}]</p>
+			<p>[x: {directionX}, y: {directionY}, z: {directionZ}]</p>
 
-<div>
-	<label for="directionX">X</label>
-	<input type="range" min="-1" max="1" step="0.01" id="directionX" bind:value={directionX} />
-</div>
-<div>
-	<label for="directionY">Y</label>
-	<input type="range" min="-1" max="1" step="0.01" id="directionY" bind:value={directionY} />
-</div>
-<div>
-	<label for="directionZ">Z</label>
-	<input type="range" min="-1" max="1" step="0.01" id="directionZ" bind:value={directionZ} />
-</div>
+			<div>
+				<label for="directionX">X</label>
+				<input type="range" min="-1" max="1" step="0.01" id="directionX" bind:value={directionX} />
+			</div>
+			<div>
+				<label for="directionY">Y</label>
+				<input type="range" min="-1" max="1" step="0.01" id="directionY" bind:value={directionY} />
+			</div>
+			<div>
+				<label for="directionZ">Z</label>
+				<input type="range" min="-1" max="1" step="0.01" id="directionZ" bind:value={directionZ} />
+			</div>
 
-<h2>
-	Torque
-	{#if !neutralTorque}
-		<button on:click={resetTorque}>Reset</button>
-	{/if}
-</h2>
+			<h2>
+				Torque
+				{#if !neutralTorque}
+					<button on:click={resetTorque}>Reset</button>
+				{/if}
+			</h2>
 
-<p>[x: {torqueX}, y: {torqueY}, z: {torqueZ}]</p>
+			<p>[x: {torqueX}, y: {torqueY}, z: {torqueZ}]</p>
 
-<div>
-	<label for="torqueX">X</label>
-	<input type="range" min="-1" max="1" step="0.01" id="torqueX" bind:value={torqueX} />
-</div>
-<div>
-	<label for="torqueY">Y</label>
-	<input type="range" min="-1" max="1" step="0.01" id="torqueY" bind:value={torqueY} />
-</div>
-<div>
-	<label for="torqueZ">Z</label>
-	<input type="range" min="-1" max="1" step="0.01" id="torqueZ" bind:value={torqueZ} />
-</div>
+			<div>
+				<label for="torqueX">X</label>
+				<input type="range" min="-1" max="1" step="0.01" id="torqueX" bind:value={torqueX} />
+			</div>
+			<div>
+				<label for="torqueY">Y</label>
+				<input type="range" min="-1" max="1" step="0.01" id="torqueY" bind:value={torqueY} />
+			</div>
+			<div>
+				<label for="torqueZ">Z</label>
+				<input type="range" min="-1" max="1" step="0.01" id="torqueZ" bind:value={torqueZ} />
+			</div>
+		</div>
 
-<pre><b>motors</b>: {JSON.stringify(result.motors, null,2)}</pre>
-<pre><b>torque difference</b>: {JSON.stringify(result.torqueDifference, null,2)}</pre>
-<pre><b>direction difference</b>: {JSON.stringify(result.directionDifference, null,2)}</pre>
+		<div class="output">
+			<!-- <pre><b>motors</b>: {JSON.stringify(result.motors, null,2)}</pre> -->
+			<h2>Motors</h2>
+			{#each result.motors as { type, speed }}
+				<p>{type}: {speed}</p>
+			{/each}
+			<pre><b>torque difference</b>: {JSON.stringify(result.torqueDifference, null,2)}</pre>
+			<pre><b>direction difference</b>: {JSON.stringify(result.directionDifference, null,2)}</pre>
+		</div>
 
-<div class="canvas">
-	<Canvas>
-		<Scene />
-	</Canvas>
-</div>
+		<div class="canvas">
+			<Canvas>
+				<Scene
+					motors={result.motors}
+					desiredDirection={direction}
+					actualDirection={result.resultingForce}
+				/>
+			</Canvas>
+		</div>
+	</div>
+</main>
 
 <style>
+	h1 {
+		text-align: center;
+	}
+
 	.canvas {
 		width: 400px;
 		height: 400px;
+		border: 3px solid black;
+		border-radius: 1rem;
+
+		@media (prefers-color-scheme: dark) {
+			border: 3px solid white;
+		}
 	}
 
-	div {
+	div.body {
 		display: flex;
-		align-items: center;
+		flex-direction: row;
+		justify-content: space-between;
 		gap: 1rem;
 	}
 

@@ -16,49 +16,53 @@ const thrustOffset = -30;
 export const thrusters: MotorConstraint[] = [
 	{
 		type: Motor.BottomLeft,
-		position: vector.vector(-95.233 / 1000, -18.314 / 1000, -119.28 / 1000),
+		position: vector.vector(119.28 / 1000, -18.314 / 1000, -95.233 / 1000),
 		maxThrust: t200_12v_max_newtons + thrustOffset,
-		thrustDirection: vector.normalize(vector.vector(2, 0, -1))
+		thrustDirection: vector.normalize(vector.vector(1, 0, Math.sqrt(3)))
 	},
 	{
 		type: Motor.BottomRight,
-		position: vector.vector(-95.233 / 1000, -18.314 / 1000, 119.28 / 1000),
+		position: vector.vector(-119.28 / 1000, -18.314 / 1000, -95.233 / 1000),
 		maxThrust: t200_12v_max_newtons + thrustOffset,
-		thrustDirection: vector.normalize(vector.vector(2, 0, 1))
+		thrustDirection: vector.normalize(vector.vector(-1, 0, Math.sqrt(3)))
 	},
 	{
 		type: Motor.TopLeft,
-		position: vector.vector(105.808 / 1000, 65.297 / 1000, -112.299 / 1000),
+		position: vector.vector(112.299 / 1000, 41.738 / 1000, 105.808 / 1000),
 		maxThrust: t200_12v_max_newtons + thrustOffset,
-		thrustDirection: vector.normalize(vector.vector(2, 0, 1))
+		thrustDirection: vector.normalize(vector.vector(-1, 0, Math.sqrt(3)))
 	},
 	{
 		type: Motor.TopRight,
-		position: vector.vector(105.808 / 1000, 41.738 / 1000, 112.299 / 1000),
+		position: vector.vector(-112.299 / 1000, 41.738 / 1000, 105.808 / 1000),
 		maxThrust: t200_12v_max_newtons + thrustOffset,
-		thrustDirection: vector.normalize(vector.vector(2, 0, -1))
+		thrustDirection: vector.normalize(vector.vector(1, 0, Math.sqrt(3)))
 	},
 	{
 		type: Motor.VerticalLeft,
-		position: vector.vector(2.231 / 1000, -66.776 / 1000, -119.862 / 1000),
+		position: vector.vector(119.862 / 1000, -66.776 / 1000, 2.231 / 1000),
 		maxThrust: t200_12v_max_newtons + thrustOffset,
-		thrustDirection: vector.normalize(vector.vector(0, 1, 0))
+		thrustDirection: vector.normalize(vector.vector(0, -1, 0))
 	},
 	{
 		type: Motor.VerticalRight,
-		position: vector.vector(2.231 / 1000, -66.776 / 1000, 119.862 / 1000),
+		position: vector.vector(-119.862 / 1000, -66.776 / 1000, 2.231 / 1000),
 		maxThrust: t200_12v_max_newtons + thrustOffset,
-		thrustDirection: vector.normalize(vector.vector(0, 1, 0))
+		thrustDirection: vector.normalize(vector.vector(0, -1, 0))
 	}
 ];
 
-interface MotorMovement {
+export const getThruster = (type: Motor): MotorConstraint => thrusters.find(thruster => thruster.type == type)!
+
+export interface MotorMovement {
 	type: Motor;
 	speed: number;
 }
 
-interface MoveOutput {
+export interface MoveOutput {
 	motors: MotorMovement[];
+	resultingForce: vector.Vector;
+	resultingTorque: vector.Vector;
 	directionDifference: vector.Vector;
 	torqueDifference: vector.Vector;
 }
@@ -199,6 +203,8 @@ export function move(direction: vector.Vector, torque: vector.Vector): MoveOutpu
 
 	return {
 		motors: motorMovement,
+		resultingForce,
+		resultingTorque,
 		directionDifference,
 		torqueDifference
 	};
