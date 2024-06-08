@@ -68,7 +68,7 @@ async function connectPhysicalMotors() {
 
 	function onMotorData(event: Record<`${Motor}`, number>) {
 		for (const [motor, speed] of Object.entries(event)) {
-			const pin = thrusterConfig[parseInt(motor) as Motor];
+			const pin = thrusterConfig[motor as Motor];
 			if (Number.isNaN(speed)) {
 				console.warn(`Motor ${motor} attempted to write NaN`);
 			} else {
@@ -160,7 +160,7 @@ export const router = t.router({
 		return observable<MotorEvent>((emit) => {
 			const onAdd = (data: Record<`${Motor}`, number>) =>
 				Object.entries(data).forEach(([motor, speed]) =>
-					emit.next({ motor: parseInt(motor), speed })
+					emit.next({ motor: motor as Motor, speed })
 				);
 
 			emitter.on('motorData', onAdd);
