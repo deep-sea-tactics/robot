@@ -9,13 +9,14 @@
 	import { ArrowHelper, Box3, Quaternion, Vector3, type Mesh } from 'three';
 	import type { RigidBody } from '@leodog896/rapier3d-compat/dynamics/rigid_body';
 	import * as vector from 'vector';
-	import { thrusters as robotThrusters } from 'robot/src/thrusters';
+	import { getThruster, thrusters as robotThrusters } from 'robot/src/thrusters';
 	import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 	import { useLoader } from '@threlte/core';
+	import Rov from '$lib/three/ROV.svelte';
+	import PositionalArrow from '$lib/three/PositionalArrow.svelte';
 
 	const rovAngularDamping = 0;
 
-	const gltfModel = useLoader(GLTFLoader).load('./robot.glb');
 	const current_profiler = useLoader(GLTFLoader).load('./current_profiler.glb');
 	const multifunction_node = useLoader(GLTFLoader).load('./multifunction_node.glb');
 	const power_connector = useLoader(GLTFLoader).load('./power_connector.glb');
@@ -38,10 +39,12 @@
 			.multiplyScalar(currentThrust);
 	}
 
+	const feetToMeter = (feet: number) => feet / 3.281;
+
 	// world-building variables
-	const waterHeight = 3;
-	const width = 25;
-	const length = 25;
+	const waterHeight = feetToMeter(8);
+	const width = feetToMeter(25);
+	const length = feetToMeter(45);
 	const plateThickness = 0.3;
 
 	// in kg
@@ -275,15 +278,15 @@
 
 {#key keyRovPositionChange}
 	{#if rov}
-		{#each thrusters as thruster}
-			<T
-				is={ArrowHelper}
-				args={[
-					calculateThrusterDirection(thruster, rov),
-					calculateThrusterPosition(thruster, rov).add(currentPosition),
-					0.5,
-					0xff0000
-				]}
+		{#each thrusters as motor}
+			{@const thruster = getThruster(motor.type)}
+			{@const direction = vector.asTuple(thruster.thrustDirection)}
+			{@const position = vector.asTuple(thruster.position)}
+
+			<PositionalArrow
+				to={vector.add(currentPosition)(position)}
+				from={vector.add(currentPosition)(position)}
+				color={0x00ff00}
 			/>
 		{/each}
 	{/if}
@@ -307,9 +310,10 @@
 				rov = ref;
 			}}
 		>
-			{#if $gltfModel}
+			<!-- {#if $gltfModel}
 				<T is={$gltfModel?.scene} scale={0.001} rotation={[0, Math.PI / 2, 0]} />
-			{/if}
+			{/if} -->
+			<Rov />
 
 			<T.MeshBasicMaterial color="rgba(0, 0, 0, 0)" />
 		</T.Mesh>

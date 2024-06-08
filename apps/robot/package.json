@@ -30,6 +30,7 @@
 		"exit-hook": "^4.0.0",
 		"mathjs": "^12.4.2",
 		"mem": "^10.0.0",
+		"systeminformation": "^5.22.10",
 		"tiny-typed-emitter": "^2.1.0",
 		"vector": "workspace:*",
 		"ws": "^8.17.0",

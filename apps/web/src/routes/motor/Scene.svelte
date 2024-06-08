@@ -1,13 +1,10 @@
 <script lang="ts">
 	import { T } from '@threlte/core';
-	import ROV from './ROV.svelte'
+	import ROV from '../../lib/three/ROV.svelte'
 	import { OrbitControls, Grid, Stars, Gizmo } from '@threlte/extras';
 	import { getThruster, type MotorMovement } from 'robot/src/thrusters';
-	import { ArrowHelper } from 'three';
 	import * as vector from 'vector';
-	import * as THREE from 'three';
 	import PositionalArrow from '$lib/three/PositionalArrow.svelte';
-	import DirectionalArrow from '$lib/three/DirectionalArrow.svelte';
 
 	export let motors: MotorMovement[];
 	export let desiredDirection: vector.Vector;
@@ -33,7 +30,11 @@
 		{@const thruster = getThruster(motor.type)}
 		{@const direction = vector.asTuple(thruster.thrustDirection)}
 		{@const position = vector.asTuple(thruster.position)}
-		<PositionalArrow to={vector.add(position)(vector.scale(direction)(motor.speed))} from={position} color={0x00ff00} />
+		<PositionalArrow
+			to={vector.add(position)(vector.scale(direction)(motor.speed))}
+			from={position}
+			color={0x00ff00}
+		/>
 	{/each}
 {/key}
 
@@ -78,7 +79,7 @@
   sectionThickness={0}
   infiniteGrid
   cellColor="#dddddd"
-  cellSize={2}
+  cellSize={0.1}
 />
 
 <T.AmbientLight intensity={0.5} />

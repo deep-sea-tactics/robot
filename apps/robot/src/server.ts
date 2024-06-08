@@ -11,6 +11,7 @@ import { calculateNeededTorque } from './stable.js';
 import { asyncExitHook } from 'exit-hook';
 import readline from 'node:readline';
 import { stdin, stdout } from 'node:process';
+import si, { cpuTemperature } from 'systeminformation';
 
 const t = initTRPC.create();
 
@@ -143,6 +144,10 @@ emitter.on('controllerData', (data) => {
 	movement = data;
 });
 
+interface SystemInformation {
+	cpuTemperature: number;
+}
+
 export const router = t.router({
 	simulationAccelerationData: t.procedure.input(vectorSchema).mutation(({ input }) => {
 		emit('simulationAccelerationData')(input);
@@ -155,6 +160,16 @@ export const router = t.router({
 	controllerData: t.procedure.input(controllerDataSchema).mutation(({ input }) => {
 		debounce(emit('controllerData'), 50)(input);
 		return input;
+	}),
+	systemInformation: t.procedure.subscription(() => {
+		return observable<SystemInformation>((emit) => {
+			setInterval(async () => {
+				const cpuTemperature = await si.cpuTemperature().then(cpu => cpu.main)
+				emit.next({
+					cpuTemperature
+				})
+			}, 500);
+		});
 	}),
 	motorEvent: t.procedure.subscription(() => {
 		return observable<MotorEvent>((emit) => {

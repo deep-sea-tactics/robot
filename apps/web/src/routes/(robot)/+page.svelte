@@ -5,9 +5,22 @@
 	import { Pane, Splitpanes } from 'svelte-splitpanes';
 	import Simulation from '../simulation/Simulation.svelte';
 	import Arbitrary from '$lib/components/controller/Arbitrary.svelte';
+	import { onMount } from 'svelte';
 	const isMock = env.PUBLIC_MOCK === 'true';
 	let output: ControllerData;
 	$: if (output) client?.controllerData.mutate(output);
+
+	let temperature: number | undefined = undefined;
+
+	onMount(() => {
+		if (!client) throw new Error('No client found!');
+
+		client.systemInformation.subscribe(undefined, {
+			onData(data) {
+				temperature = data.cpuTemperature;
+			}
+		})
+	})
 </script>
 
 <Arbitrary bind:output />
@@ -52,9 +65,9 @@
 			</Pane>
 			<Pane>
 				<div class="darkPane">
-					<!-- TODO add xbox controller -->
-				</div></Pane
-			>
+					<p>Temperature: {temperature}</p>
+				</div>
+			</Pane>
 		</Splitpanes>
 	</Pane>
 </Splitpanes>
