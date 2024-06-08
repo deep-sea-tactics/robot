@@ -6,6 +6,7 @@
 	import { ArrowHelper } from 'three';
 	import * as vector from 'vector';
 	import * as THREE from 'three';
+	import Arrow from '$lib/three/Arrow.svelte';
 
 	export let motors: MotorMovement[];
 	export let desiredDirection: vector.Vector;
@@ -29,54 +30,37 @@
 {#key motors}
 	{#each motors as motor}
 		{@const thruster = getThruster(motor.type)}
-		{@const direction = new THREE.Vector3(...vector.asTuple(thruster.thrustDirection))}
-		{@const directionFlipped = new THREE.Vector3(-direction.x, -direction.y, -direction.z)}
-		{@const position = new THREE.Vector3(...vector.asTuple(thruster.position))}
-		{#if motor.speed > 0}
-			<T
-				is={ArrowHelper}
-				args={[
-					direction,
-					position,
-					motor.speed * 0.2,
-					0x00ff00
-				]}
-			/>
-		{:else}
-			<T
-				is={ArrowHelper}
-				args={[
-					directionFlipped,
-					position,
-					Math.abs(motor.speed) * 0.2,
-					0x00ff00
-				]}
-			/>
-		{/if}
+		{@const direction = vector.asTuple(thruster.thrustDirection)}
+		{@const position = vector.asTuple(thruster.position)}
+		<Arrow to={direction} from={position} length={motor.speed * .2} color={0x00ff00} />
 	{/each}
 {/key}
 
 {#key actualDirection}
-	<T
-		is={ArrowHelper}
-		args={[
-			new THREE.Vector3(...vector.asTuple(actualDirection)),
-			new THREE.Vector3(0, 0, 0),
-			vector.magnitude(actualDirection),
-			0x00ff00
-		]}
+	<Arrow
+		to={vector.asTuple(actualDirection)}
+		from={[0, 0, 0]}
+		length={vector.magnitude(actualDirection)}
+		color={0x00ff00}
 	/>
 {/key}
 
+<T.Mesh position={[...vector.asTuple(actualDirection)]} scale={0.02}>
+	<T.BoxGeometry />
+	<T.MeshBasicMaterial color={"lightgreen"} />
+</T.Mesh>
+
+<T.Mesh position={[...vector.asTuple(desiredDirection)]} scale={0.012}>
+	<T.SphereGeometry />
+	<T.MeshBasicMaterial color={"red"} />
+</T.Mesh>
+
 {#key desiredDirection}
-	<T
-		is={ArrowHelper}
-		args={[
-			new THREE.Vector3(...vector.asTuple(desiredDirection)),
-			new THREE.Vector3(0, 0, 0),
-			vector.magnitude(desiredDirection),
-			0xff0000
-		]}
+	<Arrow
+		to={vector.asTuple(desiredDirection)}
+		from={[0, 0, 0]}
+		length={vector.magnitude(desiredDirection)}
+		color={0xff0000}
 	/>
 {/key}
 

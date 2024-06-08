@@ -93,6 +93,9 @@
 			{/each}
 			<pre><b>torque difference</b>: {JSON.stringify(result.torqueDifference, null,2)}</pre>
 			<pre><b>direction difference</b>: {JSON.stringify(result.directionDifference, null,2)}</pre>
+
+			<pre><b>resulting force</b>: {JSON.stringify(result.resultingForce, null,2)}</pre>
+			<pre><b>resulting torque</b>: {JSON.stringify(result.resultingTorque, null,2)}</pre>
 		</div>
 
 		<div class="canvas">

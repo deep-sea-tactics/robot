@@ -132,39 +132,9 @@ function calculateInverse() {
 export const controlInverse = Object.freeze(calculateInverse());
 
 function convertToMotorPowers(force: vector.VectorTuple, torque: vector.VectorTuple) {
-	const forceMax = Math.max(...vector.asTuple(vector.abs(force)));
-	const torqueMax = Math.max(...vector.asTuple(vector.abs(torque)));
-
-	const maxEither = Math.max(forceMax, torqueMax);
-
 	const inputVector = math.transpose(math.matrix([...force, ...torque]));
 	const motorPowers = math.multiply(controlInverse as math.MathCollection, inputVector);
-
-	// TODO: better way to do this
-	const values = [
-		motorPowers.get([0]),
-		motorPowers.get([1]),
-		motorPowers.get([2]),
-		motorPowers.get([3]),
-		motorPowers.get([4]),
-		motorPowers.get([5])
-	];
-
-	const magnitude = Math.sqrt(values.map(x => x ** 2).reduce((a, b) => a + b, 0));
-
-	const normalizedMatrix =  motorPowers
-		.map(x => magnitude == 0 ? 0 : (x / magnitude));
-
-	const normalizedValuesMax = Math.max(
-		Math.abs(normalizedMatrix.get([0])),
-		Math.abs(normalizedMatrix.get([1])),
-		Math.abs(normalizedMatrix.get([2])),
-		Math.abs(normalizedMatrix.get([3])),
-		Math.abs(normalizedMatrix.get([4])),
-		Math.abs(normalizedMatrix.get([5]))
-	);
-
-	return normalizedMatrix.map(x => normalizedValuesMax == 0 ? 0 : (maxEither * x / normalizedValuesMax))
+	return motorPowers;
 }
 
 /**
