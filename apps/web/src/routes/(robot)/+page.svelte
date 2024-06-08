@@ -1,13 +1,16 @@
 <script lang="ts">
 	import type { ControllerData } from 'robot/dist/controller';
-	import { client } from '$lib/connections/robot';
 	import { env } from '$env/dynamic/public';
 	import { Pane, Splitpanes } from 'svelte-splitpanes';
 	import Simulation from '../simulation/Simulation.svelte';
 	import Arbitrary from '$lib/components/controller/Arbitrary.svelte';
 	import { onMount } from 'svelte';
+	import TrpcConnection, { type TRPCClient } from '$lib/connections/TRPCConnection.svelte';
+
 	const isMock = env.PUBLIC_MOCK === 'true';
 	let output: ControllerData;
+	let client: TRPCClient;
+
 	$: if (output) client?.controllerData.mutate(output);
 
 	let temperature: number | undefined = undefined;
@@ -23,12 +26,14 @@
 	})
 </script>
 
+<TrpcConnection bind:client />
+
 <Arbitrary bind:output />
 
 <Splitpanes style="height: 100vh;">
 	<Pane>
 		{#if isMock}
-			<Simulation />
+			<Simulation bind:client />
 		{:else}
 			<img
 				src="http://127.0.0.1:8080/stream"

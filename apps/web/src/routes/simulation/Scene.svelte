@@ -2,11 +2,10 @@
 	import { T, useTask } from '@threlte/core';
 	import { AutoColliders, RigidBody as RapierRigidBody, Collider } from '@threlte/rapier';
 	import { OrbitControls } from '@threlte/extras';
-	import { client } from '$lib/connections/robot';
 	import { onMount } from 'svelte';
 	import { Motor } from 'robot/src/motor';
 	import { Gizmo } from '@threlte/extras';
-	import { ArrowHelper, Box3, Quaternion, Vector3, type Mesh } from 'three';
+	import { Box3, Quaternion, Vector3, type Mesh } from 'three';
 	import type { RigidBody } from '@leodog896/rapier3d-compat/dynamics/rigid_body';
 	import * as vector from 'vector';
 	import { getThruster, thrusters as robotThrusters } from 'robot/src/thrusters';
@@ -14,6 +13,9 @@
 	import { useLoader } from '@threlte/core';
 	import Rov from '$lib/three/ROV.svelte';
 	import PositionalArrow from '$lib/three/PositionalArrow.svelte';
+	import type { TRPCClient } from '$lib/connections/TRPCConnection.svelte';
+
+	export let client: TRPCClient;
 
 	const rovAngularDamping = 0;
 
