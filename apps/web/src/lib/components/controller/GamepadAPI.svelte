@@ -7,41 +7,36 @@
 	export let idContains: string;
 	export let gamepadToConfig: (gamepad: Gamepad) => ControllerData;
 
+	let animationFrame: number | undefined;
+
 	onMount(() => {
-		function onGamepadConnected(e: GamepadEvent) {
-			gamepad = navigator.getGamepads()[e.gamepad.index];
-			requestAnimationFrame(getInput);
-		}
-
-		function onGamepadDisconnected(e: GamepadEvent) {
-			gamepad = null;
-		}
-
-		window.addEventListener('gamepadconnected', onGamepadConnected);
-		window.addEventListener('gamepaddisconnected', onGamepadDisconnected);
+		animationFrame = requestAnimationFrame(getInput);
 
 		return () => {
-			window.removeEventListener('gamepadconnected', onGamepadConnected);
-			window.removeEventListener('gamepaddisconnected', onGamepadDisconnected);
-		};
+			if (animationFrame) {
+				cancelAnimationFrame(animationFrame);
+			}
+		}
 	});
 
 	function getInput() {
-		gamepad = navigator.getGamepads()[0];
-
-		if (!gamepad) {
+		if (navigator.getGamepads().length < 1) {
 			console.warn('No controller connected');
 			output = null;
+			animationFrame = requestAnimationFrame(getInput);
 			return;
 		}
 
-		if (!gamepad.id.toLowerCase().includes(idContains.toLowerCase())) {
+		gamepad = navigator.getGamepads().find(gamepadIter => gamepadIter?.id.toLowerCase().includes(idContains.toLowerCase())) ?? null
+
+		if (!gamepad) {
 			output = null;
+			animationFrame = requestAnimationFrame(getInput);
 			return;
 		}
 
 		output = gamepadToConfig(gamepad);
 
-		requestAnimationFrame(getInput);
+		animationFrame = requestAnimationFrame(getInput);
 	}
 </script>

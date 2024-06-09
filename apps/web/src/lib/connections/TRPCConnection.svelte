@@ -7,9 +7,10 @@
 	import type { RobotRouter } from 'robot/src/server';
 	import { transform } from 'cloud-url-resolver';
 	import { onMount } from 'svelte';
+	import { env } from '$env/dynamic/public';
 
 	export const rpiIp =
-		import.meta.env.VITE_RPI_IP?.length > 1 ? import.meta.env.VITE_RPI_IP : undefined;
+		(env.VITE_RPI_IP && env.VITE_RPI_IP.length > 1) ? env.VITE_RPI_IP : undefined;
 
 	const ipAddr = rpiIp
 		? transform(9000, 'ws', {

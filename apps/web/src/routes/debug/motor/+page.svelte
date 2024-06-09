@@ -3,6 +3,8 @@
 	import * as vector from 'vector';
 	import { Canvas } from '@threlte/core';
 	import Scene from './Scene.svelte';
+	import Arbitrary from '$lib/components/controller/Arbitrary.svelte';
+	import type { ControllerData } from 'robot/src/controller';
 
 	let directionX = 0;
 	let directionY = 0;
@@ -29,11 +31,36 @@
 	$: direction = vector.vector(directionX, directionY, directionZ);
 	$: torque = vector.vector(torqueX, torqueY, torqueZ);
 	$: result = move(direction, torque);
+
+	let useController = false;
+	let output: ControllerData | undefined = undefined;
+
+	$: console.log(output)
+
+	$: if (useController) {
+		if (output) {
+			directionX = output.movement.x;
+			directionY = output.movement.y;
+			directionZ = output.movement.z;
+
+			torqueX = output.rotation.pitch;
+			torqueY = output.rotation.yaw;
+		} else {
+			directionX = 0;
+			directionY = 0;
+			directionZ = 0;
+			torqueX = 0;
+			torqueY = 0;
+			torqueZ = 0;
+		}
+	}
 </script>
 
 <svelte:head>
 	<title>ROV Debugger</title>
 </svelte:head>
+
+<Arbitrary bind:output />
 
 <main>
 	<h1>Motor Calculation Debugging</h1>
@@ -43,7 +70,7 @@
 			<h2>
 				Direction
 				{#if !neutralDirection}
-					<button on:click={resetDirection}>Reset</button>
+					<button disabled={useController} on:click={resetDirection}>Reset</button>
 				{/if}
 			</h2>
 
@@ -51,21 +78,21 @@
 
 			<div>
 				<label for="directionX">X</label>
-				<input type="range" min="-1" max="1" step="0.01" id="directionX" bind:value={directionX} />
+				<input disabled={useController} type="range" min="-1" max="1" step="0.01" id="directionX" bind:value={directionX} />
 			</div>
 			<div>
 				<label for="directionY">Y</label>
-				<input type="range" min="-1" max="1" step="0.01" id="directionY" bind:value={directionY} />
+				<input disabled={useController} type="range" min="-1" max="1" step="0.01" id="directionY" bind:value={directionY} />
 			</div>
 			<div>
 				<label for="directionZ">Z</label>
-				<input type="range" min="-1" max="1" step="0.01" id="directionZ" bind:value={directionZ} />
+				<input disabled={useController} type="range" min="-1" max="1" step="0.01" id="directionZ" bind:value={directionZ} />
 			</div>
 
 			<h2>
 				Torque
 				{#if !neutralTorque}
-					<button on:click={resetTorque}>Reset</button>
+					<button disabled={useController} on:click={resetTorque}>Reset</button>
 				{/if}
 			</h2>
 
@@ -73,20 +100,22 @@
 
 			<div>
 				<label for="torqueX">X</label>
-				<input type="range" min="-1" max="1" step="0.01" id="torqueX" bind:value={torqueX} />
+				<input disabled={useController} type="range" min="-1" max="1" step="0.01" id="torqueX" bind:value={torqueX} />
 			</div>
 			<div>
 				<label for="torqueY">Y</label>
-				<input type="range" min="-1" max="1" step="0.01" id="torqueY" bind:value={torqueY} />
+				<input disabled={useController} type="range" min="-1" max="1" step="0.01" id="torqueY" bind:value={torqueY} />
 			</div>
 			<div>
 				<label for="torqueZ">Z</label>
-				<input type="range" min="-1" max="1" step="0.01" id="torqueZ" bind:value={torqueZ} />
+				<input disabled={useController} type="range" min="-1" max="1" step="0.01" id="torqueZ" bind:value={torqueZ} />
 			</div>
+
+			<label for="controller">Use Controller</label>
+			<input id="controller" type="checkbox" bind:checked={useController}>
 		</div>
 
 		<div class="output">
-			<!-- <pre><b>motors</b>: {JSON.stringify(result.motors, null,2)}</pre> -->
 			<h2>Motors</h2>
 			{#each result.motors as { type, speed }}
 				<p>{type}: {speed}</p>
@@ -131,12 +160,5 @@
 		flex-direction: row;
 		justify-content: space-between;
 		gap: 1rem;
-	}
-
-	@media (prefers-color-scheme: dark) {
-		:global(body) {
-			background-color: black;
-			color: white;
-		}
 	}
 </style>

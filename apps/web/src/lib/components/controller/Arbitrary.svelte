@@ -4,9 +4,9 @@
 	import LogitechFlight from './LogitechFlight.svelte';
 	import Keyboard from './Keyboard.svelte';
 
-	let logitechControllerOutput: ControllerData | undefined;
-	let logitechFlightOutput: ControllerData | undefined;
-	let keyboardOutput: ControllerData | undefined;
+	export let logitechControllerOutput: ControllerData | undefined = undefined;
+	export let logitechFlightOutput: ControllerData | undefined = undefined;
+	export let keyboardOutput: ControllerData | undefined = undefined;
 
 	export let output: ControllerData | undefined;
 	$: output = logitechControllerOutput || logitechFlightOutput || keyboardOutput;

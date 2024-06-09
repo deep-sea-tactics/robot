@@ -11,6 +11,11 @@
 	let deadzoneMax = 0;
 
 	let output: ControllerData;
+
+	let logitechControllerOutput: ControllerData;
+	let logitechFlightOutput: ControllerData;
+	let keyboardOutput: ControllerData;
+
 	$: if (isDeadzoning) {
 		const value = extract(output, propertyExtractor);
 
@@ -42,7 +47,15 @@
 	<title>Controller Debugging</title>
 </svelte:head>
 
-<Arbitrary bind:output />
+<Arbitrary
+	bind:logitechControllerOutput
+	bind:logitechFlightOutput
+	bind:keyboardOutput
+
+	bind:output
+/>
+
+<h1>Controller Debugging</h1>
 
 <main>
 	<div class="output">
@@ -69,5 +82,9 @@
 		align-items: center;
 		width: calc(100% - 2rem);
 		height: calc(100% - 2rem);
+	}
+
+	h1 {
+		text-align: center;
 	}
 </style>

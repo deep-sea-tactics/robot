@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { T } from '@threlte/core';
-	import ROV from '../../lib/three/ROV.svelte'
+	import ROV from '$lib/three/ROV.svelte'
 	import { OrbitControls, Grid, Stars, Gizmo } from '@threlte/extras';
 	import { getThruster, type MotorMovement } from 'robot/src/thrusters';
 	import * as vector from 'vector';

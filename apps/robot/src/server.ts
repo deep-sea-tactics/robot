@@ -11,7 +11,7 @@ import { calculateNeededTorque } from './stable.js';
 import { asyncExitHook } from 'exit-hook';
 import readline from 'node:readline';
 import { stdin, stdout } from 'node:process';
-import si, { cpuTemperature } from 'systeminformation';
+import si from 'systeminformation';
 
 const t = initTRPC.create();
 
@@ -164,9 +164,10 @@ export const router = t.router({
 	systemInformation: t.procedure.subscription(() => {
 		return observable<SystemInformation>((emit) => {
 			setInterval(async () => {
-				const cpuTemperature = await si.cpuTemperature().then(cpu => cpu.main)
+				const cpuTemperature = await si.cpuTemperature().then(cpu => cpu.cores);
+				console.log(cpuTemperature)
 				emit.next({
-					cpuTemperature
+					cpuTemperature: cpuTemperature[0]
 				})
 			}, 500);
 		});
