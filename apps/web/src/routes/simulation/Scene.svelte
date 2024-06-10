@@ -19,11 +19,6 @@
 
 	const rovAngularDamping = 0;
 
-	const current_profiler = useLoader(GLTFLoader).load('./current_profiler.glb');
-	const multifunction_node = useLoader(GLTFLoader).load('./multifunction_node.glb');
-	const power_connector = useLoader(GLTFLoader).load('./power_connector.glb');
-	const waypoint1 = useLoader(GLTFLoader).load('./waypoint1.glb');
-
 	interface MotorConstraint {
 		type: Motor;
 		position: Vector3;
@@ -326,22 +321,6 @@
 		/>
 	</RapierRigidBody>
 </T.Group>
-
-<!--
-The following are props
--->
-{#if $current_profiler}
-	<T is={$current_profiler?.scene} />
-{/if}
-{#if $multifunction_node}
-	<T is={$multifunction_node?.scene} />
-{/if}
-{#if $power_connector}
-	<T is={$power_connector?.scene} />
-{/if}
-{#if $waypoint1}
-	<T is={$waypoint1?.scene} />
-{/if}
 
 <!--
 Sensor for the water; for buoyancy calculations

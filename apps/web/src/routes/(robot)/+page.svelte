@@ -3,7 +3,7 @@
 	import { env } from '$env/dynamic/public';
 	import { Pane, Splitpanes } from 'svelte-splitpanes';
 	import Simulation from '../simulation/Simulation.svelte';
-	import Arbitrary from '$lib/components/controller/Arbitrary.svelte';
+	import Arbitrary, { type Icon } from '$lib/components/controller/Arbitrary.svelte';
 	import { onMount } from 'svelte';
 	import TrpcConnection, { type TRPCClient } from '$lib/connections/TRPCConnection.svelte';
 
@@ -15,6 +15,8 @@
 
 	let temperature: number | undefined = undefined;
 
+	let icons: Icon[] | undefined;
+
 	onMount(() => {
 		if (!client) throw new Error('No client found!');
 
@@ -23,12 +25,12 @@
 				temperature = data.cpuTemperature;
 			}
 		})
-	})
+	});
 </script>
 
 <TrpcConnection bind:client />
 
-<Arbitrary bind:output />
+<Arbitrary bind:output bind:icons />
 
 <Splitpanes style="height: 100vh;">
 	<Pane>
@@ -48,24 +50,23 @@
 				<div class="darkPane">
 					<h2>Status</h2>
 					<p>
-						Controller: <span class={output?.connected ? 'green' : 'red'}
-							>{output?.connected ? 'connected' : 'disconnected'}</span
-						>
-					</p>
-					<p>Input Device: {output?.id}</p>
-					<p>Mode: <span class={isMock ? 'blue' : 'green'}>{isMock ? 'mock' : 'live'}</span></p>
-					<div class="controllers">
-						{#if output?.id.includes('0ce6')}
-							<img src="/controller_ps5.png" alt="ps5 controller" />
-						{:else if output?.id.includes('09cc') || output?.id.includes('05c4')}
-							<img src="/controller_ps4.png" alt="ps4 controller" />
-						{:else if output?.id === 'keyboard'}
-							<img src="/connect_controller.gif" alt="connect controller" />
-							<p />
-						{:else}
-							<img src="/controller_generic.png" alt="ps4 controller" />
+						<span class="deviceText">
+							Device:
+							<span class={output?.connected ? 'green' : 'red'}>
+								{output?.connected ? output.id : 'disconnected'}
+							</span>
+						</span>
+						{#if icons}
+							<div class="icons">
+								{#each icons as icon}
+									<div class="icon">
+										<svelte:component this={icon} />
+									</div>
+								{/each}
+							</div>
 						{/if}
-					</div>
+					</p>
+					<p>Mode: <span class={isMock ? 'blue' : 'green'}>{isMock ? 'mock' : 'live'}</span></p>
 				</div>
 			</Pane>
 			<Pane>
@@ -97,8 +98,21 @@
 		color: var(--text);
 	}
 
-	.controllers img {
-		width: 80%;
-		height: fit-content;
+	div.icon {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.deviceText {
+		vertical-align: middle;
+	}
+
+	.icons {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		vertical-align: middle;
+		gap: 0.5rem;
 	}
 </style>
