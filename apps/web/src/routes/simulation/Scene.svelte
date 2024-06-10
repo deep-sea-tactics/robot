@@ -9,11 +9,10 @@
 	import type { RigidBody } from '@leodog896/rapier3d-compat/dynamics/rigid_body';
 	import * as vector from 'vector';
 	import { getThruster, thrusters as robotThrusters } from 'robot/src/thrusters';
-	import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-	import { useLoader } from '@threlte/core';
 	import Rov from '$lib/three/ROV.svelte';
 	import PositionalArrow from '$lib/three/PositionalArrow.svelte';
 	import type { TRPCClient } from '$lib/connections/TRPCConnection.svelte';
+	import { Pane, FpsGraph, Button, Folder } from 'svelte-tweakpane-ui';
 
 	export let client: TRPCClient;
 
@@ -261,6 +260,18 @@
 
 	const castThrelteRigidBody = (value: unknown): RigidBody => cast<RigidBody>(value);
 </script>
+
+<Pane
+	title="Simulation"
+	position="fixed"
+	x={10}
+>
+	<FpsGraph interval={50} label="FPS" rows={5} />
+	<Folder title="ROV Position">
+		<Button title="Reset" />
+	</Folder>
+	<!-- TODO: waveform monitor for the motors -->
+</Pane>
 
 <T.PerspectiveCamera
 	makeDefault
