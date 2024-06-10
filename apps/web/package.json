@@ -4,7 +4,7 @@
 	"scripts": {
 		"cp-env": "cpx ../../.env .",
 		"dev": "vite dev --port 3000 --host",
-		"dev:mock": "cross-env PUBLIC_MOCK=true vite dev --port 3000 --host",
+		"dev:mock": "cross-env VITE_MOCK=true vite dev --port 3000 --host",
 		"build": "vite build",
 		"start": "vite preview",
 		"check": "svelte-check --tsconfig ./tsconfig.json",

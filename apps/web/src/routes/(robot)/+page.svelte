@@ -7,7 +7,7 @@
 	import { onMount } from 'svelte';
 	import TrpcConnection, { type TRPCClient } from '$lib/connections/TRPCConnection.svelte';
 
-	const isMock = env.PUBLIC_MOCK === 'true';
+	const isMock = env.VITE_MOCK === 'true';
 	let output: ControllerData;
 	let client: TRPCClient;
 
