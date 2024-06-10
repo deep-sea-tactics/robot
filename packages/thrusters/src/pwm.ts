@@ -2,7 +2,7 @@ import { fromPwmData } from "./data/pwm.js";
 import { findClosest } from "./util/findClosest.js";
 import { assertRange } from "./util/inRange.js";
 
-const voltages = Object.freeze(Object.keys(fromPwmData).map(key => parseInt(key)));
+const voltages = Object.freeze(Object.keys(fromPwmData));
 
 /**
  * Get thruster data for a motor. If an exact data point doesn't exist, an approximation is made.
@@ -19,13 +19,13 @@ export function getData(rawVoltage: number, rawPWM: number): [current: number, f
 
 	const [nearestVoltage] = findClosest(
 		voltages,
-		element => element === voltage ? 0 : (element > voltage ? 1 : -1)
+		element => parseInt(element) === voltage ? 0 : (parseInt(element) > voltage ? 1 : -1)
 	);
 
 	const [nearestPWM] = findClosest(
-		Object.keys(fromPwmData[nearestVoltage]).map(pwm => parseInt(pwm)),
-		element => element === pwm ? 0 : (element > pwm ? 1 : -1)
+		Object.keys(fromPwmData[parseInt(nearestVoltage)]),
+		element => parseInt(element) === pwm ? 0 : (parseInt(element) > pwm ? 1 : -1)
 	)
 
-	return fromPwmData[nearestVoltage][nearestPWM];
+	return fromPwmData[parseInt(nearestVoltage)][parseInt(nearestPWM)];
 }
