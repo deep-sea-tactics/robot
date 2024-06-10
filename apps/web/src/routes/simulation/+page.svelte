@@ -6,7 +6,7 @@
 	<title>Simulation</title>
 </svelte:head>
 
-<Simulation />
+<Simulation client={undefined} />
 
 <style>
 	:global(html, body) {
