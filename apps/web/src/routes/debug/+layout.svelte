@@ -2,8 +2,7 @@
 	<h1>Debugging</h1>
 
 	<div class="links">
-		<a href="/debug/relative-thruster">Relative Thruster</a>
-		<a href="/debug/absolute-thruster">Absolute Thruster</a>
+		<a href="/debug/thruster">Thruster</a>
 		<a href="/debug/controller">Controller</a>
 	</div>
 </header>
