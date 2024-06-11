@@ -10,7 +10,7 @@
 	import Rov from '$lib/three/ROV.svelte';
 	import PositionalArrow from '$lib/three/PositionalArrow.svelte';
 	import type { TRPCClient } from '$lib/connections/TRPCConnection.svelte';
-	import { Pane, FpsGraph, Button, Folder, WaveformMonitor, Slider } from 'svelte-tweakpane-ui';
+	import { Pane, FpsGraph, Button, Folder, WaveformMonitor, Slider, RotationQuaternion, Point } from 'svelte-tweakpane-ui';
 	import {
 		Thruster,
 		getThruster,
@@ -125,8 +125,11 @@
 	});
 
 	let currentPosition = new Vector3(0, waterHeight, 0);
+	let currentRotation = { x: 0, y: 0, z: 0, w: 0 };
 	let cameraPosition = new Vector3(10, 10, 10);
 	let cameraRotation = new Vector3(0, 0, 0);
+	let force = vector.vector(0, 0, 0);
+	let torque = vector.vector(0, 0, 0);
 
 	enum VIEWS {
 		FirstPerson = 'first',
@@ -188,8 +191,8 @@
 		rovBody.resetForces(true);
 		rovBody.resetTorques(true);
 
-		let force = vector.vector(0, 0, 0);
-		let torque = vector.vector(0, 0, 0);
+		force = vector.vector(0, 0, 0);
+		torque = vector.vector(0, 0, 0);
 
 		rov.geometry.computeBoundingBox();
 		rovBox.copy(rov.geometry.boundingBox!).applyMatrix4(rov.matrixWorld);
@@ -234,6 +237,7 @@
 		}
 
 		currentPosition = new Vector3(...vector.asTuple(rovBody.translation()));
+		currentRotation = rovBody.rotation();
 
 		// point the camera at the ROV
 		if (currentView == VIEWS.ThirdPerson) {
@@ -279,7 +283,13 @@
 <Pane title="Simulation" position="fixed" x={10}>
 	<FpsGraph interval={50} label="FPS" rows={5} />
 	<Folder title="ROV Transform & Orientation">
+		<Point label="Position" userExpandable={false} value={vector.asTuple(currentPosition)} />
+		<RotationQuaternion label="Rotation" value={currentRotation} expanded picker={'inline'} />
 		<Button title="Reset" />
+	</Folder>
+	<Folder title="ROV Forces">
+		<Point label="Force" value={force} />
+		<Point label=" Torque" value={torque} />
 	</Folder>
 	<Folder title="ROV Motors">
 		<WaveformMonitor
@@ -344,7 +354,12 @@
 			<!-- {#if $gltfModel}
 				<T is={$gltfModel?.scene} scale={0.001} rotation={[0, Math.PI / 2, 0]} />
 			{/if} -->
-			<Rov />
+			<Rov>
+				<T.Mesh slot="fallback">
+					<T.BoxGeometry args={rovDimensions} />
+					<T.MeshBasicMaterial />
+				</T.Mesh>
+			</Rov>
 
 			<T.MeshBasicMaterial color="rgba(0, 0, 0, 0)" />
 		</T.Mesh>
