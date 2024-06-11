@@ -13,7 +13,7 @@ export async function servo(gpioPin: number): Promise<Servo> {
 	if (isMock) {
 		return {
 			write(pulseWidth) {
-				emitter.emit('servoMotorData', )
+				emitter.emit('servoThrusterData', )
 			}
 		}
 	} else {

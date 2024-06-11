@@ -2,7 +2,7 @@
 	<h1>Debugging</h1>
 
 	<div class="links">
-		<a href="/debug/motor">Motor</a>
+		<a href="/debug/thruster">Thruster</a>
 		<a href="/debug/controller">Controller</a>
 	</div>
 </header>

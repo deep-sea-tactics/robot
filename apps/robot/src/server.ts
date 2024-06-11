@@ -2,10 +2,10 @@ import { initTRPC } from '@trpc/server';
 import { type ControllerData, controllerDataSchema, defaultControllerData } from './controller.js';
 import debounce from 'debounce';
 import { observable } from '@trpc/server/observable';
-import { Motor } from './motor.js';
+import { Thruster } from './thruster.js';
 import { vectorSchema } from './sensors.js';
-import type { MotorEvent } from './motor.js';
-import { move } from './thrusters.js';
+import type { ThrusterEvent } from './thruster.js';
+import { move } from './thrusterCalculations.js';
 import { type Events, emitter } from './emitter.js';
 import { calculateNeededTorque } from './stable.js';
 import { asyncExitHook } from 'exit-hook';
@@ -17,22 +17,22 @@ const t = initTRPC.create();
 
 const sleep = (time: number): Promise<void> => new Promise((resolve) => setInterval(resolve, time));
 
-async function connectPhysicalMotors() {
+async function connectThrusters() {
 	const { Gpio } = await import('pigpio');
 
 	const thrusterConfig = {
 		// ESC 1 - pin 33
-		[Motor.TopLeft]: new Gpio(13, { mode: Gpio.OUTPUT }),
+		[Thruster.TopLeft]: new Gpio(13, { mode: Gpio.OUTPUT }),
 		// ESC 2 - pin 32
-		[Motor.VerticalRight]: new Gpio(12, { mode: Gpio.OUTPUT }),
+		[Thruster.VerticalRight]: new Gpio(12, { mode: Gpio.OUTPUT }),
 		// ESC 3 - pin 31
-		[Motor.BottomRight]: new Gpio(6, { mode: Gpio.OUTPUT }),
+		[Thruster.BottomRight]: new Gpio(6, { mode: Gpio.OUTPUT }),
 		// ESC 4 - pin 29
-		[Motor.BottomLeft]: new Gpio(5, { mode: Gpio.OUTPUT }),
+		[Thruster.BottomLeft]: new Gpio(5, { mode: Gpio.OUTPUT }),
 		// ESC 5 - pin 36
-		[Motor.TopRight]: new Gpio(16, { mode: Gpio.OUTPUT }),
+		[Thruster.TopRight]: new Gpio(16, { mode: Gpio.OUTPUT }),
 		// ESC 6 - pin 35
-		[Motor.VerticalLeft]: new Gpio(19, { mode: Gpio.OUTPUT })
+		[Thruster.VerticalLeft]: new Gpio(19, { mode: Gpio.OUTPUT })
 	};
 
 	const sensorConfig = {
@@ -45,14 +45,14 @@ async function connectPhysicalMotors() {
 		5: new Gpio(16, { mode: Gpio.OUTPUT })
 	};
 
-	for (const motor of Object.values(thrusterConfig)) {
-		motor.servoWrite(0);
+	for (const thruster of Object.values(thrusterConfig)) {
+		thruster.servoWrite(0);
 	}
 
 	await sleep(1000);
 
-	for (const motor of Object.values(thrusterConfig)) {
-		motor.servoWrite(1500);
+	for (const thruster of Object.values(thrusterConfig)) {
+		thruster.servoWrite(1500);
 	}
 
 	await sleep(2000);
@@ -65,18 +65,18 @@ async function connectPhysicalMotors() {
 		return Math.max(Math.min(max, speed * ((max - min) / 2) + (max + min) / 2), min);
 	}
 
-	function onMotorData(event: Record<`${Motor}`, number>) {
-		for (const [motor, speed] of Object.entries(event)) {
-			const pin = thrusterConfig[motor as Motor];
+	function onThrusterData(event: Record<`${Thruster}`, number>) {
+		for (const [thruster, speed] of Object.entries(event)) {
+			const pin = thrusterConfig[thruster as Thruster];
 			if (Number.isNaN(speed)) {
-				console.warn(`Motor ${motor} attempted to write NaN`);
+				console.warn(`Thruster ${thruster} attempted to write NaN`);
 			} else {
 				pin.servoWrite(Math.round(speedToServo(speed)));
 			}
 		}
 	}
 
-	emitter.on('motorData', onMotorData);
+	emitter.on('thrusterData', onThrusterData);
 
 	async function cleanup() {
 		for (const pin of Object.values(thrusterConfig)) {
@@ -125,10 +125,10 @@ function tick() {
 	const movementCalc = move(movement.movement, calculateNeededTorque(movement.rotation));
 
 	emitter.emit(
-		'motorData',
+		'thrusterData',
 		Object.fromEntries(
-			movementCalc.motors.map((motor) => [motor.type.toString(), motor.speed])
-		) as Record<`${Motor}`, number>
+			movementCalc.thrusters.map((thruster) => [thruster.type.toString(), thruster.speed])
+		) as Record<`${Thruster}`, number>
 	);
 }
 
@@ -166,17 +166,17 @@ export const router = t.router({
 			}, 500);
 		});
 	}),
-	motorEvent: t.procedure.subscription(() => {
-		return observable<MotorEvent>((emit) => {
-			const onAdd = (data: Record<`${Motor}`, number>) =>
-				Object.entries(data).forEach(([motor, speed]) =>
-					emit.next({ motor: motor as Motor, speed })
+	thrusterEvent: t.procedure.subscription(() => {
+		return observable<ThrusterEvent>((emit) => {
+			const onAdd = (data: Record<`${Thruster}`, number>) =>
+				Object.entries(data).forEach(([thruster, speed]) =>
+					emit.next({ thruster: thruster as Thruster, speed })
 				);
 
-			emitter.on('motorData', onAdd);
+			emitter.on('thrusterData', onAdd);
 
 			return () => {
-				emitter.off('motorData', onAdd);
+				emitter.off('thrusterData', onAdd);
 			};
 		});
 	})

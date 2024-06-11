@@ -5,7 +5,7 @@ import { assertRange } from "./util/inRange.js";
 const voltages = Object.freeze(Object.keys(fromPwmData));
 
 /**
- * Get thruster data for a motor. If an exact data point doesn't exist, an approximation is made.
+ * Get thruster data for a PWM & voltage value. If an exact data point doesn't exist, an approximation is made.
  *
  * @param rawVoltage the voltage to use, from 10V - 20V.
  * @param rawPWM the PWM to use, from 1100 - 1900, where ~1500 the middle.

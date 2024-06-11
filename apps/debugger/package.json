@@ -10,7 +10,7 @@
 	"types": "dist/index.d.ts",
 	"type": "module",
 	"scripts": {
-		"motor": "tsx ./src/debug.ts"
+		"debug": "tsx ./src/debug.ts"
 	},
 	"devDependencies": {
 		"@types/node": "^20.12.12",

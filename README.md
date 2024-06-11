@@ -31,7 +31,7 @@ There are two different task categories:
 
 ### Non-mocking
 
-- `/apps/robot`: robot code (for driving motors)How runs on PI.
+- `/apps/robot`: robot code (for driving thrusters).
 - `/apps/video`: isolated app for running [µStreamer](https://github.com/pikvm/ustreamer), runs on PI.
 - `/apps/web`: UI (webserver), runs on land laptop.
 
@@ -41,7 +41,7 @@ There are two different task categories:
 
 Same components as above, but:
 
-- `robot:mock` communicates with a [tRPC](https://trpc.io/) on the client that now hosts a _simulation_ with [threlte](https://threlte.xyz/) that drives the "motors."
+- `robot:mock` communicates with a [tRPC](https://trpc.io/) on the client that now hosts a _simulation_ with [threlte](https://threlte.xyz/) that drives the "thrusters."
 
 ## Setting up Physical Robot
 
