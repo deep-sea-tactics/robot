@@ -42,14 +42,7 @@ const tupledData: Record<number, [pwm: number, current: number, force: number][]
 					.map(([k, v]) => [k, typeof v.v === 'string' ? v.v.trim() : v.v]);
 
 				// Chunk the array to turn into tuples { ax, cx, fx } => (a, c, f)
-				return (
-					[...chunks(preparsedArray, 3)]
-						.map((chunk) => chunk.map(([_, v]) => v))
-						// then preprocess the produced force/thrust (the final column)
-						// where values below 1500 (the median) are negative -
-						// thus indicating 'negative' force and forcing better one-to-one pairing
-						.map(([pwm, current, force]) => [pwm, current, pwm <= 1500 ? -force : force])
-				);
+				return [...chunks(preparsedArray, 3)].map((chunk) => chunk.map(([_, v]) => v));
 			})
 		)
 	);

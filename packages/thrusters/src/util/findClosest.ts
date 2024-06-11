@@ -17,7 +17,6 @@ export function findClosest<T>(
 
 	// Only one element to search for in this condition!
 	if (minBracket === maxBracket) {
-
 		// however, before we return, let's search our neighbors!
 		const neighbors = [
 			...(minBracket === 0 ? [] : [minBracket - 1]),
@@ -26,8 +25,8 @@ export function findClosest<T>(
 		];
 
 		const [closestIndex] = neighbors
-			.map(neighborIndex => [neighborIndex, Math.abs(distance(array[neighborIndex]))] as const)
-			.reduce((prev, current) => prev[0] < current[0] ? prev : current )
+			.map((neighborIndex) => [neighborIndex, Math.abs(distance(array[neighborIndex]))] as const)
+			.reduce((prev, current) => (prev[0] < current[0] ? prev : current));
 
 		return [array[closestIndex], closestIndex];
 	}

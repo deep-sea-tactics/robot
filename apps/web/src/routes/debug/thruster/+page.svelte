@@ -4,9 +4,14 @@
 	import Scene from './Scene.svelte';
 	import Arbitrary from '$lib/components/controller/Arbitrary.svelte';
 	import type { ControllerData } from 'robot/src/controller';
-	import { move, speedToServo } from 'robot/src/thrusterCalculations';
+	import {
+		move,
+		speedToServo,
+		calculateForce,
+		calculateTorque
+	} from 'robot/src/thrusterCalculations';
 	import { Pane, Point, Button, Checkbox, Folder, Slider } from 'svelte-tweakpane-ui';
-	import { onMount } from 'svelte';
+	import { getData } from 'thrusters/src/pwm';
 
 	let direction = vector.vector(0, 0, 0);
 	let torque = vector.vector(0, 0, 0);
@@ -16,9 +21,25 @@
 	let useController = false;
 	let output: ControllerData | undefined = undefined;
 
+	const voltage = 19;
+
+	$: actualForce = calculateForce(
+		result.thrusters.map((thruster) => ({
+			type: thruster.type,
+			speed: getData(voltage, speedToServo(thruster.speed))[1]
+		}))
+	);
+
+	$: actualTorque = calculateTorque(
+		result.thrusters.map((thruster) => ({
+			type: thruster.type,
+			speed: getData(voltage, speedToServo(thruster.speed))[1]
+		}))
+	);
+
 	$: if (useController) {
 		if (output) {
-			direction = vector.vector(output.movement.x, output.movement.y, output.movement.z)
+			direction = vector.vector(output.movement.x, output.movement.y, output.movement.z);
 			torque = vector.vector(output.rotation.pitch, output.rotation.yaw, torque.z);
 		} else {
 			direction = vector.vector(0, 0, 0);
@@ -26,13 +47,7 @@
 		}
 	}
 
-	let innerWidth: number
-
 	let size: undefined = undefined;
-
-	onMount(() => {
-
-	})
 </script>
 
 <svelte:head>
@@ -48,10 +63,32 @@
 		<div class="canvas">
 			<div class="pane">
 				<Pane title="Debugger" position="inline">
-					<Point disabled={useController} bind:value={direction} label="Direction" step={0.01} min={-1} max={1} />
-					<Button disabled={useController} title="Reset Direction" on:click={() => direction = vector.vector(0, 0, 0)} />
-					<Point disabled={useController} bind:value={torque} label="Torque" step={0.01} min={-1} max={1} />
-					<Button disabled={useController} title="Reset Torque" on:click={() => torque = vector.vector(0, 0, 0)} />
+					<Point
+						disabled={useController}
+						bind:value={direction}
+						label="Direction"
+						step={0.01}
+						min={-1}
+						max={1}
+					/>
+					<Button
+						disabled={useController}
+						title="Reset Direction"
+						on:click={() => (direction = vector.vector(0, 0, 0))}
+					/>
+					<Point
+						disabled={useController}
+						bind:value={torque}
+						label="Torque"
+						step={0.01}
+						min={-1}
+						max={1}
+					/>
+					<Button
+						disabled={useController}
+						title="Reset Torque"
+						on:click={() => (torque = vector.vector(0, 0, 0))}
+					/>
 					<Checkbox bind:value={useController} label="Use Controller" />
 					<Folder title="Relative Output">
 						{#each result.thrusters as { type, speed }}
@@ -66,6 +103,8 @@
 						{#each result.thrusters as { type, speed }}
 							<Slider disabled value={speedToServo(speed)} min={1100} max={1900} label={type} />
 						{/each}
+						<Point disabled label="Resulting Actual Force" value={actualForce} />
+						<Point disabled label="Resulting Actual Torque" value={actualTorque} />
 					</Folder>
 				</Pane>
 			</div>
@@ -74,6 +113,8 @@
 					thrusters={result.thrusters}
 					desiredDirection={direction}
 					actualDirection={result.resultingForce}
+					realForce={actualForce}
+					realTorque={actualTorque}
 				/>
 			</Canvas>
 		</div>

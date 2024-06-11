@@ -5,7 +5,10 @@
 	import Simulation from '../simulation/Simulation.svelte';
 	import Arbitrary, { type Icon } from '$lib/components/controller/Arbitrary.svelte';
 	import { onMount } from 'svelte';
-	import TrpcConnection, { type TRPCClient, type WSClient } from '$lib/connections/TRPCConnection.svelte';
+	import TrpcConnection, {
+		type TRPCClient,
+		type WSClient
+	} from '$lib/connections/TRPCConnection.svelte';
 
 	const isMock = env.VITE_MOCK === 'true';
 	let output: ControllerData;
@@ -20,10 +23,14 @@
 
 	$: wsClientConnection = wsClient?.getConnection();
 	$: wsClientState = wsClient?.getConnection().readyState;
-	$: [wsClientColor, wsClientText] = wsClientState === wsClientConnection?.CLOSED ? ['red', 'closed']
-		: wsClientState === wsClientConnection?.CLOSING ? ['stopping', 'closing']
-		: wsClientState === wsClientConnection?.CONNECTING ? ['starting', 'connecting']
-		: ['green', 'connected'];
+	$: [wsClientColor, wsClientText] =
+		wsClientState === wsClientConnection?.CLOSED
+			? ['red', 'closed']
+			: wsClientState === wsClientConnection?.CLOSING
+				? ['stopping', 'closing']
+				: wsClientState === wsClientConnection?.CONNECTING
+					? ['starting', 'connecting']
+					: ['green', 'connected'];
 
 	onMount(() => {
 		if (!client) throw new Error('No client found!');

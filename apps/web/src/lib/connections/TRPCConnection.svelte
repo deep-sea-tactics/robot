@@ -41,9 +41,9 @@
 				: transform(9000, 'ws')
 		});
 
-		wsClient.getConnection().addEventListener('close', () => wsClient = wsClient);
-		wsClient.getConnection().addEventListener('error', () => wsClient = wsClient);
-		wsClient.getConnection().addEventListener('open', () => wsClient = wsClient);
+		wsClient.getConnection().addEventListener('close', () => (wsClient = wsClient));
+		wsClient.getConnection().addEventListener('error', () => (wsClient = wsClient));
+		wsClient.getConnection().addEventListener('open', () => (wsClient = wsClient));
 
 		client = createTRPCProxyClient<RobotRouter>({
 			links: [

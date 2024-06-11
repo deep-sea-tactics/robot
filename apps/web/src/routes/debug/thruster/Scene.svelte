@@ -10,6 +10,9 @@
 	export let thrusters: ThrusterMovement[];
 	export let desiredDirection: vector.Vector;
 	export let actualDirection: vector.Vector;
+
+	export let realForce: vector.Vector;
+	export let realTorque: vector.Vector;
 </script>
 
 <Stars />
@@ -41,6 +44,14 @@
 		to={vector.asTuple(vector.scale(actualDirection)(1 / 2))}
 		from={[0, 0, 0]}
 		color={0x00ff00}
+	/>
+{/key}
+
+{#key realForce}
+	<PositionalArrow
+		to={vector.asTuple(vector.scale(realForce)(1 / 2))}
+		from={[0, 0, 0]}
+		color={0x0000ff}
 	/>
 {/key}
 

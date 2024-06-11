@@ -21,16 +21,14 @@ export function getData(rawVoltage: number, rawPWM: number): [current: number, f
 
 	const [nearestVoltage] = findClosest(
 		voltages,
-		element =>
-			parseInt(element) === voltage ? 0 : parseInt(element) > voltage ? 1 : -1,
-		element => parseInt(element) - voltage
+		(element) => (parseInt(element) === voltage ? 0 : parseInt(element) > voltage ? 1 : -1),
+		(element) => parseInt(element) - voltage
 	);
 
 	const [nearestPWM] = findClosest(
 		Object.keys(fromPwmData[parseInt(nearestVoltage)]),
-		element =>
-			parseInt(element) === pwm ? 0 : parseInt(element) > pwm ? 1 : -1,
-		element => parseInt(element) - pwm
+		(element) => (parseInt(element) === pwm ? 0 : parseInt(element) > pwm ? 1 : -1),
+		(element) => parseInt(element) - pwm
 	);
 
 	return fromPwmData[parseInt(nearestVoltage)][parseInt(nearestPWM)];

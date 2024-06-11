@@ -95,7 +95,7 @@ async function connectThrusters() {
 	);
 }
 
-connectThrusters()
+connectThrusters();
 
 const emit: <U extends keyof Events>(event: U) => (...args: Parameters<Events[U]>) => void =
 	(event) =>
