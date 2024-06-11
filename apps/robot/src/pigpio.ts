@@ -6,7 +6,7 @@ const isMock = process.env.MOCK === 'true';
 
 const pigpio = memoize(() => import('pigpio'));
 
-interface Servo {
+export interface Servo {
 	write(pulseWidth: number): void
 }
 
@@ -14,7 +14,7 @@ export type Range = [min: number, max: number];
 
 /**
  * Processes pulseWidth to ensure that it is safe to write to the motor.
- * 
+ *
  * @param gpioPin The GPIO pin to log for error reporting.
  * @param pulseWidth The PWM value to confine.
  * @param range The range to confine the PWM value to

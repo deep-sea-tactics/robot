@@ -2,7 +2,7 @@ import { initTRPC } from '@trpc/server';
 import { type ControllerData, controllerDataSchema, defaultControllerData } from './controller.js';
 import debounce from 'debounce';
 import { observable } from '@trpc/server/observable';
-import { Thruster } from './thruster.js';
+import { Thruster, thrusters } from './thruster.js';
 import { vectorSchema } from './sensors.js';
 import type { ThrusterEvent } from './thruster.js';
 import { move } from './thrusterCalculations.js';
@@ -12,27 +12,19 @@ import { asyncExitHook } from 'exit-hook';
 import readline from 'node:readline';
 import { stdin, stdout } from 'node:process';
 import si from 'systeminformation';
-import { servo } from './pigpio.js';
+import { Servo, servo } from './pigpio.js';
 
 const t = initTRPC.create();
 
 const sleep = (time: number): Promise<void> => new Promise((resolve) => setInterval(resolve, time));
 
 async function connectThrusters() {
-	const thrusterConfig = {
-		// ESC 1 - pin 33
-		[Thruster.TopLeft]: await servo(13, [1100, 1900]),
-		// ESC 2 - pin 32
-		[Thruster.VerticalRight]: await servo(12, [1100, 1900]),
-		// ESC 3 - pin 31
-		[Thruster.BottomRight]: await servo(6, [1100, 1900]),
-		// ESC 4 - pin 29
-		[Thruster.BottomLeft]: await servo(5, [1100, 1900]),
-		// ESC 5 - pin 36
-		[Thruster.TopRight]: await servo(16, [1100, 1900]),
-		// ESC 6 - pin 35
-		[Thruster.VerticalLeft]: await servo(19, [1100, 1900])
-	};
+	const thrusterConfig: Record<Thruster, Servo> = Object.fromEntries(
+		await Promise.all(thrusters.map(async thruster => [
+			thruster.type,
+			await servo(thruster.gpioPin, [1100, 1900])
+		]))
+	);
 
 	// TODO: support sensors
 	// const sensorConfig = {
