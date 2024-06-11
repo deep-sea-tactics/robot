@@ -15,8 +15,6 @@ import si from 'systeminformation';
 
 const t = initTRPC.create();
 
-const isMock = process.env.MOCK === 'true';
-
 const sleep = (time: number): Promise<void> => new Promise((resolve) => setInterval(resolve, time));
 
 async function connectPhysicalMotors() {
@@ -114,10 +112,6 @@ async function connectPhysicalMotors() {
 		},
 		{ wait: 1000 }
 	);
-}
-
-if (!isMock) {
-	connectPhysicalMotors();
 }
 
 const emit: <U extends keyof Events>(event: U) => (...args: Parameters<Events[U]>) => void =
