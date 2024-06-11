@@ -29,12 +29,13 @@
 	$: output = logitechFlightOutput || logitechControllerOutput || keyboardOutput;
 
 	export let icons: Icon[] | undefined = undefined;
-	$: icons = (
-		logitechFlightOutput ? iconMapping.logitechFlight
-			: logitechControllerOutput ? iconMapping.logitechController
-			: keyboardOutput ? iconMapping.keyboard
-			: undefined
-	)
+	$: icons = logitechFlightOutput
+		? iconMapping.logitechFlight
+		: logitechControllerOutput
+			? iconMapping.logitechController
+			: keyboardOutput
+				? iconMapping.keyboard
+				: undefined;
 </script>
 
 <LogitechController bind:output={logitechControllerOutput} />

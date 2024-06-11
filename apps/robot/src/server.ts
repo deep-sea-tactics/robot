@@ -19,10 +19,12 @@ const sleep = (time: number): Promise<void> => new Promise((resolve) => setInter
 
 async function connectThrusters() {
 	const thrusterConfig: Record<Thruster, Servo> = Object.fromEntries(
-		await Promise.all(thrusters.map(async thruster => [
-			thruster.type,
-			await servo(thruster.gpioPin, [1100, 1900])
-		]))
+		await Promise.all(
+			thrusters.map(async (thruster) => [
+				thruster.type,
+				await servo(thruster.gpioPin, [1100, 1900])
+			])
+		)
 	);
 
 	// TODO: support sensors
@@ -150,18 +152,17 @@ export const router = t.router({
 	systemInformation: t.procedure.subscription(() => {
 		return observable<SystemInformation>((emit) => {
 			setInterval(async () => {
-				const cpuTemperature = await si.cpuTemperature().then(cpu => cpu.cores);
-				console.log(cpuTemperature)
+				const cpuTemperature = await si.cpuTemperature().then((cpu) => cpu.cores);
+				console.log(cpuTemperature);
 				emit.next({
 					cpuTemperature: cpuTemperature[0]
-				})
+				});
 			}, 500);
 		});
 	}),
 	gpioEvent: t.procedure.subscription(() => {
 		return observable<GPIOEvent>((emit) => {
-			const onAdd = (gpioPin: number, pulseWidth: number) =>
-				emit.next({ gpioPin, pulseWidth })
+			const onAdd = (gpioPin: number, pulseWidth: number) => emit.next({ gpioPin, pulseWidth });
 
 			emitter.on('gpioData', onAdd);
 

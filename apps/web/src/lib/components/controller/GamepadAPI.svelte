@@ -16,7 +16,7 @@
 			if (animationFrame) {
 				cancelAnimationFrame(animationFrame);
 			}
-		}
+		};
 	});
 
 	function getInput() {
@@ -27,7 +27,11 @@
 			return;
 		}
 
-		gamepad = navigator.getGamepads().find(gamepadIter => gamepadIter?.id.toLowerCase().includes(idContains.toLowerCase())) ?? null
+		gamepad =
+			navigator
+				.getGamepads()
+				.find((gamepadIter) => gamepadIter?.id.toLowerCase().includes(idContains.toLowerCase())) ??
+			null;
 
 		if (!gamepad) {
 			output = null;

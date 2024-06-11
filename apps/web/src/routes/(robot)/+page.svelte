@@ -24,7 +24,7 @@
 			onData(data) {
 				temperature = data.cpuTemperature;
 			}
-		})
+		});
 	});
 </script>
 

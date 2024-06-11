@@ -2,7 +2,7 @@
 	import { T } from '@threlte/core';
 	import * as THREE from 'three';
 	import { ArrowHelper } from 'three';
-	import * as vector from 'vector'
+	import * as vector from 'vector';
 
 	export let to: vector.VectorLike;
 	export let from: vector.VectorLike;

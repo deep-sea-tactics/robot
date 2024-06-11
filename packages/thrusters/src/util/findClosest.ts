@@ -23,8 +23,8 @@ export function findClosest<T>(
 	// exact match!
 	if (foundComparison === 0) {
 		return [middleElement, middleElementIndex];
-	// the middle element is greater than what we're using to search -
-	// move the max bracket to the middle
+		// the middle element is greater than what we're using to search -
+		// move the max bracket to the middle
 	} else if (foundComparison === 1) {
 		return findClosest(array, comparison, minBracket, middleElementIndex);
 	} else {

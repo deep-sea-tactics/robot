@@ -4,7 +4,7 @@
 	import { World } from '@threlte/rapier';
 	import type { TRPCClient } from '$lib/connections/TRPCConnection.svelte';
 
-	export let client: TRPCClient
+	export let client: TRPCClient;
 </script>
 
 <Canvas>

@@ -51,7 +51,6 @@
 	bind:logitechControllerOutput
 	bind:logitechFlightOutput
 	bind:keyboardOutput
-
 	bind:output
 />
 

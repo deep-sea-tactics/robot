@@ -12,8 +12,8 @@
 <style lang="scss">
 	:global(:root) {
 		--background: #f1e3e4;
-		--foreground: #1C1D21;
-		--accent: #3B82F6;
+		--foreground: #1c1d21;
+		--accent: #3b82f6;
 	}
 
 	:global(body) {
@@ -23,7 +23,7 @@
 
 	@media (prefers-color-scheme: dark) {
 		:global(:root) {
-			--background: #1C1D21;
+			--background: #1c1d21;
 			--foreground: #f1e3e4;
 		}
 	}

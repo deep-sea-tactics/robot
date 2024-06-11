@@ -11,7 +11,12 @@
 	import PositionalArrow from '$lib/three/PositionalArrow.svelte';
 	import type { TRPCClient } from '$lib/connections/TRPCConnection.svelte';
 	import { Pane, FpsGraph, Button, Folder } from 'svelte-tweakpane-ui';
-	import { Thruster, getThruster, getThrusterByGpioPin, thrusters as rovThrusters } from 'robot/src/thruster';
+	import {
+		Thruster,
+		getThruster,
+		getThrusterByGpioPin,
+		thrusters as rovThrusters
+	} from 'robot/src/thruster';
 	import { getData } from 'thrusters/src/pwm';
 
 	export let client: TRPCClient;
@@ -100,9 +105,11 @@
 				const thruster = getThrusterByGpioPin(gpioPin);
 
 				if (!thruster) {
-					console.warn(`Attempted to write to nonexistent servo ${gpioPin} with pulse width ${pulseWidth}`);
+					console.warn(
+						`Attempted to write to nonexistent servo ${gpioPin} with pulse width ${pulseWidth}`
+					);
 					return;
-				};
+				}
 
 				thrusterRegistry[thruster.type] = pulseWidth;
 			}
@@ -269,11 +276,7 @@
 	const castThrelteRigidBody = (value: unknown): RigidBody => cast<RigidBody>(value);
 </script>
 
-<Pane
-	title="Simulation"
-	position="fixed"
-	x={10}
->
+<Pane title="Simulation" position="fixed" x={10}>
 	<FpsGraph interval={50} label="FPS" rows={5} />
 	<Folder title="ROV Position">
 		<Button title="Reset" />

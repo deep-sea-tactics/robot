@@ -9,17 +9,17 @@ import * as vector from 'vector';
  */
 export enum Thruster {
 	/** Angled thruster on the left side of the bottom of the robot */
-	BottomLeft = "BOTTOM_LEFT",
+	BottomLeft = 'BOTTOM_LEFT',
 	/** Angled thruster on the right side of the bottom of the robot */
-	BottomRight = "BOTTOM_RIGHT",
+	BottomRight = 'BOTTOM_RIGHT',
 	/** Angled thruster on the left side of the top of the robot */
-	TopLeft = "TOP_LEFT",
+	TopLeft = 'TOP_LEFT',
 	/** Angled thruster on the right side of the top of the robot */
-	TopRight = "TOP_RIGHT",
+	TopRight = 'TOP_RIGHT',
 	/** Thruster on the left that moves the robot up and down */
-	VerticalLeft = "VERTICAL_LEFT",
+	VerticalLeft = 'VERTICAL_LEFT',
 	/** Thruster on the right that moves the robot up and down */
-	VerticalRight = "VERTICAL_RIGHT"
+	VerticalRight = 'VERTICAL_RIGHT'
 }
 
 export interface ThrusterConstraint {
@@ -69,5 +69,9 @@ export const thrusters: ThrusterConstraint[] = [
 	}
 ];
 
-export const getThruster = memoize((type: Thruster): ThrusterConstraint => thrusters.find(thruster => thruster.type == type)!);
-export const getThrusterByGpioPin = memoize((gpioPin: number): ThrusterConstraint | undefined => thrusters.find(thruster => thruster.gpioPin == gpioPin));
+export const getThruster = memoize(
+	(type: Thruster): ThrusterConstraint => thrusters.find((thruster) => thruster.type == type)!
+);
+export const getThrusterByGpioPin = memoize((gpioPin: number): ThrusterConstraint | undefined =>
+	thrusters.find((thruster) => thruster.gpioPin == gpioPin)
+);

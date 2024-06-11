@@ -1,5 +1,5 @@
-import memoize from "p-memoize";
-import { emitter } from "./emitter.js";
+import memoize from 'p-memoize';
+import { emitter } from './emitter.js';
 import assert from 'node:assert';
 
 const isMock = process.env.MOCK === 'true';
@@ -7,7 +7,7 @@ const isMock = process.env.MOCK === 'true';
 const pigpio = memoize(() => import('pigpio'));
 
 export interface Servo {
-	write(pulseWidth: number): void
+	write(pulseWidth: number): void;
 }
 
 export type Range = [min: number, max: number];
@@ -21,8 +21,14 @@ export type Range = [min: number, max: number];
  * @returns A rounded, confined value with NaN protection.
  */
 function processPulseWidth(gpioPin: number, pulseWidth: number, [min, max]: Range) {
-	assert.ok(pulseWidth >= min, `[GPIO ${gpioPin}]: Value ${pulseWidth} is below minimum value ${min}.`);
-	assert.ok(pulseWidth <= max, `[GPIO ${gpioPin}]: Value ${pulseWidth} is below maximum value ${max}.`);
+	assert.ok(
+		pulseWidth >= min,
+		`[GPIO ${gpioPin}]: Value ${pulseWidth} is below minimum value ${min}.`
+	);
+	assert.ok(
+		pulseWidth <= max,
+		`[GPIO ${gpioPin}]: Value ${pulseWidth} is below maximum value ${max}.`
+	);
 
 	assert.ok(!Number.isNaN(pulseWidth), `[GPIO ${gpioPin}]: Value ${pulseWidth} is NaN.`);
 
@@ -39,9 +45,9 @@ export async function servo(gpioPin: number, range: Range): Promise<Servo> {
 	if (isMock) {
 		return {
 			write(pulseWidth) {
-				emitter.emit('gpioData', gpioPin, processPulseWidth(gpioPin, pulseWidth, range))
+				emitter.emit('gpioData', gpioPin, processPulseWidth(gpioPin, pulseWidth, range));
 			}
-		}
+		};
 	} else {
 		const { Gpio } = await pigpio();
 		const gpio = new Gpio(gpioPin, { mode: Gpio.OUTPUT });
@@ -49,7 +55,7 @@ export async function servo(gpioPin: number, range: Range): Promise<Servo> {
 		return {
 			write(pulseWidth) {
 				gpio.servoWrite(processPulseWidth(gpioPin, pulseWidth, range));
-			},
-		}
+			}
+		};
 	}
 }

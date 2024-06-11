@@ -1,4 +1,4 @@
-import 'unplugin-icons/types/svelte'
+import 'unplugin-icons/types/svelte';
 /// <reference types="@sveltejs/kit" />
 
 // See https://kit.svelte.dev/docs/types#app

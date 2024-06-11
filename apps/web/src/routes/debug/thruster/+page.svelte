@@ -35,7 +35,7 @@
 	let useController = false;
 	let output: ControllerData | undefined = undefined;
 
-	$: console.log(output)
+	$: console.log(output);
 
 	$: if (useController) {
 		if (output) {
@@ -78,15 +78,39 @@
 
 			<div>
 				<label for="directionX">X</label>
-				<input disabled={useController} type="range" min="-1" max="1" step="0.01" id="directionX" bind:value={directionX} />
+				<input
+					disabled={useController}
+					type="range"
+					min="-1"
+					max="1"
+					step="0.01"
+					id="directionX"
+					bind:value={directionX}
+				/>
 			</div>
 			<div>
 				<label for="directionY">Y</label>
-				<input disabled={useController} type="range" min="-1" max="1" step="0.01" id="directionY" bind:value={directionY} />
+				<input
+					disabled={useController}
+					type="range"
+					min="-1"
+					max="1"
+					step="0.01"
+					id="directionY"
+					bind:value={directionY}
+				/>
 			</div>
 			<div>
 				<label for="directionZ">Z</label>
-				<input disabled={useController} type="range" min="-1" max="1" step="0.01" id="directionZ" bind:value={directionZ} />
+				<input
+					disabled={useController}
+					type="range"
+					min="-1"
+					max="1"
+					step="0.01"
+					id="directionZ"
+					bind:value={directionZ}
+				/>
 			</div>
 
 			<h2>
@@ -100,19 +124,43 @@
 
 			<div>
 				<label for="torqueX">X</label>
-				<input disabled={useController} type="range" min="-1" max="1" step="0.01" id="torqueX" bind:value={torqueX} />
+				<input
+					disabled={useController}
+					type="range"
+					min="-1"
+					max="1"
+					step="0.01"
+					id="torqueX"
+					bind:value={torqueX}
+				/>
 			</div>
 			<div>
 				<label for="torqueY">Y</label>
-				<input disabled={useController} type="range" min="-1" max="1" step="0.01" id="torqueY" bind:value={torqueY} />
+				<input
+					disabled={useController}
+					type="range"
+					min="-1"
+					max="1"
+					step="0.01"
+					id="torqueY"
+					bind:value={torqueY}
+				/>
 			</div>
 			<div>
 				<label for="torqueZ">Z</label>
-				<input disabled={useController} type="range" min="-1" max="1" step="0.01" id="torqueZ" bind:value={torqueZ} />
+				<input
+					disabled={useController}
+					type="range"
+					min="-1"
+					max="1"
+					step="0.01"
+					id="torqueZ"
+					bind:value={torqueZ}
+				/>
 			</div>
 
 			<label for="controller">Use Controller</label>
-			<input id="controller" type="checkbox" bind:checked={useController}>
+			<input id="controller" type="checkbox" bind:checked={useController} />
 		</div>
 
 		<div class="output">
@@ -120,11 +168,11 @@
 			{#each result.thrusters as { type, speed }}
 				<p>{type}: {speed}</p>
 			{/each}
-			<pre><b>torque difference</b>: {JSON.stringify(result.torqueDifference, null,2)}</pre>
-			<pre><b>direction difference</b>: {JSON.stringify(result.directionDifference, null,2)}</pre>
+			<pre><b>torque difference</b>: {JSON.stringify(result.torqueDifference, null, 2)}</pre>
+			<pre><b>direction difference</b>: {JSON.stringify(result.directionDifference, null, 2)}</pre>
 
-			<pre><b>resulting force</b>: {JSON.stringify(result.resultingForce, null,2)}</pre>
-			<pre><b>resulting torque</b>: {JSON.stringify(result.resultingTorque, null,2)}</pre>
+			<pre><b>resulting force</b>: {JSON.stringify(result.resultingForce, null, 2)}</pre>
+			<pre><b>resulting torque</b>: {JSON.stringify(result.resultingTorque, null, 2)}</pre>
 		</div>
 
 		<div class="canvas">

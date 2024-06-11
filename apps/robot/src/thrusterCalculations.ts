@@ -18,7 +18,7 @@ export interface MoveOutput {
 function calculateForce(thrusterMovement: ThrusterMovement[]): vector.Vector {
 	return thrusterMovement.reduce(
 		(force, movement) => {
-			const thruster = thrusters.find(thruster => thruster.type === movement.type);
+			const thruster = thrusters.find((thruster) => thruster.type === movement.type);
 			if (!thruster) {
 				return force;
 			}
