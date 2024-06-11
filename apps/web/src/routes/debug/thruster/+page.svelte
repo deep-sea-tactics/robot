@@ -1,10 +1,10 @@
 <script lang="ts">
-	import { move } from 'robot/src/thrusters';
 	import * as vector from 'vector';
 	import { Canvas } from '@threlte/core';
 	import Scene from './Scene.svelte';
 	import Arbitrary from '$lib/components/controller/Arbitrary.svelte';
 	import type { ControllerData } from 'robot/src/controller';
+	import { move } from 'robot/src/thrusterCalculations';
 
 	let directionX = 0;
 	let directionY = 0;
@@ -63,7 +63,7 @@
 <Arbitrary bind:output />
 
 <main>
-	<h1>Motor Calculation Debugging</h1>
+	<h1>Thruster Calculation Debugging</h1>
 
 	<div class="body">
 		<div class="input">
@@ -116,8 +116,8 @@
 		</div>
 
 		<div class="output">
-			<h2>Motors</h2>
-			{#each result.motors as { type, speed }}
+			<h2>Thrusters</h2>
+			{#each result.thrusters as { type, speed }}
 				<p>{type}: {speed}</p>
 			{/each}
 			<pre><b>torque difference</b>: {JSON.stringify(result.torqueDifference, null,2)}</pre>
@@ -130,7 +130,7 @@
 		<div class="canvas">
 			<Canvas>
 				<Scene
-					motors={result.motors}
+					thrusters={result.thrusters}
 					desiredDirection={direction}
 					actualDirection={result.resultingForce}
 				/>

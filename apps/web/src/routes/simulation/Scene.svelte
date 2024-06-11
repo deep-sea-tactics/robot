@@ -3,30 +3,28 @@
 	import { AutoColliders, RigidBody as RapierRigidBody, Collider } from '@threlte/rapier';
 	import { OrbitControls } from '@threlte/extras';
 	import { onMount } from 'svelte';
-	import { Motor } from 'robot/src/motor';
 	import { Gizmo } from '@threlte/extras';
 	import { Box3, Quaternion, Vector3, type Mesh } from 'three';
 	import type { RigidBody } from '@leodog896/rapier3d-compat/dynamics/rigid_body';
 	import * as vector from 'vector';
-	import { getThruster, thrusters as robotThrusters } from 'robot/src/thrusters';
 	import Rov from '$lib/three/ROV.svelte';
 	import PositionalArrow from '$lib/three/PositionalArrow.svelte';
 	import type { TRPCClient } from '$lib/connections/TRPCConnection.svelte';
 	import { Pane, FpsGraph, Button, Folder } from 'svelte-tweakpane-ui';
+	import { Thruster } from 'robot/src/thruster';
 
 	export let client: TRPCClient;
 
 	const rovAngularDamping = 0;
 
-	interface MotorConstraint {
-		type: Motor;
+	interface ThrusterConstraint {
+		type: Thruster;
 		position: Vector3;
 		throttle: () => number;
-		maxThrust: number;
 		thrustDirection: Vector3;
 	}
 
-	function getForceVector(constraint: MotorConstraint, rov: Mesh): Vector3 {
+	function getForceVector(constraint: ThrusterConstraint, rov: Mesh): Vector3 {
 		// assuming throttle is on the scale -1 - 1
 		const currentThrust = constraint.maxThrust * constraint.throttle();
 		return calculateThrusterDirection(constraint, rov)
@@ -71,22 +69,22 @@
 	];
 
 	// TODO: generate this from the motor enum
-	let motorRegistry: Record<Motor, number> = {
-		[Motor.BottomLeft]: 0,
-		[Motor.BottomRight]: 0,
-		[Motor.TopLeft]: 0,
-		[Motor.TopRight]: 0,
-		[Motor.VerticalLeft]: 0,
-		[Motor.VerticalRight]: 0
+	let thrusterRegistry: Record<Thruster, number> = {
+		[Thruster.BottomLeft]: 0,
+		[Thruster.BottomRight]: 0,
+		[Thruster.TopLeft]: 0,
+		[Thruster.TopRight]: 0,
+		[Thruster.VerticalLeft]: 0,
+		[Thruster.VerticalRight]: 0
 	};
 
 	function toVector3(vector: vector.Vector): Vector3 {
 		return new Vector3(vector.x, vector.y, vector.z);
 	}
 
-	const thrusters: MotorConstraint[] = robotThrusters.map((thruster) => ({
+	const thrusters: ThrusterConstraint[] = robotThrusters.map((thruster) => ({
 		...thruster,
-		throttle: () => motorRegistry[thruster.type],
+		throttle: () => thrusterRegistry[thruster.type],
 		position: toVector3(thruster.position),
 		thrustDirection: toVector3(thruster.thrustDirection)
 	}));
@@ -96,7 +94,7 @@
 
 		client.motorEvent.subscribe(undefined, {
 			onData(value) {
-				motorRegistry[value.motor] = value.speed;
+				thrusterRegistry[value.motor] = value.speed;
 			}
 		});
 
@@ -137,11 +135,11 @@
 		}
 	};
 
-	function calculateThrusterPosition(thruster: MotorConstraint, rov: Mesh): Vector3 {
+	function calculateThrusterPosition(thruster: ThrusterConstraint, rov: Mesh): Vector3 {
 		return thruster.position.clone().applyQuaternion(rov.getWorldQuaternion(new Quaternion()));
 	}
 
-	function calculateThrusterDirection(thruster: MotorConstraint, rov: Mesh): Vector3 {
+	function calculateThrusterDirection(thruster: ThrusterConstraint, rov: Mesh): Vector3 {
 		return thruster.thrustDirection
 			.clone()
 			.applyQuaternion(rov.getWorldQuaternion(new Quaternion()));

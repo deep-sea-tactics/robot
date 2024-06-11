@@ -13,7 +13,7 @@ export interface Servo {
 export type Range = [min: number, max: number];
 
 /**
- * Processes pulseWidth to ensure that it is safe to write to the motor.
+ * Processes pulseWidth to ensure that it is safe to write to the thruster.
  *
  * @param gpioPin The GPIO pin to log for error reporting.
  * @param pulseWidth The PWM value to confine.

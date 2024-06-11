@@ -4,7 +4,6 @@ import debounce from 'debounce';
 import { observable } from '@trpc/server/observable';
 import { Thruster, thrusters } from './thruster.js';
 import { vectorSchema } from './sensors.js';
-import type { ThrusterEvent } from './thruster.js';
 import { move } from './thrusterCalculations.js';
 import { type Events, emitter } from './emitter.js';
 import { calculateNeededTorque } from './stable.js';

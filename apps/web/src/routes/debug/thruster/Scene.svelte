@@ -2,11 +2,12 @@
 	import { T } from '@threlte/core';
 	import ROV from '$lib/three/ROV.svelte'
 	import { OrbitControls, Grid, Stars, Gizmo } from '@threlte/extras';
-	import { getThruster, type MotorMovement } from 'robot/src/thrusters';
 	import * as vector from 'vector';
 	import PositionalArrow from '$lib/three/PositionalArrow.svelte';
+	import { getThruster } from 'robot/src/thruster';
+	import type { ThrusterMovement } from 'robot/src/thrusterCalculations';
 
-	export let motors: MotorMovement[];
+	export let thrusters: ThrusterMovement[];
 	export let desiredDirection: vector.Vector;
 	export let actualDirection: vector.Vector;
 </script>
@@ -25,13 +26,13 @@
   args={[0.6]}
   renderOrder={1}
 />
-{#key motors}
-	{#each motors as motor}
-		{@const thruster = getThruster(motor.type)}
-		{@const direction = vector.asTuple(thruster.thrustDirection)}
-		{@const position = vector.asTuple(thruster.position)}
+{#key thrusters}
+	{#each thrusters as thruster}
+		{@const foundThruster = getThruster(thruster.type)}
+		{@const direction = vector.asTuple(foundThruster.thrustDirection)}
+		{@const position = vector.asTuple(foundThruster.position)}
 		<PositionalArrow
-			to={vector.add(position)(vector.scale(direction)(motor.speed))}
+			to={vector.add(position)(vector.scale(direction)(thruster.speed))}
 			from={position}
 			color={0x00ff00}
 		/>
