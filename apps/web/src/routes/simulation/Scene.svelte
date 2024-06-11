@@ -11,7 +11,8 @@
 	import PositionalArrow from '$lib/three/PositionalArrow.svelte';
 	import type { TRPCClient } from '$lib/connections/TRPCConnection.svelte';
 	import { Pane, FpsGraph, Button, Folder } from 'svelte-tweakpane-ui';
-	import { Thruster } from 'robot/src/thruster';
+	import { Thruster, getThruster, getThrusterByGpioPin, thrusters as rovThrusters } from 'robot/src/thruster';
+	import { getData } from 'thrusters/src/pwm';
 
 	export let client: TRPCClient;
 
@@ -20,13 +21,15 @@
 	interface ThrusterConstraint {
 		type: Thruster;
 		position: Vector3;
-		throttle: () => number;
+		pulseWidth: () => number;
 		thrustDirection: Vector3;
 	}
 
+	// the voltage being supplied to the motors
+	const voltage = 14;
+
 	function getForceVector(constraint: ThrusterConstraint, rov: Mesh): Vector3 {
-		// assuming throttle is on the scale -1 - 1
-		const currentThrust = constraint.maxThrust * constraint.throttle();
+		const [_, currentThrust] = getData(voltage, constraint.pulseWidth());
 		return calculateThrusterDirection(constraint, rov)
 			.clone()
 			.normalize()
@@ -70,21 +73,21 @@
 
 	// TODO: generate this from the motor enum
 	let thrusterRegistry: Record<Thruster, number> = {
-		[Thruster.BottomLeft]: 0,
-		[Thruster.BottomRight]: 0,
-		[Thruster.TopLeft]: 0,
-		[Thruster.TopRight]: 0,
-		[Thruster.VerticalLeft]: 0,
-		[Thruster.VerticalRight]: 0
+		[Thruster.BottomLeft]: 1500,
+		[Thruster.BottomRight]: 1500,
+		[Thruster.TopLeft]: 1500,
+		[Thruster.TopRight]: 1500,
+		[Thruster.VerticalLeft]: 1500,
+		[Thruster.VerticalRight]: 1500
 	};
 
 	function toVector3(vector: vector.Vector): Vector3 {
 		return new Vector3(vector.x, vector.y, vector.z);
 	}
 
-	const thrusters: ThrusterConstraint[] = robotThrusters.map((thruster) => ({
+	const thrusters: ThrusterConstraint[] = rovThrusters.map((thruster) => ({
 		...thruster,
-		throttle: () => thrusterRegistry[thruster.type],
+		pulseWidth: () => thrusterRegistry[thruster.type],
 		position: toVector3(thruster.position),
 		thrustDirection: toVector3(thruster.thrustDirection)
 	}));
@@ -92,9 +95,16 @@
 	onMount(() => {
 		if (!client) throw new Error('No client found!');
 
-		client.motorEvent.subscribe(undefined, {
-			onData(value) {
-				thrusterRegistry[value.motor] = value.speed;
+		client.gpioEvent.subscribe(undefined, {
+			onData({ gpioPin, pulseWidth }) {
+				const thruster = getThrusterByGpioPin(gpioPin);
+
+				if (!thruster) {
+					console.warn(`Attempted to write to nonexistent servo ${gpioPin} with pulse width ${pulseWidth}`);
+					return;
+				};
+
+				thrusterRegistry[thruster.type] = pulseWidth;
 			}
 		});
 
@@ -284,10 +294,10 @@
 
 {#key keyRovPositionChange}
 	{#if rov}
-		{#each thrusters as motor}
-			{@const thruster = getThruster(motor.type)}
-			{@const direction = vector.asTuple(thruster.thrustDirection)}
-			{@const position = vector.asTuple(thruster.position)}
+		{#each thrusters as thruster}
+			{@const foundThruster = getThruster(thruster.type)}
+			{@const direction = vector.asTuple(foundThruster.thrustDirection)}
+			{@const position = vector.asTuple(foundThruster.position)}
 
 			<PositionalArrow
 				to={vector.add(currentPosition)(position)}

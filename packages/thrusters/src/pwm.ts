@@ -12,10 +12,13 @@ const voltages = Object.freeze(Object.keys(fromPwmData));
  */
 export function getData(rawVoltage: number, rawPWM: number): [current: number, force: number] {
 	assertRange(rawVoltage, [10, 20], 'Voltage must be between the range 10V - 20V');
-	assertRange(rawPWM, [1100, 1900], 'PWM must be between the range 1100 - 1900');
+
+	// in pigpio, 0 ~= 1500
+	if (rawPWM !== 0)
+		assertRange(rawPWM, [1100, 1900], 'PWM must be between the range 1100 - 1900');
 
 	const voltage = Math.round(rawVoltage);
-	const pwm = Math.round(rawPWM);
+	const pwm = rawPWM === 0 ? 1500 : Math.round(rawPWM);
 
 	const [nearestVoltage] = findClosest(
 		voltages,

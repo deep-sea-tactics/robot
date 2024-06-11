@@ -70,3 +70,4 @@ export const thrusters: ThrusterConstraint[] = [
 ];
 
 export const getThruster = memoize((type: Thruster): ThrusterConstraint => thrusters.find(thruster => thruster.type == type)!);
+export const getThrusterByGpioPin = memoize((gpioPin: number): ThrusterConstraint | undefined => thrusters.find(thruster => thruster.gpioPin == gpioPin));
