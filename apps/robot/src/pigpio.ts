@@ -21,14 +21,16 @@ export type Range = [min: number, max: number];
  * @returns A rounded, confined value with NaN protection.
  */
 function processPulseWidth(gpioPin: number, pulseWidth: number, [min, max]: Range) {
-	assert.ok(
-		pulseWidth >= min,
-		`[GPIO ${gpioPin}]: Value ${pulseWidth} is below minimum value ${min}.`
-	);
-	assert.ok(
-		pulseWidth <= max,
-		`[GPIO ${gpioPin}]: Value ${pulseWidth} is below maximum value ${max}.`
-	);
+	if (pulseWidth !== 0) {
+		assert.ok(
+			pulseWidth >= min,
+			`[GPIO ${gpioPin}]: Value ${pulseWidth} is below minimum value ${min}.`
+		);
+		assert.ok(
+			pulseWidth <= max,
+			`[GPIO ${gpioPin}]: Value ${pulseWidth} is below maximum value ${max}.`
+		);
+	}
 
 	assert.ok(!Number.isNaN(pulseWidth), `[GPIO ${gpioPin}]: Value ${pulseWidth} is NaN.`);
 

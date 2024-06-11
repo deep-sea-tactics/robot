@@ -103,6 +103,8 @@ async function connectThrusters() {
 	);
 }
 
+connectThrusters()
+
 const emit: <U extends keyof Events>(event: U) => (...args: Parameters<Events[U]>) => void =
 	(event) =>
 	(...data) =>
@@ -152,9 +154,11 @@ export const router = t.router({
 	systemInformation: t.procedure.subscription(() => {
 		return observable<SystemInformation>((emit) => {
 			setInterval(async () => {
-				const cpuTemperature = await si.cpuTemperature().then((cpu) => cpu.cores);
+				// TODO: support CPU temperature
+				// const cpuTemperature = await si.cpuTemperature().then((cpu) => cpu.cores);
 				emit.next({
-					cpuTemperature: cpuTemperature[0]
+					// cpuTemperature: cpuTemperature[0]
+					cpuTemperature: 5
 				});
 			}, 500);
 		});

@@ -10,7 +10,7 @@
 	import Rov from '$lib/three/ROV.svelte';
 	import PositionalArrow from '$lib/three/PositionalArrow.svelte';
 	import type { TRPCClient } from '$lib/connections/TRPCConnection.svelte';
-	import { Pane, FpsGraph, Button, Folder, WaveformMonitor } from 'svelte-tweakpane-ui';
+	import { Pane, FpsGraph, Button, Folder, WaveformMonitor, Slider } from 'svelte-tweakpane-ui';
 	import {
 		Thruster,
 		getThruster,
@@ -281,7 +281,16 @@
 	<Folder title="ROV Position">
 		<Button title="Reset" />
 	</Folder>
-	<WaveformMonitor value={Object.values(thrusterRegistry)} min={1100} max={1900} label="Motors" />
+	<WaveformMonitor
+		lineStyle={'bezier'}
+		value={Object.values(thrusterRegistry).map(gpio => (2 * (gpio - 1500)) / (1900 - 1100))}
+		min={-1}
+		max={1}
+		label="Motors"
+	/>
+	{#each Object.entries(thrusterRegistry) as [thrusterType, pulseWidth]}
+		<Slider value={pulseWidth} min={1100} max={1900} label={thrusterType} disabled />
+	{/each}
 	<!-- TODO: waveform monitor for the motors -->
 </Pane>
 
