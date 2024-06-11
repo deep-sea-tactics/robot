@@ -35,8 +35,6 @@
 	let useController = false;
 	let output: ControllerData | undefined = undefined;
 
-	$: console.log(output);
-
 	$: if (useController) {
 		if (output) {
 			directionX = output.movement.x;

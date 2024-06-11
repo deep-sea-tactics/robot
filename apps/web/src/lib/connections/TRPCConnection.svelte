@@ -1,5 +1,6 @@
 <script lang="ts" context="module">
 	export type TRPCClient = CreateTRPCProxyClient<RobotRouter> | undefined;
+	export type WSClient = ReturnType<typeof createWSClient>;
 </script>
 
 <script lang="ts">
@@ -23,6 +24,7 @@
 		: transform(9000, 'ws');
 
 	export let client: CreateTRPCProxyClient<RobotRouter> | undefined = undefined;
+	export let wsClient: WSClient | undefined = undefined;
 
 	onMount(() => {
 		if (rpiIp) {
@@ -31,13 +33,17 @@
 			console.log(`Connecting with resolved IP ${ipAddr}`);
 		}
 
-		const wsClient = createWSClient({
+		wsClient = createWSClient({
 			url: rpiIp
 				? transform(9000, 'ws', {
 						origin: `http://${rpiIp}`
 					})
 				: transform(9000, 'ws')
 		});
+
+		wsClient.getConnection().addEventListener('close', () => wsClient = wsClient);
+		wsClient.getConnection().addEventListener('error', () => wsClient = wsClient);
+		wsClient.getConnection().addEventListener('open', () => wsClient = wsClient);
 
 		client = createTRPCProxyClient<RobotRouter>({
 			links: [
@@ -47,6 +53,6 @@
 			]
 		});
 
-		return () => wsClient.close();
+		return () => wsClient?.close();
 	});
 </script>

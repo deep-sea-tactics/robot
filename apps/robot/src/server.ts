@@ -11,7 +11,7 @@ import { asyncExitHook } from 'exit-hook';
 import readline from 'node:readline';
 import { stdin, stdout } from 'node:process';
 import si from 'systeminformation';
-import { Servo, servo } from './pigpio.js';
+import { type Servo, servo } from './pigpio.js';
 
 const t = initTRPC.create();
 
@@ -153,7 +153,6 @@ export const router = t.router({
 		return observable<SystemInformation>((emit) => {
 			setInterval(async () => {
 				const cpuTemperature = await si.cpuTemperature().then((cpu) => cpu.cores);
-				console.log(cpuTemperature);
 				emit.next({
 					cpuTemperature: cpuTemperature[0]
 				});

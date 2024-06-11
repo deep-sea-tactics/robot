@@ -33,7 +33,6 @@
 
 		const property = extract(output, propertyExtractor);
 
-		console.log(property);
 		if (typeof property !== 'number') {
 			propertyError = 'Property is not a number';
 			return;

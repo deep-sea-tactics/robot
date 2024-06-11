@@ -5,7 +5,7 @@
 	import Simulation from '../simulation/Simulation.svelte';
 	import Arbitrary, { type Icon } from '$lib/components/controller/Arbitrary.svelte';
 	import { onMount } from 'svelte';
-	import TrpcConnection, { type TRPCClient } from '$lib/connections/TRPCConnection.svelte';
+	import TrpcConnection, { type TRPCClient, type WSClient } from '$lib/connections/TRPCConnection.svelte';
 
 	const isMock = env.VITE_MOCK === 'true';
 	let output: ControllerData;
@@ -16,6 +16,14 @@
 	let temperature: number | undefined = undefined;
 
 	let icons: Icon[] | undefined;
+	let wsClient: WSClient | undefined;
+
+	$: wsClientConnection = wsClient?.getConnection();
+	$: wsClientState = wsClient?.getConnection().readyState;
+	$: [wsClientColor, wsClientText] = wsClientState === wsClientConnection?.CLOSED ? ['red', 'closed']
+		: wsClientState === wsClientConnection?.CLOSING ? ['stopping', 'closing']
+		: wsClientState === wsClientConnection?.CONNECTING ? ['starting', 'connecting']
+		: ['green', 'connected'];
 
 	onMount(() => {
 		if (!client) throw new Error('No client found!');
@@ -28,7 +36,7 @@
 	});
 </script>
 
-<TrpcConnection bind:client />
+<TrpcConnection bind:client bind:wsClient />
 
 <Arbitrary bind:output bind:icons />
 
@@ -67,6 +75,7 @@
 						{/if}
 					</p>
 					<p>Mode: <span class={isMock ? 'blue' : 'green'}>{isMock ? 'mock' : 'live'}</span></p>
+					<p>tRPC status: <span class={wsClientColor}>{wsClientText}</span></p>
 				</div>
 			</Pane>
 			<Pane>
@@ -81,6 +90,14 @@
 <style>
 	.green {
 		color: green;
+	}
+
+	.stopping {
+		color: coral;
+	}
+
+	.starting {
+		color: greenyellow;
 	}
 
 	.red {
