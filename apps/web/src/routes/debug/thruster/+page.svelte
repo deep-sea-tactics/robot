@@ -4,32 +4,13 @@
 	import Scene from './Scene.svelte';
 	import Arbitrary from '$lib/components/controller/Arbitrary.svelte';
 	import type { ControllerData } from 'robot/src/controller';
-	import { move } from 'robot/src/thrusterCalculations';
+	import { move, speedToServo } from 'robot/src/thrusterCalculations';
+	import { Pane, Point, Button, Checkbox, Folder, Slider } from 'svelte-tweakpane-ui';
+	import { onMount } from 'svelte';
 
-	let directionX = 0;
-	let directionY = 0;
-	let directionZ = 0;
-	$: neutralDirection = directionX === 0 && directionY === 0 && directionZ === 0;
+	let direction = vector.vector(0, 0, 0);
+	let torque = vector.vector(0, 0, 0);
 
-	function resetDirection() {
-		directionX = 0;
-		directionY = 0;
-		directionZ = 0;
-	}
-
-	let torqueX = 0;
-	let torqueY = 0;
-	let torqueZ = 0;
-	$: neutralTorque = torqueX === 0 && torqueY === 0 && torqueZ === 0;
-
-	function resetTorque() {
-		torqueX = 0;
-		torqueY = 0;
-		torqueZ = 0;
-	}
-
-	$: direction = vector.vector(directionX, directionY, directionZ);
-	$: torque = vector.vector(torqueX, torqueY, torqueZ);
 	$: result = move(direction, torque);
 
 	let useController = false;
@@ -37,21 +18,21 @@
 
 	$: if (useController) {
 		if (output) {
-			directionX = output.movement.x;
-			directionY = output.movement.y;
-			directionZ = output.movement.z;
-
-			torqueX = output.rotation.pitch;
-			torqueY = output.rotation.yaw;
+			direction = vector.vector(output.movement.x, output.movement.y, output.movement.z)
+			torque = vector.vector(output.rotation.pitch, output.rotation.yaw, torque.z);
 		} else {
-			directionX = 0;
-			directionY = 0;
-			directionZ = 0;
-			torqueX = 0;
-			torqueY = 0;
-			torqueZ = 0;
+			direction = vector.vector(0, 0, 0);
+			torque = vector.vector(0, 0, 0);
 		}
 	}
+
+	let innerWidth: number
+
+	let size: undefined = undefined;
+
+	onMount(() => {
+
+	})
 </script>
 
 <svelte:head>
@@ -64,117 +45,31 @@
 	<h1>Thruster Calculation Debugging</h1>
 
 	<div class="body">
-		<div class="input">
-			<h2>
-				Direction
-				{#if !neutralDirection}
-					<button disabled={useController} on:click={resetDirection}>Reset</button>
-				{/if}
-			</h2>
-
-			<p>[x: {directionX}, y: {directionY}, z: {directionZ}]</p>
-
-			<div>
-				<label for="directionX">X</label>
-				<input
-					disabled={useController}
-					type="range"
-					min="-1"
-					max="1"
-					step="0.01"
-					id="directionX"
-					bind:value={directionX}
-				/>
-			</div>
-			<div>
-				<label for="directionY">Y</label>
-				<input
-					disabled={useController}
-					type="range"
-					min="-1"
-					max="1"
-					step="0.01"
-					id="directionY"
-					bind:value={directionY}
-				/>
-			</div>
-			<div>
-				<label for="directionZ">Z</label>
-				<input
-					disabled={useController}
-					type="range"
-					min="-1"
-					max="1"
-					step="0.01"
-					id="directionZ"
-					bind:value={directionZ}
-				/>
-			</div>
-
-			<h2>
-				Torque
-				{#if !neutralTorque}
-					<button disabled={useController} on:click={resetTorque}>Reset</button>
-				{/if}
-			</h2>
-
-			<p>[x: {torqueX}, y: {torqueY}, z: {torqueZ}]</p>
-
-			<div>
-				<label for="torqueX">X</label>
-				<input
-					disabled={useController}
-					type="range"
-					min="-1"
-					max="1"
-					step="0.01"
-					id="torqueX"
-					bind:value={torqueX}
-				/>
-			</div>
-			<div>
-				<label for="torqueY">Y</label>
-				<input
-					disabled={useController}
-					type="range"
-					min="-1"
-					max="1"
-					step="0.01"
-					id="torqueY"
-					bind:value={torqueY}
-				/>
-			</div>
-			<div>
-				<label for="torqueZ">Z</label>
-				<input
-					disabled={useController}
-					type="range"
-					min="-1"
-					max="1"
-					step="0.01"
-					id="torqueZ"
-					bind:value={torqueZ}
-				/>
-			</div>
-
-			<label for="controller">Use Controller</label>
-			<input id="controller" type="checkbox" bind:checked={useController} />
-		</div>
-
-		<div class="output">
-			<h2>Thrusters</h2>
-			{#each result.thrusters as { type, speed }}
-				<p>{type}: {speed}</p>
-			{/each}
-			<pre><b>torque difference</b>: {JSON.stringify(result.torqueDifference, null, 2)}</pre>
-			<pre><b>direction difference</b>: {JSON.stringify(result.directionDifference, null, 2)}</pre>
-
-			<pre><b>resulting force</b>: {JSON.stringify(result.resultingForce, null, 2)}</pre>
-			<pre><b>resulting torque</b>: {JSON.stringify(result.resultingTorque, null, 2)}</pre>
-		</div>
-
 		<div class="canvas">
-			<Canvas>
+			<div class="pane">
+				<Pane title="Debugger" position="inline">
+					<Point disabled={useController} bind:value={direction} label="Direction" step={0.01} min={-1} max={1} />
+					<Button disabled={useController} title="Reset Direction" on:click={() => direction = vector.vector(0, 0, 0)} />
+					<Point disabled={useController} bind:value={torque} label="Torque" step={0.01} min={-1} max={1} />
+					<Button disabled={useController} title="Reset Torque" on:click={() => torque = vector.vector(0, 0, 0)} />
+					<Checkbox bind:value={useController} label="Use Controller" />
+					<Folder title="Relative Output">
+						{#each result.thrusters as { type, speed }}
+							<Slider disabled value={speed} min={-1} max={1} label={type} />
+						{/each}
+						<Point disabled label="Direction Difference" value={result.directionDifference} />
+						<Point disabled label="Torque Difference" value={result.torqueDifference} />
+						<Point disabled label="Resulting Force" value={result.resultingForce} />
+						<Point disabled label="Resulting Torque" value={result.resultingTorque} />
+					</Folder>
+					<Folder title="Absolute Output">
+						{#each result.thrusters as { type, speed }}
+							<Slider disabled value={speedToServo(speed)} min={1100} max={1900} label={type} />
+						{/each}
+					</Folder>
+				</Pane>
+			</div>
+			<Canvas {size}>
 				<Scene
 					thrusters={result.thrusters}
 					desiredDirection={direction}
@@ -190,21 +85,36 @@
 		text-align: center;
 	}
 
+	.pane {
+		position: absolute;
+		top: 10px;
+		left: 10px;
+		border: 5px solid black;
+	}
+
 	.canvas {
-		width: 400px;
-		height: 400px;
+		position: relative;
 		border: 3px solid black;
 		border-radius: 1rem;
+		width: 100%;
+		height: 100%;
 
 		@media (prefers-color-scheme: dark) {
 			border: 3px solid white;
 		}
 	}
 
+	main {
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+	}
+
 	div.body {
 		display: flex;
 		flex-direction: row;
-		justify-content: space-between;
 		gap: 1rem;
+		height: 100%;
+		flex-grow: 1;
 	}
 </style>

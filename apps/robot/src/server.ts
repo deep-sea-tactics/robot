@@ -4,7 +4,7 @@ import debounce from 'debounce';
 import { observable } from '@trpc/server/observable';
 import { Thruster, thrusters } from './thruster.js';
 import { vectorSchema } from './sensors.js';
-import { move } from './thrusterCalculations.js';
+import { move, speedToServo } from './thrusterCalculations.js';
 import { type Events, emitter } from './emitter.js';
 import { calculateNeededTorque } from './stable.js';
 import { asyncExitHook } from 'exit-hook';
@@ -49,14 +49,6 @@ async function connectThrusters() {
 	}
 
 	await sleep(2000);
-
-	/** Converts speed to servo, where speed is constrained to [-1, 1] */
-	function speedToServo(speed: number) {
-		// 1100 - 1900, 1500 is neutral
-		const min = 1100;
-		const max = 1900;
-		return speed * ((max - min) / 2) + (max + min) / 2;
-	}
 
 	function onThrusterData(event: Record<`${Thruster}`, number>) {
 		for (const [thruster, speed] of Object.entries(event)) {

@@ -1,13 +1,17 @@
-<header>
-	<h1>Debugging</h1>
+<div class="container">
+	<header>
+		<h1>Debugging</h1>
 
-	<div class="links">
-		<a href="/debug/thruster">Thruster</a>
-		<a href="/debug/controller">Controller</a>
+		<div class="links">
+			<a href="/debug/thruster">Thruster</a>
+			<a href="/debug/controller">Controller</a>
+		</div>
+	</header>
+
+	<div class="body">
+		<slot />
 	</div>
-</header>
-
-<slot />
+</div>
 
 <style lang="scss">
 	:global(:root) {
@@ -21,11 +25,29 @@
 		color: var(--foreground);
 	}
 
+	:global(html, body) {
+		height: calc(100% - 2rem);
+		margin: 1rem;
+		padding: 0;
+	}
+
 	@media (prefers-color-scheme: dark) {
 		:global(:root) {
 			--background: #1c1d21;
 			--foreground: #f1e3e4;
 		}
+	}
+
+	.container {
+		width: 100%;
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+	}
+
+	.body {
+		width: 100%;
+		height: 100%;
 	}
 
 	header {
