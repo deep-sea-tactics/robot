@@ -22,13 +22,6 @@ export enum Thruster {
 	VerticalRight = "VERTICAL_RIGHT"
 }
 
-export interface ThrusterEvent {
-	/** The thruster to move */
-	thruster: Thruster;
-	/** The speed to move the thruster at, between -1 and 1 */
-	speed: number;
-}
-
 export interface ThrusterConstraint {
 	type: Thruster;
 	position: vector.Vector;

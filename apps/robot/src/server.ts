@@ -130,6 +130,11 @@ interface SystemInformation {
 	cpuTemperature: number;
 }
 
+interface GPIOEvent {
+	gpioPin: number;
+	pulseWidth: number;
+}
+
 export const router = t.router({
 	simulationAccelerationData: t.procedure.input(vectorSchema).mutation(({ input }) => {
 		emit('simulationAccelerationData')(input);
@@ -154,17 +159,15 @@ export const router = t.router({
 			}, 500);
 		});
 	}),
-	thrusterEvent: t.procedure.subscription(() => {
-		return observable<ThrusterEvent>((emit) => {
-			const onAdd = (data: Record<`${Thruster}`, number>) =>
-				Object.entries(data).forEach(([thruster, speed]) =>
-					emit.next({ thruster: thruster as Thruster, speed })
-				);
+	gpioEvent: t.procedure.subscription(() => {
+		return observable<GPIOEvent>((emit) => {
+			const onAdd = (gpioPin: number, pulseWidth: number) =>
+				emit.next({ gpioPin, pulseWidth })
 
-			emitter.on('thrusterData', onAdd);
+			emitter.on('gpioData', onAdd);
 
 			return () => {
-				emitter.off('thrusterData', onAdd);
+				emitter.off('gpioData', onAdd);
 			};
 		});
 	})
