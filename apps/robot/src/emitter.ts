@@ -7,8 +7,7 @@ export interface Events {
 	controllerData(data: ControllerData): void;
 	/** Record of <thrusterName, the speed from 0-1> */
 	thrusterData(data: Record<`${Thruster}`, number>): void;
-	/** where the pulse width is from 1100-1900 */
-	servoThrusterData(thruster: `${Thruster}`, pulseWidth: number): void;
+	gpioData(gpioNumber: number, pulseWidth: number): void;
 	simulationAccelerationData(data: Vector): void;
 	simulationGyroData(data: [timestamp: number, vector: Vector]): void;
 };

@@ -12,47 +12,47 @@ import { asyncExitHook } from 'exit-hook';
 import readline from 'node:readline';
 import { stdin, stdout } from 'node:process';
 import si from 'systeminformation';
+import { servo } from './pigpio.js';
 
 const t = initTRPC.create();
 
 const sleep = (time: number): Promise<void> => new Promise((resolve) => setInterval(resolve, time));
 
 async function connectThrusters() {
-	const { Gpio } = await import('pigpio');
-
 	const thrusterConfig = {
 		// ESC 1 - pin 33
-		[Thruster.TopLeft]: new Gpio(13, { mode: Gpio.OUTPUT }),
+		[Thruster.TopLeft]: await servo(13, [1100, 1900]),
 		// ESC 2 - pin 32
-		[Thruster.VerticalRight]: new Gpio(12, { mode: Gpio.OUTPUT }),
+		[Thruster.VerticalRight]: await servo(12, [1100, 1900]),
 		// ESC 3 - pin 31
-		[Thruster.BottomRight]: new Gpio(6, { mode: Gpio.OUTPUT }),
+		[Thruster.BottomRight]: await servo(6, [1100, 1900]),
 		// ESC 4 - pin 29
-		[Thruster.BottomLeft]: new Gpio(5, { mode: Gpio.OUTPUT }),
+		[Thruster.BottomLeft]: await servo(5, [1100, 1900]),
 		// ESC 5 - pin 36
-		[Thruster.TopRight]: new Gpio(16, { mode: Gpio.OUTPUT }),
+		[Thruster.TopRight]: await servo(16, [1100, 1900]),
 		// ESC 6 - pin 35
-		[Thruster.VerticalLeft]: new Gpio(19, { mode: Gpio.OUTPUT })
+		[Thruster.VerticalLeft]: await servo(19, [1100, 1900])
 	};
 
-	const sensorConfig = {
-		1: new Gpio(11, { mode: Gpio.OUTPUT }),
-		// (2 is not soldered)
-		2: new Gpio(12, { mode: Gpio.OUTPUT }),
-		3: new Gpio(13, { mode: Gpio.OUTPUT }),
-		// (4 is not soldered)
-		4: new Gpio(15, { mode: Gpio.OUTPUT }),
-		5: new Gpio(16, { mode: Gpio.OUTPUT })
-	};
+	// TODO: support sensors
+	// const sensorConfig = {
+	// 	1: new Gpio(11, { mode: Gpio.OUTPUT }),
+	// 	// (2 is not soldered)
+	// 	2: new Gpio(12, { mode: Gpio.OUTPUT }),
+	// 	3: new Gpio(13, { mode: Gpio.OUTPUT }),
+	// 	// (4 is not soldered)
+	// 	4: new Gpio(15, { mode: Gpio.OUTPUT }),
+	// 	5: new Gpio(16, { mode: Gpio.OUTPUT })
+	// };
 
 	for (const thruster of Object.values(thrusterConfig)) {
-		thruster.servoWrite(0);
+		thruster.write(0);
 	}
 
 	await sleep(1000);
 
 	for (const thruster of Object.values(thrusterConfig)) {
-		thruster.servoWrite(1500);
+		thruster.write(1500);
 	}
 
 	await sleep(2000);
@@ -62,17 +62,13 @@ async function connectThrusters() {
 		// 1100 - 1900, 1500 is neutral
 		const min = 1100;
 		const max = 1900;
-		return Math.max(Math.min(max, speed * ((max - min) / 2) + (max + min) / 2), min);
+		return speed * ((max - min) / 2) + (max + min) / 2;
 	}
 
 	function onThrusterData(event: Record<`${Thruster}`, number>) {
 		for (const [thruster, speed] of Object.entries(event)) {
 			const pin = thrusterConfig[thruster as Thruster];
-			if (Number.isNaN(speed)) {
-				console.warn(`Thruster ${thruster} attempted to write NaN`);
-			} else {
-				pin.servoWrite(Math.round(speedToServo(speed)));
-			}
+			pin.write(speedToServo(speed));
 		}
 	}
 
@@ -80,7 +76,7 @@ async function connectThrusters() {
 
 	async function cleanup() {
 		for (const pin of Object.values(thrusterConfig)) {
-			pin.servoWrite(1500);
+			pin.write(1500);
 		}
 
 		await sleep(500);
