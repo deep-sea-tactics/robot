@@ -278,20 +278,22 @@
 
 <Pane title="Simulation" position="fixed" x={10}>
 	<FpsGraph interval={50} label="FPS" rows={5} />
-	<Folder title="ROV Position">
+	<Folder title="ROV Transform & Orientation">
 		<Button title="Reset" />
 	</Folder>
-	<WaveformMonitor
-		lineStyle={'bezier'}
-		value={Object.values(thrusterRegistry).map(gpio => (2 * (gpio - 1500)) / (1900 - 1100))}
-		min={-1}
-		max={1}
-		label="Motors"
-	/>
-	{#each Object.entries(thrusterRegistry) as [thrusterType, pulseWidth]}
-		<Slider value={pulseWidth} min={1100} max={1900} label={thrusterType} disabled />
-	{/each}
-	<!-- TODO: waveform monitor for the motors -->
+	<Folder title="ROV Motors">
+		<WaveformMonitor
+			lineStyle={'bezier'}
+			value={Object.values(thrusterRegistry).map(gpio => (2 * (gpio - 1500)) / (1900 - 1100))}
+			min={-1}
+			max={1}
+			bufferSize={1}
+			label="Motors"
+		/>
+		{#each Object.entries(thrusterRegistry) as [thrusterType, pulseWidth]}
+			<Slider value={pulseWidth} min={1100} max={1900} label={thrusterType} disabled />
+		{/each}
+	</Folder>
 </Pane>
 
 <T.PerspectiveCamera
