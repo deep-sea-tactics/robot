@@ -55,7 +55,13 @@
 
 <h1>Controller Debugging</h1>
 
-<p>For general Gamepad API debugging, see <a target="_blank" referrerpolicy="no-referrer" href="https://hardwaretester.com/gamepad">hardwaretester's gamepad tester</a>.</p>
+<p>
+	For general Gamepad API debugging, see <a
+		target="_blank"
+		referrerpolicy="no-referrer"
+		href="https://hardwaretester.com/gamepad">hardwaretester's gamepad tester</a
+	>.
+</p>
 
 <main>
 	<div class="output">

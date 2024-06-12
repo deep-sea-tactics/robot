@@ -8,7 +8,14 @@
 
 <div class="container">
 	<header>
-		<h1><b><a class="titleLink" class:active={$page.url.toString().endsWith('/debug')} href="/debug">ROV Debugger</a></b> <PhWrenchFill /></h1>
+		<h1>
+			<b
+				><a class="titleLink" class:active={$page.url.toString().endsWith('/debug')} href="/debug"
+					>ROV Debugger</a
+				></b
+			>
+			<PhWrenchFill />
+		</h1>
 
 		<div class="links">
 			<a class:active={$page.url.toString().includes('/debug/thruster')} href="/debug/thruster"
@@ -34,8 +41,8 @@
 		--background: #f1e3e4;
 		--foreground: #1c1d21;
 		--accent: #3b82f6;
-		--secondary: #FF3CC7;
-		--tertiary: #F0F600;
+		--secondary: #ff3cc7;
+		--tertiary: #f0f600;
 	}
 
 	:global(body) {

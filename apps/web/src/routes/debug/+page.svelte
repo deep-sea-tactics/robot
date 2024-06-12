@@ -10,7 +10,11 @@
 {#if isMock}
 	<p>This robot instance is running on mock mode (<code>pnpm run dev:mock</code>).</p>
 {:else}
-	<p><b class="warning">WARNING</b>: This robot instance is running on production (<code>pnpm run dev</code>).</p>
+	<p>
+		<b class="warning">WARNING</b>: This robot instance is running on production (<code
+			>pnpm run dev</code
+		>).
+	</p>
 {/if}
 
 <style lang="scss">

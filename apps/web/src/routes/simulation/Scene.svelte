@@ -85,7 +85,9 @@
 		310 / 1000
 	];
 
-	let thrusterRegistry: Record<Thruster, number> = Object.fromEntries(rovThrusters.map(thruster => [thruster.type, 1500] as const)) as Record<Thruster, number>
+	let thrusterRegistry: Record<Thruster, number> = Object.fromEntries(
+		rovThrusters.map((thruster) => [thruster.type, 1500] as const)
+	) as Record<Thruster, number>;
 
 	function toVector3(vector: vector.Vector): Vector3 {
 		return new Vector3(vector.x, vector.y, vector.z);
