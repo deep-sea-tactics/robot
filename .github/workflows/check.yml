@@ -4,6 +4,16 @@ on:
   - push
   - pull_request
 
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow one concurrent deployment
+concurrency:
+  group: 'pages'
+  cancel-in-progress: true
+
 jobs:
   cache-and-install:
     runs-on: ubuntu-latest
@@ -50,3 +60,19 @@ jobs:
 
       - name: Check types
         run: pnpm run check
+
+      - name: Build static page
+        working-directory: apps/web
+        run: pnpm run build:static
+      
+      - name: Setup Pages
+        uses: actions/configure-pages@v2
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: 'apps/web/build'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v1
