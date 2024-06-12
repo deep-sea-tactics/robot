@@ -1,11 +1,13 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import type { ControllerData } from 'robot/src/controller';
+	import { controllerDataSchema, type ControllerData } from 'robot/src/controller';
+
+	type DebrandedControllerData = Omit<ControllerData, symbol>;
 
 	export let gamepad: Gamepad | null = null;
 	export let output: ControllerData | null = null;
 	export let idContains: string;
-	export let gamepadToConfig: (gamepad: Gamepad) => ControllerData;
+	export let gamepadToConfig: (gamepad: Gamepad) => DebrandedControllerData;
 
 	let animationFrame: number | undefined;
 
@@ -39,7 +41,7 @@
 			return;
 		}
 
-		output = gamepadToConfig(gamepad);
+		output = controllerDataSchema.parse(gamepadToConfig(gamepad));
 
 		animationFrame = requestAnimationFrame(getInput);
 	}

@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { env } from '$env/dynamic/public';
-	const isMock = env.VITE_MOCK === 'true';
+	import { VITE_MOCK } from '$env/static/public';
+	const isMock = VITE_MOCK === 'true';
 </script>
 
 <svelte:head>

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { ControllerData } from 'robot/src/controller';
-	import { env } from '$env/dynamic/public';
+	import { VITE_MOCK } from '$env/static/public';
 	import { Pane, Splitpanes } from 'svelte-splitpanes';
 	import Simulation from '../simulation/Simulation.svelte';
 	import Arbitrary, { type Icon } from '$lib/controller/Arbitrary.svelte';
@@ -10,7 +10,7 @@
 		type WSClient
 	} from '$lib/connections/TRPCConnection.svelte';
 
-	const isMock = env.VITE_MOCK === 'true';
+	const isMock = VITE_MOCK === 'true';
 	let output: ControllerData;
 	let client: TRPCClient;
 
