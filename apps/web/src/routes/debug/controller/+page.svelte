@@ -45,7 +45,7 @@
 </script>
 
 <svelte:head>
-	<title>Controller Debugging</title>
+	<title>ROV Controller Debugging</title>
 </svelte:head>
 
 <Arbitrary

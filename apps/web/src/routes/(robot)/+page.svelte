@@ -84,11 +84,9 @@
 					</p>
 					<p><b>Mode</b>: <span class={isMock ? 'blue' : 'green'}>{isMock ? 'mock' : 'live'}</span></p>
 					<p><b>tRPC status</b>: <span class={wsClientColor}>{wsClientText}</span></p>
-				</div>
-			</Pane>
-			<Pane>
-				<div class="pane">
-					<p><b>Temperature</b>: {temperature}</p>
+					{#if temperature}
+						<p><b>Temperature</b>: {temperature}</p>
+					{/if}
 				</div>
 			</Pane>
 		</Splitpanes>

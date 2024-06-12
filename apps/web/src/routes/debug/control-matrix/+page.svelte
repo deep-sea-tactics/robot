@@ -21,6 +21,7 @@
 		integrity="sha384-MlJdn/WNKDGXveldHDdyRP1R4CTHr3FeuDNfhsLPYrq2t0UBkUdK2jyTnXPEK1NQ"
 		crossorigin="anonymous"
 	/>
+	<title>Thruster Control Matrix</title>
 </svelte:head>
 
 <main>

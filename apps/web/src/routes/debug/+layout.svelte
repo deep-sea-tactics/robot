@@ -4,6 +4,7 @@
 	import PhSpeedometerFill from '~icons/ph/speedometer-fill';
 	import PhGameControllerFill from '~icons/ph/game-controller-fill';
 	import PhMathOperationsFill from '~icons/ph/math-operations-fill';
+	import PhSpinnerBallFill from '~icons/ph/spinner-ball-fill';
 </script>
 
 <div class="container">
@@ -27,6 +28,10 @@
 			<a
 				class:active={$page.url.toString().includes('/debug/control-matrix')}
 				href="/debug/control-matrix">Control Matrix <PhMathOperationsFill /></a
+			>
+			<a
+				class:active={$page.url.toString().includes('/debug/servo')}
+				href="/debug/servo">Servo <PhSpinnerBallFill /></a
 			>
 		</div>
 	</header>

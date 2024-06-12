@@ -59,7 +59,7 @@
 </script>
 
 <svelte:head>
-	<title>ROV Debugger</title>
+	<title>ROV Thruster Debugger</title>
 </svelte:head>
 
 <Arbitrary bind:output />
