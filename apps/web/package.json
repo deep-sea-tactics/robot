@@ -30,6 +30,7 @@
 		"cpx": "^1.5.0",
 		"cross-env": "^7.0.3",
 		"eslint-config-custom": "workspace:*",
+		"mathjs": "^12.4.2",
 		"object-property-extractor": "^1.0.11",
 		"robot": "workspace:*",
 		"sass": "^1.76.0",

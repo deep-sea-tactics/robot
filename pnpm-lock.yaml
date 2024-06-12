@@ -195,6 +195,9 @@ importers:
       eslint-config-custom:
         specifier: workspace:*
         version: link:../../packages/eslint-config-custom
+      mathjs:
+        specifier: ^12.4.2
+        version: 12.4.2
       object-property-extractor:
         specifier: ^1.0.11
         version: 1.0.11

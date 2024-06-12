@@ -10,7 +10,15 @@
 		calculateForce,
 		calculateTorque
 	} from 'robot/src/thrusterCalculations';
-	import { Pane, Point, Button, Checkbox, Folder, Slider, RotationEuler } from 'svelte-tweakpane-ui';
+	import {
+		Pane,
+		Point,
+		Button,
+		Checkbox,
+		Folder,
+		Slider,
+		RotationEuler
+	} from 'svelte-tweakpane-ui';
 	import { getData } from 'thrusters/src/pwm';
 
 	let direction = vector.vector(0, 0, 0);
@@ -76,11 +84,7 @@
 						title="Reset Direction"
 						on:click={() => (direction = vector.vector(0, 0, 0))}
 					/>
-					<RotationEuler
-						disabled={useController}
-						bind:value={torque}
-						label="Torque"
-					/>
+					<RotationEuler disabled={useController} bind:value={torque} label="Torque" />
 					<Button
 						disabled={useController}
 						title="Reset Torque"

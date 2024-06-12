@@ -43,7 +43,7 @@ export function calculateTorque(thrusterMovement: ThrusterMovement[]): vector.Ve
 	);
 }
 
-function calculateInverse() {
+function calculateControlMatrix() {
 	// Our control matrix
 	let controlMatrix = math.zeros([6, 6]);
 
@@ -63,21 +63,26 @@ function calculateInverse() {
 
 	// Populate the last three rows with torque contributions
 	for (let i = 0; i < 6; i++) {
-		const location = vector.asTuple(thrusterValues[i].position);
+		const location = thrusterValues[i].position;
 		const orientation = math.matrix(vector.asTuple(thrusterValues[i].thrustDirection));
 		const displacement = math.matrix(vector.asTuple(vector.subtract(location)(rovCenterOfMass)));
 		// using cross product here to account for the extra rotation produced from
 		// the thrusters
-		const torque = math.reshape(math.transpose(math.cross(displacement, orientation)), [3, 1]);
+		const torque = math.reshape(math.cross(displacement, orientation), [3, 1]);
 		controlMatrix = math.subset(controlMatrix, math.index(math.range(3, 6), i), torque);
 	}
 
-	// Calculate the inverse of the control matrix, so we can map the thrusters to force and torque,
-	// instead of the other way around.
-	return math.inv(controlMatrix);
+	return controlMatrix;
 }
 
-export const controlInverse = Object.freeze(calculateInverse());
+function calculateControlMatrixInverse() {
+	// Calculate the inverse of the control matrix, so we can map the thrusters to force and torque,
+	// instead of the other way around.
+	return math.inv(calculateControlMatrix());
+}
+
+export const controlMatrix = Object.freeze(calculateControlMatrix());
+export const controlInverse = Object.freeze(calculateControlMatrixInverse());
 
 function convertToThrusterPowers(force: vector.VectorTuple, torque: vector.VectorTuple) {
 	const inputVector = math.transpose(math.matrix([...force, ...torque]));

@@ -8,9 +8,16 @@
 		<h1>ROV Debugger <PhWrenchFill /></h1>
 
 		<div class="links">
-			<a class:active={$page.url.toString().includes('/debug/thruster')} href="/debug/thruster">Thruster</a>
-			<a class:active={$page.url.toString().includes('/debug/controller')} href="/debug/controller">Controller</a>
-			<a class:active={$page.url.toString().includes('/debug/control-matrix')} href="/debug/control-matrix">Control Matrix</a>
+			<a class:active={$page.url.toString().includes('/debug/thruster')} href="/debug/thruster"
+				>Thruster</a
+			>
+			<a class:active={$page.url.toString().includes('/debug/controller')} href="/debug/controller"
+				>Controller</a
+			>
+			<a
+				class:active={$page.url.toString().includes('/debug/control-matrix')}
+				href="/debug/control-matrix">Control Matrix</a
+			>
 		</div>
 	</header>
 
