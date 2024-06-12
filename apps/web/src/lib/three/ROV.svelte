@@ -7,10 +7,11 @@ Command: npx @threlte/gltf@2.0.3 rov.glb --transform
 	import { Group } from 'three';
 	import { T, forwardEventHandlers } from '@threlte/core';
 	import { useGltf } from '@threlte/extras';
+	import { base } from '$app/paths';
 
 	export const ref = new Group();
 
-	const gltf = useGltf('/rov.glb', { useDraco: true });
+	const gltf = useGltf(`${base}/rov.glb`, { useDraco: true });
 
 	const component = forwardEventHandlers();
 </script>
