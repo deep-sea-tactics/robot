@@ -14,7 +14,7 @@ const config = {
 			publicPrefix: 'VITE_'
 		},
 		paths: {
-			base: process.env.VITE_STATIC ? '/robot' : '/'
+			base: process.env.VITE_STATIC ? '/robot' : ''
 		}
 	}
 };
