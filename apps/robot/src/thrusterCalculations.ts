@@ -47,7 +47,7 @@ function calculateInverse() {
 	// Our control matrix
 	let controlMatrix = math.zeros([6, 6]);
 
-	const rovCenterOfMass = [0, 0, 0];
+	const rovCenterOfMass = vector.vector(0, 0, 0);
 
 	const thrusterValues = Object.values(thrusters);
 
@@ -64,8 +64,8 @@ function calculateInverse() {
 	// Populate the last three rows with torque contributions
 	for (let i = 0; i < 6; i++) {
 		const location = vector.asTuple(thrusterValues[i].position);
-		const orientation = vector.asTuple(thrusterValues[i].thrustDirection);
-		const displacement = math.subtract(location, rovCenterOfMass);
+		const orientation = math.matrix(vector.asTuple(thrusterValues[i].thrustDirection));
+		const displacement = math.matrix(vector.asTuple(vector.subtract(location)(rovCenterOfMass)));
 		// using cross product here to account for the extra rotation produced from
 		// the thrusters
 		const torque = math.reshape(math.transpose(math.cross(displacement, orientation)), [3, 1]);

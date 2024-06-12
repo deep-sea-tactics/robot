@@ -5,6 +5,7 @@
 		<div class="links">
 			<a href="/debug/thruster">Thruster</a>
 			<a href="/debug/controller">Controller</a>
+			<a href="/debug/control-matrix">Control Matrix</a>
 		</div>
 	</header>
 
