@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import type { ControllerData } from 'robot/dist/controller';
+	import type { ControllerData } from 'robot/src/controller';
 
 	export let gamepad: Gamepad | null = null;
 	export let output: ControllerData | null = null;

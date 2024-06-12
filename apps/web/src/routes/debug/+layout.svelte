@@ -34,6 +34,8 @@
 		--background: #f1e3e4;
 		--foreground: #1c1d21;
 		--accent: #3b82f6;
+		--secondary: #FF3CC7;
+		--tertiary: #F0F600;
 	}
 
 	:global(body) {
@@ -100,6 +102,14 @@
 			display: flex;
 			gap: 0.5rem;
 			align-items: center;
+
+			&:hover {
+				background-color: var(--tertiary);
+
+				@media (prefers-color-scheme: light) {
+					background-color: var(--secondary);
+				}
+			}
 
 			&.active {
 				background-color: var(--accent);

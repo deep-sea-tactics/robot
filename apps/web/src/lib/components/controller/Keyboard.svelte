@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { type ControllerData, defaultControllerData } from 'robot/dist/controller';
+	import { type ControllerData, controllerDataSchema } from 'robot/src/controller';
 
 	const defaultKeyboardData: ControllerData = Object.freeze({
-		...defaultControllerData,
+		...controllerDataSchema.parse(undefined),
 		connected: true,
 		id: 'keyboard'
 	});
@@ -23,7 +23,6 @@
 		f: () => (output.rotation.pitch = 1),
 		v: () => (output.rotation.pitch = -1),
 		',': () => (output.tasks.pinkSquare = true),
-		'.': () => (output.tasks.barrelRoll = true),
 		'/': () => (output.tasks.scanning = true)
 	};
 

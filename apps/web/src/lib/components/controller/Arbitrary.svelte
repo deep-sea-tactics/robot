@@ -3,7 +3,7 @@
 </script>
 
 <script lang="ts">
-	import type { ControllerData } from 'robot/dist/controller';
+	import type { ControllerData } from 'robot/src/controller';
 	import LogitechController from './LogitechController.svelte';
 	import LogitechFlight from './LogitechFlight.svelte';
 	import Keyboard from './Keyboard.svelte';

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { ControllerData } from 'robot/dist/controller';
+	import type { ControllerData } from 'robot/src/controller';
 	import { env } from '$env/dynamic/public';
 	import { Pane, Splitpanes } from 'svelte-splitpanes';
 	import Simulation from '../simulation/Simulation.svelte';

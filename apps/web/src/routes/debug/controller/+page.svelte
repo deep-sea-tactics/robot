@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { ControllerData } from 'robot/dist/controller';
+	import type { ControllerData } from 'robot/src/controller';
 	import Arbitrary from '$lib/components/controller/Arbitrary.svelte';
 	import extract from 'object-property-extractor';
 
@@ -12,9 +12,9 @@
 
 	let output: ControllerData;
 
-	let logitechControllerOutput: ControllerData;
-	let logitechFlightOutput: ControllerData;
-	let keyboardOutput: ControllerData;
+	let logitechControllerOutput: ControllerData | undefined;
+	let logitechFlightOutput: ControllerData | undefined;
+	let keyboardOutput: ControllerData | undefined;
 
 	$: if (isDeadzoning) {
 		const value = extract(output, propertyExtractor);

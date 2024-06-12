@@ -23,7 +23,6 @@
 		},
 		tasks: {
 			pinkSquare: gamepad.buttons[0].pressed,
-			barrelRoll: gamepad.buttons[3].pressed,
 			scanning: gamepad.buttons[1].pressed
 		},
 		camera: {

@@ -1,5 +1,5 @@
 import { initTRPC } from '@trpc/server';
-import { type ControllerData, controllerDataSchema, defaultControllerData } from './controller.js';
+import { type ControllerData, controllerDataSchema } from './controller.js';
 import debounce from 'debounce';
 import { observable } from '@trpc/server/observable';
 import { Thruster, thrusters } from './thruster.js';
@@ -102,7 +102,7 @@ const emit: <U extends keyof Events>(event: U) => (...args: Parameters<Events[U]
 	(...data) =>
 		emitter.emit(event, ...data);
 
-let movement: ControllerData = defaultControllerData;
+let movement: ControllerData = controllerDataSchema.parse(undefined);
 
 function tick() {
 	const movementCalc = move(movement.movement, calculateNeededTorque(movement.rotation));
