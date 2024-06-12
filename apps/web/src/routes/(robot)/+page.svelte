@@ -63,7 +63,7 @@
 		<Splitpanes horizontal={true}>
 			<Pane>
 				<div class="pane">
-					<img src="/favicon.png" alt="Deep Sea Tactics" />
+					<img src="favicon.png" alt="Deep Sea Tactics" />
 					<h2>Status</h2>
 					<p>
 						<span class="deviceText">
