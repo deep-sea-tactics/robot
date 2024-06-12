@@ -144,9 +144,9 @@ importers:
 
   apps/web:
     devDependencies:
-      '@fontsource/ibm-plex-mono':
-        specifier: ^5.0.13
-        version: 5.0.13
+      '@fontsource-variable/jetbrains-mono':
+        specifier: ^5.0.21
+        version: 5.0.21
       '@iconify-json/ph':
         specifier: ^1.1.13
         version: 1.1.13
@@ -562,8 +562,8 @@ packages:
     resolution: {integrity: sha512-niBqk8iwv96+yuTwjM6bWg8ovzAPF9qkICsGtcoa5/dmqcEMfdwNAX7+/OHcJHc7wj7XqPxH98oAHytFYlw6Sw==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
-  '@fontsource/ibm-plex-mono@5.0.13':
-    resolution: {integrity: sha512-gtlMmvk//2AgDEZDFsoL5z9mgW3ZZg/9SC7pIfDwNKp5DtZpApgqd1Fua3HhPwYRIHrT76IQ1tMTzQKLEGtJGQ==}
+  '@fontsource-variable/jetbrains-mono@5.0.21':
+    resolution: {integrity: sha512-LL/57KBbM3r0UMuN6tSeYExiBObt0QuGq49m1FyoDFIv1GAcuKU0EQ/GAKJ/yt3R8onOCD3f5X9Dln//G6uzRQ==}
 
   '@humanwhocodes/config-array@0.13.0':
     resolution: {integrity: sha512-DZLEEqFWQFiyK6h5YIeynKx7JlvCYWL0cImfSRXZ9l4Sg2efkFGTuFf6vzXjK1cq6IYkU+Eg/JizXw+TD2vRNw==}
@@ -3602,7 +3602,7 @@ snapshots:
 
   '@eslint/js@9.3.0': {}
 
-  '@fontsource/ibm-plex-mono@5.0.13': {}
+  '@fontsource-variable/jetbrains-mono@5.0.21': {}
 
   '@humanwhocodes/config-array@0.13.0':
     dependencies:

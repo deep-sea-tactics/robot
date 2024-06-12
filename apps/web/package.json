@@ -13,7 +13,7 @@
 		"generate": "svelte-kit sync"
 	},
 	"devDependencies": {
-		"@fontsource/ibm-plex-mono": "^5.0.13",
+		"@fontsource-variable/jetbrains-mono": "^5.0.21",
 		"@iconify-json/ph": "^1.1.13",
 		"@iconify-json/simple-icons": "^1.1.105",
 		"@leodog896/rapier3d-compat": "^0.12.0",

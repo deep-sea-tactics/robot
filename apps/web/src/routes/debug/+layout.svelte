@@ -1,22 +1,25 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import PhWrenchFill from '~icons/ph/wrench-fill';
+	import PhSpeedometerFill from '~icons/ph/speedometer-fill';
+	import PhGameControllerFill from '~icons/ph/game-controller-fill';
+	import PhMathOperationsFill from '~icons/ph/math-operations-fill';
 </script>
 
 <div class="container">
 	<header>
-		<h1>ROV Debugger <PhWrenchFill /></h1>
+		<h1><b><a class="titleLink" class:active={$page.url.toString().endsWith('/debug')} href="/debug">ROV Debugger</a></b> <PhWrenchFill /></h1>
 
 		<div class="links">
 			<a class:active={$page.url.toString().includes('/debug/thruster')} href="/debug/thruster"
-				>Thruster</a
+				>Thruster <PhSpeedometerFill /></a
 			>
 			<a class:active={$page.url.toString().includes('/debug/controller')} href="/debug/controller"
-				>Controller</a
+				>Controller <PhGameControllerFill /></a
 			>
 			<a
 				class:active={$page.url.toString().includes('/debug/control-matrix')}
-				href="/debug/control-matrix">Control Matrix</a
+				href="/debug/control-matrix">Control Matrix <PhMathOperationsFill /></a
 			>
 		</div>
 	</header>
@@ -51,10 +54,6 @@
 		}
 	}
 
-	.active {
-		background-color: var(--accent);
-	}
-
 	h1 {
 		display: flex;
 		gap: 1rem;
@@ -86,10 +85,25 @@
 		padding: 1rem;
 		border-bottom: 1px solid var(--foreground);
 
-		a {
+		.titleLink {
+			color: var(--foreground);
+
+			&.active {
+				color: var(--accent);
+			}
+		}
+
+		.links a {
 			background-color: var(--foreground);
 			color: var(--background);
 			padding: 2px 4px;
+			display: flex;
+			gap: 0.5rem;
+			align-items: center;
+
+			&.active {
+				background-color: var(--accent);
+			}
 		}
 	}
 </style>

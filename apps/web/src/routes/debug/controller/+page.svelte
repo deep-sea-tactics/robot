@@ -55,6 +55,8 @@
 
 <h1>Controller Debugging</h1>
 
+<p>For general Gamepad API debugging, see <a target="_blank" referrerpolicy="no-referrer" href="https://hardwaretester.com/gamepad">hardwaretester's gamepad tester</a>.</p>
+
 <main>
 	<div class="output">
 		<pre>{JSON.stringify(output, null, 2)}</pre>
@@ -77,12 +79,19 @@
 		margin: 1rem;
 		display: flex;
 		justify-content: space-around;
-		align-items: center;
 		width: calc(100% - 2rem);
 		height: calc(100% - 2rem);
 	}
 
 	h1 {
+		text-align: center;
+	}
+
+	a {
+		color: var(--accent);
+	}
+
+	p {
 		text-align: center;
 	}
 </style>

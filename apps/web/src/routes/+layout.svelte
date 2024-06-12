@@ -1,5 +1,5 @@
 <script lang="ts">
-	import '@fontsource/ibm-plex-mono';
+	import '@fontsource-variable/jetbrains-mono';
 
 	import '../style.scss';
 </script>
