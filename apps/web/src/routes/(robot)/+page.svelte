@@ -3,7 +3,7 @@
 	import { env } from '$env/dynamic/public';
 	import { Pane, Splitpanes } from 'svelte-splitpanes';
 	import Simulation from '../simulation/Simulation.svelte';
-	import Arbitrary, { type Icon } from '$lib/components/controller/Arbitrary.svelte';
+	import Arbitrary, { type Icon } from '$lib/controller/Arbitrary.svelte';
 	import { onMount } from 'svelte';
 	import TrpcConnection, {
 		type TRPCClient,

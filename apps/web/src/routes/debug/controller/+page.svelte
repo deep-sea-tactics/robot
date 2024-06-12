@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { controllerDataSchema, type ControllerData } from 'robot/src/controller';
-	import Arbitrary from '$lib/components/controller/Arbitrary.svelte';
+	import Arbitrary from '$lib/controller/Arbitrary.svelte';
 	import extract from 'object-property-extractor';
 	import ZodObjectDisplay from './ZodObjectDisplay.svelte';
 	import { zodToJsonSchema } from "zod-to-json-schema";

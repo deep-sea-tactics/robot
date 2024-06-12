@@ -2,7 +2,7 @@
 	import * as vector from 'vector';
 	import { Canvas } from '@threlte/core';
 	import Scene from './Scene.svelte';
-	import Arbitrary from '$lib/components/controller/Arbitrary.svelte';
+	import Arbitrary from '$lib/controller/Arbitrary.svelte';
 	import type { ControllerData } from 'robot/src/controller';
 	import {
 		move,
