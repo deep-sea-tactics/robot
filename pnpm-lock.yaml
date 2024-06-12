@@ -156,6 +156,9 @@ importers:
       '@leodog896/rapier3d-compat':
         specifier: ^0.12.0
         version: 0.12.0
+      '@svelte-plugins/tooltips':
+        specifier: ^3.0.1
+        version: 3.0.1(svelte@4.2.17)
       '@sveltejs/adapter-node':
         specifier: ^5.0.1
         version: 5.0.1(@sveltejs/kit@2.5.9(@sveltejs/vite-plugin-svelte@3.1.0(svelte@4.2.17)(vite@5.2.11(@types/node@20.12.12)(sass@1.77.0)))(svelte@4.2.17)(vite@5.2.11(@types/node@20.12.12)(sass@1.77.0)))
@@ -237,6 +240,9 @@ importers:
       tslib:
         specifier: ^2.6.2
         version: 2.6.2
+      type-fest:
+        specifier: ^4.20.0
+        version: 4.20.0
       typescript:
         specifier: ^5.4.5
         version: 5.4.5
@@ -249,6 +255,12 @@ importers:
       vite:
         specifier: ^5.2.11
         version: 5.2.11(@types/node@20.12.12)(sass@1.77.0)
+      zod:
+        specifier: ^3.23.8
+        version: 3.23.8
+      zod-to-json-schema:
+        specifier: ^3.23.0
+        version: 3.23.0(zod@3.23.8)
 
   packages/eslint-config-custom:
     dependencies:
@@ -860,6 +872,11 @@ packages:
   '@sindresorhus/merge-streams@4.0.0':
     resolution: {integrity: sha512-tlqY9xq5ukxTUZBmoOp+m61cqwQD5pHJtFY3Mn8CA8ps6yghLH/Hw8UPdqg4OLmFW3IFlcXnQNmo/dh8HzXYIQ==}
     engines: {node: '>=18'}
+
+  '@svelte-plugins/tooltips@3.0.1':
+    resolution: {integrity: sha512-gFTr5iNEGYMi2spa4nPuoFQ/ZJU6XZg9zthxX4t8b780V3ucgYbjF0pBg/1w/SpL9I4v7FeQ4T+gehh8MV5xeQ==}
+    peerDependencies:
+      svelte: ^3.54.0 || ^4.0.0 || ^5.0.0-next.0
 
   '@sveltejs/adapter-node@5.0.1':
     resolution: {integrity: sha512-eYdmxdUWMW+dad1JfMsWBPY2vjXz9eE+52A2AQnXPScPJlIxIVk5mmbaEEzrZivLfO2wEcLTZ5vdC03W69x+iA==}
@@ -3102,6 +3119,10 @@ packages:
     resolution: {integrity: sha512-tLq3bSNx+xSpwvAJnzrK0Ep5CLNWjvFTOp71URMaAEWBfRb9nnJiBoUe0tF8bI4ZFO3omgBR6NvnbzVUT3Ly4g==}
     engines: {node: '>=14.16'}
 
+  type-fest@4.20.0:
+    resolution: {integrity: sha512-MBh+PHUHHisjXf4tlx0CFWoMdjx8zCMLJHOjnV1prABYZFHqtFOyauCIK2/7w4oIfwkF8iNhLtnJEfVY2vn3iw==}
+    engines: {node: '>=16'}
+
   typed-function@4.1.1:
     resolution: {integrity: sha512-Pq1DVubcvibmm8bYcMowjVnnMwPVMeh0DIdA8ad8NZY2sJgapANJmiigSUwlt+EgXxpfIv8MWrQXTIzkfYZLYQ==}
     engines: {node: '>= 14'}
@@ -3331,6 +3352,11 @@ packages:
   yoctocolors@2.0.2:
     resolution: {integrity: sha512-Ct97huExsu7cWeEjmrXlofevF8CvzUglJ4iGUet5B8xn1oumtAZBpHU4GzYuoE6PVqcZ5hghtBrSlhwHuR1Jmw==}
     engines: {node: '>=18'}
+
+  zod-to-json-schema@3.23.0:
+    resolution: {integrity: sha512-az0uJ243PxsRIa2x1WmNE/pnuA05gUq/JB8Lwe1EDCCL/Fz9MgjYQ0fPlyc2Tcv6aF2ZA7WM5TWaRZVEFaAIag==}
+    peerDependencies:
+      zod: ^3.23.3
 
   zod@3.23.8:
     resolution: {integrity: sha512-XBx9AXhXktjUqnepgTiE5flcKIYWi/rme0Eaj+5Y0lftuGBq+jyRu/md4WnuxqgP1ubdpNCsYEYPxrzVHD8d6g==}
@@ -3847,6 +3873,10 @@ snapshots:
   '@sinclair/typebox@0.27.8': {}
 
   '@sindresorhus/merge-streams@4.0.0': {}
+
+  '@svelte-plugins/tooltips@3.0.1(svelte@4.2.17)':
+    dependencies:
+      svelte: 4.2.17
 
   '@sveltejs/adapter-node@5.0.1(@sveltejs/kit@2.5.9(@sveltejs/vite-plugin-svelte@3.1.0(svelte@4.2.17)(vite@5.2.11(@types/node@20.12.12)(sass@1.77.0)))(svelte@4.2.17)(vite@5.2.11(@types/node@20.12.12)(sass@1.77.0)))':
     dependencies:
@@ -6259,6 +6289,8 @@ snapshots:
 
   type-fest@3.13.1: {}
 
+  type-fest@4.20.0: {}
+
   typed-function@4.1.1: {}
 
   typescript@5.4.5: {}
@@ -6452,5 +6484,9 @@ snapshots:
   yocto-queue@1.0.0: {}
 
   yoctocolors@2.0.2: {}
+
+  zod-to-json-schema@3.23.0(zod@3.23.8):
+    dependencies:
+      zod: 3.23.8
 
   zod@3.23.8: {}

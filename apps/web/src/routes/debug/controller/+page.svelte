@@ -1,7 +1,9 @@
 <script lang="ts">
-	import type { ControllerData } from 'robot/src/controller';
+	import { controllerDataSchema, type ControllerData } from 'robot/src/controller';
 	import Arbitrary from '$lib/components/controller/Arbitrary.svelte';
 	import extract from 'object-property-extractor';
+	import ZodObjectDisplay from './ZodObjectDisplay.svelte';
+	import { zodToJsonSchema } from "zod-to-json-schema";
 
 	let propertyExtractor = '';
 	let propertyError = '';
@@ -65,7 +67,7 @@
 
 <main>
 	<div class="output">
-		<pre>{JSON.stringify(output, null, 2)}</pre>
+		<pre><ZodObjectDisplay jsonSchema={zodToJsonSchema(controllerDataSchema)} data={output} /></pre>
 	</div>
 	<div class="deadzone">
 		<input type="text" placeholder="Enter property to extract" bind:value={propertyExtractor} />

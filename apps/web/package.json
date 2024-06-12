@@ -17,6 +17,7 @@
 		"@iconify-json/ph": "^1.1.13",
 		"@iconify-json/simple-icons": "^1.1.105",
 		"@leodog896/rapier3d-compat": "^0.12.0",
+		"@svelte-plugins/tooltips": "^3.0.1",
 		"@sveltejs/adapter-node": "^5.0.1",
 		"@sveltejs/kit": "latest",
 		"@sveltejs/vite-plugin-svelte": "^3.1.0",
@@ -44,10 +45,13 @@
 		"three": "^0.164.1",
 		"thrusters": "workspace:*",
 		"tslib": "^2.6.2",
+		"type-fest": "^4.20.0",
 		"typescript": "^5.4.5",
 		"unplugin-icons": "^0.19.0",
 		"vector": "workspace:*",
-		"vite": "^5.2.11"
+		"vite": "^5.2.11",
+		"zod": "^3.23.8",
+		"zod-to-json-schema": "^3.23.0"
 	},
 	"type": "module"
 }
