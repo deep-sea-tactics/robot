@@ -1,6 +1,5 @@
 <script lang="ts" generics="T extends z.ZodTypeAny">
 	import { z } from 'zod';
-	import type { Entries } from 'type-fest';
 	import { zodToJsonSchema } from "zod-to-json-schema";
 	import { tooltip } from "@svelte-plugins/tooltips";
 
@@ -28,7 +27,7 @@
 		<p>
 			{'\t'.repeat(tabAmount)}<span
 				class="key"
-				use:tooltip={{ content: jsonSchemaIsh.properties[key].description }}
+				use:tooltip={{ theme: 'main-tooltip', content: jsonSchemaIsh.properties[key].description }}
 			>{key}</span>: <svelte:self
 				data={value}
 				jsonSchema={jsonSchemaIsh.properties[key]}
@@ -41,6 +40,11 @@
 	.key {
 		color: var(--accent);
 		border-bottom: 2px dotted var(--accent);
+	}
+
+	:global(.main-tooltip) {
+		font-family: 'JetBrains Mono Variable', monospace !important;
+		font-weight: 200 !important;
 	}
 
 	.string {
