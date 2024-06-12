@@ -93,6 +93,7 @@ Initially, this repository used [Turbo](https://turbo.build/), but it didn't sup
 
 Incredible out-of-the-box support for Raspberry PIs.
 
-### Why the random PNPM patch?
+### Why the random patches?
 
 https://github.com/dimforge/rapier.js/pull/264
+https://github.com/kelvinsjk/mathlified/pull/7
