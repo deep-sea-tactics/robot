@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores';
+	import { base } from '$app/paths';
 	import PhWrenchFill from '~icons/ph/wrench-fill';
 	import PhSpeedometerFill from '~icons/ph/speedometer-fill';
 	import PhGameControllerFill from '~icons/ph/game-controller-fill';
@@ -11,7 +12,7 @@
 	<header>
 		<h1>
 			<b
-				><a class="titleLink" class:active={$page.url.toString().endsWith('/debug')} href="/debug"
+				><a class="titleLink" class:active={$page.url.toString().endsWith('/debug')} href="{base}/debug"
 					>ROV Debugger</a
 				></b
 			>
@@ -19,19 +20,19 @@
 		</h1>
 
 		<div class="links">
-			<a class:active={$page.url.toString().includes('/debug/thruster')} href="/debug/thruster"
+			<a class:active={$page.url.toString().includes('/debug/thruster')} href="{base}/debug/thruster"
 				>Thruster <PhSpeedometerFill /></a
 			>
-			<a class:active={$page.url.toString().includes('/debug/controller')} href="/debug/controller"
+			<a class:active={$page.url.toString().includes('/debug/controller')} href="{base}/debug/controller"
 				>Controller <PhGameControllerFill /></a
 			>
 			<a
 				class:active={$page.url.toString().includes('/debug/control-matrix')}
-				href="/debug/control-matrix">Control Matrix <PhMathOperationsFill /></a
+				href="{base}/debug/control-matrix">Control Matrix <PhMathOperationsFill /></a
 			>
 			<a
 				class:active={$page.url.toString().includes('/debug/servo')}
-				href="/debug/servo">Servo <PhSpinnerBallFill /></a
+				href="{base}/debug/servo">Servo <PhSpinnerBallFill /></a
 			>
 		</div>
 	</header>
