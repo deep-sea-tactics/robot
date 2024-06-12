@@ -49,6 +49,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - name: Copy env
+        run: cp .env.example .env
+
       - name: Generate .svelte-kit folder
         run: cd apps/web && pnpm run generate
 
@@ -60,9 +63,6 @@ jobs:
 
       - name: Check types
         run: pnpm run check
-
-      - name: Copy env
-        run: cp .env.example .env
 
       - name: Build static page
         working-directory: apps/web
