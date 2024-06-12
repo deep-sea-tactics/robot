@@ -12,6 +12,9 @@ const config = {
 		adapter: process.env.VITE_STATIC ? adapterStatic() : adapterNode(),
 		env: {
 			publicPrefix: 'VITE_'
+		},
+		paths: {
+			base: process.env.VITE_STATIC ? '/robot' : '/'
 		}
 	}
 };
