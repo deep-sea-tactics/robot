@@ -61,10 +61,13 @@ jobs:
       - name: Check types
         run: pnpm run check
 
+      - name: Copy env
+        run: cp .env.example .env
+
       - name: Build static page
         working-directory: apps/web
         run: pnpm run build:static
-      
+
       - name: Setup Pages
         uses: actions/configure-pages@v2
 
