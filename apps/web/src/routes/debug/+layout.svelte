@@ -37,14 +37,6 @@
 </div>
 
 <style lang="scss">
-	:global(:root) {
-		--background: #f1e3e4;
-		--foreground: #1c1d21;
-		--accent: #3b82f6;
-		--secondary: #ff3cc7;
-		--tertiary: #f0f600;
-	}
-
 	:global(body) {
 		background-color: var(--background);
 		color: var(--foreground);
@@ -54,13 +46,6 @@
 		height: 100%;
 		margin: 0;
 		padding: 0;
-	}
-
-	@media (prefers-color-scheme: dark) {
-		:global(:root) {
-			--background: #1c1d21;
-			--foreground: #f1e3e4;
-		}
 	}
 
 	h1 {

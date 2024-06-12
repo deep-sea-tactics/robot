@@ -15,3 +15,18 @@ label,
 span {
 	font-family: 'JetBrains Mono Variable', monospace;
 }
+
+:root {
+	--background: #f1e3e4;
+	--foreground: #1c1d21;
+	--accent: #3b82f6;
+	--secondary: #ff3cc7;
+	--tertiary: #f0f600;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--background: #1c1d21;
+		--foreground: #f1e3e4;
+	}
+}

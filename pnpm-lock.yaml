@@ -8,6 +8,9 @@ patchedDependencies:
   '@threlte/rapier@2.0.0':
     hash: wpry5ew7juzt3ftwqg5iu6deyu
     path: patches/@threlte__rapier@2.0.0.patch
+  svelte-katex@0.1.2:
+    hash: 6p6jgotyte2jcgtv24soug3r4i
+    path: patches/svelte-katex@0.1.2.patch
 
 importers:
 
@@ -221,7 +224,7 @@ importers:
         version: 3.7.1(@babel/core@7.24.5)(postcss-load-config@3.1.4(postcss@8.4.38))(postcss@8.4.38)(sass@1.77.0)(svelte@4.2.17)
       svelte-katex:
         specifier: ^0.1.2
-        version: 0.1.2
+        version: 0.1.2(patch_hash=6p6jgotyte2jcgtv24soug3r4i)
       svelte-preprocess:
         specifier: ^5.1.4
         version: 5.1.4(@babel/core@7.24.5)(postcss-load-config@3.1.4(postcss@8.4.38))(postcss@8.4.38)(sass@1.77.0)(svelte@4.2.17)(typescript@5.4.5)
@@ -6094,7 +6097,7 @@ snapshots:
     dependencies:
       svelte: 4.2.17
 
-  svelte-katex@0.1.2:
+  svelte-katex@0.1.2(patch_hash=6p6jgotyte2jcgtv24soug3r4i):
     dependencies:
       katex: 0.15.6
 

@@ -62,11 +62,12 @@
 	<Pane size={20} minSize={15} maxSize={30}>
 		<Splitpanes horizontal={true}>
 			<Pane>
-				<div class="darkPane">
+				<div class="pane">
+					<img src="/favicon.png" alt="Deep Sea Tactics" />
 					<h2>Status</h2>
 					<p>
 						<span class="deviceText">
-							Device:
+							<b>Device</b>:
 							<span class={output?.connected ? 'green' : 'red'}>
 								{output?.connected ? output.id : 'disconnected'}
 							</span>
@@ -81,20 +82,20 @@
 							</div>
 						{/if}
 					</p>
-					<p>Mode: <span class={isMock ? 'blue' : 'green'}>{isMock ? 'mock' : 'live'}</span></p>
-					<p>tRPC status: <span class={wsClientColor}>{wsClientText}</span></p>
+					<p><b>Mode</b>: <span class={isMock ? 'blue' : 'green'}>{isMock ? 'mock' : 'live'}</span></p>
+					<p><b>tRPC status</b>: <span class={wsClientColor}>{wsClientText}</span></p>
 				</div>
 			</Pane>
 			<Pane>
-				<div class="darkPane">
-					<p>Temperature: {temperature}</p>
+				<div class="pane">
+					<p><b>Temperature</b>: {temperature}</p>
 				</div>
 			</Pane>
 		</Splitpanes>
 	</Pane>
 </Splitpanes>
 
-<style>
+<style lang="scss">
 	.green {
 		color: green;
 	}
@@ -112,14 +113,20 @@
 	}
 
 	.blue {
-		color: skyblue;
+		color: var(--accent);
 	}
 
-	.darkPane {
+	.pane {
 		padding: 10px;
-		background: var(--bgDark);
+		background: var(--background);
 		height: 100%;
-		color: var(--text);
+		color: var(--foreground);
+		text-align: center;
+
+		img {
+			aspect-ratio: 1 / 1;
+			width: 100%;
+		}
 	}
 
 	div.icon {
