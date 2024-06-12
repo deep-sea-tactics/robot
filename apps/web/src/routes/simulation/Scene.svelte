@@ -85,15 +85,7 @@
 		310 / 1000
 	];
 
-	// TODO: generate this from the motor enum
-	let thrusterRegistry: Record<Thruster, number> = {
-		[Thruster.BottomLeft]: 1500,
-		[Thruster.BottomRight]: 1500,
-		[Thruster.TopLeft]: 1500,
-		[Thruster.TopRight]: 1500,
-		[Thruster.VerticalLeft]: 1500,
-		[Thruster.VerticalRight]: 1500
-	};
+	let thrusterRegistry: Record<Thruster, number> = Object.fromEntries(rovThrusters.map(thruster => [thruster.type, 1500] as const)) as Record<Thruster, number>
 
 	function toVector3(vector: vector.Vector): Vector3 {
 		return new Vector3(vector.x, vector.y, vector.z);
