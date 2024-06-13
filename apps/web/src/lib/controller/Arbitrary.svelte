@@ -6,6 +6,7 @@
 	import type { ControllerData } from 'robot/src/controller';
 	import LogitechController from './LogitechController.svelte';
 	import LogitechFlight from './LogitechFlight.svelte';
+	import LogitechDual from './LogitechDual.svelte';
 	import Keyboard from './Keyboard.svelte';
 
 	import SimpleIconsLogitechg from '~icons/simple-icons/logitechg';
@@ -17,27 +18,32 @@
 
 	export let logitechControllerOutput: ControllerData | undefined = undefined;
 	export let logitechFlightOutput: ControllerData | undefined = undefined;
+	export let logitechDualOutput: ControllerData | undefined = undefined;
 	export let keyboardOutput: ControllerData | undefined = undefined;
 
 	const iconMapping: Record<string, Icon[]> = {
+		logitechDualOutput: [SimpleIconsLogitechg, PhGameControllerFill],
 		logitechController: [SimpleIconsLogitechg, PhGameControllerFill],
 		logitechFlight: [SimpleIconsLogitechg, PhAirplaneInFlightFill],
 		keyboard: [PhKeyboardFill]
 	};
 
 	export let output: ControllerData | undefined;
-	$: output = logitechFlightOutput || logitechControllerOutput || keyboardOutput;
+	$: output = logitechFlightOutput || logitechControllerOutput || logitechDualOutput || keyboardOutput;
 
 	export let icons: Icon[] | undefined = undefined;
 	$: icons = logitechFlightOutput
 		? iconMapping.logitechFlight
 		: logitechControllerOutput
 			? iconMapping.logitechController
-			: keyboardOutput
-				? iconMapping.keyboard
+			: logitechDualOutput
+				? iconMapping.logitechDualOutput
+				: keyboardOutput
+					? iconMapping.keyboard
 				: undefined;
 </script>
 
 <LogitechController bind:output={logitechControllerOutput} />
+<LogitechDual bind:output={logitechDualOutput} />
 <LogitechFlight bind:output={logitechFlightOutput} />
 <Keyboard bind:output={keyboardOutput} />
