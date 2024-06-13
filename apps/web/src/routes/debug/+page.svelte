@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { VITE_MOCK } from '$env/static/public';
+	import { page } from '$app/stores';
 	const isMock = VITE_MOCK === 'true';
 </script>
 
@@ -11,8 +12,10 @@
 
 <p>To get started, click on one of the tabs above.</p>
 
-{#if isMock}
-	<p>This robot instance is running on mock mode (<code>pnpm run dev:mock</code>).</p>
+{#if $page.url.hostname.includes('github.io')}
+	<p><b class="note">NOTE</b>: This robot instance is running on GitHub Pages (<code>pnpm run build:static</code>)</p>
+{:else if isMock}
+	<p><b class="note">NOTE</b>: This robot instance is running on mock mode (<code>pnpm run dev:mock</code>).</p>
 {:else}
 	<p>
 		<b class="warning">WARNING</b>: This robot instance is running on production (<code
@@ -24,6 +27,10 @@
 <style lang="scss">
 	.warning {
 		color: yellow;
+	}
+
+	.note {
+		color: var(--accent);
 	}
 
 	code {
