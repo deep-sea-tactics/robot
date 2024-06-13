@@ -105,8 +105,10 @@ export function move(direction: vector.Vector, torque: vector.Vector): MoveOutpu
 	// Convert the combined vector to thruster powers using the control matrix inverse
 	const thrusterPowers = convertToThrusterPowers(vector.asTuple(direction), vector.asTuple(torque));
 
+	console.log(direction, torque)
+
 	// Map the thruster powers to the corresponding thruster types
-	const thrusterMovement = [
+	const unnormalizedThrusterMovement = [
 		{ type: Thruster.BottomLeft, speed: thrusterPowers.get([0]) },
 		{ type: Thruster.BottomRight, speed: thrusterPowers.get([1]) },
 		{ type: Thruster.TopLeft, speed: thrusterPowers.get([2]) },
@@ -114,6 +116,17 @@ export function move(direction: vector.Vector, torque: vector.Vector): MoveOutpu
 		{ type: Thruster.VerticalLeft, speed: thrusterPowers.get([4]) },
 		{ type: Thruster.VerticalRight, speed: thrusterPowers.get([5]) }
 	];
+
+	const thrusterMagnitude = Math.sqrt(unnormalizedThrusterMovement
+		.reduce((a, b) => a + b.speed ** 2, 0));
+
+	const controlMax = Math.max(...[...vector.asTuple(direction), ...vector.asTuple(torque)].map(Math.abs));
+
+	console.log(unnormalizedThrusterMovement)
+	console.log(thrusterMagnitude)
+
+	const thrusterMovement = unnormalizedThrusterMovement
+		.map(({ type, speed }) => ({ type, speed: controlMax * (thrusterMagnitude === 0 ? 0 : speed / thrusterMagnitude) }));
 
 	// Calculate the resulting force and torque for the given thruster speeds
 	const resultingForce = calculateForce(thrusterMovement);

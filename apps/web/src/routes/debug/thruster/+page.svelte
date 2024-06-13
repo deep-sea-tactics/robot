@@ -23,6 +23,9 @@
 
 	let direction = vector.vector(0, 0, 0);
 	let torque = vector.vector(0, 0, 0);
+	let unprocessedTorque = vector.vector(0, 0, 0);
+
+	$: torque = vector.stabilize(vector.asTuple(unprocessedTorque).map(x => (x % Math.PI) / Math.PI) as [number, number, number])
 
 	$: result = move(direction, torque);
 
@@ -84,7 +87,8 @@
 						title="Reset Direction"
 						on:click={() => (direction = vector.vector(0, 0, 0))}
 					/>
-					<RotationEuler disabled={useController} bind:value={torque} label="Torque" />
+					<RotationEuler disabled={useController} bind:value={unprocessedTorque} label="Torque" />
+					<Point disabled value={torque} label="Processed Torque" />
 					<Button
 						disabled={useController}
 						title="Reset Torque"

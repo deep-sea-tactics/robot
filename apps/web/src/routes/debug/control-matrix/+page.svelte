@@ -28,7 +28,7 @@
 	<h2>Control Matrix</h2>
 
 	<Katex displayMode
-		>\begin{'{bmatrix}'}
+		>C = \begin{'{bmatrix}'}
 		{controlMatrixLatex}
 		\end{'{bmatrix}'}
 	</Katex>
@@ -36,7 +36,7 @@
 	<h2>Control Matrix Inverse</h2>
 
 	<Katex displayMode>
-		\begin{'{bmatrix}'}
+		C^{"{-1}"} = \begin{'{bmatrix}'}
 		{controlInverseLatex}
 		\end{'{bmatrix}'}
 	</Katex>
