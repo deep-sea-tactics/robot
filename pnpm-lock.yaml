@@ -291,6 +291,9 @@ importers:
       tsx:
         specifier: ^4.6.0
         version: 4.10.5
+      typescript:
+        specifier: ^5.4.5
+        version: 5.4.5
       vitest:
         specifier: ^1.6.0
         version: 1.6.0(@types/node@20.12.12)(sass@1.77.0)
