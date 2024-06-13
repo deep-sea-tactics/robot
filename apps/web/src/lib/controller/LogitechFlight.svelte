@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { ControllerData } from 'robot/src/controller';
 	import GamepadApi from './GamepadAPI.svelte';
-	import { buttonAxis } from './utils';
+	import { buttonAxis, deadzone } from './utils';
 
 	export let output: ControllerData | undefined;
 </script>
@@ -19,7 +19,7 @@
 		},
 		rotation: {
 			pitch: buttonAxis(gamepad.buttons[4].pressed, gamepad.buttons[2].pressed),
-			yaw: gamepad.axes[2]
+			yaw: deadzone(gamepad.axes[2], [-0.4, 0.1])
 		},
 		tasks: {
 			pinkSquare: gamepad.buttons[9].pressed,

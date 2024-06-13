@@ -19,7 +19,7 @@
 		},
 		rotation: {
 			pitch: gamepad.axes[2],
-			yaw: deadzone(gamepad.axes[3] * -1, [-0.4, 0.1])
+			yaw: gamepad.axes[3] * -1
 		},
 		tasks: {
 			pinkSquare: gamepad.buttons[0].pressed,

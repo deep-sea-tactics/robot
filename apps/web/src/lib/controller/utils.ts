@@ -12,8 +12,7 @@ export const buttonAxis = (positive: boolean, negative: boolean): number => {
 export const deadzone = (number: number, deadzoneRange: Range): number => {
 	const [min, max] = deadzoneRange;
 
-	if (number >= min) return 0;
-	if (number <= max) return 0;
+	if (number <= max && number >= min) return 0;
 
 	// TODO: actually change slope
 	return number;
