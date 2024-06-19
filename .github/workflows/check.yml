@@ -58,7 +58,7 @@ jobs:
       - name: Build necessary packages
         run: pnpm run build
       - name: Install Playwright
-        run: npx playwright install --with-deps
+        run: pnpx playwright install --with-deps
       - name: Run tests
         run: pnpm run test
       - uses: actions/upload-artifact@v3
