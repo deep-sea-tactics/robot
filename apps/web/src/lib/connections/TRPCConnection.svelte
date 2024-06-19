@@ -13,9 +13,7 @@
 	import type { RobotRouter } from 'robot/src/server';
 	import { transform } from 'cloud-url-resolver';
 	import { onMount } from 'svelte';
-	import { VITE_RPI_IP } from '$env/static/public';
-
-	export const rpiIp = VITE_RPI_IP && VITE_RPI_IP.length > 1 ? VITE_RPI_IP : undefined;
+	import { rpiIp } from './ip';
 
 	const ipAddr = rpiIp
 		? transform(9000, 'ws', {

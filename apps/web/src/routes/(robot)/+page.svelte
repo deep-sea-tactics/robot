@@ -9,6 +9,7 @@
 		type TRPCClient,
 		type WSClient
 	} from '$lib/connections/TRPCConnection.svelte';
+	import { rpiIp } from '$lib/connections/ip';
 
 	const isMock = VITE_MOCK === 'true';
 	let output: ControllerData;
@@ -52,8 +53,9 @@
 		{#if isMock}
 			<Simulation bind:client />
 		{:else}
+		<!-- TODO: use cloud-url-resolver -->
 			<img
-				src="http://127.0.0.1:8080/stream"
+				src="http://{rpiIp}:8080/stream"
 				alt="Video stream cannot be rendered. Perhaps no signal?"
 				class="videoStream"
 			/>
