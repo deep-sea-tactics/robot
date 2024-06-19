@@ -53,6 +53,11 @@
 			]
 		});
 
-		return () => wsClient?.close();
+		const interval = setInterval(() => client?.heartbeat.mutate({ priority: 1 }));
+
+		return () => {
+			wsClient?.close();
+			clearInterval(interval);
+		};
 	});
 </script>

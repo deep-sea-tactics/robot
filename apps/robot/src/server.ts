@@ -10,12 +10,14 @@ import { calculateNeededTorque } from './stable.js';
 import { asyncExitHook } from 'exit-hook';
 import readline from 'node:readline';
 import { stdin, stdout } from 'node:process';
-import si from 'systeminformation';
 import { type Servo, servo } from './pigpio.js';
+import { z } from 'zod';
 
 const t = initTRPC.create();
 
 const sleep = (time: number): Promise<void> => new Promise((resolve) => setInterval(resolve, time));
+
+let lastSet = new Date();
 
 async function connectThrusters() {
 	const thrusterConfig: Record<Thruster, Servo> = Object.fromEntries(
@@ -56,6 +58,18 @@ async function connectThrusters() {
 			pin.write(speedToServo(speed));
 		}
 	}
+
+	// We want to check if enough time has passed between the last heartbeat signal;
+	// if enough time has passed, we stop the motors for safety reasons
+	setInterval(() => {
+		if (new Date().getTime() - lastSet.getTime() > 2 * 1000) {
+			console.log(1)
+			for (const thruster of thrusters) {
+				const pin = thrusterConfig[thruster.type];
+				pin.write(speedToServo(0));
+			}
+		}
+	}, 100);
 
 	emitter.on('thrusterData', onThrusterData);
 
@@ -165,7 +179,11 @@ export const router = t.router({
 				emitter.off('gpioData', onAdd);
 			};
 		});
-	})
+	}),
+	// the higher 'priority' is, the more precedent controllerData & manualData have
+	heartbeat: t.procedure.input(z.object({ priority: z.number() })).mutation(() => {
+		lastSet = new Date();
+	}),
 });
 
 export type RobotRouter = typeof router;
