@@ -54,11 +54,13 @@
 			<Simulation bind:client />
 		{:else}
 		<!-- TODO: use cloud-url-resolver -->
-			<img
-				src="http://{rpiIp ?? "127.0.0.1"}:8080/stream"
-				alt="Video stream cannot be rendered. Perhaps no signal?"
-				class="videoStream"
-			/>
+			<div class="videoStreamWrap">
+				<img
+					src="http://{rpiIp ?? "127.0.0.1"}:8080/stream"
+					alt="Video stream cannot be rendered. Perhaps no signal?"
+					class="videoStream"
+				/>
+			</div>
 		{/if}
 	</Pane>
 	<Pane size={20} minSize={15} maxSize={30}>
@@ -98,6 +100,19 @@
 </Splitpanes>
 
 <style lang="scss">
+	.videoStream {
+		height: 100%;
+	}
+
+	.videoStreamWrap {
+		background-color: black;
+		width: 100%;
+		height: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
 	.green {
 		color: green;
 	}

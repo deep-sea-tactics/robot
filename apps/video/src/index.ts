@@ -15,15 +15,7 @@ function commandRunsSuccessfully(checkCommand: string): Promise<boolean> {
 
 /** Runs µStreamer; doesn't work if not installed. */
 async function run() {
-	// Check if we are on a Raspberry PI or not.
-	if (existsSync('/usr/bin/raspi-config')) {
-		await execa({
-			stdio: ['ignore', 'inherit', 'inherit'],
-			shell: true
-		})`libcamerify ustreamer --host :: --encoder=m2m-image`;
-	} else {
-		await execa({ stdio: ['ignore', 'inherit', 'inherit'] })`ustreamer`;
-	}
+	await execa({ stdio: ['ignore', 'inherit', 'inherit'] })`ustreamer`;
 }
 
 function orElse<T>(param: T, error: Error): NonNullable<T> {
