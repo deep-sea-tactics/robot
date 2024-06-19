@@ -23,7 +23,7 @@ export enum Thruster {
 }
 
 /** Converts a thruster enum to a proper human readable format. */
-export function toHumanThruster(thruster: Thruster) {
+export function toHumanThruster(thruster: string) {
 	// Moving SCREAMING_CASE to Title Case
 	return thruster
 		.split('_')

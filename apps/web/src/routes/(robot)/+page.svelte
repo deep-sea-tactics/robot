@@ -89,7 +89,11 @@
 					<p>
 						<b>Mode</b>: <span class={isMock ? 'blue' : 'green'}>{isMock ? 'mock' : 'live'}</span>
 					</p>
-					<p><b>tRPC status</b>: <span class={wsClientColor}>{wsClientText}</span></p>
+					<p>
+						<b>tRPC status</b>:
+						<span class={wsClientColor}>{wsClientText}</span>
+						<span class="gray">({rpiIp})</span>
+					</p>
 					{#if temperature}
 						<p><b>Temperature</b>: {temperature}</p>
 					{/if}
@@ -155,6 +159,11 @@
 	.deviceText {
 		vertical-align: middle;
 	}
+
+	.gray {
+		color: gray;
+	}
+
 
 	.icons {
 		display: inline-flex;

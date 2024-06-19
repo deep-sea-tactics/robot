@@ -24,7 +24,10 @@
 		Thruster,
 		getThruster,
 		getThrusterByGpioPin,
-		thrusters as rovThrusters
+		thrusters as rovThrusters,
+
+		toHumanThruster
+
 	} from 'robot/src/thruster';
 	import { getData } from 'thrusters/src/pwm';
 
@@ -304,8 +307,11 @@
 			label="Motors"
 		/>
 		{#each Object.entries(thrusterRegistry) as [thrusterType, pulseWidth]}
-			<Slider value={pulseWidth} min={1100} max={1900} label={thrusterType} disabled />
+			<Slider value={pulseWidth} min={1100} max={1900} label={toHumanThruster(thrusterType)} disabled />
 		{/each}
+	</Folder>
+	<Folder title="ROV Arm">
+		
 	</Folder>
 </Pane>
 
