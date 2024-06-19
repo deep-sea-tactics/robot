@@ -19,6 +19,19 @@ const sleep = (time: number): Promise<void> => new Promise((resolve) => setInter
 
 let lastSet = new Date();
 
+/**
+ * Converts this speed (from range [-1, 1]) to the ms output
+ * for a continuous servo.
+ */
+function speedToContinuousServo(unresolvedSpeed: number) {
+	const speed = Math.min(Math.max(unresolvedSpeed, -1), 1);
+
+	const min = 1000;
+	const max = 2000;
+
+	return Math.round((min + max) / 2 + speed * (min - max) / 2);
+}
+
 async function connectThrusters() {
 	const thrusterConfig: Record<Thruster, Servo> = Object.fromEntries(
 		await Promise.all(
@@ -28,6 +41,9 @@ async function connectThrusters() {
 			])
 		)
 	);
+
+	const armRotateServo = await servo(27, [1000, 2000]);
+	const openCloseServo = await servo(22, [1000, 2000]);
 
 	// TODO: support sensors
 	// const sensorConfig = {
@@ -67,15 +83,25 @@ async function connectThrusters() {
 				const pin = thrusterConfig[thruster.type];
 				pin.write(speedToServo(0));
 			}
+
+			armRotateServo.write(speedToContinuousServo(0));
+			openCloseServo.write(speedToContinuousServo(0));
 		}
 	}, 100);
 
 	emitter.on('thrusterData', onThrusterData);
+	emitter.on('armData', ({ rotate, openClose }) => {
+		armRotateServo.write(speedToContinuousServo(rotate));
+		openCloseServo.write(speedToContinuousServo(openClose));
+	});
 
 	async function cleanup() {
 		for (const pin of Object.values(thrusterConfig)) {
 			pin.write(1500);
 		}
+
+		armRotateServo.write(speedToContinuousServo(0));
+		openCloseServo.write(speedToContinuousServo(0));
 
 		await sleep(500);
 	}
@@ -126,6 +152,13 @@ function tick() {
 			movementCalc.thrusters.map((thruster) => [thruster.type.toString(), thruster.speed])
 		) as Record<`${Thruster}`, number>
 	);
+
+	emitter.emit(
+		'armData',
+		{
+			...movement.arm
+		}
+	)
 }
 
 export const queueTick = () => setInterval(tick, 60);

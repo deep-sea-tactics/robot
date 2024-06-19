@@ -10,6 +10,7 @@ export interface Events {
 	gpioData(gpioNumber: number, pulseWidth: number): void;
 	simulationAccelerationData(data: Vector): void;
 	simulationGyroData(data: [timestamp: number, vector: Vector]): void;
+	armData(data: ControllerData["arm"]): void;
 }
 
 export const emitter = new TypedEmitter<Events>();
