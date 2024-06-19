@@ -115,13 +115,18 @@ export function move(direction: vector.Vector, torque: vector.Vector): MoveOutpu
 		{ type: Thruster.VerticalRight, speed: thrusterPowers.get([5]) }
 	];
 
-	const thrusterMagnitude = Math.sqrt(unnormalizedThrusterMovement
-		.reduce((a, b) => a + b.speed ** 2, 0));
+	const thrusterMagnitude = Math.sqrt(
+		unnormalizedThrusterMovement.reduce((a, b) => a + b.speed ** 2, 0)
+	);
 
-	const controlMax = Math.max(...[...vector.asTuple(direction), ...vector.asTuple(torque)].map(Math.abs));
+	const controlMax = Math.max(
+		...[...vector.asTuple(direction), ...vector.asTuple(torque)].map(Math.abs)
+	);
 
-	const thrusterMovement = unnormalizedThrusterMovement
-		.map(({ type, speed }) => ({ type, speed: controlMax * (thrusterMagnitude === 0 ? 0 : speed / thrusterMagnitude) }));
+	const thrusterMovement = unnormalizedThrusterMovement.map(({ type, speed }) => ({
+		type,
+		speed: controlMax * (thrusterMagnitude === 0 ? 0 : speed / thrusterMagnitude)
+	}));
 
 	// Calculate the resulting force and torque for the given thruster speeds
 	const resultingForce = calculateForce(thrusterMovement);

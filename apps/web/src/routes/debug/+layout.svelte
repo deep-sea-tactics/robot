@@ -12,27 +12,30 @@
 	<header>
 		<h1>
 			<b
-				><a class="titleLink" class:active={$page.url.toString().endsWith('/debug')} href="{base}/debug"
-					>ROV Debugger</a
+				><a
+					class="titleLink"
+					class:active={$page.url.toString().endsWith('/debug')}
+					href="{base}/debug">ROV Debugger</a
 				></b
 			>
 			<PhWrenchFill />
 		</h1>
 
 		<div class="links">
-			<a class:active={$page.url.toString().includes('/debug/thruster')} href="{base}/debug/thruster"
-				>Thruster <PhSpeedometerFill /></a
+			<a
+				class:active={$page.url.toString().includes('/debug/thruster')}
+				href="{base}/debug/thruster">Thruster <PhSpeedometerFill /></a
 			>
-			<a class:active={$page.url.toString().includes('/debug/controller')} href="{base}/debug/controller"
-				>Controller <PhGameControllerFill /></a
+			<a
+				class:active={$page.url.toString().includes('/debug/controller')}
+				href="{base}/debug/controller">Controller <PhGameControllerFill /></a
 			>
 			<a
 				class:active={$page.url.toString().includes('/debug/control-matrix')}
 				href="{base}/debug/control-matrix">Control Matrix <PhMathOperationsFill /></a
 			>
-			<a
-				class:active={$page.url.toString().includes('/debug/servo')}
-				href="{base}/debug/servo">Servo <PhSpinnerBallFill /></a
+			<a class:active={$page.url.toString().includes('/debug/servo')} href="{base}/debug/servo"
+				>Servo <PhSpinnerBallFill /></a
 			>
 		</div>
 	</header>

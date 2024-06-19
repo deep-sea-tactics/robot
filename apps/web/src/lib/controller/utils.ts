@@ -16,4 +16,4 @@ export const deadzone = (number: number, deadzoneRange: Range): number => {
 
 	// TODO: actually change slope
 	return number;
-}
+};

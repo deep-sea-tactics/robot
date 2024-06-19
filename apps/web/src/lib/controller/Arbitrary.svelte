@@ -29,7 +29,8 @@
 	};
 
 	export let output: ControllerData | undefined;
-	$: output = logitechFlightOutput || logitechControllerOutput || logitechDualOutput || keyboardOutput;
+	$: output =
+		logitechFlightOutput || logitechControllerOutput || logitechDualOutput || keyboardOutput;
 
 	export let icons: Icon[] | undefined = undefined;
 	$: icons = logitechFlightOutput
@@ -40,7 +41,7 @@
 				? iconMapping.logitechDualOutput
 				: keyboardOutput
 					? iconMapping.keyboard
-				: undefined;
+					: undefined;
 </script>
 
 <LogitechController bind:output={logitechControllerOutput} />

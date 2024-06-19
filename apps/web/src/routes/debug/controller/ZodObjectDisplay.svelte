@@ -1,15 +1,14 @@
 <script lang="ts" generics="T extends z.ZodTypeAny">
 	import { z } from 'zod';
-	import { zodToJsonSchema } from "zod-to-json-schema";
-	import { tooltip } from "@svelte-plugins/tooltips";
+	import { zodToJsonSchema } from 'zod-to-json-schema';
+	import { tooltip } from '@svelte-plugins/tooltips';
 
-	export let jsonSchema: ReturnType<typeof zodToJsonSchema>
+	export let jsonSchema: ReturnType<typeof zodToJsonSchema>;
 	export let data: z.infer<T>;
 	export let tabAmount = 0;
 
 	let jsonSchemaIsh: any;
 	$: jsonSchemaIsh = jsonSchema;
-
 </script>
 
 {#if typeof data === 'boolean'}
@@ -28,11 +27,13 @@
 			{'\t'.repeat(tabAmount)}<span
 				class="key"
 				use:tooltip={{ theme: 'main-tooltip', content: jsonSchemaIsh.properties[key].description }}
-			>{key}</span>: <svelte:self
+				>{key}</span
+			>: <svelte:self
 				data={value}
 				jsonSchema={jsonSchemaIsh.properties[key]}
 				tabAmount={tabAmount + 1}
-			/></p>
+			/>
+		</p>
 	{/each}
 {/if}
 

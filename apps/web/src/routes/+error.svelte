@@ -4,7 +4,10 @@
 
 <main>
 	{#if $page.error}
-		<h1><span class="status">{$page.status}</span> <span class="gray">//</span> {$page.error.message}</h1>
+		<h1>
+			<span class="status">{$page.status}</span> <span class="gray">//</span>
+			{$page.error.message}
+		</h1>
 		<a href="/">Return to ROV</a>
 	{:else}
 		<h1><b>Error:</b> No error?</h1>

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import * as math from 'mathjs';
+	import { thrusters, toHumanThruster } from 'robot/src/thruster';
 	import { controlInverse, controlMatrix } from 'robot/src/thrusterCalculations';
 	import Katex from 'svelte-katex';
 
@@ -26,19 +27,29 @@
 
 <main>
 	<h2>Control Matrix</h2>
-
-	<Katex displayMode
-		>C = \begin{'{bmatrix}'}
-		{controlMatrixLatex}
-		\end{'{bmatrix}'}
-	</Katex>
-
+	<p>
+		Each column is a separate thruster, where the first three rows are force contributions and the
+		last three rows are cross-product torque contributions. The motors are in the order {thrusters
+			.map((thruster) => toHumanThruster(thruster.type))
+			.join(', ')}
+	</p>
+	<p>
+		<Katex displayMode
+			>C = \begin{'{bmatrix}'}
+			{controlMatrixLatex}
+			\end{'{bmatrix}'}
+			\begin{'{bmatrix}'}
+			x\\ y\\ z\\ x_t\\ y_t\\ z_t \end{'{bmatrix}'}
+		</Katex>
+	</p>
 	<h2>Control Matrix Inverse</h2>
 
 	<Katex displayMode>
-		C^{"{-1}"} = \begin{'{bmatrix}'}
+		C^{'{-1}'} = \begin{'{bmatrix}'}
 		{controlInverseLatex}
 		\end{'{bmatrix}'}
+		\begin{'{bmatrix}'}
+		x\\ y\\ z\\ x_t\\ y_t\\ z_t \end{'{bmatrix}'}
 	</Katex>
 </main>
 

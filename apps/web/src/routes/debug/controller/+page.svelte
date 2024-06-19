@@ -3,7 +3,7 @@
 	import Arbitrary from '$lib/controller/Arbitrary.svelte';
 	import extract from 'object-property-extractor';
 	import ZodObjectDisplay from './ZodObjectDisplay.svelte';
-	import { zodToJsonSchema } from "zod-to-json-schema";
+	import { zodToJsonSchema } from 'zod-to-json-schema';
 
 	let propertyExtractor = '';
 	let propertyError = '';

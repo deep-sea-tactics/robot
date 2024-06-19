@@ -25,7 +25,13 @@
 	let torque = vector.vector(0, 0, 0);
 	let unprocessedTorque = vector.vector(0, 0, 0);
 
-	$: torque = vector.stabilize(vector.asTuple(unprocessedTorque).map(x => (x % Math.PI) / Math.PI) as [number, number, number])
+	$: torque = vector.stabilize(
+		vector.asTuple(unprocessedTorque).map((x) => (x % Math.PI) / Math.PI) as [
+			number,
+			number,
+			number
+		]
+	);
 
 	$: result = move(direction, torque);
 
@@ -92,7 +98,7 @@
 					<Button
 						disabled={useController}
 						title="Reset Torque"
-						on:click={() => (torque = vector.vector(0, 0, 0))}
+						on:click={() => (unprocessedTorque = vector.vector(0, 0, 0))}
 					/>
 					<Checkbox bind:value={useController} label="Use Controller" />
 					<Folder title="Relative Output">

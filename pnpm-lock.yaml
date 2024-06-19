@@ -32,47 +32,6 @@ importers:
         specifier: ^3.2.3
         version: 3.2.3(prettier@3.2.5)(svelte@4.2.17)
 
-  apps/debugger:
-    dependencies:
-      '@commander-js/extra-typings':
-        specifier: ^12.1.0
-        version: 12.1.0(commander@12.1.0)
-      commander:
-        specifier: ^12.1.0
-        version: 12.1.0
-      memoize:
-        specifier: ^10.0.0
-        version: 10.0.0
-    optionalDependencies:
-      pigpio:
-        specifier: ^3.3.1
-        version: 3.3.1
-    devDependencies:
-      '@types/node':
-        specifier: ^20.12.12
-        version: 20.12.12
-      tsx:
-        specifier: ^4.10.5
-        version: 4.10.5
-
-  apps/e2e:
-    devDependencies:
-      '@trpc/server':
-        specifier: ^10.45.2
-        version: 10.45.2
-      tsx:
-        specifier: ^4.10.5
-        version: 4.10.5
-      typescript:
-        specifier: ^5.4.5
-        version: 5.4.5
-      vitest:
-        specifier: ^1.6.0
-        version: 1.6.0(@types/node@20.12.12)(sass@1.77.0)
-      zod:
-        specifier: ^3.23.8
-        version: 3.23.8
-
   apps/robot:
     dependencies:
       debounce:
@@ -418,11 +377,6 @@ packages:
   '@babel/types@7.24.5':
     resolution: {integrity: sha512-6mQNsaLeXTw0nxYUYu+NSa4Hx4BlF1x1x8/PMFbiR+GBSr+2DkECc69b8hgy2frEodNcvPffeH8YfWd3LI6jhQ==}
     engines: {node: '>=6.9.0'}
-
-  '@commander-js/extra-typings@12.1.0':
-    resolution: {integrity: sha512-wf/lwQvWAA0goIghcb91dQYpkLBcyhOhQNqG/VgWhnKzgt+UOMvra7EX/2fv70arm5RW+PUHoQHHDa6/p77Eqg==}
-    peerDependencies:
-      commander: ~12.1.0
 
   '@dimforge/rapier3d-compat@0.11.2':
     resolution: {integrity: sha512-vdWmlkpS3G8nGAzLuK7GYTpNdrkn/0NKCe0l1Jqxc7ZZOB3N0q9uG/Ap9l9bothWuAvxscIt0U97GVLr0lXWLg==}
@@ -1346,10 +1300,6 @@ packages:
   combined-stream@1.0.8:
     resolution: {integrity: sha512-FQN4MRfuJeHf7cBbBMJFXhKSDq+2kAArBlmRBvcvFE5BB1HZKXtSFASDhdlz9zOYwxh8lDdnvmMOe/+5cdoEdg==}
     engines: {node: '>= 0.8'}
-
-  commander@12.1.0:
-    resolution: {integrity: sha512-Vw8qHK3bZM9y/P10u3Vib8o/DdkvA2OtPtZvD871QKjy74Wj1WSKFILMPRPSdUSx5RFK1arlJzEtA4PkFgnbuA==}
-    engines: {node: '>=18'}
 
   commander@8.3.0:
     resolution: {integrity: sha512-OkTL9umf+He2DZkUq8f8J9of7yL6RJKI24dVITBmNfZBmri9zYZQrKkuXiKhyfPSu8tUhnVBB1iKXevvnlR4Ww==}
@@ -3544,10 +3494,6 @@ snapshots:
       to-fast-properties: 2.0.0
     optional: true
 
-  '@commander-js/extra-typings@12.1.0(commander@12.1.0)':
-    dependencies:
-      commander: 12.1.0
-
   '@dimforge/rapier3d-compat@0.11.2': {}
 
   '@esbuild/aix-ppc64@0.20.2':
@@ -4472,8 +4418,6 @@ snapshots:
   combined-stream@1.0.8:
     dependencies:
       delayed-stream: 1.0.0
-
-  commander@12.1.0: {}
 
   commander@8.3.0: {}
 

@@ -22,6 +22,15 @@ export enum Thruster {
 	VerticalRight = 'VERTICAL_RIGHT'
 }
 
+/** Converts a thruster enum to a proper human readable format. */
+export function toHumanThruster(thruster: Thruster) {
+	// Moving SCREAMING_CASE to Title Case
+	return thruster
+		.split('_')
+		.map((word) => word.charAt(0).toLocaleUpperCase() + word.toLocaleLowerCase().slice(1))
+		.join(' ');
+}
+
 export interface ThrusterConstraint {
 	type: Thruster;
 	position: vector.Vector;

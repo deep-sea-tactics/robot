@@ -82,7 +82,9 @@
 							</div>
 						{/if}
 					</p>
-					<p><b>Mode</b>: <span class={isMock ? 'blue' : 'green'}>{isMock ? 'mock' : 'live'}</span></p>
+					<p>
+						<b>Mode</b>: <span class={isMock ? 'blue' : 'green'}>{isMock ? 'mock' : 'live'}</span>
+					</p>
 					<p><b>tRPC status</b>: <span class={wsClientColor}>{wsClientText}</span></p>
 					{#if temperature}
 						<p><b>Temperature</b>: {temperature}</p>

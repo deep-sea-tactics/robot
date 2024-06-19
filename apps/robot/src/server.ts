@@ -63,7 +63,6 @@ async function connectThrusters() {
 	// if enough time has passed, we stop the motors for safety reasons
 	setInterval(() => {
 		if (new Date().getTime() - lastSet.getTime() > 2 * 1000) {
-			console.log(1)
 			for (const thruster of thrusters) {
 				const pin = thrusterConfig[thruster.type];
 				pin.write(speedToServo(0));
@@ -183,7 +182,7 @@ export const router = t.router({
 	// the higher 'priority' is, the more precedent controllerData & manualData have
 	heartbeat: t.procedure.input(z.object({ priority: z.number() })).mutation(() => {
 		lastSet = new Date();
-	}),
+	})
 });
 
 export type RobotRouter = typeof router;
