@@ -13,7 +13,7 @@
 		connected: gamepad.connected,
 		id: gamepad.id,
 		movement: {
-			x: gamepad.axes[0],
+			x: gamepad.axes[0] * -1,
 			z: gamepad.axes[1] * -1,
 			y: buttonAxis(gamepad.buttons[12].pressed, gamepad.buttons[13].pressed)
 		},
