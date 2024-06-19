@@ -55,7 +55,7 @@
 		{:else}
 		<!-- TODO: use cloud-url-resolver -->
 			<img
-				src="http://{rpiIp}:8080/stream"
+				src="http://{rpiIp ?? "127.0.0.1"}:8080/stream"
 				alt="Video stream cannot be rendered. Perhaps no signal?"
 				class="videoStream"
 			/>
