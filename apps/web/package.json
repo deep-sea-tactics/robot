@@ -13,7 +13,7 @@
 		"lint": "eslint \"src\"",
 		"generate": "svelte-kit sync",
 		"test:integration": "playwright test",
-		"test": "test:integration"
+		"test": "pnpm run test:integration"
 	},
 	"devDependencies": {
 		"@fontsource-variable/jetbrains-mono": "^5.0.21",

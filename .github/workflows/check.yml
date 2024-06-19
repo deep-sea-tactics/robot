@@ -57,15 +57,10 @@ jobs:
 
       - name: Build necessary packages
         run: pnpm run build
-
-      - name: Run tests
-        run: pnpm run test
-
       - name: Install Playwright
         run: npx playwright install --with-deps
-      - name: Run Tests
-        working-directory: apps/web
-        run: pnpm run test:integration
+      - name: Run tests
+        run: pnpm run test
       - uses: actions/upload-artifact@v3
         if: always()
         with:
