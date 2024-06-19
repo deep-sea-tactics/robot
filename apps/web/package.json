@@ -11,13 +11,16 @@
 		"check": "svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",
 		"lint": "eslint \"src\"",
-		"generate": "svelte-kit sync"
+		"generate": "svelte-kit sync",
+		"test:integration": "playwright test",
+		"test": "test:integration"
 	},
 	"devDependencies": {
 		"@fontsource-variable/jetbrains-mono": "^5.0.21",
 		"@iconify-json/ph": "^1.1.13",
 		"@iconify-json/simple-icons": "^1.1.105",
 		"@leodog896/rapier3d-compat": "^0.12.0",
+		"@playwright/test": "^1.44.1",
 		"@svelte-plugins/tooltips": "^3.0.1",
 		"@sveltejs/adapter-node": "^5.0.1",
 		"@sveltejs/adapter-static": "^3.0.1",
@@ -28,6 +31,7 @@
 		"@threlte/extras": "^8.11.2",
 		"@threlte/rapier": "^2.0.0",
 		"@trpc/client": "^10.45.2",
+		"@types/node": "^20.14.6",
 		"@types/three": "^0.164.0",
 		"cloud-url-resolver": "^1.3.0",
 		"cpx": "^1.5.0",

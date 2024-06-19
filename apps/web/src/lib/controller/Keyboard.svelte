@@ -14,8 +14,8 @@
 	const mapping: Record<string, () => void> = {
 		w: () => (output.movement.z = 1),
 		s: () => (output.movement.z = -1),
-		d: () => (output.movement.x = 1),
-		a: () => (output.movement.x = -1),
+		d: () => (output.movement.x = -1),
+		a: () => (output.movement.x = 1),
 		i: () => (output.movement.y = 1),
 		k: () => (output.movement.y = -1),
 		j: () => (output.rotation.yaw = -1),

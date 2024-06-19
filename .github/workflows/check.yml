@@ -61,6 +61,18 @@ jobs:
       - name: Run tests
         run: pnpm run test
 
+			- name: Install Playwright
+        run: npx playwright install --with-deps
+      - name: Run Tests
+				working-directory: apps/web
+        run: pnpm run test:integration
+      - uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: playwright-report
+          path: apps/web/playwright-report/
+          retention-days: 30
+
       - name: Check types
         run: pnpm run check
 
