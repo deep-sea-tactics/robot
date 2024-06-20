@@ -22,8 +22,12 @@
 		l: () => (output.rotation.yaw = 1),
 		f: () => (output.rotation.pitch = 1),
 		v: () => (output.rotation.pitch = -1),
-		',': () => (output.tasks.pinkSquare = true),
-		'/': () => (output.tasks.scanning = true)
+		'.': () => (output.tasks.pinkSquare = true),
+		'/': () => (output.tasks.scanning = true),
+		'[': () => (output.arm.rotate = -1),
+		']': () => (output.arm.rotate = 1),
+		'-': () => (output.arm.openClose = -1),
+		'=': () => (output.arm.openClose = 1)
 	};
 
 	function update() {

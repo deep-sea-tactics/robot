@@ -92,7 +92,7 @@
 					<p>
 						<b>tRPC status</b>:
 						<span class={wsClientColor}>{wsClientText}</span>
-						<span class="gray">({rpiIp})</span>
+						<span class="gray">({rpiIp ?? "local [:: \\ 127.0.0.1]"})</span>
 					</p>
 					{#if temperature}
 						<p><b>Temperature</b>: {temperature}</p>
