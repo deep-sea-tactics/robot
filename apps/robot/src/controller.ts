@@ -93,6 +93,4 @@ export const controllerDataSchema = z
 	.brand<'ControllerData'>()
 	.default({});
 
-controllerDataSchema._def.innerType;
-
 export type ControllerData = z.infer<typeof controllerDataSchema>;
