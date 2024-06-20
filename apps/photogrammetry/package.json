@@ -3,9 +3,10 @@
 	"private": true,
 	"type": "module",
 	"scripts": {
-		"photogrammetry": "tsx scripts/main.ts"
+		"photogrammetry": "tsx src/main.ts"
 	},
 	"devDependencies": {
+		"@types/cli-progress": "^3.11.5",
 		"@types/fluent-ffmpeg": "^2.1.24",
 		"@types/node": "^20.14.6",
 		"tsx": "^4.15.6",
@@ -13,6 +14,8 @@
 	},
 	"dependencies": {
 		"@ffmpeg-installer/ffmpeg": "^1.1.0",
+		"cli-progress": "^3.12.0",
+		"consola": "^3.2.3",
 		"fluent-ffmpeg": "^2.1.3"
 	}
 }

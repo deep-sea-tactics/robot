@@ -153,12 +153,7 @@ function tick() {
 		) as Record<`${Thruster}`, number>
 	);
 
-	emitter.emit(
-		'armData',
-		{
-			...movement.arm
-		}
-	)
+	emitter.emit('armData', movement.arm);
 }
 
 export const queueTick = () => setInterval(tick, 60);
