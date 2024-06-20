@@ -29,7 +29,7 @@ function speedToContinuousServo(unresolvedSpeed: number) {
 	const min = 1000;
 	const max = 2000;
 
-	return Math.round((min + max) / 2 + speed * (min - max) / 2);
+	return Math.round((min + max) / 2 + (speed * (min - max)) / 2);
 }
 
 async function connectThrusters() {

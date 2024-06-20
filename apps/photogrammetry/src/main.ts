@@ -23,17 +23,20 @@ if (videos.length === 0) {
 const pictures = await readdir(join(currentDirectory, '..', 'output'));
 
 if (pictures.length !== 0) {
-	const reset = await consola.prompt(`There is already content in /output (${pictures.length} image${pictures.length === 1 ? '' : 's'}).
-Do you want to reset the output?`, {
-	type: 'confirm'
-});
+	const reset = await consola.prompt(
+		`There is already content in /output (${pictures.length} image${pictures.length === 1 ? '' : 's'}).
+Do you want to reset the output?`,
+		{
+			type: 'confirm'
+		}
+	);
 
 	if (!reset) {
-		consola.error("There is already content in /output; skipping photogrammetry");
+		consola.error('There is already content in /output; skipping photogrammetry');
 		console.error(1);
 	}
 
-	consola.start("Resetting /output and /project...");
+	consola.start('Resetting /output and /project...');
 	await rm(join(currentDirectory, '..', 'output'), { recursive: true, force: true });
 	await rm(join(currentDirectory, '..', 'project'), { recursive: true, force: true });
 	await mkdir(join(currentDirectory, '..', 'output'), { recursive: true });
@@ -44,22 +47,29 @@ Do you want to reset the output?`, {
 ffmpeg.setFfmpegPath(path);
 
 consola.start('Extracting frames...');
-await Promise.all(Array(videos.length).fill(0).map((_, i) => new Promise((resolve: (value: void) => unknown, reject) => {
-	const video = videos[i];
+await Promise.all(
+	Array(videos.length)
+		.fill(0)
+		.map(
+			(_, i) =>
+				new Promise((resolve: (value: void) => unknown, reject) => {
+					const video = videos[i];
 
-	ffmpeg()
-		.input(join(currentDirectory, '..', 'videos', video))
-		.outputOptions('-vf', 'fps=5')
-		.on('end', () => {
-			consola.success('Frames extraction completed.');
-			resolve();
-		})
-		.on('error', (err) => {
-			consola.error('Error extracting frames: ', err);
-			reject(err);
-		})
-		.save(join(currentDirectory, '..', 'output') + `/frame-v${i}-%03d.png`);
-})));
+					ffmpeg()
+						.input(join(currentDirectory, '..', 'videos', video))
+						.outputOptions('-vf', 'fps=5')
+						.on('end', () => {
+							consola.success('Frames extraction completed.');
+							resolve();
+						})
+						.on('error', (err) => {
+							consola.error('Error extracting frames: ', err);
+							reject(err);
+						})
+						.save(join(currentDirectory, '..', 'output') + `/frame-v${i}-%03d.png`);
+				})
+		)
+);
 
 // copy the files over in output to project
 const outputFiles = await readdir(join(currentDirectory, '..', 'output'));

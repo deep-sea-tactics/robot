@@ -53,10 +53,10 @@
 		{#if isMock}
 			<Simulation bind:client />
 		{:else}
-		<!-- TODO: use cloud-url-resolver -->
+			<!-- TODO: use cloud-url-resolver -->
 			<div class="videoStreamWrap">
 				<img
-					src="http://{rpiIp ?? "127.0.0.1"}:8080/stream"
+					src="http://{rpiIp ?? '127.0.0.1'}:8080/stream"
 					alt="Video stream cannot be rendered. Perhaps no signal?"
 					class="videoStream"
 				/>
@@ -92,7 +92,7 @@
 					<p>
 						<b>tRPC status</b>:
 						<span class={wsClientColor}>{wsClientText}</span>
-						<span class="gray">({rpiIp ?? "local [:: \\ 127.0.0.1]"})</span>
+						<span class="gray">({rpiIp ?? 'local [:: \\ 127.0.0.1]'})</span>
 					</p>
 					{#if temperature}
 						<p><b>Temperature</b>: {temperature}</p>
@@ -163,7 +163,6 @@
 	.gray {
 		color: gray;
 	}
-
 
 	.icons {
 		display: inline-flex;
