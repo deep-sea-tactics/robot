@@ -103,11 +103,24 @@
 		thrustDirection: toVector3(thruster.thrustDirection)
 	}));
 
+	let armRotatePWM = 1500;
+	let openClosePWM = 1500;
+
 	onMount(() => {
 		if (!client) throw new Error('No client found!');
 
 		client.gpioEvent.subscribe(undefined, {
 			onData({ gpioPin, pulseWidth }) {
+				if (gpioPin === 27) {
+					armRotatePWM = pulseWidth;
+					return;
+				}
+
+				if (gpioPin === 22) {
+					openClosePWM = pulseWidth;
+					return;
+				}
+
 				const thruster = getThrusterByGpioPin(gpioPin);
 
 				if (!thruster) {
@@ -311,7 +324,8 @@
 		{/each}
 	</Folder>
 	<Folder title="ROV Arm">
-		
+		<Slider disabled value={armRotatePWM} min={1000} max={2000} label={"Arm Rotate PWM"} />
+		<Slider disabled value={openClosePWM} min={1000} max={2000} label={"Open Close PWM"} />
 	</Folder>
 </Pane>
 
