@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { T, useTask } from '@threlte/core';
+	import { T, useRender, useTask } from '@threlte/core';
 	import { AutoColliders, RigidBody as RapierRigidBody, Collider } from '@threlte/rapier';
 	import { OrbitControls } from '@threlte/extras';
 	import { onMount } from 'svelte';
@@ -56,7 +56,7 @@
 	const feetToMeter = (feet: number) => feet / 3.281;
 
 	// world-building variables
-	const waterHeight = feetToMeter(8);
+	const waterHeight = feetToMeter(10);
 	const width = feetToMeter(25);
 	const length = feetToMeter(45);
 	const plateThickness = 0.3;
@@ -197,6 +197,27 @@
 		return [vector.stabilize(force), vector.cross(point)(force)];
 	}
 
+	useRender(({ camera, renderer, scene }, delta) => {
+		if (!rovBody) {
+			renderer.render(scene, camera.current);
+			return;
+		}
+
+		currentPosition = new Vector3(...vector.asTuple(rovBody.translation()));
+
+		// point the camera at the ROV
+		if (currentView == VIEWS.ThirdPerson) {
+			cameraPosition = new Vector3(...currentPosition);
+			cameraRotation = new Vector3(
+				rovBody.rotation().x,
+				rovBody.rotation().y + Math.PI,
+				rovBody.rotation().z
+			);
+		}
+
+		renderer.render(scene, camera.current);
+	});
+
 	useTask(() => {
 		if (!water || !rov || !rovBody) return;
 
@@ -257,16 +278,6 @@
 
 		currentPosition = new Vector3(...vector.asTuple(rovBody.translation()));
 		currentRotation = rovBody.rotation();
-
-		// point the camera at the ROV
-		if (currentView == VIEWS.ThirdPerson) {
-			cameraPosition = new Vector3(...currentPosition);
-			cameraRotation = new Vector3(
-				rovBody.rotation().x,
-				rovBody.rotation().y || -Math.PI / 2,
-				rovBody.rotation().z
-			);
-		}
 
 		rovBody.addTorque(torque, true);
 		rovBody.addForce(force, true);
@@ -337,7 +348,7 @@
 	<OrbitControls />
 </T.PerspectiveCamera>
 
-<T.DirectionalLight position={[0, 10, 0]} castShadow />
+<T.DirectionalLight position={[5, 10, 0]} castShadow />
 <T.AmbientLight intensity={0.5} />
 
 {#key keyRovPositionChange}

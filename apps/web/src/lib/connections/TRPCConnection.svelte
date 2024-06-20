@@ -36,7 +36,8 @@
 				? transform(9000, 'ws', {
 						origin: `http://${rpiIp}`
 					})
-				: transform(9000, 'ws')
+				: transform(9000, 'ws'),
+			retryDelayMs: () => 500
 		});
 
 		wsClient.getConnection().addEventListener('close', () => (wsClient = wsClient));
