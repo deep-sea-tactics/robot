@@ -13,7 +13,7 @@ const videos = await readdir(join(currentDirectory, '..', 'videos'));
 await mkdir(join(currentDirectory, '..', 'output'), { recursive: true });
 await mkdir(join(currentDirectory, '..', 'project', 'images'), { recursive: true });
 
-for (let i = 0; i < videos.length; i++) {
+await Promise.all(Array(videos.length).fill(0).map((_, i) => new Promise((resolve: (value: void) => unknown, reject) => {
 	const video = videos[i];
 
 	ffmpeg()
@@ -21,12 +21,14 @@ for (let i = 0; i < videos.length; i++) {
 		.outputOptions('-vf', 'fps=5')
 		.on('end', () => {
 			console.log('Frames extraction completed.');
+			resolve();
 		})
 		.on('error', (err) => {
 			console.error('Error extracting frames: ', err);
+			reject(err);
 		})
 		.save(join(currentDirectory, '..', 'output') + `/frame-v${i}-%03d.png`);
-}
+})));
 
 // copy the files over in output to project
 const outputFiles = await readdir(join(currentDirectory, '..', 'output'));
