@@ -14,7 +14,7 @@ function commandRunsSuccessfully(checkCommand: string): Promise<boolean> {
 
 /** Runs µStreamer; doesn't work if not installed. */
 async function run() {
-	await execa({ stdio: ['ignore', 'inherit', 'inherit'] })`ustreamer`;
+	await execa({ stdio: ['ignore', 'inherit', 'inherit'] })`ustreamer --host ::`;
 }
 
 function orElse<T>(param: T, error: Error): NonNullable<T> {
