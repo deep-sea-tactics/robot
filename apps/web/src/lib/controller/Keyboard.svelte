@@ -11,23 +11,25 @@
 
 	let pressedKeys: Set<string> = new Set();
 
+	const speed = 1;
+
 	const mapping: Record<string, () => void> = {
-		w: () => (output.movement.z = 1),
-		s: () => (output.movement.z = -1),
-		d: () => (output.movement.x = -1),
-		a: () => (output.movement.x = 1),
-		i: () => (output.movement.y = 1),
-		k: () => (output.movement.y = -1),
-		j: () => (output.rotation.yaw = -1),
-		l: () => (output.rotation.yaw = 1),
-		f: () => (output.rotation.pitch = 1),
-		v: () => (output.rotation.pitch = -1),
+		w: () => (output.movement.z = speed),
+		s: () => (output.movement.z = -speed),
+		d: () => (output.movement.x = -speed),
+		a: () => (output.movement.x = speed),
+		i: () => (output.movement.y = speed),
+		k: () => (output.movement.y = -speed),
+		j: () => (output.rotation.yaw = -speed),
+		l: () => (output.rotation.yaw = speed),
+		f: () => (output.rotation.pitch = speed),
+		v: () => (output.rotation.pitch = -speed),
 		'.': () => (output.tasks.pinkSquare = true),
 		'/': () => (output.tasks.scanning = true),
-		'[': () => (output.arm.rotate = -1),
-		']': () => (output.arm.rotate = 1),
-		'-': () => (output.arm.openClose = -1),
-		'=': () => (output.arm.openClose = 1)
+		'[': () => (output.arm.rotate = -speed),
+		']': () => (output.arm.rotate = speed),
+		'-': () => (output.arm.openClose = -speed),
+		'=': () => (output.arm.openClose = speed)
 	};
 
 	function update() {
