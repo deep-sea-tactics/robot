@@ -100,8 +100,8 @@ async function connectThrusters() {
 
 	emitter.on('thrusterData', onThrusterData);
 	emitter.on('armData', ({ rotate, openClose }) => {
-		armRotateAmount += Math.max(Math.min(rotate / 100, 1), -1)
-		openCloseAmount += Math.max(Math.min(openClose / 100, 1), -1)
+		armRotateAmount += Math.max(Math.min(rotate / 25, 1), -1)
+		openCloseAmount += Math.max(Math.min(openClose / 25, 1), -1)
 	});
 
 	async function cleanup() {
