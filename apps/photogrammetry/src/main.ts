@@ -7,7 +7,6 @@ import { consola } from 'consola';
 import { installColmap } from './colmapInstall.js';
 import { execa } from 'execa';
 
-
 const currentDirectory = dirname(fileURLToPath(import.meta.url));
 
 await mkdir(join(currentDirectory, '..', 'videos'), { recursive: true });
@@ -86,9 +85,13 @@ consola.success('All frames copied to project/images.');
 
 await installColmap();
 
+consola.start('Running COLMAP...');
+
 const colmapBinary = join(currentDirectory, '..', 'colmap', 'bin', 'COLMAP.bat');
 
 const colmapProject = join(currentDirectory, '..', 'project');
 const colmapImages = join(colmapProject, 'images');
 
-await execa`${colmapBinary} automatic_reconstructor --workspace-path ${colmapProject}  --image_path ${colmapImages} --quality medium`
+await execa({ stdout: 'inherit', stderr: 'inherit' })`${colmapBinary} automatic_reconstructor --workspace-path ${colmapProject}  --image_path ${colmapImages} --quality medium`
+
+consola.success('Done!')
