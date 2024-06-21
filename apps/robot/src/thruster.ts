@@ -43,25 +43,25 @@ export const thrusters: ThrusterConstraint[] = [
 	{
 		type: Thruster.BottomLeft,
 		position: vector.vector(119.28 / 1000, -18.314 / 1000, -95.233 / 1000),
-		thrustDirection: vector.normalize(vector.vector(1, 0, Math.sqrt(3))),
+		thrustDirection: vector.normalize(vector.vector(-1, 0, -Math.sqrt(3))),
 		gpioPin: 5
 	},
 	{
 		type: Thruster.BottomRight,
 		position: vector.vector(-119.28 / 1000, -18.314 / 1000, -95.233 / 1000),
-		thrustDirection: vector.normalize(vector.vector(1, 0, -Math.sqrt(3))),
+		thrustDirection: vector.normalize(vector.vector(-1, 0, Math.sqrt(3))),
 		gpioPin: 6
 	},
 	{
 		type: Thruster.TopLeft,
 		position: vector.vector(112.299 / 1000, 41.738 / 1000, 105.808 / 1000),
-		thrustDirection: vector.normalize(vector.vector(-1, 0, Math.sqrt(3))),
+		thrustDirection: vector.normalize(vector.vector(1, 0, -Math.sqrt(3))),
 		gpioPin: 13
 	},
 	{
 		type: Thruster.TopRight,
 		position: vector.vector(-112.299 / 1000, 41.738 / 1000, 105.808 / 1000),
-		thrustDirection: vector.normalize(vector.vector(-1, 0, -Math.sqrt(3))),
+		thrustDirection: vector.normalize(vector.vector(1, 0, Math.sqrt(3))),
 		gpioPin: 16
 	},
 	{
