@@ -12,6 +12,7 @@ import readline from 'node:readline';
 import { stdin, stdout } from 'node:process';
 import { type Servo, servo } from './pigpio.js';
 import { z } from 'zod';
+import { execa } from 'execa';
 
 const t = initTRPC.create();
 
@@ -187,11 +188,17 @@ export const router = t.router({
 	systemInformation: t.procedure.subscription(() => {
 		return observable<SystemInformation>((emit) => {
 			setInterval(async () => {
-				// TODO: support CPU temperature
-				// const cpuTemperature = await si.cpuTemperature().then((cpu) => cpu.cores);
+				if (process.env.MOCK === 'true') {
+					emit.next({
+						cpuTemperature: Math.round(Math.random() * 50)
+					});
+					return;
+				}
+
+				const tempRegex = /temp=(\d+\.\d+)'C/;
+				const { stdout } = await execa`vcgencmd measure_temp`;
 				emit.next({
-					// cpuTemperature: cpuTemperature[0]
-					cpuTemperature: 5
+					cpuTemperature: Number(stdout.match(tempRegex)?.[1])
 				});
 			}, 500);
 		});

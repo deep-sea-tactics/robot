@@ -27,6 +27,7 @@
 	},
 	"dependencies": {
 		"debounce": "^2.0.0",
+		"execa": "^9.1.0",
 		"exit-hook": "^4.0.0",
 		"mathjs": "^12.4.2",
 		"memoize": "^10.0.0",
