@@ -54,8 +54,8 @@
 				y: gamepad.axes[5] * -1
 			},
 			arm: {
-				openClose: buttonAxis(gamepad.buttons[0].pressed, gamepad.buttons[1].pressed),
-				rotate: buttonAxis(gamepad.buttons[10].pressed, gamepad.buttons[11].pressed)
+				openClose: buttonAxis(gamepad.buttons[10].pressed, gamepad.buttons[11].pressed),
+				rotate: gamepad.axes[6]
 			}
 		})
 	})}

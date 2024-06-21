@@ -90,14 +90,12 @@ async function connectThrusters() {
 		}
 	}, 100);
 
-	let armRotateAmount = 0;
 	let openCloseAmount = 0;
 	emitter.on('thrusterData', onThrusterData);
 	emitter.on('armData', ({ rotate, openClose }) => {
-		armRotateAmount += Math.max(Math.min(rotate / 25, 1), -1)
 		openCloseAmount += Math.max(Math.min(openClose / 25, 1), -1)
 
-		armRotateServo.write(speedToContinuousServo(armRotateAmount));
+		armRotateServo.write(speedToContinuousServo(rotate));
 		openCloseServo.write(speedToContinuousServo(openCloseAmount));
 	});
 
