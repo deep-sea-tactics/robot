@@ -30,7 +30,7 @@
 		},
 		arm: {
 			openClose: buttonAxis(gamepad.buttons[0].pressed, gamepad.buttons[1].pressed),
-			rotate: gamepad.axes[3] * -1
+			rotate: deadzone(gamepad.axes[3] * -1, [-.2, .2])
 		}
 	})}
 />
