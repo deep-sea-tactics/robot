@@ -92,6 +92,6 @@ const colmapBinary = join(currentDirectory, '..', 'colmap', 'bin', 'COLMAP.bat')
 const colmapProject = join(currentDirectory, '..', 'project');
 const colmapImages = join(colmapProject, 'images');
 
-await execa({ stdout: 'inherit', stderr: 'inherit' })`${colmapBinary} automatic_reconstructor --workspace-path ${colmapProject}  --image_path ${colmapImages} --quality medium`
+await execa({ stdout: 'inherit', stderr: 'inherit' })`${colmapBinary} automatic_reconstructor --workspace_path ${colmapProject}  --image_path ${colmapImages} --quality medium`
 
 consola.success('Done!')
