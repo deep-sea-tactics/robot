@@ -13,13 +13,13 @@
 		connected: gamepad.connected,
 		id: gamepad.id,
 		movement: {
-			x: deadzone(gamepad.axes[0] * -1, [-0.02, 0.02]),
-			z: deadzone(gamepad.axes[1] * -1, [-0.02, 0.02]),
+			x: deadzone(gamepad.axes[0] * -1, [-0.03, 0.03]),
+			z: deadzone(gamepad.axes[1] * -1, [-0.03, 0.03]),
 			y: buttonAxis(gamepad.buttons[12].pressed, gamepad.buttons[13].pressed)
 		},
 		rotation: {
 			yaw: buttonAxis(gamepad.buttons[14].pressed, gamepad.buttons[15].pressed),
-			pitch: deadzone(gamepad.axes[3] * -1, [-0.02, 0.02])
+			pitch: deadzone(gamepad.axes[3] * -1, [-0.03, 0.03])
 		},
 		tasks: {
 			pinkSquare: gamepad.buttons[3].pressed,
