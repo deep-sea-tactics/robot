@@ -64,7 +64,7 @@ function calculateControlMatrix() {
 	// Populate the last three rows with torque contributions
 	for (let i = 0; i < 6; i++) {
 		const location = thrusterValues[i].position;
-		const orientation = math.matrix(vector.asTuple(thrusterValues[i].thrustDirection));
+		const orientation = math.matrix(vector.asTuple(vector.scale(thrusterValues[i].thrustDirection)(6)));
 		const displacement = math.matrix(vector.asTuple(vector.subtract(location)(rovCenterOfMass)));
 		// using cross product here to account for the extra rotation produced from
 		// the thrusters
