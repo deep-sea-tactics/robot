@@ -82,7 +82,7 @@ async function connectThrusters() {
 	const armInterval = setInterval(() => {
 		armRotateServo.write(speedToContinuousServo(armRotateAmount));
 		openCloseServo.write(speedToContinuousServo(openCloseAmount));
-	}, 50)
+	}, 200)
 
 	// We want to check if enough time has passed between the last heartbeat signal;
 	// if enough time has passed, we stop the motors for safety reasons
