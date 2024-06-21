@@ -1,13 +1,21 @@
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { ReadableStream } from 'stream/web';
-import { createWriteStream, existsSync } from 'node:fs';
+import { createWriteStream } from 'node:fs';
+import { pathExists } from 'fs-extra/esm';
 import { finished } from 'node:stream/promises';
 import { Readable, Transform } from 'node:stream';
 import { consola } from 'consola';
 import cliProgress from 'cli-progress';
 import { createHash } from 'node:crypto';
-import { writeFile } from 'node:fs/promises';
+import { writeFile, readdir, rm } from 'node:fs/promises';
+import StreamZip from 'node-stream-zip';
+import { ReadableStreamClone } from "readable-stream-clone";
+import mvdir from 'mvdir';
+
+const currentDirectory = dirname(fileURLToPath(import.meta.url));
+const colmapOutput = join(currentDirectory, '..', 'colmap', 'colmap.zip');
+const colmapOutDir = join(currentDirectory, '..', 'colmap', 'bin/');
 
 function getStreamHash(transform: Transform): Promise<void> {
 	return new Promise((resolve, reject) => {
@@ -17,15 +25,37 @@ function getStreamHash(transform: Transform): Promise<void> {
 	});
 }
 
-export async function installColmap() {
-	const currentDirectory = dirname(fileURLToPath(import.meta.url));
-	const colmapOutput = join(currentDirectory, '..', 'colmap', 'colmap.zip');
+async function generateHash(mainPipe: Transform) {
+	const hasher = createHash('md5');
+	await getStreamHash(new ReadableStreamClone(mainPipe).pipe(hasher));
+	writeFile(join(currentDirectory, '..', 'colmap', 'colmap.zip.hash'), hasher.read());
+	consola.info('Generated colmap.zip.hash!');
+}
 
-	if (existsSync(colmapOutput)) {
-		consola.info('COLMAP already installed.');
-		return;
+async function unzipColmap(file: string) {
+	consola.start('Unzipping COLMAP...');
+	const zip = new StreamZip.async({ file });
+	const count = await zip.extract(null, join(currentDirectory, '..', 'colmap', 'bin'));
+	consola.success(`Extracted ${count} entries`);
+	await zip.close();
+
+	consola.start('Moving COLMAP out of nested directory...');
+	const foundDirectories = await readdir(colmapOutDir);
+
+	if (foundDirectories.length > 1) {
+		consola.error('COLMAP unzipped not nested? This is unexpected - please correct if COLMAP has been updated.');
+		process.exit(1);
 	}
 
+	const [rawFoundDirectory] = foundDirectories;
+	const foundDirectory = join(colmapOutDir, rawFoundDirectory + '/');
+
+	await mvdir(foundDirectory, join(foundDirectory, '..'));
+	await rm(foundDirectory, { recursive: true, force: true });
+	consola.success('Files moved!');
+}
+
+async function downloadColmap(): Promise<Transform> {
 	consola.start('Downloading COLMAP...');
 
 	const progressBar = new cliProgress.SingleBar({}, cliProgress.Presets.shades_classic);
@@ -55,14 +85,24 @@ export async function installColmap() {
 		})
 	);
 
-	const hasher = createHash('md5');
-
-	await getStreamHash(mainPipe.pipe(hasher));
-
 	await finished(mainPipe.pipe(stream));
 	progressBar.stop();
 
 	consola.success('COLMAP downloaded! (colmap.zip)');
-	writeFile(join(currentDirectory, '..', 'colmap', 'colmap.zip.hash'), hasher.read());
-	consola.info('Generated colmap.zip.hash!');
+	return mainPipe;
+}
+
+export async function installColmap() {
+	if (await pathExists(colmapOutput)) {
+		consola.info('COLMAP already installed.');
+
+		if ((await readdir(colmapOutDir)).length === 0) {
+			await unzipColmap(colmapOutput);
+		}
+		return;
+	}
+
+	const mainStream = await downloadColmap();
+	await generateHash(mainStream);
+	await unzipColmap(colmapOutput);
 }

@@ -10,7 +10,7 @@ const currentDirectory = dirname(fileURLToPath(import.meta.url));
 
 await mkdir(join(currentDirectory, '..', 'videos'), { recursive: true });
 await mkdir(join(currentDirectory, '..', 'output'), { recursive: true });
-await mkdir(join(currentDirectory, '..', 'colmap'), { recursive: true });
+await mkdir(join(currentDirectory, '..', 'colmap', 'bin'), { recursive: true });
 await mkdir(join(currentDirectory, '..', 'project', 'images'), { recursive: true });
 
 const videos = await readdir(join(currentDirectory, '..', 'videos'));

@@ -1,5 +1,5 @@
 import { exec } from 'node:child_process';
-import { existsSync } from 'node:fs';
+import { existsSync } from 'fs-extra';
 import { execa } from 'execa';
 
 /** Checks if a command executes successfully */
