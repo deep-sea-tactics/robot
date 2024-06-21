@@ -50,7 +50,7 @@ async function unzipColmap(file: string) {
 	const [rawFoundDirectory] = foundDirectories;
 	const foundDirectory = join(colmapOutDir, rawFoundDirectory + '/');
 
-	await mvdir(foundDirectory, join(foundDirectory, '..'));
+	await (mvdir as unknown as typeof mvdir.default)(foundDirectory, join(foundDirectory, '..'));
 	await rm(foundDirectory, { recursive: true, force: true });
 	consola.success('Files moved!');
 }
