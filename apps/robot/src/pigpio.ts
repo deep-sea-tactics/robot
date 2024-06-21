@@ -32,8 +32,6 @@ function processPulseWidth(gpioPin: number, pulseWidth: number, [min, max]: Rang
 		);
 	}
 
-	console.log(`${gpioPin} - ${pulseWidth}`)
-
 	assert.ok(!Number.isNaN(pulseWidth), `[GPIO ${gpioPin}]: Value ${pulseWidth} is NaN.`);
 
 	return Math.round(pulseWidth);
