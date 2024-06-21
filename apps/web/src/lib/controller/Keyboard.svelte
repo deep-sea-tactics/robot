@@ -11,7 +11,7 @@
 
 	let pressedKeys: Set<string> = new Set();
 
-	const speed = .25;
+	const speed = 1;
 
 	const mapping: Record<string, () => void> = {
 		w: () => (output.movement.z = speed),
