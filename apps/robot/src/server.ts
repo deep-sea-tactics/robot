@@ -76,14 +76,6 @@ async function connectThrusters() {
 		}
 	}
 
-	let armRotateAmount = 0;
-	let openCloseAmount = 0;
-
-	const armInterval = setInterval(() => {
-		armRotateServo.write(speedToContinuousServo(armRotateAmount));
-		openCloseServo.write(speedToContinuousServo(openCloseAmount));
-	}, 200)
-
 	// We want to check if enough time has passed between the last heartbeat signal;
 	// if enough time has passed, we stop the motors for safety reasons
 	setInterval(() => {
@@ -98,16 +90,19 @@ async function connectThrusters() {
 		}
 	}, 100);
 
+	let armRotateAmount = 0;
+	let openCloseAmount = 0;
 	emitter.on('thrusterData', onThrusterData);
 	emitter.on('armData', ({ rotate, openClose }) => {
 		armRotateAmount += Math.max(Math.min(rotate / 25, 1), -1)
 		openCloseAmount += Math.max(Math.min(openClose / 25, 1), -1)
+
+		armRotateServo.write(speedToContinuousServo(armRotateAmount));
+		openCloseServo.write(speedToContinuousServo(openCloseAmount));
 	});
 
 	async function cleanup() {
-		armRotateAmount = 0;
-		openCloseAmount = 0;
-		clearInterval(armInterval);
+
 		for (const pin of Object.values(thrusterConfig)) {
 			pin.write(1500);
 		}
