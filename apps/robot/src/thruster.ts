@@ -73,7 +73,7 @@ export const thrusters: ThrusterConstraint[] = [
 	{
 		type: Thruster.VerticalRight,
 		position: vector.vector(-119.862 / 1000, -66.776 / 1000, 2.231 / 1000),
-		thrustDirection: vector.normalize(vector.vector(0, 1, 0)),
+		thrustDirection: vector.normalize(vector.vector(0, -1, 0)),
 		gpioPin: 12
 	}
 ];
